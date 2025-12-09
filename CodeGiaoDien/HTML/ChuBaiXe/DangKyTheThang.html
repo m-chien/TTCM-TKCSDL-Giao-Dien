@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Đăng ký thẻ tháng (Tái thiết kế)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#13ec6d",
+              "background-light": "#f6f8f7",
+              "background-dark": "#102218",
+            },
+            fontFamily: {
+              "display": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/20 px-10 py-3 dark:border-primary/10">
+<div class="flex items-center gap-4 text-[#0d1b13] dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99ZM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16Zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5ZM5 11l1.5-4.5h11L19 11H5Z"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Quản lý bãi xe</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-end items-center gap-8">
+<div class="flex items-center gap-9">
+<a class="text-[#0d1b13] dark:text-gray-300 dark:hover:text-white text-sm font-medium leading-normal" href="#">Trang chủ</a>
+<a class="text-primary dark:text-primary text-sm font-bold leading-normal" href="#">Quản lý thẻ tháng</a>
+<a class="text-[#0d1b13] dark:text-gray-300 dark:hover:text-white text-sm font-medium leading-normal" href="#">Báo cáo</a>
+<a class="text-[#0d1b13] dark:text-gray-300 dark:hover:text-white text-sm font-medium leading-normal" href="#">Cài đặt</a>
+</div>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-primary/20 text-[#0d1b13] dark:bg-primary/20 dark:text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<span class="material-symbols-outlined text-lg">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDqrdsu2nlizP-q9namMw2qX7mCN2nRO-3W6lsyg4CPmJxmWXz1ujOuxkgFoL_T91XygDwYP7ombPTE80S0qk5Oj4n3Hvvle7VPXof0aGrfmF0Z-ppJR3JAokK3yIO8ZoQuASTWhsFDnu5vq-KdK-leb8D5itULlz5y4SkloI_rqyHoQdGpKr9nAG-dEkFhwS4fR4aBtpPdtJDQM7DkNGT6Npt5ligLxzP5V5ZDQIEdNK8Iz-toz-LgDv_uCtf47uPzMw6JXQs38CQY");'></div>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-10 px-4 sm:px-6 lg:px-8">
+<div class="w-full max-w-4xl">
+<div class="flex flex-wrap justify-between gap-3 p-4">
+<div class="flex min-w-72 flex-col gap-2">
+<p class="text-[#0d1b13] dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Đăng ký thẻ tháng mới</p>
+<p class="text-gray-600 dark:text-gray-400 text-base font-normal leading-normal">Điền thông tin dưới đây để tạo thẻ gửi xe hàng tháng cho khách hàng.</p>
+</div>
+</div>
+<div class="mt-8 bg-white dark:bg-background-dark/50 border border-gray-200 dark:border-gray-800 rounded-xl shadow-sm">
+<div class="p-6 sm:p-8 space-y-8">
+<div>
+<h3 class="text-lg font-bold text-[#0d1b13] dark:text-white">Thông tin xe</h3>
+<div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-[#0d1b13] dark:text-gray-200 text-sm font-medium leading-normal pb-2">Biển số xe<span class="text-red-500 ml-1">*</span></p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d1b13] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-3 text-base font-normal leading-normal" placeholder="Ví dụ: 59G1-12345" value=""/>
+</label>
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-[#0d1b13] dark:text-gray-200 text-sm font-medium leading-normal pb-2">Loại xe<span class="text-red-500 ml-1">*</span></p>
+<select class="form-select flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d1b13] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 p-3 text-base font-normal leading-normal">
+<option>Ô tô</option>
+<option>Xe máy</option>
+</select>
+</label>
+</div>
+</div>
+<div>
+<h3 class="text-lg font-bold text-[#0d1b13] dark:text-white">Thông tin khách hàng</h3>
+<div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-[#0d1b13] dark:text-gray-200 text-sm font-medium leading-normal pb-2">Tên khách hàng<span class="text-red-500 ml-1">*</span></p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d1b13] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-3 text-base font-normal leading-normal" placeholder="Nhập họ và tên" value=""/>
+</label>
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-[#0d1b13] dark:text-gray-200 text-sm font-medium leading-normal pb-2">Số điện thoại<span class="text-red-500 ml-1">*</span></p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d1b13] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-3 text-base font-normal leading-normal" placeholder="Nhập số điện thoại" value=""/>
+</label>
+<label class="flex flex-col min-w-40 flex-1 md:col-span-2">
+<p class="text-[#0d1b13] dark:text-gray-200 text-sm font-medium leading-normal pb-2">Email</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d1b13] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-3 text-base font-normal leading-normal" placeholder="Nhập email" value=""/>
+</label>
+</div>
+</div>
+<div>
+<h3 class="text-lg font-bold text-[#0d1b13] dark:text-white">Thông tin đăng ký</h3>
+<div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col min-w-40 flex-1">
+<p class="text-[#0d1b13] dark:text-gray-200 text-sm font-medium leading-normal pb-2">Mã thẻ</p>
+<div class="flex items-center justify-between h-12 px-3 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700">
+<p class="text-gray-500 dark:text-gray-400">Tự động tạo</p>
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500">key</span>
+</div>
+</div>
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-[#0d1b13] dark:text-gray-200 text-sm font-medium leading-normal pb-2">Ngày kích hoạt<span class="text-red-500 ml-1">*</span></p>
+<div class="relative">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d1b13] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-3 text-base font-normal leading-normal" type="date" value="2023-10-27"/>
+<span class="material-symbols-outlined text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">calendar_today</span>
+</div>
+</label>
+<div class="flex flex-col min-w-40 flex-1 md:col-span-2">
+<p class="text-[#0d1b13] dark:text-gray-200 text-sm font-medium leading-normal pb-2">Chu kỳ<span class="text-red-500 ml-1">*</span></p>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+<label class="flex items-center justify-center p-3 h-12 border rounded-lg cursor-pointer bg-primary/20 border-primary dark:bg-primary/30 dark:border-primary">
+<input checked="" class="form-radio hidden" name="cycle" type="radio"/>
+<span class="text-sm font-bold text-primary dark:text-primary">1 Tháng</span>
+</label>
+<label class="flex items-center justify-center p-3 h-12 border rounded-lg cursor-pointer bg-white dark:bg-background-dark/50 border-gray-300 dark:border-gray-700 hover:border-primary/50">
+<input class="form-radio hidden" name="cycle" type="radio"/>
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300">3 Tháng</span>
+</label>
+<label class="flex items-center justify-center p-3 h-12 border rounded-lg cursor-pointer bg-white dark:bg-background-dark/50 border-gray-300 dark:border-gray-700 hover:border-primary/50">
+<input class="form-radio hidden" name="cycle" type="radio"/>
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300">6 Tháng</span>
+</label>
+<label class="flex items-center justify-center p-3 h-12 border rounded-lg cursor-pointer bg-white dark:bg-background-dark/50 border-gray-300 dark:border-gray-700 hover:border-primary/50">
+<input class="form-radio hidden" name="cycle" type="radio"/>
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300">12 Tháng</span>
+</label>
+</div>
+</div>
+<label class="flex flex-col min-w-40 flex-1 md:col-span-2">
+<p class="text-[#0d1b13] dark:text-gray-200 text-sm font-medium leading-normal pb-2">Ngày hết hạn<span class="text-red-500 ml-1">*</span></p>
+<div class="relative">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d1b13] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-3 text-base font-normal leading-normal" type="date" value="2023-11-27"/>
+<span class="material-symbols-outlined text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">calendar_today</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="p-6 sm:p-8 border-t border-gray-200 dark:border-gray-800 flex justify-end items-center gap-4">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 gap-2 text-base font-bold leading-normal tracking-[0.015em] min-w-[120px] px-6 hover:bg-gray-300 transition-colors">Hủy</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-primary text-[#0d1b13] gap-2 text-base font-bold leading-normal tracking-[0.015em] min-w-[120px] px-6 hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined">add_circle</span>
+<span>Tạo thẻ</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

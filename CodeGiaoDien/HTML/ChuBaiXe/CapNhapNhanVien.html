@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Biểu mẫu sửa/cập nhật nhân viên</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#13ec6d",
+            "background-light": "#f6f8f7",
+            "background-dark": "#102218",
+          },
+          fontFamily: {
+            "display": ["Manrope"]
+          },
+          borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+</head>
+<body class="font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/20 dark:border-primary/30 px-10 py-3">
+<div class="flex items-center gap-4 text-slate-800 dark:text-slate-200">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M6 6H42L36 24L42 42H6L12 24L6 6Z" fill="currentColor"></path></svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Quản Lý Bãi Xe</h2>
+</div>
+<div class="flex flex-1 justify-end gap-4">
+<div class="flex gap-2">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 w-10 bg-primary/20 text-slate-800 dark:bg-primary/30 dark:text-slate-200 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 w-10 bg-primary/20 text-slate-800 dark:bg-primary/30 dark:text-slate-200 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0">
+<span class="material-symbols-outlined text-xl">apps</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB9Hz3ELhpcLhk7OuW5vZi0Qi-Q4luX-O7E5d_SyeGNzay8eXPGn2l7j9XtjFtZ_ZWfTBHvqActAOTI1UQZzBNgPvw004iYC3wnXsSGMiCdpOi7DcGdexpVrkDAhGO7m0s9GQJvC8kjS6CWtuao-xtpRwn7fsDth5rqemqcOtPLyd58aYd1VeLsJrR9zhkgX2T0f712ehOEFsGUUUGZPI9bVg8KOM5jFo577husoI_GptNpQ2VjBaKOHF3Yt9-MZkFjO1uanUar9ICs");'></div>
+</div>
+</header>
+<div class="px-4 sm:px-10 md:px-20 lg:px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col w-full max-w-[960px] flex-1">
+<div class="flex flex-wrap justify-between gap-3 p-4">
+<div class="flex min-w-72 flex-col gap-3">
+<p class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Cập nhật thông tin nhân viên</p>
+<p class="text-slate-500 dark:text-slate-400 text-base font-normal leading-normal">Chỉnh sửa thông tin công việc cho nhân viên Nguyễn Văn A</p>
+</div>
+</div>
+<div class="flex flex-col gap-8 p-4">
+<!-- Read-only Section -->
+<div class="flex flex-col gap-4">
+<h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 border-b border-primary/20 dark:border-primary/30">Thông tin cá nhân (Không thể chỉnh sửa)</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 px-4 py-3">
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-slate-800 dark:text-slate-200 text-base font-medium leading-normal pb-2">Họ và Tên</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-500 dark:text-slate-400 focus:outline-0 focus:ring-0 border-none bg-slate-200 dark:bg-slate-800 h-14 p-4 text-base font-normal leading-normal cursor-not-allowed" readonly="" value="Nguyễn Văn A"/>
+</label>
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-slate-800 dark:text-slate-200 text-base font-medium leading-normal pb-2">Số điện thoại</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-500 dark:text-slate-400 focus:outline-0 focus:ring-0 border-none bg-slate-200 dark:bg-slate-800 h-14 p-4 text-base font-normal leading-normal cursor-not-allowed" readonly="" value="0987 654 321"/>
+</label>
+<div class="md:col-span-2">
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-slate-800 dark:text-slate-200 text-base font-medium leading-normal pb-2">Email</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-500 dark:text-slate-400 focus:outline-0 focus:ring-0 border-none bg-slate-200 dark:bg-slate-800 h-14 p-4 text-base font-normal leading-normal cursor-not-allowed" readonly="" value="nguyenvana@example.com"/>
+</label>
+</div>
+</div>
+</div>
+<!-- Editable Section -->
+<div class="flex flex-col gap-4">
+<h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 border-b border-primary/20 dark:border-primary/30">Thông tin công việc (Có thể chỉnh sửa)</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4 px-4 py-3">
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-slate-800 dark:text-slate-200 text-base font-medium leading-normal pb-2">Lương (VNĐ)</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border-none bg-primary/20 dark:bg-primary/30 h-14 placeholder:text-slate-500 p-4 text-base font-normal leading-normal" type="number" value="8000000"/>
+</label>
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-slate-800 dark:text-slate-200 text-base font-medium leading-normal pb-2">Thưởng (VNĐ)</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border-none bg-primary/20 dark:bg-primary/30 h-14 placeholder:text-slate-500 p-4 text-base font-normal leading-normal" type="number" value="500000"/>
+</label>
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-slate-800 dark:text-slate-200 text-base font-medium leading-normal pb-2">Phạt (VNĐ)</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border-none bg-primary/20 dark:bg-primary/30 h-14 placeholder:text-slate-500 p-4 text-base font-normal leading-normal" type="number" value="0"/>
+</label>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 px-4 py-3">
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-slate-800 dark:text-slate-200 text-base font-medium leading-normal pb-2">Chức vụ</p>
+<div class="relative w-full">
+<select class="form-select appearance-none w-full rounded-lg text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border-none bg-primary/20 dark:bg-primary/30 h-14 p-4 text-base font-normal leading-normal">
+<option>Nhân viên trông xe</option>
+<option selected="">Quản lý</option>
+<option>Bảo vệ</option>
+</select>
+<span class="material-symbols-outlined pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 dark:text-slate-400">expand_more</span>
+</div>
+</label>
+<div class="flex flex-col min-w-40 flex-1">
+<p class="text-slate-800 dark:text-slate-200 text-base font-medium leading-normal pb-2">Trạng thái làm việc</p>
+<div class="flex items-center gap-6 h-14">
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="form-radio text-primary focus:ring-primary/50 bg-primary/20 dark:bg-primary/30 border-none" name="status" type="radio"/>
+<span class="text-slate-800 dark:text-slate-200 text-base font-normal">Đang làm việc</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="form-radio text-primary focus:ring-primary/50 bg-primary/20 dark:bg-primary/30 border-none" name="status" type="radio"/>
+<span class="text-slate-800 dark:text-slate-200 text-base font-normal">Đã nghỉ việc</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-wrap items-center justify-end gap-4 px-4 py-5 mt-4 border-t border-primary/20 dark:border-primary/30">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-transparent text-slate-800 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800 gap-2 text-base font-bold leading-normal tracking-[0.015em] min-w-32 px-6">Hủy bỏ</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-primary text-slate-900 gap-2 text-base font-bold leading-normal tracking-[0.015em] min-w-32 px-6 shadow-md hover:opacity-90">Lưu thay đổi</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>
