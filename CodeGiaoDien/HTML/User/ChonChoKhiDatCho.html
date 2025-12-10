@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chi tiết bãi đỗ &amp; Đặt chỗ</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#005A9C",
+                        "background-light": "#F8F9FA",
+                        "background-dark": "#102218", // Using a placeholder dark bg
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-50 w-full bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
+<div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between whitespace-nowrap h-16">
+<div class="flex items-center gap-4 text-gray-800 dark:text-gray-200">
+<span class="material-symbols-outlined text-primary text-3xl">local_parking</span>
+<h2 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Parking Management</h2>
+</div>
+<div class="hidden md:flex items-center gap-9">
+<a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Dashboard</a>
+<a class="text-primary dark:text-primary text-sm font-bold leading-normal" href="#">Bãi đỗ xe</a>
+<a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Lịch sử đặt chỗ</a>
+<a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Thanh toán</a>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex cursor-pointer items-center justify-center rounded-full h-10 w-10 bg-gray-200/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex cursor-pointer items-center justify-center rounded-full h-10 w-10 bg-gray-200/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDwjWTl2KRPAMOFhB9iTQ5SxyUbYBDjw6JId-QGkWKklxZiSO1DCrm2e8e9UHxL6hc-eKjvUj6uPXqU2EmA6ej944qRr_pMF-SCTsmj7dxqL0V3JsVbPrxby0wnNIrnhUx9VsvtH7cW1AHKEJ8mUszADbiVjw66TFpnWVhdcJzYROPA0Gp_1UBvba021j1q8L1haAjDdHeDF_i8_NYHnx8KkZC2LUDiWD4JMz4guGspDyO3V8FvcC9JsEPtsZLZ_RuyMNZFhz--sjF6");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="layout-container flex h-full grow flex-col">
+<div class="flex flex-1 justify-center py-8">
+<div class="layout-content-container flex flex-col w-full max-w-screen-xl px-4 sm:px-6 lg:px-8">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 mb-4">
+<a class="text-primary text-sm font-medium leading-normal hover:underline" href="#">Trang chủ</a>
+<span class="text-gray-500 dark:text-gray-400 text-sm font-medium leading-normal">/</span>
+<a class="text-primary text-sm font-medium leading-normal hover:underline" href="#">Danh sách bãi đỗ</a>
+<span class="text-gray-500 dark:text-gray-400 text-sm font-medium leading-normal">/</span>
+<span class="text-gray-800 dark:text-gray-200 text-sm font-medium leading-normal">Chi tiết bãi đỗ</span>
+</div>
+<!-- PageHeading -->
+<div class="flex flex-wrap justify-between items-center gap-3 mb-8">
+<div class="flex min-w-72 flex-col gap-1">
+<p class="text-gray-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Bãi đỗ xe Vincom Center</p>
+<p class="text-gray-600 dark:text-gray-400 text-base font-normal leading-normal">123 Lê Thánh Tôn, Phường Bến Nghé, Quận 1, TP.HCM</p>
+</div>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-4 hover:bg-gray-200 dark:hover:bg-gray-700">
+<span class="material-symbols-outlined">arrow_back</span>
+<span>Quay lại</span>
+</button>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full">
+<!-- Left Column: Parking Map -->
+<div class="lg:col-span-2 bg-white dark:bg-gray-900/50 p-6 rounded-xl border border-gray-200 dark:border-gray-800">
+<!-- SectionHeader -->
+<h2 class="text-gray-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-2">Sơ đồ bãi đỗ</h2>
+<!-- BodyText -->
+<p class="text-gray-600 dark:text-gray-400 text-base font-normal leading-normal pb-6">Di chuột để xem chi tiết và nhấp để chọn vị trí mong muốn.</p>
+<div class="w-full bg-gray-100 dark:bg-gray-800/50 p-4 rounded-lg">
+<!-- Parking Grid -->
+<div class="grid grid-cols-8 gap-3">
+<!-- Aisle -->
+<div class="col-span-8 flex items-center justify-center text-gray-500 dark:text-gray-400 font-semibold py-4 bg-gray-200/70 dark:bg-gray-900/70 rounded">LỐI ĐI</div>
+<!-- Parking Spots - Row 1 -->
+<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#28A745]/20 text-[#1e7e34] border border-[#28A745] rounded hover:bg-[#28A745]/40 transition-colors flex items-center justify-center"><span class="font-bold text-sm">A01</span></div>
+<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#FFC107]/20 text-[#b38600] border border-[#FFC107] rounded hover:bg-[#FFC107]/40 transition-colors flex items-center justify-center"><span class="font-bold text-sm">A02</span></div>
+<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#495057]/20 text-[#32363a] dark:text-gray-400 border border-[#495057] rounded flex items-center justify-center cursor-not-allowed"><span class="font-bold text-sm">A03</span></div>
+<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#28A745]/20 text-[#1e7e34] border border-[#28A745] rounded hover:bg-[#28A745]/40 transition-colors flex items-center justify-center"><span class="font-bold text-sm">A04</span></div>
+<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#28A745]/20 text-[#1e7e34] border border-[#28A745] rounded hover:bg-[#28A745]/40 transition-colors flex items-center justify-center"><span class="font-bold text-sm">A05</span></div>
+<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#495057]/20 text-[#32363a] dark:text-gray-400 border border-[#495057] rounded flex items-center justify-center cursor-not-allowed"><span class="font-bold text-sm">A06</span></div>
+<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#495057]/20 text-[#32363a] dark:text-gray-400 border border-[#495057] rounded flex items-center justify-center cursor-not-allowed"><span class="font-bold text-sm">A07</span></div>
+<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#28A745]/20 text-[#1e7e34] border border-[#28A745] rounded hover:bg-[#28A745]/40 transition-colors flex items-center justify-center"><span class="font-bold text-sm">A08</span></div>
+<!-- Parking Spots - Row 2 -->
+<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#28A745]/20 text-[#1e7e34] border border-[#28A745] rounded hover:bg-[#28A745]/40 transition-colors flex items-center justify-center"><span class="font-bold text-sm">B01</span></div>
+<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#28A745]/20 text-[#1e7e34] border border-[#28A745] rounded hover:bg-[#28A745]/40 transition-colors flex items-center justify-center"><span class="font-bold text-sm">B02</span></div>
+<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#495057]/20 text-[#32363a] dark:text-gray-400 border border-[#495057] rounded flex items-center justify-center cursor-not-allowed"><span class="font-bold text-sm">B03</span></div>
+<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#495057]/20 text-[#32363a] dark:text-gray-400 border border-[#495057] rounded flex items-center justify-center cursor-not-allowed"><span class="font-bold text-sm">B04</span></div>
+<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#28A745]/20 text-[#1e7e34] border border-[#28A745] rounded hover:bg-[#28A745]/40 transition-colors flex items-center justify-center"><span class="font-bold text-sm">B05</span></div>
+<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#28A745]/20 text-[#1e7e34] border border-[#28A745] rounded hover:bg-[#28A745]/40 transition-colors flex items-center justify-center"><span class="font-bold text-sm">B06</span></div>
+<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#495057]/20 text-[#32363a] dark:text-gray-400 border border-[#495057] rounded flex items-center justify-center cursor-not-allowed"><span class="font-bold text-sm">B07</span></div>
+<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#28A745]/20 text-[#1e7e34] border border-[#28A745] rounded hover:bg-[#28A745]/40 transition-colors flex items-center justify-center"><span class="font-bold text-sm">B08</span></div>
+</div>
+</div>
+<!-- Legend -->
+<div class="flex flex-wrap gap-x-6 gap-y-2 mt-6">
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 rounded-sm bg-[#28A745]/80"></div>
+<span class="text-sm text-gray-700 dark:text-gray-300">Còn trống</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 rounded-sm bg-[#495057]/80"></div>
+<span class="text-sm text-gray-700 dark:text-gray-300">Đã đặt</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 rounded-sm bg-[#FFC107]/80"></div>
+<span class="text-sm text-gray-700 dark:text-gray-300">Đang chọn</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Booking Form -->
+<div class="lg:col-span-1 bg-white dark:bg-gray-900/50 p-6 rounded-xl border border-gray-200 dark:border-gray-800 flex flex-col gap-6 h-fit sticky top-24">
+<h3 class="text-gray-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Đặt chỗ của bạn</h3>
+<div class="flex flex-col gap-4">
+<!-- Package Type -->
+<div class="grid grid-cols-2 gap-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
+<button class="px-3 py-2 text-sm font-semibold rounded-md bg-white dark:bg-gray-700 text-primary shadow">Gói theo lượt</button>
+<button class="px-3 py-2 text-sm font-semibold rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700/50">Gói theo tháng</button>
+</div>
+<!-- Date & Time Pickers -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="start-time">Thời gian vào</label>
+<input class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 shadow-sm focus:border-primary focus:ring-primary text-sm" id="start-time" type="datetime-local" value="2024-08-15T09:00"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="end-time">Thời gian ra</label>
+<input class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 shadow-sm focus:border-primary focus:ring-primary text-sm" id="end-time" type="datetime-local" value="2024-08-15T11:00"/>
+</div>
+</div>
+<!-- Vehicle Type -->
+<div>
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="vehicle-type">Loại xe</label>
+<select class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 shadow-sm focus:border-primary focus:ring-primary text-sm" id="vehicle-type">
+<option>Ô tô</option>
+<option>Xe máy</option>
+</select>
+</div>
+<!-- Promo Code -->
+<div>
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="promo-code">Mã ưu đãi</label>
+<div class="flex">
+<input class="flex-grow w-full rounded-l-md border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 shadow-sm focus:border-primary focus:ring-primary text-sm" id="promo-code" placeholder="Nhập mã giảm giá" type="text"/>
+<button class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold text-sm rounded-r-md hover:bg-gray-300 dark:hover:bg-gray-600">Áp dụng</button>
+</div>
+</div>
+</div>
+<!-- Cost Summary -->
+<div class="border-t border-gray-200 dark:border-gray-700 pt-4 flex flex-col gap-2">
+<div class="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+<span>Vị trí đã chọn</span>
+<span class="font-medium text-gray-800 dark:text-gray-200">A02</span>
+</div>
+<div class="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+<span>Phí gửi xe (2 giờ)</span>
+<span class="font-medium text-gray-800 dark:text-gray-200">40.000đ</span>
+</div>
+<div class="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+<span>Phí dịch vụ</span>
+<span class="font-medium text-gray-800 dark:text-gray-200">2.000đ</span>
+</div>
+<div class="flex justify-between mt-2 pt-2 border-t border-dashed border-gray-300 dark:border-gray-700">
+<span class="text-base font-bold text-gray-900 dark:text-white">Tổng cộng</span>
+<span class="text-base font-bold text-primary">42.000đ</span>
+</div>
+</div>
+<!-- CTA Button -->
+<button class="w-full flex items-center justify-center gap-2 h-12 px-6 bg-primary text-white rounded-lg font-bold text-base hover:bg-primary/90 transition-colors">
+<span>Đặt chỗ ngay</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

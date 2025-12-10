@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ParkEasy - Tìm bãi đỗ xe</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#13ec6d",
+            "background-light": "#f6f8f7",
+            "background-dark": "#102218",
+          },
+          fontFamily: {
+            "display": ["Manrope", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="relative flex min-h-screen w-full flex-col group/design-root">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-50 w-full bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-primary/20 dark:border-primary/10">
+<div class="container mx-auto px-4">
+<div class="flex items-center justify-between h-16">
+<div class="flex items-center gap-4 text-[#0d1b13] dark:text-gray-100">
+<div class="text-primary">
+<span class="material-symbols-outlined text-3xl">local_parking</span>
+</div>
+<h2 class="text-[#0d1b13] dark:text-gray-100 text-lg font-bold">ParkEasy</h2>
+</div>
+<div class="hidden md:flex items-center gap-9 text-sm font-medium text-[#0d1b13] dark:text-gray-300">
+<a class="text-primary font-semibold" href="#">Trang chủ</a>
+<a class="hover:text-primary transition-colors" href="#">Lịch sử</a>
+<a class="hover:text-primary transition-colors" href="#">Tài khoản</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-[#0d1b13] text-sm font-bold tracking-wide hover:opacity-90 transition-opacity">
+<span class="truncate">Đăng nhập</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex flex-col flex-1">
+<div class="container mx-auto px-4 flex-1">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 py-8">
+<!-- Left Column: Search Panel and Results -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<!-- PageHeading -->
+<div class="flex flex-col gap-2">
+<h1 class="text-[#0d1b13] dark:text-white text-4xl font-black tracking-tighter">Tìm bãi đỗ xe thông minh</h1>
+<p class="text-primary/80 dark:text-primary/70 text-base font-normal">Nhanh chóng, tiện lợi và an toàn</p>
+</div>
+<!-- SearchBar and Button -->
+<div class="flex flex-col sm:flex-row gap-3">
+<div class="flex-grow">
+<label class="flex flex-col w-full">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-12 bg-primary/20 dark:bg-primary/10">
+<div class="text-[#0d1b13] dark:text-gray-300 flex items-center justify-center pl-4">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden text-[#0d1b13] dark:text-gray-100 focus:outline-0 focus:ring-0 border-none bg-transparent h-full placeholder:text-primary/60 dark:placeholder:text-primary/50 pl-2 text-base" placeholder="Nhập địa chỉ, tên địa điểm..." value=""/>
+</div>
+</label>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-primary/20 dark:bg-primary/10 text-[#0d1b13] dark:text-gray-100 gap-2 text-sm font-bold hover:bg-primary/30 dark:hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-base">near_me</span>
+<span class="truncate">Tìm quanh đây</span>
+</button>
+</div>
+<!-- Chips / Filters -->
+<div class="flex flex-wrap gap-3">
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 dark:bg-primary/10 pl-4 pr-3 text-[#0d1b13] dark:text-gray-100 hover:bg-primary/30 dark:hover:bg-primary/20 transition-colors">
+<p class="text-sm font-medium">Giá</p>
+<span class="material-symbols-outlined text-xl">arrow_drop_down</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 dark:bg-primary/10 pl-4 pr-3 text-[#0d1b13] dark:text-gray-100 hover:bg-primary/30 dark:hover:bg-primary/20 transition-colors">
+<p class="text-sm font-medium">Khoảng cách</p>
+<span class="material-symbols-outlined text-xl">arrow_drop_down</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 dark:bg-primary/10 pl-4 pr-3 text-[#0d1b13] dark:text-gray-100 hover:bg-primary/30 dark:hover:bg-primary/20 transition-colors">
+<p class="text-sm font-medium">Loại xe</p>
+<span class="material-symbols-outlined text-xl">arrow_drop_down</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 dark:bg-primary/10 pl-4 pr-3 text-[#0d1b13] dark:text-gray-100 hover:bg-primary/30 dark:hover:bg-primary/20 transition-colors">
+<p class="text-sm font-medium">Tiện ích</p>
+<span class="material-symbols-outlined text-xl">arrow_drop_down</span>
+</button>
+</div>
+<!-- Results List -->
+<div class="flex flex-col gap-4">
+<h3 class="text-lg font-bold text-[#0d1b13] dark:text-gray-100">3 bãi đỗ gần bạn</h3>
+<!-- Parking Lot Card 1 (Available) -->
+<div class="flex gap-4 p-4 rounded-xl border-2 border-primary/40 bg-background-light dark:bg-background-dark shadow-sm cursor-pointer transition-all hover:shadow-md hover:-translate-y-1">
+<img class="h-28 w-28 object-cover rounded-lg flex-shrink-0" data-alt="Photo of an outdoor parking lot with cars" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBsCAAO708HCjGE_bVB_nm7cub_-EsxTQJviImsQFfeEfQLGK2ZxXHVIrCuIgAEaP0Skz2i8baJBrOQJMCWg6o3iDtpNtKiQzxTu7VqRciRd6-iEB0IZXVAPSamyV-renAoyCJj22LdS24eUikzmmGZoMf80y9O0Tr5eC5VwXpHTICM05zSvflUBxldh0czQEb1ECh9_VSwZimNANja1ADBkaT69A__F2arDlYKSc-ujyHf0aL5b_CeCrVXq-wBB8UQYdBM4igaj6g"/>
+<div class="flex flex-col justify-between flex-grow">
+<div>
+<h4 class="font-bold text-base text-[#0d1b13] dark:text-white">Bãi xe Vincom Center</h4>
+<p class="text-sm text-gray-500 dark:text-gray-400">72 Lê Thánh Tôn, Bến Nghé, Quận 1</p>
+<p class="text-sm text-gray-600 dark:text-gray-300">Cách bạn 1.2 km</p>
+</div>
+<div class="flex justify-between items-center mt-2">
+<div class="flex items-center gap-2 px-2 py-1 rounded-full bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300">
+<span class="material-symbols-outlined text-sm">event_available</span>
+<p class="text-xs font-semibold">Còn 15/50 chỗ</p>
+</div>
+<p class="font-bold text-primary">15.000đ/h</p>
+</div>
+</div>
+</div>
+<!-- Parking Lot Card 2 (Limited) -->
+<div class="flex gap-4 p-4 rounded-xl bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 shadow-sm cursor-pointer transition-all hover:shadow-md hover:-translate-y-1">
+<img class="h-28 w-28 object-cover rounded-lg flex-shrink-0" data-alt="Photo of an indoor parking garage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjgbeM1uY-DV85jV6VMOYlRQWKRb5Ovr-2i7Kp-IxXJuC-fuRxV-gri8PaRpTrQGsecTWG60Gm3AEftoX5n5hOIV1TJ91XoSlmJpO7KhxD5H6UnkHMJ9sckdsOTGSVGKM5UoW1jgTas04FKUYTXjI7_E2CJJ44_KxQQflHLP947_JTD2v_jwcd2eZ_O4Ar-jfj6kan4zPVwZss9ne1bf1Bt-6JCJeqo71kOS0x3oozJM6C-yHc0LdX11N1aGIoPiODqVqgO3xSM0Sj"/>
+<div class="flex flex-col justify-between flex-grow">
+<div>
+<h4 class="font-bold text-base text-[#0d1b13] dark:text-white">Hầm gửi xe Saigon Centre</h4>
+<p class="text-sm text-gray-500 dark:text-gray-400">65 Lê Lợi, Bến Nghé, Quận 1</p>
+<p class="text-sm text-gray-600 dark:text-gray-300">Cách bạn 1.8 km</p>
+</div>
+<div class="flex justify-between items-center mt-2">
+<div class="flex items-center gap-2 px-2 py-1 rounded-full bg-yellow-100 dark:bg-yellow-900/50 text-yellow-700 dark:text-yellow-300">
+<span class="material-symbols-outlined text-sm">hourglass_top</span>
+<p class="text-xs font-semibold">Còn 3/80 chỗ</p>
+</div>
+<p class="font-bold text-primary">20.000đ/h</p>
+</div>
+</div>
+</div>
+<!-- Parking Lot Card 3 (Full) -->
+<div class="flex gap-4 p-4 rounded-xl bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 shadow-sm cursor-pointer transition-all hover:shadow-md hover:-translate-y-1">
+<img class="h-28 w-28 object-cover rounded-lg flex-shrink-0" data-alt="Photo of a multi-level parking structure" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUTcj1YiNE_1yLPYiSbPAXG9IUjdL_KfNB-4ej-nhgbdOpXFqwYwYkzrcy7k9YYpUFau3iUAiM3bHl1EDAm-4gyx9JQyps-oSAxD4hmzGxoURgBYN7E9sQioS_0EoAbZH6VxcVw70jBlBN_sDzVOlK7orD0VH9js2t6mCm-44M_BSYN_hizA-ZEXjgW7JMaBrOi1x46wuezq22N0nS50T5EgCD-6W1VBy6YLK1are6oiRS5PqAMkbqIQiwLA1t6RfQGOpQmly9AjhG"/>
+<div class="flex flex-col justify-between flex-grow">
+<div>
+<h4 class="font-bold text-base text-[#0d1b13] dark:text-white">Bãi xe Bitexco Financial Tower</h4>
+<p class="text-sm text-gray-500 dark:text-gray-400">2 Hải Triều, Bến Nghé, Quận 1</p>
+<p class="text-sm text-gray-600 dark:text-gray-300">Cách bạn 2.1 km</p>
+</div>
+<div class="flex justify-between items-center mt-2">
+<div class="flex items-center gap-2 px-2 py-1 rounded-full bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300">
+<span class="material-symbols-outlined text-sm">cancel</span>
+<p class="text-xs font-semibold">Hết chỗ</p>
+</div>
+<p class="font-bold text-primary">18.000đ/h</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Map -->
+<div class="lg:col-span-8 sticky top-24 h-[calc(100vh-8rem)]">
+<div class="w-full h-full bg-gray-200 dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg">
+<img class="w-full h-full object-cover" data-alt="A map showing various parking locations in a city center." data-location="Ho Chi Minh City" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB--S60-lEpRHqR1a4fdRq7KnXoVf6ny-H8gwzv_OTtufgX3m45xsJiLo-M7GQcO-zwirBNViMfpRlNagI5UQPD1JYzufngU6sRdENA45Vp7ir8gjma9rF5MR2v40Lp0AF16Sph9GZhxFHG4nlUaibRsHapdUMXm5PhvKVKR7JXulmPlUBbJH2JA674FyyQ_SiweMi9s3zyRbykuBa5gYLs7IDQUZze_7dkiFmpemrTNn9RAC6ozAw4arpgBb38PbriYWxfmPcRlsGL"/>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

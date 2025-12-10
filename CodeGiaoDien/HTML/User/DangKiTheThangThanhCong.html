@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Registration Successful</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#22C55E",
+              "background-light": "#FFFFFF",
+              "background-dark": "#111827",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+            },
+          },
+        },
+      };
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+      }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-200">
+<div class="min-h-screen flex flex-col">
+<header class="bg-background-light dark:bg-background-dark border-b border-gray-200 dark:border-gray-700">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<div class="flex items-center space-x-3">
+<div class="bg-primary p-2 rounded-lg">
+<span class="font-bold text-lg text-white">P</span>
+</div>
+<span class="font-semibold text-lg text-gray-900 dark:text-white">Parking Management</span>
+</div>
+<nav class="hidden md:flex items-center space-x-8">
+<a class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200" href="#">Trang chủ</a>
+<a class="text-sm font-medium text-primary border-b-2 border-primary" href="#">Đăng ký thẻ tháng</a>
+<a class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200" href="#">Lịch sử giao dịch</a>
+<a class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200" href="#">Hỗ trợ</a>
+</nav>
+<div class="flex items-center space-x-4">
+<button class="relative p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 rounded-full bg-gray-100 dark:bg-gray-800">
+<span class="material-symbols-outlined text-xl">notifications</span>
+<span class="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary"></span>
+</button>
+<div class="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center text-white font-bold text-sm">
+<img alt="User avatar" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUp77bbT0KfVTZDKLi4FiheN79MkaJUlJFOZm1QkJN3bvpeVfxZ_-fmTrQ2TN2U0tQFOgbCrYZ0bJTwqDNc7IUBs4coZhM8rmmWdJU4kAsZrGIFqs6kVWWpXtNsBikba0KCCSBfx9x2jjk0P4LUadEXmeUXZ_2Trq_rEpN_q4Roy8NlwVbqzyYSbMFT3yJw1NyMAU0PQldPZV-fzLcugwkVH9F738I28_Sn6gQ9JjXvo0MAujPpKGVjGt6wNQ5vnDdWr-70RnDTXWw"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-24">
+<div class="lg:col-span-1">
+<h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Đăng ký Thẻ tháng</h1>
+<p class="text-gray-500 dark:text-gray-400 mb-12">Vui lòng hoàn thành các bước dưới đây để đăng ký thẻ gửi xe tháng.</p>
+<div class="relative">
+<div class="absolute left-4 top-4 bottom-4 w-0.5 bg-primary"></div>
+<ul class="space-y-10">
+<li class="flex items-start space-x-4">
+<div class="flex-shrink-0">
+<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-lg">check</span>
+</div>
+</div>
+<div>
+<p class="text-xs text-gray-500 dark:text-gray-400">Bước 1</p>
+<h3 class="font-semibold text-gray-900 dark:text-white">Chọn Gói</h3>
+</div>
+</li>
+<li class="flex items-start space-x-4">
+<div class="flex-shrink-0">
+<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-lg">check</span>
+</div>
+</div>
+<div>
+<p class="text-xs text-gray-500 dark:text-gray-400">Bước 2</p>
+<h3 class="font-semibold text-gray-900 dark:text-white">Thông tin &amp; Thanh toán</h3>
+</div>
+</li>
+<li class="flex items-start space-x-4">
+<div class="flex-shrink-0">
+<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-lg">check</span>
+</div>
+</div>
+<div>
+<p class="text-xs text-gray-500 dark:text-gray-400">Bước 3</p>
+<h3 class="font-semibold text-gray-900 dark:text-white">Hoàn tất</h3>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="lg:col-span-2 text-center flex flex-col items-center">
+<div class="w-24 h-24 bg-primary rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-white" style="font-size: 48px;">check</span>
+</div>
+<h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">Đăng ký thành công!</h2>
+<p class="text-gray-500 dark:text-gray-400 max-w-md mx-auto mb-10">
+                        Cảm ơn bạn đã sử dụng dịch vụ Parking Management.
+                        Gói dịch vụ của bạn đã được kích hoạt.
+                    </p>
+<div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 w-full max-w-lg text-left shadow-sm">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Tóm tắt đăng ký</h3>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<span class="text-gray-500 dark:text-gray-400">Gói dịch vụ:</span>
+<span class="font-semibold text-gray-900 dark:text-white">Gói ô tô 4 chỗ</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-gray-500 dark:text-gray-400">Thời hạn:</span>
+<span class="font-semibold text-gray-900 dark:text-white">1 tháng</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-gray-500 dark:text-gray-400">Giá tiền:</span>
+<span class="font-semibold text-gray-900 dark:text-white">1.200.000đ</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-gray-500 dark:text-gray-400">Ngày bắt đầu:</span>
+<span class="font-semibold text-gray-900 dark:text-white">20/05/2024</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-gray-500 dark:text-gray-400">Ngày kết thúc:</span>
+<span class="font-semibold text-gray-900 dark:text-white">19/06/2024</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-gray-500 dark:text-gray-400">Biển số xe:</span>
+<span class="font-semibold text-gray-900 dark:text-white">30H-123.45</span>
+</div>
+</div>
+</div>
+<div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-lg">
+<button class="w-full sm:w-auto px-6 py-3 rounded-lg font-semibold bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                            Về trang chủ
+                        </button>
+<button class="w-full sm:w-auto px-6 py-3 rounded-lg font-semibold bg-primary text-white hover:bg-green-600 transition-colors">
+                            Xem chi tiết thẻ
+                        </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

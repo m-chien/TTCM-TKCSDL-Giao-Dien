@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quản lý tài khoản (Admin): Người dùng &amp; phân quyền</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec6d",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#102218",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="relative flex min-h-screen w-full">
+<!-- SideNavBar -->
+<aside class="flex h-screen w-64 flex-col border-r border-gray-200/50 bg-background-light p-4 dark:border-gray-700/50 dark:bg-background-dark">
+<div class="flex items-center gap-3 p-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Admin user avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDIzh2UgUwbALPBl423kPiu-WuPggifYj3aDjZW8WoIiDdwhb_ROHMHsivs9jOQYxhYDycu4H94b3Elr4USoWcTUxUls0h_00PevPYhD1CocwuhiDyBZqaIB5q5mNyPR-YoO23_H8NT7dcITc27AKySZV2Djbx8V8AJI-s5Afe-13NAi7ARbYDmV3Ng70zK8HhTvX5jpigTGVCfbcpmRz5s7fQYxbqr4NhuldUrWwAoxUwZmb8_MD0AdJnD7Z-YvKfunyo_xnqG4vFR");'></div>
+<div class="flex flex-col">
+<h1 class="text-[#0d1b13] dark:text-gray-200 text-base font-medium leading-normal">Admin</h1>
+<p class="text-[#4c9a6c] dark:text-primary/70 text-sm font-normal leading-normal">admin@parking.com</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2 mt-4 flex-grow">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined text-[#0d1b13] dark:text-gray-300">dashboard</span>
+<p class="text-[#0d1b13] dark:text-gray-300 text-sm font-medium leading-normal">Tổng quan</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined text-[#0d1b13] dark:text-gray-300">local_parking</span>
+<p class="text-[#0d1b13] dark:text-gray-300 text-sm font-medium leading-normal">Quản lý bãi xe</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20" href="#">
+<span class="material-symbols-outlined text-[#0d1b13] dark:text-gray-100" style="font-variation-settings: 'FILL' 1;">group</span>
+<p class="text-[#0d1b13] dark:text-gray-100 text-sm font-medium leading-normal">Quản lý tài khoản</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined text-[#0d1b13] dark:text-gray-300">bar_chart</span>
+<p class="text-[#0d1b13] dark:text-gray-300 text-sm font-medium leading-normal">Báo cáo</p>
+</a>
+</nav>
+<div class="flex flex-col gap-1 mt-auto">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined text-[#0d1b13] dark:text-gray-300">settings</span>
+<p class="text-[#0d1b13] dark:text-gray-300 text-sm font-medium leading-normal">Cài đặt</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined text-[#0d1b13] dark:text-gray-300">logout</span>
+<p class="text-[#0d1b13] dark:text-gray-300 text-sm font-medium leading-normal">Đăng xuất</p>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex-col p-6">
+<!-- PageHeading -->
+<div class="flex flex-wrap justify-between items-center gap-4 pb-4 border-b border-gray-200/50 dark:border-gray-700/50">
+<div class="flex flex-col gap-1">
+<p class="text-[#0d1b13] dark:text-white text-3xl font-bold tracking-tight">Quản lý tài khoản</p>
+<p class="text-[#4c9a6c] dark:text-gray-400 text-base font-normal leading-normal">Thêm, sửa, xóa người dùng và phân quyền cho nhân viên.</p>
+</div>
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-primary text-black text-sm font-bold leading-normal tracking-wide shadow-sm hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-lg">add</span>
+<span class="truncate">Thêm người dùng</span>
+</button>
+</div>
+<!-- Search and Filter Section -->
+<div class="flex flex-col md:flex-row gap-4 py-6">
+<!-- SearchBar -->
+<div class="flex-grow">
+<label class="flex flex-col min-w-40 h-12 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-primary/20 dark:bg-white/5">
+<div class="text-[#0d1b13] dark:text-gray-400 flex items-center justify-center pl-4">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-[#0d1b13] dark:text-gray-300 focus:outline-0 focus:ring-0 border-none bg-transparent h-full placeholder:text-[#4c9a6c] dark:placeholder:text-gray-500 px-4 pl-2 text-base font-normal leading-normal" placeholder="Tìm kiếm theo tên, email, SĐT..." value=""/>
+</div>
+</label>
+</div>
+<!-- Chips -->
+<div class="flex gap-3 items-center">
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 dark:bg-white/5 px-4">
+<p class="text-[#0d1b13] dark:text-gray-300 text-sm font-medium leading-normal">Vai trò: Tất cả</p>
+<span class="material-symbols-outlined text-[#0d1b13] dark:text-gray-400 text-xl">expand_more</span>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 dark:bg-white/5 px-4">
+<p class="text-[#0d1b13] dark:text-gray-300 text-sm font-medium leading-normal">Trạng thái: Đang hoạt động</p>
+<span class="material-symbols-outlined text-[#0d1b13] dark:text-gray-400 text-xl">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Table -->
+<div class="overflow-hidden rounded-lg border border-gray-200/50 dark:border-gray-700/50 bg-background-light dark:bg-background-dark">
+<div class="overflow-x-auto">
+<table class="w-full">
+<thead>
+<tr class="bg-primary/20 dark:bg-white/5">
+<th class="p-4 text-left text-[#0d1b13] dark:text-gray-300 text-sm font-medium leading-normal">Họ và tên</th>
+<th class="p-4 text-left text-[#0d1b13] dark:text-gray-300 text-sm font-medium leading-normal">Vai trò</th>
+<th class="p-4 text-left text-[#0d1b13] dark:text-gray-300 text-sm font-medium leading-normal">Trạng thái</th>
+<th class="p-4 text-left text-[#0d1b13] dark:text-gray-300 text-sm font-medium leading-normal">Ngày tham gia</th>
+<th class="p-4 text-left text-[#0d1b13] dark:text-gray-300 text-sm font-medium leading-normal">Hành động</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-t border-gray-200/50 dark:border-gray-700/50">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<img class="size-10 rounded-full object-cover" data-alt="User avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCZdpJvFchCa0v3xErSH9BZw9FR7rRCBfFRGLL76vUg_-QTylkBFWGQ8BiVNxU8RXpZ4fNOh4nH5E6mrfd9uNVNeJf767oGR0mQlyeodE_wkPong-PrJNAsGhUti52JbRb1jduz-_QBh3mUcKDVHiFnry9AsRHw5QPFY6E6_2g3sn7gqEVAhUWHAO6laoE5OEtG3P3RNOgo4JJyqLeVb5PoFNPteAs-Sy5shlySqSJLRIfRGiqEaYmntj2iFr_7VnwffbfvbKS_lG7"/>
+<div>
+<p class="text-[#0d1b13] dark:text-gray-200 font-medium">Nguyễn Văn A</p>
+<p class="text-[#4c9a6c] dark:text-gray-400 text-sm">nguyenvana@email.com</p>
+</div>
+</div>
+</td>
+<td class="p-4 text-[#0d1b13] dark:text-gray-300 text-sm">Admin</td>
+<td class="p-4">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-green-100 dark:bg-green-900/50 px-2 py-1 text-xs font-medium text-green-700 dark:text-green-300">
+<span class="size-1.5 rounded-full bg-green-500"></span>
+                                        Đang hoạt động
+                                    </span>
+</td>
+<td class="p-4 text-[#4c9a6c] dark:text-gray-400 text-sm">20/07/2023</td>
+<td class="p-4">
+<div class="flex gap-2">
+<button class="p-2 rounded-md hover:bg-primary/20 dark:hover:bg-white/10 text-[#0d1b13] dark:text-gray-400 transition-colors">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+<button class="p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/30 text-red-500 dark:text-red-400 transition-colors">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="border-t border-gray-200/50 dark:border-gray-700/50">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<img class="size-10 rounded-full object-cover" data-alt="User avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNx6zKl5BoGo4S77LCUAhMBVXXSdc7x-iDpB4LZ-1rOwBhMzScRT8DCNRcPClEeZfp03B4me8ql4alTbEbIYvmOEMtS0Kbs9nSLTcZnkzS0CSJ1qGFoPjFaA65Txbglq3mNuEPpw-1DZE31ASs6acVtStxVE2EKamD4zd_D2OFGU8jBro5pXvr1y3HPXDJu41LIQHMH_77BbfTu4jGjLEi3z7y8Z1jYJjU0JGTRB4fDv2aLhfbKsprwExO3ArHkYGmISBG7UrXg_UN"/>
+<div>
+<p class="text-[#0d1b13] dark:text-gray-200 font-medium">Trần Thị B</p>
+<p class="text-[#4c9a6c] dark:text-gray-400 text-sm">tranthib@email.com</p>
+</div>
+</div>
+</td>
+<td class="p-4 text-[#0d1b13] dark:text-gray-300 text-sm">Nhân viên</td>
+<td class="p-4">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-green-100 dark:bg-green-900/50 px-2 py-1 text-xs font-medium text-green-700 dark:text-green-300">
+<span class="size-1.5 rounded-full bg-green-500"></span>
+                                        Đang hoạt động
+                                    </span>
+</td>
+<td class="p-4 text-[#4c9a6c] dark:text-gray-400 text-sm">15/06/2023</td>
+<td class="p-4">
+<div class="flex gap-2">
+<button class="p-2 rounded-md hover:bg-primary/20 dark:hover:bg-white/10 text-[#0d1b13] dark:text-gray-400 transition-colors">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+<button class="p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/30 text-red-500 dark:text-red-400 transition-colors">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="border-t border-gray-200/50 dark:border-gray-700/50">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<img class="size-10 rounded-full object-cover" data-alt="User avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0XdeV_3upnTwvE_VvTHf0NpUYokzUeZoyHBl-P1SECqh16KYX_iMarD3uWgU72xTuamcVNElLs_5Em8p34WqpgvEIZGok0CjwIvbODBxbfJ-ny82jE2GOpib1xLRaaUa3nXyJSiL5P_2Di4poyN0nRRC7VwQtFnw-LpNSbcUCFPmaw7uNlTX-SwKnUFCHAGv_ObJQe8RbWAuBfVD35E64tf4XVSAy2OcvI23SBfF8dxAMLifAPZHhpqDQlnlS6sVufiod-5TbrNa3"/>
+<div>
+<p class="text-[#0d1b13] dark:text-gray-200 font-medium">Lê Văn C</p>
+<p class="text-[#4c9a6c] dark:text-gray-400 text-sm">levanc@email.com</p>
+</div>
+</div>
+</td>
+<td class="p-4 text-[#0d1b13] dark:text-gray-300 text-sm">Nhân viên</td>
+<td class="p-4">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-red-100 dark:bg-red-900/50 px-2 py-1 text-xs font-medium text-red-700 dark:text-red-300">
+<span class="size-1.5 rounded-full bg-red-500"></span>
+                                        Bị khóa
+                                    </span>
+</td>
+<td class="p-4 text-[#4c9a6c] dark:text-gray-400 text-sm">10/05/2023</td>
+<td class="p-4">
+<div class="flex gap-2">
+<button class="p-2 rounded-md hover:bg-primary/20 dark:hover:bg-white/10 text-[#0d1b13] dark:text-gray-400 transition-colors">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+<button class="p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/30 text-red-500 dark:text-red-400 transition-colors">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="border-t border-gray-200/50 dark:border-gray-700/50">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<img class="size-10 rounded-full object-cover" data-alt="User avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzC4Z7Me9G9TfGQTH1kbf6zhPNRfmqyzNhFZp8pjtqR-Am7aiEIaxLE1x5oEHS25uzwsNLp7OPVQvK5dO5yfa0CEtPUw0Zd5Nx6HyMge9jk_Cu8atlTOlt8hNjqO7zwJ0k8QkPJtcpw7rLQc41LBU2jMbH55ll57CKuILXBAbdl6qseFzKAmmdcb8Tx_Tr8dj22iR17nVVASv_dS914Ezzho8R3okI07Y0CHwcbKfBeSb9hXM3NUTOjSpgCIL7rxyXF0TCygt1PqYh"/>
+<div>
+<p class="text-[#0d1b13] dark:text-gray-200 font-medium">Phạm Thị D</p>
+<p class="text-[#4c9a6c] dark:text-gray-400 text-sm">phamthid@email.com</p>
+</div>
+</div>
+</td>
+<td class="p-4 text-[#0d1b13] dark:text-gray-300 text-sm">Khách hàng</td>
+<td class="p-4">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-green-100 dark:bg-green-900/50 px-2 py-1 text-xs font-medium text-green-700 dark:text-green-300">
+<span class="size-1.5 rounded-full bg-green-500"></span>
+                                        Đang hoạt động
+                                    </span>
+</td>
+<td class="p-4 text-[#4c9a6c] dark:text-gray-400 text-sm">01/04/2023</td>
+<td class="p-4">
+<div class="flex gap-2">
+<button class="p-2 rounded-md hover:bg-primary/20 dark:hover:bg-white/10 text-[#0d1b13] dark:text-gray-400 transition-colors">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+<button class="p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/30 text-red-500 dark:text-red-400 transition-colors">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex items-center justify-between pt-6">
+<p class="text-sm text-[#4c9a6c] dark:text-gray-400">
+                    Hiển thị <span class="font-medium text-[#0d1b13] dark:text-gray-200">1-4</span> trên <span class="font-medium text-[#0d1b13] dark:text-gray-200">12</span> kết quả
+                </p>
+<div class="flex items-center gap-2">
+<button class="flex items-center justify-center rounded-lg border border-gray-200/50 dark:border-gray-700/50 bg-background-light dark:bg-transparent px-3 h-9 text-sm font-medium text-[#0d1b13] dark:text-gray-300 hover:bg-primary/20 dark:hover:bg-white/10 transition-colors">
+                        Trước
+                    </button>
+<button class="flex items-center justify-center rounded-lg border border-gray-200/50 dark:border-gray-700/50 bg-background-light dark:bg-transparent px-3 h-9 text-sm font-medium text-[#0d1b13] dark:text-gray-300 hover:bg-primary/20 dark:hover:bg-white/10 transition-colors">
+                        Sau
+                    </button>
+</div>
+</div>
+</main>
+</div>
+</body></html>

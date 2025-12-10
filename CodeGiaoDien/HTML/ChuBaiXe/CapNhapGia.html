@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quản lý giá bãi đậu xe</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#10B981", // Emerald 500
+            "background-light": "#F8FAFC", // Slate 50
+            "background-dark": "#0F172A", // Slate 900
+          },
+          fontFamily: {
+            display: ["Inter", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.75rem", // 12px
+          },
+        },
+      },
+    };
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24
+    }
+  </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200">
+<div class="flex h-screen">
+<aside class="w-64 flex-shrink-0 bg-white dark:bg-slate-800 p-4 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-4 p-4 mb-6">
+<img alt="Admin avatar" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdBZlQjV40rN_rc1Fel6niKp4gYqr5SlUtKtlRCRNx3mZ8vlkFVeqdnnDqt6XzN7bU2tm-r4yBx9UnAHnaGcz9XHaqSGWZdHNhvInZlU6gP5Qp7NaKJ4R1e32LX8MCBo6vb20M1LwQ9A7It-e6vbM82NUsIHuN7bli9wq9dKeLbjgkCUcw6-gT1u3mY4yECmef6nXmKys0TKOhVJ26YUAfnjeWi6bNQTETocpiAFEvuYGnUfH7uxm8R6IvGE3Q6Dg4rpiViLk7kVk"/>
+<div>
+<p class="font-bold text-slate-900 dark:text-white">Admin</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">admin@parking.com</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span>Tổng quan</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-300 rounded-lg bg-green-100 dark:bg-green-900/50 text-primary font-semibold" href="#">
+<span class="material-symbols-outlined">local_parking</span>
+<span>Quản lý bãi xe</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700" href="#">
+<span class="material-symbols-outlined">group</span>
+<span>Người dùng</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700" href="#">
+<span class="material-symbols-outlined">sell</span>
+<span>Khuyến mãi</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700" href="#">
+<span class="material-symbols-outlined">description</span>
+<span>Báo cáo</span>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Cài đặt</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Đăng xuất</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 p-8 overflow-y-auto">
+<div class="flex justify-between items-center mb-8">
+<h1 class="text-3xl font-bold text-slate-900 dark:text-white">Quản lý giá bãi đậu xe</h1>
+<button class="bg-primary text-white font-semibold py-2 px-4 rounded-lg flex items-center gap-2 hover:bg-green-600 transition-colors">
+<span class="material-symbols-outlined">add</span>
+          Thêm giá mới
+        </button>
+</div>
+<div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-sm mb-6 flex items-center gap-4">
+<div class="relative flex-grow">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full bg-slate-50 dark:bg-slate-700 border-none rounded-lg pl-10 focus:ring-2 focus:ring-primary" placeholder="Tìm theo loại xe" type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<label class="text-sm text-slate-600 dark:text-slate-300 whitespace-nowrap" for="status">Trạng thái:</label>
+<select class="bg-slate-50 dark:bg-slate-700 border-none rounded-lg focus:ring-2 focus:ring-primary" id="status">
+<option>Tất cả</option>
+<option>Đang hoạt động</option>
+<option>Tạm dừng</option>
+</select>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm overflow-hidden">
+<table class="w-full text-left">
+<thead class="bg-slate-50 dark:bg-slate-700/50">
+<tr>
+<th class="p-4 text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Loại xe</th>
+<th class="p-4 text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Giá mỗi giờ</th>
+<th class="p-4 text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Giá qua đêm</th>
+<th class="p-4 text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Giá theo tháng</th>
+<th class="p-4 text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Trạng thái</th>
+<th class="p-4 text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Hành động</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+<tr>
+<td class="p-4 font-medium text-slate-900 dark:text-white">Xe máy</td>
+<td class="p-4">5,000đ</td>
+<td class="p-4">30,000đ</td>
+<td class="p-4">200,000đ</td>
+<td class="p-4">
+<span class="bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-400 text-xs font-medium px-2.5 py-1 rounded-full">Đang hoạt động</span>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-4">
+<button class="text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary"><span class="material-symbols-outlined text-base">edit</span></button>
+<button class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500"><span class="material-symbols-outlined text-base">delete</span></button>
+</div>
+</td>
+</tr>
+<tr>
+<td class="p-4 font-medium text-slate-900 dark:text-white">Ô tô (4-7 chỗ)</td>
+<td class="p-4">20,000đ</td>
+<td class="p-4">150,000đ</td>
+<td class="p-4">1,200,000đ</td>
+<td class="p-4">
+<span class="bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-400 text-xs font-medium px-2.5 py-1 rounded-full">Đang hoạt động</span>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-4">
+<button class="text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary"><span class="material-symbols-outlined text-base">edit</span></button>
+<button class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500"><span class="material-symbols-outlined text-base">delete</span></button>
+</div>
+</td>
+</tr>
+<tr>
+<td class="p-4 font-medium text-slate-900 dark:text-white">Ô tô (trên 7 chỗ)</td>
+<td class="p-4">30,000đ</td>
+<td class="p-4">200,000đ</td>
+<td class="p-4">1,800,000đ</td>
+<td class="p-4">
+<span class="bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-400 text-xs font-medium px-2.5 py-1 rounded-full">Tạm dừng</span>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-4">
+<button class="text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary"><span class="material-symbols-outlined text-base">edit</span></button>
+<button class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500"><span class="material-symbols-outlined text-base">delete</span></button>
+</div>
+</td>
+</tr>
+<tr>
+<td class="p-4 font-medium text-slate-900 dark:text-white">Xe tải</td>
+<td class="p-4">40,000đ</td>
+<td class="p-4">300,000đ</td>
+<td class="p-4">2,500,000đ</td>
+<td class="p-4">
+<span class="bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-400 text-xs font-medium px-2.5 py-1 rounded-full">Đang hoạt động</span>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-4">
+<button class="text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary"><span class="material-symbols-outlined text-base">edit</span></button>
+<button class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500"><span class="material-symbols-outlined text-base">delete</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="p-4 flex justify-between items-center">
+<p class="text-sm text-slate-500 dark:text-slate-400">Hiển thị <span class="font-semibold">1-4</span> của <span class="font-semibold">4</span></p>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 flex items-center justify-center rounded-md text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-md bg-primary text-white font-semibold">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-md text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-50">
+<span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>
