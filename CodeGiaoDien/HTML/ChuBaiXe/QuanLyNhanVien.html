@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quản lý Nhân viên</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#136dec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
+                        "card-light": "#ffffff",
+                        "card-dark": "#1a2431",
+                        "text-light-primary": "#0d131b",
+                        "text-dark-primary": "#f6f7f8",
+                        "text-light-secondary": "#4c6c9a",
+                        "text-dark-secondary": "#a1b1c7",
+                        "border-light": "#cfd9e7",
+                        "border-dark": "#344051",
+                        "interactive-light": "#e7ecf3",
+                        "interactive-dark": "#2d3846"
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-text-light-primary dark:text-text-dark-primary">
+<div class="flex h-screen w-full">
+<aside class="flex w-64 flex-col border-r border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-4">
+<div class="flex items-center gap-3 mb-8">
+<div class="bg-primary text-white rounded-lg p-2">
+<span class="material-symbols-outlined" style="font-size: 24px;">directions_car</span>
+</div>
+<h1 class="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">ParkingSystem</h1>
+</div>
+<div class="flex flex-col justify-between flex-1">
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT cursor-pointer hover:bg-interactive-light dark:hover:bg-interactive-dark text-text-light-secondary dark:text-text-dark-secondary" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT cursor-pointer hover:bg-interactive-light dark:hover:bg-interactive-dark text-text-light-secondary dark:text-text-dark-secondary" href="#">
+<span class="material-symbols-outlined">local_parking</span>
+<p class="text-sm font-medium">Quản lý bãi xe</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
+<p class="text-sm font-bold">Quản lý Nhân viên</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT cursor-pointer hover:bg-interactive-light dark:hover:bg-interactive-dark text-text-light-secondary dark:text-text-dark-secondary" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<p class="text-sm font-medium">Báo cáo</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT cursor-pointer hover:bg-interactive-light dark:hover:bg-interactive-dark text-text-light-secondary dark:text-text-dark-secondary" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium">Cài đặt</p>
+</a>
+</nav>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-8" data-alt="Admin user avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAzKButMjHBWGXpxrnf4niXXvoxXK7dU9q3GLPBgrDP8djZwUfvOSbwTpj4Q6soJxEdjCVg9Jr3kC9mjp8PSvYSiSy9caA0kiyYckvx7MyXii_B6oaRgYyL9fabwCsSFaVjDZ-1dNumx2wndTfcXiDhE_funA2mRmG06AzwJZC_Ciq3TxRIhE6bxXNmvBn8BrnpnvNB_cCMs1zdVhE_GEF6jXCb8y-qY2dsL4N4DqAqC4KJvv390BaTAvJ2eSMWUCeyeQys57le470");'></div>
+<div class="flex flex-col">
+<h1 class="text-text-light-primary dark:text-text-dark-primary text-sm font-medium leading-normal">Admin</h1>
+<p class="text-text-light-secondary dark:text-text-dark-secondary text-xs font-normal leading-normal">admin@parking.com</p>
+</div>
+</div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT cursor-pointer hover:bg-interactive-light dark:hover:bg-interactive-dark text-text-light-secondary dark:text-text-dark-secondary" href="#">
+<span class="material-symbols-outlined">logout</span>
+<p class="text-sm font-medium">Đăng xuất</p>
+</a>
+</div>
+</div>
+</aside>
+<main class="flex-1 overflow-y-auto p-8">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+<div class="flex flex-col gap-1">
+<p class="text-3xl font-bold tracking-tight">Quản lý Nhân viên</p>
+<p class="text-text-light-secondary dark:text-text-dark-secondary text-base font-normal">Thêm mới, chỉnh sửa và quản lý thông tin nhân viên trong hệ thống.</p>
+</div>
+<button class="flex items-center justify-center gap-2 overflow-hidden rounded-DEFAULT h-10 px-4 bg-primary text-white text-sm font-bold leading-normal shadow-sm hover:bg-primary/90">
+<span class="material-symbols-outlined" style="font-size: 20px;">add</span>
+<span class="truncate">Thêm Nhân viên mới</span>
+</button>
+</div>
+<div class="bg-card-light dark:bg-card-dark rounded-xl border border-border-light dark:border-border-dark shadow-sm">
+<div class="flex justify-between items-center gap-4 p-4">
+<div class="flex-1">
+<label class="flex flex-col w-full max-w-sm">
+<div class="flex w-full flex-1 items-stretch rounded-DEFAULT h-10">
+<div class="text-text-light-secondary dark:text-text-dark-secondary flex bg-interactive-light dark:bg-interactive-dark items-center justify-center pl-3 rounded-l-DEFAULT">
+<span class="material-symbols-outlined" style="font-size: 20px;">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-DEFAULT text-sm font-normal text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-primary/50 border-0 bg-interactive-light dark:bg-interactive-dark h-full placeholder:text-text-light-secondary dark:placeholder:text-text-dark-secondary px-2" placeholder="Tìm kiếm nhân viên theo tên hoặc email" value=""/>
+</div>
+</label>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center justify-center gap-2 overflow-hidden rounded-DEFAULT h-10 px-3 bg-card-light dark:bg-card-dark text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium leading-normal border border-border-light dark:border-border-dark hover:bg-interactive-light dark:hover:bg-interactive-dark">
+<span class="material-symbols-outlined" style="font-size: 20px;">filter_list</span>
+<span class="truncate">Lọc</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<div class="min-w-full inline-block align-middle">
+<table class="min-w-full">
+<thead class="bg-background-light dark:bg-background-dark">
+<tr class="border-y border-border-light dark:border-border-dark">
+<th class="px-6 py-3 text-left text-xs font-medium uppercase text-text-light-secondary dark:text-text-dark-secondary" scope="col">Họ và Tên</th>
+<th class="px-6 py-3 text-left text-xs font-medium uppercase text-text-light-secondary dark:text-text-dark-secondary" scope="col">Email</th>
+<th class="px-6 py-3 text-left text-xs font-medium uppercase text-text-light-secondary dark:text-text-dark-secondary" scope="col">Chức vụ</th>
+<th class="px-6 py-3 text-left text-xs font-medium uppercase text-text-light-secondary dark:text-text-dark-secondary" scope="col">Bãi xe</th>
+<th class="px-6 py-3 text-left text-xs font-medium uppercase text-text-light-secondary dark:text-text-dark-secondary" scope="col">Thời gian làm việc</th>
+<th class="px-6 py-3 text-right text-xs font-medium uppercase text-text-light-secondary dark:text-text-dark-secondary" scope="col">Hành động</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-light dark:divide-border-dark">
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-light-primary dark:text-text-dark-primary">Nguyễn Văn A</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-text-light-secondary dark:text-text-dark-secondary">vana@example.com</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-text-light-secondary dark:text-text-dark-secondary">Nhân viên trông xe</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-text-light-secondary dark:text-text-dark-secondary">Bãi xe A - Trung tâm</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-text-light-secondary dark:text-text-dark-secondary">Ca Sáng (7:00 - 15:00)</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<div class="flex justify-end gap-2">
+<button class="p-2 rounded-DEFAULT hover:bg-interactive-light dark:hover:bg-interactive-dark text-text-light-secondary dark:text-text-dark-secondary"><span class="material-symbols-outlined" style="font-size: 20px;">edit</span></button>
+<button class="p-2 rounded-DEFAULT hover:bg-interactive-light dark:hover:bg-interactive-dark text-red-500"><span class="material-symbols-outlined" style="font-size: 20px;">delete</span></button>
+</div>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-light-primary dark:text-text-dark-primary">Trần Thị B</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-text-light-secondary dark:text-text-dark-secondary">thib@example.com</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-text-light-secondary dark:text-text-dark-secondary">Quản lý ca</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-text-light-secondary dark:text-text-dark-secondary">Bãi xe B - Sân bay</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-text-light-secondary dark:text-text-dark-secondary">Hành chính (8:00 - 17:00)</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<div class="flex justify-end gap-2">
+<button class="p-2 rounded-DEFAULT hover:bg-interactive-light dark:hover:bg-interactive-dark text-text-light-secondary dark:text-text-dark-secondary"><span class="material-symbols-outlined" style="font-size: 20px;">edit</span></button>
+<button class="p-2 rounded-DEFAULT hover:bg-interactive-light dark:hover:bg-interactive-dark text-red-500"><span class="material-symbols-outlined" style="font-size: 20px;">delete</span></button>
+</div>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-light-primary dark:text-text-dark-primary">Lê Văn C</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-text-light-secondary dark:text-text-dark-secondary">vanc@example.com</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-text-light-secondary dark:text-text-dark-secondary">Nhân viên thu phí</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-text-light-secondary dark:text-text-dark-secondary">Bãi xe A - Trung tâm</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-text-light-secondary dark:text-text-dark-secondary">Ca Tối (15:00 - 23:00)</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<div class="flex justify-end gap-2">
+<button class="p-2 rounded-DEFAULT hover:bg-interactive-light dark:hover:bg-interactive-dark text-text-light-secondary dark:text-text-dark-secondary"><span class="material-symbols-outlined" style="font-size: 20px;">edit</span></button>
+<button class="p-2 rounded-DEFAULT hover:bg-interactive-light dark:hover:bg-interactive-dark text-red-500"><span class="material-symbols-outlined" style="font-size: 20px;">delete</span></button>
+</div>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-light-primary dark:text-text-dark-primary">Phạm Thị D</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-text-light-secondary dark:text-text-dark-secondary">thid@example.com</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-text-light-secondary dark:text-text-dark-secondary">Nhân viên trông xe</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-text-light-secondary dark:text-text-dark-secondary">Bãi xe C - Bệnh viện</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-text-light-secondary dark:text-text-dark-secondary">Ca Sáng (7:00 - 15:00)</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<div class="flex justify-end gap-2">
+<button class="p-2 rounded-DEFAULT hover:bg-interactive-light dark:hover:bg-interactive-dark text-text-light-secondary dark:text-text-dark-secondary"><span class="material-symbols-outlined" style="font-size: 20px;">edit</span></button>
+<button class="p-2 rounded-DEFAULT hover:bg-interactive-light dark:hover:bg-interactive-dark text-red-500"><span class="material-symbols-outlined" style="font-size: 20px;">delete</span></button>
+</div>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-light-primary dark:text-text-dark-primary">Hoàng Văn E</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-text-light-secondary dark:text-text-dark-secondary">vane@example.com</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-text-light-secondary dark:text-text-dark-secondary">Quản lý ca</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-text-light-secondary dark:text-text-dark-secondary">Bãi xe B - Sân bay</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-text-light-secondary dark:text-text-dark-secondary">Hành chính (8:00 - 17:00)</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<div class="flex justify-end gap-2">
+<button class="p-2 rounded-DEFAULT hover:bg-interactive-light dark:hover:bg-interactive-dark text-text-light-secondary dark:text-text-dark-secondary"><span class="material-symbols-outlined" style="font-size: 20px;">edit</span></button>
+<button class="p-2 rounded-DEFAULT hover:bg-interactive-light dark:hover:bg-interactive-dark text-red-500"><span class="material-symbols-outlined" style="font-size: 20px;">delete</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="flex justify-between items-center p-4 border-t border-border-light dark:border-border-dark">
+<span class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Hiển thị <span class="font-semibold">1-5</span> trên <span class="font-semibold">25</span> kết quả</span>
+<div class="flex items-center gap-2">
+<button class="flex items-center justify-center rounded-DEFAULT h-8 w-8 border border-border-light dark:border-border-dark hover:bg-interactive-light dark:hover:bg-interactive-dark disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined" style="font-size: 20px;">chevron_left</span>
+</button>
+<button class="flex items-center justify-center rounded-DEFAULT h-8 w-8 border border-border-light dark:border-border-dark hover:bg-interactive-light dark:hover:bg-interactive-dark">
+<span class="material-symbols-outlined" style="font-size: 20px;">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
