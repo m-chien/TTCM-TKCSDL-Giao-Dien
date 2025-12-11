@@ -8,7 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap"
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0"
-        rel="stylesheet" /> <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
     <script>
         tailwind.config = {
             darkMode: "class",
@@ -47,21 +48,31 @@
                 },
             },
         };
+        function toggleParkingMenu() {
+            const submenu = document.getElementById("parkingSubmenu");
+            const arrow = document.getElementById("arrowParking");
+
+            submenu.classList.toggle("hidden");
+            arrow.classList.toggle("rotate-180");
+        }
     </script>
     <style>
         body {
             font-family: 'Be Vietnam Pro', sans-serif;
-            font-size: 0.875rem; /* Giảm font size tổng thể */
+            font-size: 0.875rem;
+            /* Giảm font size tổng thể */
         }
 
         .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20; /* Kích thước icon nhỏ hơn */
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+            /* Kích thước icon nhỏ hơn */
             vertical-align: middle;
         }
 
         /* Tùy chỉnh thanh cuộn cho chế độ tối */
         .overflow-y-scroll-custom::-webkit-scrollbar {
-            width: 6px; /* Thanh cuộn mỏng hơn */
+            width: 6px;
+            /* Thanh cuộn mỏng hơn */
         }
 
         .overflow-y-scroll-custom::-webkit-scrollbar-thumb {
@@ -86,7 +97,7 @@
 
 <body class="bg-background-light dark:bg-background-dark font-display text-sm">
     <div class="flex h-screen">
-       <aside
+        <aside
             class="flex w-64 flex-col border-r border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark">
             <div class="flex h-full flex-col justify-between p-4">
                 <div class="flex flex-col gap-6">
@@ -97,32 +108,67 @@
                         <h1 class="text-lg font-bold">Parking Admin</h1>
                     </div>
                     <nav class="flex flex-col gap-2">
-                        <a class="flex items-center gap-3 rounded-lg  px-3 py-2.5  hover:bg-primary/10 dark:hover:bg-primary/20" href="#">
+                        <a class="flex items-center gap-3 rounded-lg  px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
+                            href="#">
                             <span class="material-symbols-outlined">dashboard</span>
                             <p class="text-sm font-semibold">Tổng quan</p>
                         </a>
-                        <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
-                            href="./CapNhatBaiXe.html">
-                            <span class="material-symbols-outlined">garage</span>
-                            <p class="text-sm font-medium">Quản lý bãi xe</p>
-                        </a>
+                        <!-- MENU CHA: Quản lý bãi xe -->
+                        <div class="flex flex-col">
+                            <button onclick="toggleParkingMenu()"
+                                class="flex items-center gap-3 rounded-lg px-3 py-2.5  hover:bg-primary/10 dark:hover:bg-primary/20">
+                                <div class="flex items-center gap-3">
+                                    <span class="material-symbols-outlined">garage</span>
+                                    <p class="text-sm font-medium">Quản lý bãi xe</p>
+                                </div>
+                                <span id="arrowParking"
+                                    class="material-symbols-outlined transition-transform">expand_more</span>
+                            </button>
+
+                            <!-- MENU CON -->
+                            <div id="parkingSubmenu" class="ml-10 mt-1 flex flex-col gap-1 hidden">
+                                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                                    href="CapNhatBaiXe.html">
+                                    <span class="material-symbols-outlined text-base">local_offer</span>
+                                    Quản lý bãi xe
+                                </a>
+                                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                                    href="CapNhapGia.html">
+                                    <span class="material-symbols-outlined text-base">paid</span>
+                                    Quản lý giá
+                                </a>
+
+                                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                                    href="CapNhatMaGiamGia.html">
+                                    <span class="material-symbols-outlined text-base">local_offer</span>
+                                    Quản lý khuyến mãi
+                                </a>
+
+                                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                                    href="QuanLyTheThang.html">
+                                    <span class="material-symbols-outlined text-base">local_offer</span>
+                                    Quản lý thẻ xe tháng
+                                </a>
+                            </div>
+                        </div>
+
                         <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
                             href="./QuanLyNhanVien.html">
                             <span class="material-symbols-outlined">groups</span>
                             <p class="text-sm font-medium">Quản lý nhân viên</p>
                         </a>
-                          <a class="flex items-center gap-3 rounded-lg px-3 py-2.5  hover:bg-primary/10 dark:hover:bg-primary/20"
+                        <a class="flex items-center gap-3 rounded-lg px-3 py-2.5  hover:bg-primary/10 dark:hover:bg-primary/20"
                             href="./QuanLyCaLam.html">
                             <span class="material-symbols-outlined">shift</span>
                             <p class="text-sm font-medium">Quản lý ca làm</p>
                         </a>
-                         <a class="flex items-center gap-3 rounded-lg px-3 py-2.5  hover:bg-primary/10 dark:hover:bg-primary/20"
-                            href="./QuanLyLichLamViec.html">
+                        <a class="flex items-center gap-3 rounded-lg px-4 py-2.5  dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700  "
+                            href="QuanLyLichLamViec.html">
                             <span class="material-symbols-outlined">calendar_month</span>
                             <p class="text-sm font-medium">Lịch làm việc</p>
                         </a>
-                         <a class="flex items-center gap-3 rounded-lg px-3 py-2.5  text-primary bg-primary/20"
-                            href="#">
+                        <a class="flex items-center gap-3 px-4 py-2.5 rounded text-primary bg-primary/10 transition-colors "
+                            href="./QuanLyKhuVuc_ChoDau.html">
                             <span class="material-symbols-outlined">list</span>
                             <p class="text-sm font-medium">Danh mục chỗ đậu</p>
                         </a>
@@ -131,6 +177,12 @@
                             <span class="material-symbols-outlined">assessment</span>
                             <p class="text-sm font-medium">Thống kê</p>
                         </a>
+                         <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                        href="QuanLySuCo.html">
+                        <span class="material-icons-outlined text-lg">bar_chart</span>
+                        <span class="font-bold">Quản lý sự cố</span>
+                    </a>
                         <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
                             href="#">
                             <span class="material-symbols-outlined">settings</span>
@@ -163,13 +215,18 @@
                         class="relative p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-text-light-secondary dark:text-text-dark-secondary transition-colors">
                         <span class="material-symbols-outlined text-xl">notifications</span>
                         <span
-                            class="absolute top-0.5 right-0.5 block h-2 w-2 rounded-full bg-red-500 ring-1 ring-surface-light dark:ring-surface-dark"></span> </button>
+                            class="absolute top-0.5 right-0.5 block h-2 w-2 rounded-full bg-red-500 ring-1 ring-surface-light dark:ring-surface-dark"></span>
+                    </button>
                     <div
                         class="flex items-center space-x-1 cursor-pointer p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                         <img alt="Avatar of TinhBaiXe" class="h-8 w-8 rounded-full object-cover"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBc21mxH26fv-wDdQf5VeCcF3UZ5ikPIOoWb1o0C9w-SGZbzBHX7rodtGeIldrS6ftygPxH6W_WuCDvHGyI-D4Ey-aVOHanWhvfEY7i66ZrgN-1fc10ezaoikzhC3ytmq_RK1PJBwDmGzf8_f2zIney0UU5Rf7RFr2rLI9IyK5YTZeftVL_pHumxGOrJCkrQNIgNlJ7boVtG1Qnw_4cUuEvRbZdKMEbwrbCX-knD4WwU4RDcX6B8oI10hrvJggp63NZjIgmrF5mj4Y" /> <div>
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBc21mxH26fv-wDdQf5VeCcF3UZ5ikPIOoWb1o0C9w-SGZbzBHX7rodtGeIldrS6ftygPxH6W_WuCDvHGyI-D4Ey-aVOHanWhvfEY7i66ZrgN-1fc10ezaoikzhC3ytmq_RK1PJBwDmGzf8_f2zIney0UU5Rf7RFr2rLI9IyK5YTZeftVL_pHumxGOrJCkrQNIgNlJ7boVtG1Qnw_4cUuEvRbZdKMEbwrbCX-knD4WwU4RDcX6B8oI10hrvJggp63NZjIgmrF5mj4Y" />
+                        <div>
                             <p class="font-semibold text-xs text-text-light-primary dark:text-text-dark-primary">
-                                TinhBaiXe</p> <p class="text-[0.65rem] text-text-light-secondary dark:text-text-dark-secondary">Chủ bãi xe</p> </div>
+                                TinhBaiXe</p>
+                            <p class="text-[0.65rem] text-text-light-secondary dark:text-text-dark-secondary">Chủ bãi xe
+                            </p>
+                        </div>
                         <span class="material-symbols-outlined text-sm ml-1">expand_more</span>
                     </div>
                 </div>
@@ -178,16 +235,24 @@
             <main class="flex-1 p-4 grid grid-cols-1 lg:grid-cols-12 gap-4 overflow-y-auto relative">
 
                 <div
-                    class="lg:col-span-4 bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-custom flex flex-col h-full"> <div class="flex justify-between items-center mb-3"> <h2
-                            class="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">Khu Vực: Bãi Đỗ QT</h2> </div>
+                    class="lg:col-span-4 bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-custom flex flex-col h-full">
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">Khu Vực: Bãi
+                            Đỗ QT</h2>
+                    </div>
 
                     <button id="openAreaModalBtn"
-                        class="w-full bg-secondary text-white py-2.5 px-3 rounded-lg flex items-center justify-center font-semibold hover:bg-blue-600 transition-all shadow-md mb-4 text-sm"> <span class="material-symbols-outlined mr-2 text-base">add_circle</span>
+                        class="w-full bg-secondary text-white py-2.5 px-3 rounded-lg flex items-center justify-center font-semibold hover:bg-blue-600 transition-all shadow-md mb-4 text-sm">
+                        <span class="material-symbols-outlined mr-2 text-base">add_circle</span>
                         Tạo Khu Vực Mới
                     </button>
 
-                    <div class="flex-1 space-y-3 overflow-y-auto overflow-y-scroll-custom pr-2"> <div
-                            class="bg-primary bg-opacity-10 dark:bg-primary/20 p-3 rounded-lg border-2 border-primary shadow-lg cursor-pointer transition-all hover:shadow-xl"> <div class="flex justify-between items-start mb-2"> <h3 class="font-bold text-base text-primary dark:text-white flex items-center"> <span class="material-symbols-outlined mr-2 text-xl">garage</span>
+                    <div class="flex-1 space-y-3 overflow-y-auto overflow-y-scroll-custom pr-2">
+                        <div
+                            class="bg-primary bg-opacity-10 dark:bg-primary/20 p-3 rounded-lg border-2 border-primary shadow-lg cursor-pointer transition-all hover:shadow-xl">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-bold text-base text-primary dark:text-white flex items-center"> <span
+                                        class="material-symbols-outlined mr-2 text-xl">garage</span>
                                     Khu vực A - Tầng hầm
                                 </h3>
                                 <div class="flex space-x-1 opacity-100"> <button
@@ -200,7 +265,9 @@
                             </div>
                             <img alt="Underground parking area with many cars"
                                 class="w-full h-24 object-cover rounded-md mb-2 border border-primary/50"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0RJmN0dStqJ8CLthTkblvKTSCM_POSkH4Peox7QbKIYq6BE_iV5OvP7docbTPhb9IM5djcdr8VASfXIALRXhw0ysV29ODoTWbkNZhz3-X46rRmlZ-604Qs_9hlcv_FdPcO09CiZrGPfbq463iE7ppxK0iVdV7TkigjrAaa-4LgTm9aqn8KnjXcrnDlFvznXwtjURKTTjZ4TbJIRYMTM5XaIVkIcdGZhg95PGMGtXvT71r_B6M5LkMnHECOXI72R5pBF0e8X0L7hs" /> <div class="text-xs text-text-light-secondary dark:text-text-dark-secondary"> <p class="flex justify-between"><span>**Tổng số chỗ:**</span> <span
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0RJmN0dStqJ8CLthTkblvKTSCM_POSkH4Peox7QbKIYq6BE_iV5OvP7docbTPhb9IM5djcdr8VASfXIALRXhw0ysV29ODoTWbkNZhz3-X46rRmlZ-604Qs_9hlcv_FdPcO09CiZrGPfbq463iE7ppxK0iVdV7TkigjrAaa-4LgTm9aqn8KnjXcrnDlFvznXwtjURKTTjZ4TbJIRYMTM5XaIVkIcdGZhg95PGMGtXvT71r_B6M5LkMnHECOXI72R5pBF0e8X0L7hs" />
+                            <div class="text-xs text-text-light-secondary dark:text-text-dark-secondary">
+                                <p class="flex justify-between"><span>**Tổng số chỗ:**</span> <span
                                         class="font-medium">120</span></p>
                                 <p class="flex justify-between"><span>**Chỗ trống:**</span> <span
                                         class="font-medium text-green-600 dark:text-green-400">45</span></p>
@@ -294,17 +361,22 @@
                 </div>
 
                 <div
-                    class="lg:col-span-8 bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-custom flex flex-col h-full"> <div
-                        class="flex justify-between items-center mb-4 border-b border-border-light dark:border-border-dark pb-3"> <h2
-                            class="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">Bản Đồ Chỗ Đậu: Khu vực A - Tầng hầm</h2> <div class="flex items-center space-x-3">
+                    class="lg:col-span-8 bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-custom flex flex-col h-full">
+                    <div
+                        class="flex justify-between items-center mb-4 border-b border-border-light dark:border-border-dark pb-3">
+                        <h2 class="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">Bản Đồ Chỗ
+                            Đậu: Khu vực A - Tầng hầm</h2>
+                        <div class="flex items-center space-x-3">
                             <button id="openSpotModalBtn"
-                                class="bg-primary text-white py-2 px-3 rounded-lg flex items-center justify-center font-semibold hover:bg-green-600 transition-colors text-xs shadow-md"> <span class="material-symbols-outlined mr-1.5 text-sm">add_box</span>
+                                class="bg-primary text-white py-2 px-3 rounded-lg flex items-center justify-center font-semibold hover:bg-green-600 transition-colors text-xs shadow-md">
+                                <span class="material-symbols-outlined mr-1.5 text-sm">add_box</span>
                                 Thêm Chỗ Đỗ
                             </button>
                         </div>
                     </div>
 
-                    <div class="flex flex-wrap gap-x-4 gap-y-1 mb-4 text-xs"> <div
+                    <div class="flex flex-wrap gap-x-4 gap-y-1 mb-4 text-xs">
+                        <div
                             class="flex items-center space-x-1.5 text-text-light-secondary dark:text-text-dark-secondary bg-background-light dark:bg-surface-dark/50 p-1.5 rounded-md">
                             <span class="w-3 h-3 bg-status-available rounded-sm"></span>
                             <span class="font-medium">Trống</span>
@@ -327,19 +399,24 @@
                     </div>
 
                     <div
-                        class="flex-1 overflow-auto overflow-y-scroll-custom p-3 border border-dashed border-border-light dark:border-border-dark rounded-xl"> <div class="grid grid-cols-8 gap-2 auto-rows-max"> <div title="A01" id="openEditSpotModalBtn"
+                        class="flex-1 overflow-auto overflow-y-scroll-custom p-3 border border-dashed border-border-light dark:border-border-dark rounded-xl">
+                        <div class="grid grid-cols-8 gap-2 auto-rows-max">
+                            <div title="A01" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
-                                <span class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
+                                <span
+                                    class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A01</span>
                             </div>
                             <div title="A02" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
-                                <span class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
+                                <span
+                                    class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A02</span>
                             </div>
                             <div title="A03" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
-                                <span class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
+                                <span
+                                    class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A03</span>
                             </div>
                             <div
@@ -366,13 +443,15 @@
                             </div>
                             <div title="A06" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
-                                <span class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
+                                <span
+                                    class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A06</span>
                             </div>
 
                             <div title="A07" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
-                                <span class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
+                                <span
+                                    class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A07</span>
                             </div>
                             <div title="A08: Đã Đậu" id="openEditSpotModalBtn"
@@ -386,7 +465,8 @@
                             </div>
                             <div title="A09" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
-                                <span class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
+                                <span
+                                    class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A09</span>
                             </div>
                             <div
@@ -394,7 +474,8 @@
                                 Lối đi</div>
                             <div title="A10" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
-                                <span class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
+                                <span
+                                    class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A10</span>
                             </div>
                             <div title="A11: Đã Đậu" id="openEditSpotModalBtn"
@@ -408,7 +489,8 @@
                             </div>
                             <div title="A12" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
-                                <span class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
+                                <span
+                                    class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A12</span>
                             </div>
 
@@ -432,7 +514,8 @@
                             </div>
                             <div title="A15" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
-                                <span class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
+                                <span
+                                    class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A15</span>
                             </div>
                             <div
@@ -440,12 +523,14 @@
                                 Lối đi</div>
                             <div title="A16" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
-                                <span class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
+                                <span
+                                    class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A16</span>
                             </div>
                             <div title="A17" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
-                                <span class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
+                                <span
+                                    class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A17</span>
                             </div>
                             <div title="A18: Đã Đậu" id="openEditSpotModalBtn"
@@ -465,7 +550,8 @@
 
                             <div title="A19" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
-                                <span class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
+                                <span
+                                    class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A19</span>
                             </div>
                             <div
@@ -473,7 +559,8 @@
                                 Cột/Thang máy</div>
                             <div title="A20" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
-                                <span class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
+                                <span
+                                    class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A20</span>
                             </div>
                             <div
@@ -490,7 +577,8 @@
                             </div>
                             <div title="A22" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
-                                <span class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
+                                <span
+                                    class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A22</span>
                             </div>
                             <div title="A23: Đã Đậu" id="openEditSpotModalBtn"
@@ -529,7 +617,8 @@
                                 Lối đi</div>
                             <div title="A26" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
-                                <span class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
+                                <span
+                                    class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A26</span>
                             </div>
                             <div title="A27: Đã Đậu" id="openEditSpotModalBtn"
@@ -547,7 +636,8 @@
 
                             <div title="A28" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
-                                <span class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
+                                <span
+                                    class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A28</span>
                             </div>
                             <div title="A29: Đã Đậu" id="openEditSpotModalBtn"
@@ -573,8 +663,7 @@
                                 Lối đi</div>
                             <div title="A31: Hỏng" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-damaged/30 border-2 border-status-damaged rounded-md p-1 cursor-not-allowed transition-all aspect-square group">
-                                <span
-                                    class="material-symbols-outlined text-2xl text-status-damaged">construction</span>
+                                <span class="material-symbols-outlined text-2xl text-status-damaged">construction</span>
                                 <span class="text-[0.6rem] font-semibold text-status-damaged mt-0.5">A31 (Hỏng)</span>
                             </div>
                             <div title="A32: Đã Đậu" id="openEditSpotModalBtn"
@@ -592,7 +681,8 @@
 
                             <div title="A33" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
-                                <span class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
+                                <span
+                                    class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A33</span>
                             </div>
                             <div
@@ -600,7 +690,8 @@
                             </div>
                             <div title="A34" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
-                                <span class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
+                                <span
+                                    class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A34</span>
                             </div>
                             <div
@@ -617,12 +708,14 @@
                             </div>
                             <div title="A36" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
-                                <span class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
+                                <span
+                                    class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A36</span>
                             </div>
                             <div title="A37" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
-                                <span class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
+                                <span
+                                    class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A37</span>
                             </div>
                         </div>
@@ -673,7 +766,8 @@
                                 <div
                                     class="relative border-2 border-dashed border-border-light dark:border-border-dark p-4 rounded-lg flex flex-col items-center justify-center">
                                     <input type="file" id="areaImage" class="absolute inset-0 opacity-0 cursor-pointer">
-                                    <span class="material-symbols-outlined text-4xl text-text-light-secondary/50">upload_file</span>
+                                    <span
+                                        class="material-symbols-outlined text-4xl text-text-light-secondary/50">upload_file</span>
                                     <p class="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-1">
                                         Kéo thả hoặc **Nhấp để tải lên** (Tối đa 2MB)</p>
                                     <img id="imagePreview"
@@ -682,9 +776,10 @@
                                         class="mt-3 h-24 w-auto object-cover rounded-md border border-border-light dark:border-border-dark">
                                 </div>
                             </div>
-                              <div>
+                            <div>
                                 <label for="areaName"
-                                    class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">Sức chứa <span class="text-red-500">*</span></label>
+                                    class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">Sức
+                                    chứa <span class="text-red-500">*</span></label>
                                 <input type="text" id="areaName" name="areaName" value="120"
                                     class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-background-light dark:bg-surface-dark/50 text-text-light-primary dark:text-text-dark-primary focus:border-secondary focus:ring-secondary transition-colors"
                                     placeholder="Ví dụ: Khu vực Tầng hầm P1" required>
@@ -738,12 +833,10 @@
                                 <label for="spotID"
                                     class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">Tên/ID
                                     Chỗ Đỗ <span class="text-red-500">*</span></label>
-                                <input type="text" id="spotID" name="spotID" value="A01" disabled 
-                                    class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg 
+                                <input type="text" id="spotID" name="spotID" value="A01" disabled class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg 
                                         bg-background-light dark:bg-surface-dark/50 text-text-light-primary 
                                         dark:text-text-dark-primary focus:border-primary focus:ring-primary 
-                                        transition-colors opacity-75 cursor-not-allowed"
-                                    required>
+                                        transition-colors opacity-75 cursor-not-allowed" required>
                             </div>
 
                             <div>
@@ -765,7 +858,8 @@
                                     Nhật Trạng Thái</label>
                                 <select id="spotStatus" name="spotStatus"
                                     class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-background-light dark:bg-surface-dark/50 text-text-light-primary dark:text-text-dark-primary focus:border-primary focus:ring-primary transition-colors">
-                                    <option value="available" class="text-status-available" selected>Trống (Available)</option>
+                                    <option value="available" class="text-status-available" selected>Trống (Available)
+                                    </option>
                                     <option value="occupied" class="text-status-occupied">Đã đậu (Occupied)</option>
                                     <option value="reserved" class="text-status-reserved">Đặt trước (Reserved)</option>
                                     <option value="damaged" class="text-status-damaged">Hỏng/Bảo trì (Damaged)</option>
@@ -776,7 +870,8 @@
                                 <input id="isChargable" type="checkbox"
                                     class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="isChargable"
-                                    class="ml-2 text-sm font-medium text-text-light-primary dark:text-text-dark-primary">Thông báo chỉnh sửa</label>
+                                    class="ml-2 text-sm font-medium text-text-light-primary dark:text-text-dark-primary">Thông
+                                    báo chỉnh sửa</label>
                             </div>
 
                         </form>

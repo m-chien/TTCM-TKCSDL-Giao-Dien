@@ -48,6 +48,13 @@
                 },
             },
         };
+        function toggleParkingMenu() {
+            const submenu = document.getElementById("parkingSubmenu");
+            const arrow = document.getElementById("arrowParking");
+
+            submenu.classList.toggle("hidden");
+            arrow.classList.toggle("rotate-180");
+        }
     </script>
     <style>
         body {
@@ -98,26 +105,66 @@
                         <h1 class="text-lg font-bold">Parking Admin</h1>
                     </div>
                     <nav class="flex flex-col gap-2">
-                        <a class="flex items-center gap-3 rounded-lg  px-3 py-2.5  hover:bg-primary/10 dark:hover:bg-primary/20" href="#">
+                        <a class="flex items-center gap-3 rounded-lg  px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
+                            href="#">
                             <span class="material-symbols-outlined">dashboard</span>
                             <p class="text-sm font-semibold">Tổng quan</p>
                         </a>
-                        <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
-                            href="./CapNhatBaiXe.html">
-                            <span class="material-symbols-outlined">garage</span>
-                            <p class="text-sm font-medium">Quản lý bãi xe</p>
+                        <!-- MENU CHA: Quản lý bãi xe -->
+                        <div class="flex flex-col">
+                            <button onclick="toggleParkingMenu()"
+                                class="flex items-center gap-3 rounded-lg px-3 py-2.5  hover:bg-primary/10 dark:hover:bg-primary/20">
+                                <div class="flex items-center gap-3">
+                                    <span class="material-symbols-outlined">garage</span>
+                                    <p class="text-sm font-medium">Quản lý bãi xe</p>
+                                </div>
+                                <span id="arrowParking"
+                                    class="material-symbols-outlined transition-transform">expand_more</span>
+                            </button>
+
+                            <!-- MENU CON -->
+                            <div id="parkingSubmenu" class="ml-10 mt-1 flex flex-col gap-1 hidden">
+                                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                                    href="CapNhatBaiXe.html">
+                                    <span class="material-symbols-outlined text-base">local_offer</span>
+                                    Quản lý bãi xe
+                                </a>
+                                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                                    href="CapNhapGia.html">
+                                    <span class="material-symbols-outlined text-base">paid</span>
+                                    Quản lý giá
+                                </a>
+
+                                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                                    href="CapNhatMaGiamGia.html">
+                                    <span class="material-symbols-outlined text-base">local_offer</span>
+                                    Quản lý khuyến mãi
+                                </a>
+
+                               <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                            href="QuanLyTheThang.html">
+                            <span class="material-symbols-outlined text-base">local_offer</span>
+                            Quản lý thẻ xe tháng
                         </a>
+                            </div>
+                        </div>
+
                         <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
                             href="./QuanLyNhanVien.html">
                             <span class="material-symbols-outlined">groups</span>
                             <p class="text-sm font-medium">Quản lý nhân viên</p>
                         </a>
-                         <a class="flex items-center gap-3 rounded-lg px-3 py-2.5  text-primary bg-primary/20"
-                            href="./QuanLyLichLamViec.html">
+                        <a class="flex items-center gap-3 rounded-lg px-3 py-2.5  hover:bg-primary/10 dark:hover:bg-primary/20"
+                            href="./QuanLyCaLam.html">
+                            <span class="material-symbols-outlined">shift</span>
+                            <p class="text-sm font-medium">Quản lý ca làm</p>
+                        </a>
+                        <a class="flex items-center gap-3 px-4 py-2.5 rounded text-primary bg-primary/10 transition-colors "
+                            href="./QuanLyKhuVuc_ChoDau.html">
                             <span class="material-symbols-outlined">calendar_month</span>
                             <p class="text-sm font-medium">Lịch làm việc</p>
                         </a>
-                         <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
+                        <a class="flex items-center gap-3 rounded-lg px-4 py-2.5  dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700  "
                             href="./QuanLyKhuVuc_ChoDau.html">
                             <span class="material-symbols-outlined">list</span>
                             <p class="text-sm font-medium">Danh mục chỗ đậu</p>
@@ -127,6 +174,12 @@
                             <span class="material-symbols-outlined">assessment</span>
                             <p class="text-sm font-medium">Thống kê</p>
                         </a>
+                         <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                        href="QuanLySuCo.html">
+                        <span class="material-icons-outlined text-lg">bar_chart</span>
+                        <span class="font-bold">Quản lý sự cố</span>
+                    </a>
                         <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
                             href="#">
                             <span class="material-symbols-outlined">settings</span>
@@ -170,7 +223,8 @@
                         <div>
                             <p class="font-semibold text-xs text-text-light-primary dark:text-text-dark-primary">
                                 TinhBaiXe</p>
-                            <p class="text-[0.65rem] text-text-light-secondary dark:text-text-dark-secondary">Chủ bãi xe</p>
+                            <p class="text-[0.65rem] text-text-light-secondary dark:text-text-dark-secondary">Chủ bãi xe
+                            </p>
                         </div>
                         <span class="material-symbols-outlined text-sm ml-1">expand_more</span>
                     </div>
@@ -179,8 +233,10 @@
 
             <main class="flex-1 p-4 overflow-y-auto relative">
                 <div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-custom h-full flex flex-col">
-                    <div class="flex justify-between items-center mb-5 border-b border-border-light dark:border-border-dark pb-4">
-                        <h2 class="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary flex items-center">
+                    <div
+                        class="flex justify-between items-center mb-5 border-b border-border-light dark:border-border-dark pb-4">
+                        <h2
+                            class="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary flex items-center">
                             <span class="material-symbols-outlined mr-2 text-2xl text-secondary">calendar_today</span>
                             Quản lý Lịch Làm Việc
                         </h2>
@@ -200,7 +256,7 @@
                             <option value="">Lọc theo Bãi Đỗ</option>
                             <option value="A">Bãi đỗ QT - Tầng hầm</option>
                             <option value="B1">Bãi đỗ MC - Xếp tầng</option>
-                            <option value="C">Bãi  đồ CH - Ngoài trời</option>
+                            <option value="C">Bãi đồ CH - Ngoài trời</option>
                         </select>
                         <select
                             class="px-3 py-1.5 border border-border-light dark:border-border-dark rounded-lg bg-background-light dark:bg-surface-dark/50 text-text-light-primary dark:text-text-dark-primary text-sm">
@@ -229,7 +285,7 @@
                                     <th
                                         class="px-4 py-2 text-left text-xs font-semibold text-text-light-secondary dark:text-text-dark-secondary uppercase tracking-wider">
                                         Ngày bắt đầu</th>
-                                     <th
+                                    <th
                                         class="px-4 py-2 text-left text-xs font-semibold text-text-light-secondary dark:text-text-dark-secondary uppercase tracking-wider">
                                         Ngày kết thúc</th>
                                     <th
@@ -252,14 +308,16 @@
                                     <td class="px-4 py-3 whitespace-nowrap text-sm font-medium">101</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm">Nguyễn Văn A</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm">10/11/2025</td>
-                                      <td class="px-4 py-3 whitespace-nowrap text-sm">10/12/2025</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm">10/12/2025</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm">Ca Sáng (7:00-11:00)</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm">Bãi đỗ QT</td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-sm  text-text-light-primary dark:text-text-dark-primary">
+                                    <td
+                                        class="px-4 py-3 whitespace-nowrap text-sm  text-text-light-primary dark:text-text-dark-primary">
                                         30/30 Ngày
                                     </td>
                                     <td class="px-4 py-3 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-status-success/20 text-status-success">
+                                        <span
+                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-status-success/20 text-status-success">
                                             Hoàn thành
                                         </span>
                                     </td>
@@ -272,14 +330,16 @@
                                     <td class="px-4 py-3 whitespace-nowrap text-sm font-medium">102</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm">Trần Thị B</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm">10/12/2025</td>
-                                     <td class="px-4 py-3 whitespace-nowrap text-sm">10/01/2026</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm">10/01/2026</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm">Ca Chiều (13:00-17:00)</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm">Bãi đỗ MC</td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-sm  text-text-light-primary dark:text-text-dark-primary">
+                                    <td
+                                        class="px-4 py-3 whitespace-nowrap text-sm  text-text-light-primary dark:text-text-dark-primary">
                                         27/30 Ngày
                                     </td>
                                     <td class="px-4 py-3 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-status-warning/20 text-status-warning">
+                                        <span
+                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-status-warning/20 text-status-warning">
                                             Đang thực hiện
                                         </span>
                                     </td>
@@ -292,14 +352,16 @@
                                     <td class="px-4 py-3 whitespace-nowrap text-sm font-medium">103</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm">Phạm Văn C</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm">11/12/2025</td>
-                                     <td class="px-4 py-3 whitespace-nowrap text-sm">11/01/2026</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm">11/01/2026</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm">Ca Tối (17:00-22:00)</td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-sm">Bãi  đồ CH</td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-text-light-primary dark:text-text-dark-primary">
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm">Bãi đồ CH</td>
+                                    <td
+                                        class="px-4 py-3 whitespace-nowrap text-sm text-text-light-primary dark:text-text-dark-primary">
                                         29/30 Ngày
                                     </td>
                                     <td class="px-4 py-3 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-status-info/20 text-status-info">
+                                        <span
+                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-status-info/20 text-status-info">
                                             Tạm ngưng
                                         </span>
                                     </td>
@@ -312,14 +374,16 @@
                                     <td class="px-4 py-3 whitespace-nowrap text-sm font-medium">104</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm">Lê Thị D</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm">09/12/2025</td>
-                                     <td class="px-4 py-3 whitespace-nowrap text-sm">09/01/2026</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm">09/01/2026</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm">Ca Sáng (7:00-11:00)</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm">Bãi đỗ QT</td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-sm  text-text-light-primary dark:text-text-dark-primary">
+                                    <td
+                                        class="px-4 py-3 whitespace-nowrap text-sm  text-text-light-primary dark:text-text-dark-primary">
                                         28/30 Ngày
                                     </td>
                                     <td class="px-4 py-3 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-status-danger/20 text-status-danger">
+                                        <span
+                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-status-danger/20 text-status-danger">
                                             Đã kết thúc
                                         </span>
                                     </td>
@@ -328,7 +392,7 @@
                                                 class="material-symbols-outlined text-base">edit</span></button>
                                     </td>
                                 </tr>
-                                </tbody>
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -341,7 +405,8 @@
                             class="p-5 border-b border-border-light dark:border-border-dark flex justify-between items-center">
                             <h3 id="scheduleModalTitle"
                                 class="text-xl font-bold text-text-light-primary dark:text-text-dark-primary flex items-center">
-                                <span class="material-symbols-outlined mr-2 text-2xl text-secondary">calendar_add_on</span>
+                                <span
+                                    class="material-symbols-outlined mr-2 text-2xl text-secondary">calendar_add_on</span>
                                 Phân Công Lịch Làm Việc
                             </h3>
                             <button id="closeScheduleModalBtn"
@@ -443,7 +508,8 @@
                                     class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">Trạng
                                     Thái Phân Công</label>
                                 <select id="scheduleStatus" name="TrangThai"
-                                    class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-background-light dark:bg-surface-dark/50 text-text-light-primary dark:text-text-dark-primary focus:border-secondary focus:ring-secondary transition-colors" required>
+                                    class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-background-light dark:bg-surface-dark/50 text-text-light-primary dark:text-text-dark-primary focus:border-secondary focus:ring-secondary transition-colors"
+                                    required>
                                     <option value="DangApDung" selected>Đang áp dụng</option>
                                     <option value="TamNgung">Tạm ngưng</option>
                                     <option value="KetThuc">Đã kết thúc</option>
