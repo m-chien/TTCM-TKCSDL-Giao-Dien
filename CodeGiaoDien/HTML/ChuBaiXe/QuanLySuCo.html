@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 
-<html class="light" lang="vi"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Quản lý sự cố &amp; Khiếu nại</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script>
+<html class="light" lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Quản lý sự cố &amp; Khiếu nại</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
+    <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -30,212 +39,371 @@
             },
         }
         function toggleParkingMenu() {
-    const submenu = document.getElementById("parkingSubmenu");
-    const arrow = document.getElementById("arrowParking");
+            const submenu = document.getElementById("parkingSubmenu");
+            const arrow = document.getElementById("arrowParking");
 
-    submenu.classList.toggle("hidden");
-    arrow.classList.toggle("rotate-180");
-}
+            submenu.classList.toggle("hidden");
+            arrow.classList.toggle("rotate-180");
+        }
     </script>
-<style>
+    <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
     </style>
 </head>
+
 <body class="bg-background-light dark:bg-background-dark font-display">
-<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
-<div class="flex h-full grow flex-row">
-<!-- SideNavBar -->
-<div class="w-64 flex-shrink-0 bg-background-light dark:bg-background-dark border-r border-primary/20 dark:border-primary/10">
-<div class="flex h-full min-h-[700px] flex-col justify-between p-4">
-<div class="flex flex-col gap-4">
-<div class="flex items-center gap-3 p-2">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBdfysrkbThwHTJ01cyHSpX_DVwAF9Sxix-jKDzNU-5Q3THS8waWI43YrUcFey38DnrqkD6YFvsK2H2POlnE8XRFTw33No6DbOx34irevUvLFqM9-MmBAYSgjmX_65iog_z7lc_wmnlg3UnHtal064NyFnIonoYjJmBLNFQNvYfe5fHVjfI5qRC1yhaqv-_4vcivpC5juFBvp4pbYzl67emmDm37i00GRuoEu6qjQt_BO-YZTSizKoayPiDmUH17HynT_uqMLXKMptU");'></div>
-<div class="flex flex-col">
-<h1 class="text-gray-900 dark:text-gray-100 text-base font-bold leading-normal">Trần Minh Anh</h1>
-<p class="text-primary/80 dark:text-primary/70 text-sm font-medium leading-normal">Admin</p>
-</div>
-</div>
-<div class="flex flex-col gap-2 mt-4">
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/20 transition-colors" href="#">
-<span class="material-symbols-outlined text-gray-700 dark:text-gray-300">dashboard</span>
-<p class="text-gray-900 dark:text-gray-100 text-sm font-medium leading-normal">Tổng quan</p>
-</a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/20 transition-colors" href="#">
-<span class="material-symbols-outlined text-gray-700 dark:text-gray-300">garage_home</span>
-<p class="text-gray-900 dark:text-gray-100 text-sm font-medium leading-normal">Quản lý bãi xe</p>
-</a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/20 transition-colors" href="#">
-<span class="material-symbols-outlined text-gray-700 dark:text-gray-300">group</span>
-<p class="text-gray-900 dark:text-gray-100 text-sm font-medium leading-normal">Quản lý người dùng</p>
-</a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 dark:bg-primary/30" href="#">
-<span class="material-symbols-outlined text-gray-900 dark:text-gray-50" style="font-variation-settings: 'FILL' 1;">report</span>
-<p class="text-gray-900 dark:text-gray-50 text-sm font-bold leading-normal">Sự cố &amp; Khiếu nại</p>
-</a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/20 transition-colors" href="#">
-<span class="material-symbols-outlined text-gray-700 dark:text-gray-300">lab_profile</span>
-<p class="text-gray-900 dark:text-gray-100 text-sm font-medium leading-normal">Báo cáo</p>
-</a>
-</div>
-</div>
-<div class="flex flex-col gap-1">
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/20 transition-colors" href="#">
-<span class="material-symbols-outlined text-gray-700 dark:text-gray-300">settings</span>
-<p class="text-gray-900 dark:text-gray-100 text-sm font-medium leading-normal">Cài đặt</p>
-</a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/20 transition-colors" href="#">
-<span class="material-symbols-outlined text-gray-700 dark:text-gray-300">logout</span>
-<p class="text-gray-900 dark:text-gray-100 text-sm font-medium leading-normal">Đăng xuất</p>
-</a>
-</div>
-</div>
-</div>
-<!-- Main Content -->
-<main class="flex-1 p-8 overflow-y-auto">
-<div class="max-w-7xl mx-auto">
-<!-- PageHeading -->
-<div class="flex flex-wrap justify-between items-center gap-4">
-<div class="flex flex-col gap-2">
-<h1 class="text-gray-900 dark:text-gray-50 text-4xl font-black leading-tight tracking-[-0.033em]">Quản lý Sự cố &amp; Khiếu nại</h1>
-<p class="text-gray-600 dark:text-gray-400 text-base font-normal leading-normal">Xem, quản lý và phản hồi các yêu cầu từ người dùng.</p>
-</div>
-<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-11 px-5 bg-primary text-background-dark text-sm font-bold leading-normal tracking-[0.015em] hover:opacity-90 transition-opacity">
-<span class="material-symbols-outlined">add_circle</span>
-<span class="truncate">Tạo phiếu mới</span>
-</button>
-</div>
-<div class="flex flex-col lg:flex-row gap-6 mt-8">
-<!-- Left Pane: List & Filters -->
-<div class="flex-1 flex flex-col gap-4">
-<!-- Search & Filters -->
-<div class="flex flex-col gap-4">
-<!-- SearchBar -->
-<label class="flex flex-col min-w-40 h-12 w-full">
-<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
-<div class="text-gray-600 dark:text-gray-400 flex border border-primary/20 dark:border-primary/30 bg-background-light dark:bg-background-dark items-center justify-center pl-4 rounded-l-lg border-r-0">
-<span class="material-symbols-outlined">search</span>
-</div>
-<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-gray-900 dark:text-gray-100 focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-primary/20 dark:border-primary/30 bg-background-light dark:bg-background-dark h-full placeholder:text-gray-500 dark:placeholder:text-gray-400 px-4 border-l-0 text-base font-normal leading-normal" placeholder="Tìm kiếm theo mã phiếu, tên người gửi, từ khóa..." value=""/>
-</div>
-</label>
-<!-- Chips -->
-<div class="flex gap-3 overflow-x-auto pb-2">
-<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 dark:bg-primary/30 px-3">
-<span class="material-symbols-outlined text-gray-800 dark:text-gray-200 text-base">task_alt</span>
-<p class="text-gray-900 dark:text-gray-100 text-sm font-medium leading-normal">Trạng thái: Tất cả</p>
-<span class="material-symbols-outlined text-gray-800 dark:text-gray-200 text-base">arrow_drop_down</span>
-</button>
-<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 dark:bg-primary/30 px-3">
-<span class="material-symbols-outlined text-gray-800 dark:text-gray-200 text-base">flag</span>
-<p class="text-gray-900 dark:text-gray-100 text-sm font-medium leading-normal">Ưu tiên: Tất cả</p>
-<span class="material-symbols-outlined text-gray-800 dark:text-gray-200 text-base">arrow_drop_down</span>
-</button>
-<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 dark:bg-primary/30 px-3">
-<span class="material-symbols-outlined text-gray-800 dark:text-gray-200 text-base">calendar_month</span>
-<p class="text-gray-900 dark:text-gray-100 text-sm font-medium leading-normal">Ngày gửi</p>
-<span class="material-symbols-outlined text-gray-800 dark:text-gray-200 text-base">arrow_drop_down</span>
-</button>
-</div>
-</div>
-<!-- Table -->
-<div class="overflow-hidden rounded-lg border border-primary/20 dark:border-primary/30 bg-background-light dark:bg-background-dark">
-<div class="overflow-x-auto">
-<table class="w-full text-left">
-<thead>
-<tr class="bg-primary/10 dark:bg-primary/20">
-<th class="px-4 py-3 text-gray-800 dark:text-gray-200 text-sm font-semibold">Mã Phiếu</th>
-<th class="px-4 py-3 text-gray-800 dark:text-gray-200 text-sm font-semibold">Tiêu Đề</th>
-<th class="px-4 py-3 text-gray-800 dark:text-gray-200 text-sm font-semibold">Người Gửi</th>
-<th class="px-4 py-3 text-gray-800 dark:text-gray-200 text-sm font-semibold">Trạng Thái</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-primary/10 dark:divide-primary/20">
-<tr class="hover:bg-primary/10 dark:hover:bg-primary/20 cursor-pointer bg-primary/20 dark:bg-primary/30">
-<td class="h-[60px] px-4 py-2 text-gray-700 dark:text-gray-300 text-sm font-medium">SC-81235</td>
-<td class="h-[60px] px-4 py-2 text-gray-900 dark:text-gray-100 text-sm font-semibold">Không thể thanh toán phí giữ xe</td>
-<td class="h-[60px] px-4 py-2 text-gray-700 dark:text-gray-300 text-sm">Nguyễn Văn An</td>
-<td class="h-[60px] px-4 py-2"><span class="inline-flex items-center rounded-full bg-red-100 dark:bg-red-900 px-2.5 py-0.5 text-xs font-semibold text-red-800 dark:text-red-200">Mới</span></td>
-</tr>
-<tr class="hover:bg-primary/10 dark:hover:bg-primary/20 cursor-pointer">
-<td class="h-[60px] px-4 py-2 text-gray-700 dark:text-gray-300 text-sm font-medium">KN-81234</td>
-<td class="h-[60px] px-4 py-2 text-gray-900 dark:text-gray-100 text-sm font-semibold">Thái độ nhân viên không tốt</td>
-<td class="h-[60px] px-4 py-2 text-gray-700 dark:text-gray-300 text-sm">Trần Thị Bích</td>
-<td class="h-[60px] px-4 py-2"><span class="inline-flex items-center rounded-full bg-yellow-100 dark:bg-yellow-900 px-2.5 py-0.5 text-xs font-semibold text-yellow-800 dark:text-yellow-200">Đang xử lý</span></td>
-</tr>
-<tr class="hover:bg-primary/10 dark:hover:bg-primary/20 cursor-pointer">
-<td class="h-[60px] px-4 py-2 text-gray-700 dark:text-gray-300 text-sm font-medium">SC-81232</td>
-<td class="h-[60px] px-4 py-2 text-gray-900 dark:text-gray-100 text-sm font-semibold">App báo sai vị trí xe</td>
-<td class="h-[60px] px-4 py-2 text-gray-700 dark:text-gray-300 text-sm">Lê Hoàng Long</td>
-<td class="h-[60px] px-4 py-2"><span class="inline-flex items-center rounded-full bg-green-100 dark:bg-green-900 px-2.5 py-0.5 text-xs font-semibold text-green-800 dark:text-green-200">Đã giải quyết</span></td>
-</tr>
-<tr class="hover:bg-primary/10 dark:hover:bg-primary/20 cursor-pointer">
-<td class="h-[60px] px-4 py-2 text-gray-700 dark:text-gray-300 text-sm font-medium">KN-81230</td>
-<td class="h-[60px] px-4 py-2 text-gray-900 dark:text-gray-100 text-sm font-semibold">Phí giữ xe bị tính sai</td>
-<td class="h-[60px] px-4 py-2 text-gray-700 dark:text-gray-300 text-sm">Phạm Minh Châu</td>
-<td class="h-[60px] px-4 py-2"><span class="inline-flex items-center rounded-full bg-gray-200 dark:bg-gray-700 px-2.5 py-0.5 text-xs font-semibold text-gray-800 dark:text-gray-200">Đã đóng</span></td>
-</tr>
-</tbody>
-</table>
-</div>
-<!-- Pagination -->
-<div class="flex items-center justify-between border-t border-primary/10 dark:border-primary/20 px-4 py-3">
-<p class="text-sm text-gray-600 dark:text-gray-400">Hiển thị <span class="font-bold">1-4</span> trên <span class="font-bold">28</span> kết quả</p>
-<div class="flex items-center gap-2">
-<button class="flex h-8 w-8 items-center justify-center rounded-md border border-primary/20 dark:border-primary/30 text-gray-600 dark:text-gray-400 hover:bg-primary/10 dark:hover:bg-primary/20"><span class="material-symbols-outlined text-base">chevron_left</span></button>
-<button class="flex h-8 w-8 items-center justify-center rounded-md border border-primary/20 dark:border-primary/30 text-gray-600 dark:text-gray-400 hover:bg-primary/10 dark:hover:bg-primary/20"><span class="material-symbols-outlined text-base">chevron_right</span></button>
-</div>
-</div>
-</div>
-</div>
-<!-- Right Pane: Detail View -->
-<div class="w-full lg:w-96 xl:w-[480px] flex-shrink-0">
-<div class="sticky top-8 rounded-lg border border-primary/20 dark:border-primary/30 bg-background-light dark:bg-background-dark p-6 flex flex-col gap-6">
-<div class="flex flex-col gap-1">
-<div class="flex items-center justify-between">
-<p class="text-xs text-gray-500 dark:text-gray-400">SC-81235</p>
-<span class="inline-flex items-center rounded-full bg-red-100 dark:bg-red-900 px-2.5 py-0.5 text-xs font-semibold text-red-800 dark:text-red-200">Mới</span>
-</div>
-<h2 class="text-xl font-bold text-gray-900 dark:text-gray-100">Không thể thanh toán phí giữ xe</h2>
-</div>
-<div class="border-t border-primary/10 dark:border-primary/20"></div>
-<div class="flex flex-col gap-4">
-<h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300">Thông tin người gửi</h3>
-<div class="flex items-center gap-3">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Sender avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-Dfqogfb4AiV0GJq8MTXTq70RKi_RSP7NjCU3InpEmX11SxxaWbN1jpovCJYvxUsUJ7N2m4XD_i3VUtbbvUIdLbuAnQ2FzD9rqxMsS3sUr97-dnEspx8A90_yFYiA6INwCjCLdp7jjcZKZ8sjfUyyHXNEEJrT0gcmsXMCSGQT2Wzd3M7eoA2UAIukXPQFIMjjwSPXiN0ca6dvQC6PrqwRiiaQSj9jTBLx0557c_u3n10kDZZ1BAd9igjDHup2SmveK7vrXB9YPbDj");'></div>
-<div>
-<p class="font-semibold text-gray-900 dark:text-gray-100">Nguyễn Văn An</p>
-<p class="text-sm text-gray-600 dark:text-gray-400">nguyen.van.an@email.com</p>
-</div>
-</div>
-<div class="text-sm text-gray-700 dark:text-gray-300">Ngày gửi: <span class="font-medium text-gray-800 dark:text-gray-200">25/10/2023, 08:15</span></div>
-</div>
-<div class="border-t border-primary/10 dark:border-primary/20"></div>
-<div class="flex flex-col gap-2">
-<h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300">Nội dung chi tiết</h3>
-<p class="text-sm text-gray-800 dark:text-gray-200 leading-relaxed">Tôi đã cố gắng thanh toán phí gửi xe qua ứng dụng nhiều lần bằng thẻ Visa nhưng liên tục nhận được thông báo lỗi "Giao dịch không thành công". Xin vui lòng kiểm tra và hỗ trợ.</p>
-</div>
-<div class="flex flex-col gap-2">
-<!-- <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300">Tệp đính kèm</h3> -->
-<div class="flex gap-2">
-<!-- <div class="w-20 h-20 rounded-lg bg-cover bg-center" data-alt="Screenshot of payment error" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAC2Jcea9C327OrQ69hj3lMBdtZkpOlv7v3YKw9bkUKmtQ21x3HeWt0-PqbWMIHvRZpbFTG65hUmjGAvm0z2nFGDWicUFMELurYrKySf7CkQqJtHI_QHEy-n76UAbom04EaheqQjHX-gAkKWTO5vAmBhHox6dPzxA-uAeRMtsN46Gwdi2TKeYgWjtwV3be4xIhQyml-LR1_ag6ZufKjC1yvtZIVGT4RMvcPbAaURyhpEUL5L3MAsfnM478mJNwlYnRyYRH85GwPWuK3')"></div> -->
-</div>
-</div>
-<div class="border-t border-primary/10 dark:border-primary/20"></div>
-<div class="flex flex-col gap-4">
-<h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300">Phản hồi</h3>
-<textarea class="form-textarea w-full rounded-lg border-primary/20 dark:border-primary/30 bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 placeholder:text-gray-500 focus:ring-2 focus:ring-primary/50 text-sm" placeholder="Nhập phản hồi của bạn..." rows="4"></textarea>
-<div class="flex justify-end gap-3">
-<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary/20 dark:bg-primary/30 text-gray-900 dark:text-gray-100 text-sm font-bold hover:bg-primary/30 dark:hover:bg-primary/40">Cập nhật trạng thái</button>
-<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-background-dark text-sm font-bold hover:opacity-90">Gửi phản hồi</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</main>
-</div>
-</div>
-</body></html>
+    <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+        <div class="flex h-full grow flex-row">
+            <!-- SideNavBar -->
+            <aside class="w-64 flex-shrink-0 bg-card-light dark:bg-card-dark flex flex-col">
+                <div class="flex items-center gap-3 p-6">
+                    <div class="bg-primary p-2 rounded-lg">
+                        <span class="font-bold text-2xl text-white">P</span>
+                    </div>
+                    <h1 class="text-xl font-bold text-heading-light dark:text-heading-dark">Parking Admin</h1>
+                </div>
+
+                <nav class="flex-1 px-4 py-2 space-y-2">
+
+                    <!-- Tổng quan -->
+                    <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" href="#">
+                        <span class="material-icons-outlined text-lg">grid_view</span>
+                        <span class="font-medium">Tổng quan</span>
+                    </a>
+
+                    <!-- MENU CHA: Quản lý bãi xe -->
+                    <div class="flex flex-col">
+
+                        <button onclick="toggleParkingMenu()" class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <span class="material-icons-outlined text-lg">garage</span>
+                                <span class="font-medium">Quản lý bãi xe</span>
+                            </div>
+                            <span id="arrowParking"
+                                class="material-icons-outlined transition-transform">expand_more</span>
+                        </button>
+
+                        <!-- MENU CON -->
+                        <div id="parkingSubmenu" class="ml-8 mt-1 flex flex-col gap-1 hidden">
+                            <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                                href="CapNhatBaiXe.html">
+                                <span class="material-symbols-outlined text-base">local_offer</span>
+                                Quản lý bãi xe
+                            </a>
+                            <a class="flex items-center gap-3 px-3 py-2 rounded text-heading-light dark:text-heading-dark 
+                          hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors text-sm"
+                                href="CapNhapGia.html">
+                                <span class="material-icons-outlined text-base">paid</span>
+                                Quản lý giá
+                            </a>
+
+                            <a class="flex items-center gap-3 px-3 py-2 rounded text-heading-light dark:text-heading-dark 
+                          hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors text-sm"
+                                href="CapNhatMaGiamGia.html">
+                                <span class="material-icons-outlined text-base">local_offer</span>
+                                Quản lý khuyến mãi
+                            </a>
+
+                            <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                                href="QuanLyTheThang.html">
+                                <span class="material-symbols-outlined text-base">local_offer</span>
+                                Quản lý thẻ xe tháng
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Nhân viên -->
+                    <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" href="./QuanLyNhanVien.html">
+                        <span class="material-icons-outlined text-lg">groups</span>
+                        <span class="font-medium">Quản lý nhân viên</span>
+                    </a>
+                    <a class="flex items-center gap-3 rounded-lg px-3 py-2.5  hover:bg-primary/10 dark:hover:bg-primary/20"
+                        href="./QuanLyCaLam.html">
+                        <span class="material-symbols-outlined">shift</span>
+                        <p class="text-sm font-medium">Quản lý ca làm</p>
+                    </a>
+                    <!-- Lịch làm -->
+                    <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" href="QuanLyLichLamViec.html">
+                        <span class="material-icons-outlined text-lg">calendar_month</span>
+                        <span class="font-medium">Lịch làm việc</span>
+                    </a>
+
+                    <!-- Danh mục chỗ đậu -->
+                    <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" href="./QuanLyKhuVuc_ChoDau.html">
+                        <span class="material-icons-outlined text-lg">list</span>
+                        <span class="font-medium">Danh mục chỗ đậu</span>
+                    </a>
+
+                    <!-- Thống kê -->
+                    <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                        href="./ThongKe.html">
+                        <span class="material-icons-outlined text-lg">bar_chart</span>
+                        <span class="font-bold">Thống kê</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-4 py-2.5 rounded text-primary bg-primary/10 transition-colors"
+                        href="QuanLySuCo.html">
+                        <span class="material-icons-outlined text-lg">bar_chart</span>
+                        <span class="font-bold">Quản lý sự cố</span>
+                    </a>
+
+                    <!-- Cài đặt -->
+                    <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" href="#">
+                        <span class="material-icons-outlined text-lg">settings</span>
+                        <span class="font-medium">Cài đặt</span>
+                    </a>
+
+                </nav>
+
+                <div class="p-4 border-t border-border-light dark:border-border-dark">
+                    <div class="flex items-center gap-3">
+                        <img alt="Admin avatar" class="w-10 h-10 rounded-full"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpmhXUv0JeLQKqAiTsxrBbmChxJFeZqe-e_EVBe84A9FJehItWbTFzmGKDXCzlPVyXWuXq7M71T365Rm_P1uOERNbkcEK5I-npJ7IZk9IaGjcGDMGm6tVsGVKOzWWgWN1Np4-AppQ0swl4ITCPqGY3D2RB2KjWBGvnTuafeJN_6gvX9bfagNi4T2ai4g2rHpKCtdq-6s4Kjz5Ahk0L64HWhyb7mfpofnTdH-gQ_MRSkHMVhSLPLVJFiuqKaaBWvuhDBxRmNR5AXiI" />
+                        <div>
+                            <p class="font-semibold text-heading-light dark:text-heading-dark">Admin</p>
+                            <p class="text-sm">admin@email.com</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <!-- Main Content -->
+            <main class="flex-1 p-8 overflow-y-auto">
+                <div class="max-w-7xl mx-auto">
+                    <!-- PageHeading -->
+                    <div class="flex flex-wrap justify-between items-center gap-4">
+                        <div class="flex flex-col gap-2">
+                            <h1
+                                class="text-gray-900 dark:text-gray-50 text-4xl font-black leading-tight tracking-[-0.033em]">
+                                Quản lý Sự cố &amp; Khiếu nại</h1>
+                            <p class="text-gray-600 dark:text-gray-400 text-base font-normal leading-normal">Xem, quản
+                                lý và phản hồi các yêu cầu từ người dùng.</p>
+                        </div>
+                        <button
+                            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-11 px-5 bg-primary text-background-dark text-sm font-bold leading-normal tracking-[0.015em] hover:opacity-90 transition-opacity">
+                            <span class="material-symbols-outlined">add_circle</span>
+                            <span class="truncate">Tạo phiếu mới</span>
+                        </button>
+                    </div>
+                    <div class="flex flex-col lg:flex-row gap-6 mt-8">
+                        <!-- Left Pane: List & Filters -->
+                        <div class="flex-1 flex flex-col gap-4">
+                            <!-- Search & Filters -->
+                            <div class="flex flex-col gap-4">
+                                <!-- SearchBar -->
+                                <label class="flex flex-col min-w-40 h-12 w-full">
+                                    <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+                                        <div
+                                            class="text-gray-600 dark:text-gray-400 flex border border-primary/20 dark:border-primary/30 bg-background-light dark:bg-background-dark items-center justify-center pl-4 rounded-l-lg border-r-0">
+                                            <span class="material-symbols-outlined">search</span>
+                                        </div>
+                                        <input
+                                            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-gray-900 dark:text-gray-100 focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-primary/20 dark:border-primary/30 bg-background-light dark:bg-background-dark h-full placeholder:text-gray-500 dark:placeholder:text-gray-400 px-4 border-l-0 text-base font-normal leading-normal"
+                                            placeholder="Tìm kiếm theo mã phiếu, tên người gửi, từ khóa..." value="" />
+                                    </div>
+                                </label>
+                                <!-- Chips -->
+                                <div class="flex gap-3 overflow-x-auto pb-2">
+                                    <button
+                                        class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 dark:bg-primary/30 px-3">
+                                        <span
+                                            class="material-symbols-outlined text-gray-800 dark:text-gray-200 text-base">task_alt</span>
+                                        <p class="text-gray-900 dark:text-gray-100 text-sm font-medium leading-normal">
+                                            Trạng thái: Tất cả</p>
+                                        <span
+                                            class="material-symbols-outlined text-gray-800 dark:text-gray-200 text-base">arrow_drop_down</span>
+                                    </button>
+                                    <button
+                                        class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 dark:bg-primary/30 px-3">
+                                        <span
+                                            class="material-symbols-outlined text-gray-800 dark:text-gray-200 text-base">flag</span>
+                                        <p class="text-gray-900 dark:text-gray-100 text-sm font-medium leading-normal">
+                                            Ưu tiên: Tất cả</p>
+                                        <span
+                                            class="material-symbols-outlined text-gray-800 dark:text-gray-200 text-base">arrow_drop_down</span>
+                                    </button>
+                                    <button
+                                        class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 dark:bg-primary/30 px-3">
+                                        <span
+                                            class="material-symbols-outlined text-gray-800 dark:text-gray-200 text-base">calendar_month</span>
+                                        <p class="text-gray-900 dark:text-gray-100 text-sm font-medium leading-normal">
+                                            Ngày gửi</p>
+                                        <span
+                                            class="material-symbols-outlined text-gray-800 dark:text-gray-200 text-base">arrow_drop_down</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Table -->
+                            <div
+                                class="overflow-hidden rounded-lg border border-primary/20 dark:border-primary/30 bg-background-light dark:bg-background-dark">
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left">
+                                        <thead>
+                                            <tr class="bg-primary/10 dark:bg-primary/20">
+                                                <th
+                                                    class="px-4 py-3 text-gray-800 dark:text-gray-200 text-sm font-semibold">
+                                                    Mã Phiếu</th>
+                                                <th
+                                                    class="px-4 py-3 text-gray-800 dark:text-gray-200 text-sm font-semibold">
+                                                    Tiêu Đề</th>
+                                                <th
+                                                    class="px-4 py-3 text-gray-800 dark:text-gray-200 text-sm font-semibold">
+                                                    Người Gửi</th>
+                                                <th
+                                                    class="px-4 py-3 text-gray-800 dark:text-gray-200 text-sm font-semibold">
+                                                    Trạng Thái</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-primary/10 dark:divide-primary/20">
+                                            <tr
+                                                class="hover:bg-primary/10 dark:hover:bg-primary/20 cursor-pointer bg-primary/20 dark:bg-primary/30">
+                                                <td
+                                                    class="h-[60px] px-4 py-2 text-gray-700 dark:text-gray-300 text-sm font-medium">
+                                                    SC-81235</td>
+                                                <td
+                                                    class="h-[60px] px-4 py-2 text-gray-900 dark:text-gray-100 text-sm font-semibold">
+                                                    Không thể thanh toán phí giữ xe</td>
+                                                <td class="h-[60px] px-4 py-2 text-gray-700 dark:text-gray-300 text-sm">
+                                                    Nguyễn Văn An</td>
+                                                <td class="h-[60px] px-4 py-2"><span
+                                                        class="inline-flex items-center rounded-full bg-red-100 dark:bg-red-900 px-2.5 py-0.5 text-xs font-semibold text-red-800 dark:text-red-200">Mới</span>
+                                                </td>
+                                            </tr>
+                                            <tr class="hover:bg-primary/10 dark:hover:bg-primary/20 cursor-pointer">
+                                                <td
+                                                    class="h-[60px] px-4 py-2 text-gray-700 dark:text-gray-300 text-sm font-medium">
+                                                    KN-81234</td>
+                                                <td
+                                                    class="h-[60px] px-4 py-2 text-gray-900 dark:text-gray-100 text-sm font-semibold">
+                                                    Thái độ nhân viên không tốt</td>
+                                                <td class="h-[60px] px-4 py-2 text-gray-700 dark:text-gray-300 text-sm">
+                                                    Trần Thị Bích</td>
+                                                <td class="h-[60px] px-4 py-2"><span
+                                                        class="inline-flex items-center rounded-full bg-yellow-100 dark:bg-yellow-900 px-2.5 py-0.5 text-xs font-semibold text-yellow-800 dark:text-yellow-200">Đang
+                                                        xử lý</span></td>
+                                            </tr>
+                                            <tr class="hover:bg-primary/10 dark:hover:bg-primary/20 cursor-pointer">
+                                                <td
+                                                    class="h-[60px] px-4 py-2 text-gray-700 dark:text-gray-300 text-sm font-medium">
+                                                    SC-81232</td>
+                                                <td
+                                                    class="h-[60px] px-4 py-2 text-gray-900 dark:text-gray-100 text-sm font-semibold">
+                                                    App báo sai vị trí xe</td>
+                                                <td class="h-[60px] px-4 py-2 text-gray-700 dark:text-gray-300 text-sm">
+                                                    Lê Hoàng Long</td>
+                                                <td class="h-[60px] px-4 py-2"><span
+                                                        class="inline-flex items-center rounded-full bg-green-100 dark:bg-green-900 px-2.5 py-0.5 text-xs font-semibold text-green-800 dark:text-green-200">Đã
+                                                        giải quyết</span></td>
+                                            </tr>
+                                            <tr class="hover:bg-primary/10 dark:hover:bg-primary/20 cursor-pointer">
+                                                <td
+                                                    class="h-[60px] px-4 py-2 text-gray-700 dark:text-gray-300 text-sm font-medium">
+                                                    KN-81230</td>
+                                                <td
+                                                    class="h-[60px] px-4 py-2 text-gray-900 dark:text-gray-100 text-sm font-semibold">
+                                                    Phí giữ xe bị tính sai</td>
+                                                <td class="h-[60px] px-4 py-2 text-gray-700 dark:text-gray-300 text-sm">
+                                                    Phạm Minh Châu</td>
+                                                <td class="h-[60px] px-4 py-2"><span
+                                                        class="inline-flex items-center rounded-full bg-gray-200 dark:bg-gray-700 px-2.5 py-0.5 text-xs font-semibold text-gray-800 dark:text-gray-200">Đã
+                                                        đóng</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- Pagination -->
+                                <div
+                                    class="flex items-center justify-between border-t border-primary/10 dark:border-primary/20 px-4 py-3">
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Hiển thị <span
+                                            class="font-bold">1-4</span> trên <span class="font-bold">28</span> kết quả
+                                    </p>
+                                    <div class="flex items-center gap-2">
+                                        <button
+                                            class="flex h-8 w-8 items-center justify-center rounded-md border border-primary/20 dark:border-primary/30 text-gray-600 dark:text-gray-400 hover:bg-primary/10 dark:hover:bg-primary/20"><span
+                                                class="material-symbols-outlined text-base">chevron_left</span></button>
+                                        <button
+                                            class="flex h-8 w-8 items-center justify-center rounded-md border border-primary/20 dark:border-primary/30 text-gray-600 dark:text-gray-400 hover:bg-primary/10 dark:hover:bg-primary/20"><span
+                                                class="material-symbols-outlined text-base">chevron_right</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Pane: Detail View -->
+                        <div class="w-full lg:w-96 xl:w-[480px] flex-shrink-0">
+                            <div
+                                class="sticky top-8 rounded-lg border border-primary/20 dark:border-primary/30 bg-background-light dark:bg-background-dark p-6 flex flex-col gap-6">
+                                <div class="flex flex-col gap-1">
+                                    <div class="flex items-center justify-between">
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">SC-81235</p>
+                                        <span
+                                            class="inline-flex items-center rounded-full bg-red-100 dark:bg-red-900 px-2.5 py-0.5 text-xs font-semibold text-red-800 dark:text-red-200">Mới</span>
+                                    </div>
+                                    <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100">Không thể thanh toán
+                                        phí giữ xe</h2>
+                                </div>
+                                <div class="border-t border-primary/10 dark:border-primary/20"></div>
+                                <div class="flex flex-col gap-4">
+                                    <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300">Thông tin người
+                                        gửi</h3>
+                                    <div class="flex items-center gap-3">
+                                        <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                                            data-alt="Sender avatar"
+                                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-Dfqogfb4AiV0GJq8MTXTq70RKi_RSP7NjCU3InpEmX11SxxaWbN1jpovCJYvxUsUJ7N2m4XD_i3VUtbbvUIdLbuAnQ2FzD9rqxMsS3sUr97-dnEspx8A90_yFYiA6INwCjCLdp7jjcZKZ8sjfUyyHXNEEJrT0gcmsXMCSGQT2Wzd3M7eoA2UAIukXPQFIMjjwSPXiN0ca6dvQC6PrqwRiiaQSj9jTBLx0557c_u3n10kDZZ1BAd9igjDHup2SmveK7vrXB9YPbDj");'>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-900 dark:text-gray-100">Nguyễn Văn An</p>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">nguyen.van.an@email.com
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="text-sm text-gray-700 dark:text-gray-300">Ngày gửi: <span
+                                            class="font-medium text-gray-800 dark:text-gray-200">25/10/2023,
+                                            08:15</span></div>
+                                </div>
+                                <div class="border-t border-primary/10 dark:border-primary/20"></div>
+                                <div class="flex flex-col gap-2">
+                                    <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300">Nội dung chi tiết
+                                    </h3>
+                                    <p class="text-sm text-gray-800 dark:text-gray-200 leading-relaxed">Tôi đã cố gắng
+                                        thanh toán phí gửi xe qua ứng dụng nhiều lần bằng thẻ Visa nhưng liên tục nhận
+                                        được thông báo lỗi "Giao dịch không thành công". Xin vui lòng kiểm tra và hỗ
+                                        trợ.</p>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <!-- <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300">Tệp đính kèm</h3> -->
+                                    <div class="flex gap-2">
+                                        <!-- <div class="w-20 h-20 rounded-lg bg-cover bg-center" data-alt="Screenshot of payment error" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAC2Jcea9C327OrQ69hj3lMBdtZkpOlv7v3YKw9bkUKmtQ21x3HeWt0-PqbWMIHvRZpbFTG65hUmjGAvm0z2nFGDWicUFMELurYrKySf7CkQqJtHI_QHEy-n76UAbom04EaheqQjHX-gAkKWTO5vAmBhHox6dPzxA-uAeRMtsN46Gwdi2TKeYgWjtwV3be4xIhQyml-LR1_ag6ZufKjC1yvtZIVGT4RMvcPbAaURyhpEUL5L3MAsfnM478mJNwlYnRyYRH85GwPWuK3')"></div> -->
+                                    </div>
+                                </div>
+                                <div class="border-t border-primary/10 dark:border-primary/20"></div>
+                                <div class="flex flex-col gap-4">
+                                    <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300">Phản hồi</h3>
+                                    <textarea
+                                        class="form-textarea w-full rounded-lg border-primary/20 dark:border-primary/30 bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 placeholder:text-gray-500 focus:ring-2 focus:ring-primary/50 text-sm"
+                                        placeholder="Nhập phản hồi của bạn..." rows="4"></textarea>
+                                    <div class="flex justify-end gap-3">
+                                        <button
+                                            class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary/20 dark:bg-primary/30 text-gray-900 dark:text-gray-100 text-sm font-bold hover:bg-primary/30 dark:hover:bg-primary/40">Cập
+                                            nhật trạng thái</button>
+                                        <button
+                                            class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-background-dark text-sm font-bold hover:opacity-90">Gửi
+                                            phản hồi</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>

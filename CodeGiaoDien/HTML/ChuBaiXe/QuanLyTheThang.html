@@ -21,7 +21,7 @@
       theme: {
         extend: {
           colors: {
-            "primary": "#4A90E2",
+            "primary": "#10B981",
             "background-light": "#F8F9FA",
             "background-dark": "#1f2937",
             "surface-light": "#FFFFFF",
@@ -56,33 +56,33 @@
       arrow.classList.toggle("rotate-180");
     }
     function openAddCardModal() {
-    document.getElementById("addCardModal").classList.remove("hidden");
-}
-
-function closeAddCardModal() {
-    document.getElementById("addCardModal").classList.add("hidden");
-}
-
-function saveNewCard() {
-    const owner = document.getElementById("cardOwner").value;
-    const plate = document.getElementById("plateNumber").value;
-    const type = document.getElementById("vehicleType").value;
-    const start = document.getElementById("startDate").value;
-    const end = document.getElementById("endDate").value;
-
-    if (!owner || !plate || !start || !end) {
-        alert("Vui lòng nhập đầy đủ thông tin!");
-        return;
+      document.getElementById("addCardModal").classList.remove("hidden");
     }
 
-    // TODO: Gửi dữ liệu lên API
-    console.log({
-        owner, plate, type, start, end
-    });
+    function closeAddCardModal() {
+      document.getElementById("addCardModal").classList.add("hidden");
+    }
 
-    closeAddCardModal();
-    alert("Thêm thẻ xe mới thành công!");
-}
+    function saveNewCard() {
+      const owner = document.getElementById("cardOwner").value;
+      const plate = document.getElementById("plateNumber").value;
+      const type = document.getElementById("vehicleType").value;
+      const start = document.getElementById("startDate").value;
+      const end = document.getElementById("endDate").value;
+
+      if (!owner || !plate || !start || !end) {
+        alert("Vui lòng nhập đầy đủ thông tin!");
+        return;
+      }
+
+      // TODO: Gửi dữ liệu lên API
+      console.log({
+        owner, plate, type, start, end
+      });
+
+      closeAddCardModal();
+      alert("Thêm thẻ xe mới thành công!");
+    }
   </script>
   <style>
     .material-symbols-outlined {
@@ -141,11 +141,11 @@ function saveNewCard() {
                   <span class="material-symbols-outlined text-base">local_offer</span>
                   Quản lý khuyến mãi
                 </a>
-               <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
-                            href="QuanLyTheThang.html">
-                            <span class="material-symbols-outlined text-base">local_offer</span>
-                            Quản lý thẻ xe tháng
-                        </a>
+                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                  href="QuanLyTheThang.html">
+                  <span class="material-symbols-outlined text-base">local_offer</span>
+                  Quản lý thẻ xe tháng
+                </a>
               </div>
             </div>
 
@@ -173,6 +173,12 @@ function saveNewCard() {
               href="./ThongKe.html">
               <span class="material-symbols-outlined">assessment</span>
               <p class="text-sm font-medium">Thống kê</p>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              href="QuanLySuCo.html">
+              <span class="material-icons-outlined text-lg">bar_chart</span>
+              <span class="font-bold">Quản lý sự cố</span>
             </a>
             <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
               href="#">
@@ -204,11 +210,11 @@ function saveNewCard() {
               <p class="text-text-secondary-light dark:text-text-secondary-dark">Xem, tìm kiếm, lọc và quản lý tất cả
                 thẻ xe tháng.</p>
             </div>
-            <button onclick="openAddCardModal()" 
-            class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/80 transition">
-            <span class="material-symbols-outlined text-base">add</span>
-            Thêm thẻ mới
-        </button>
+            <button onclick="openAddCardModal()"
+              class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/80 transition">
+              <span class="material-symbols-outlined text-base">add</span>
+              Thêm thẻ mới
+            </button>
 
           </header>
           <!-- Filters & Search -->
@@ -462,71 +468,68 @@ function saveNewCard() {
   </div>
 </body>
 <!-- MODAL Thêm thẻ xe mới -->
-<div id="addCardModal"
-    class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center hidden z-50">
+<div id="addCardModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center hidden z-50">
 
-    <div class="bg-white dark:bg-gray-800 w-[450px] rounded-xl shadow-lg p-6 animate-fadeIn">
+  <div class="bg-white dark:bg-gray-800 w-[450px] rounded-xl shadow-lg p-6 animate-fadeIn">
 
-        <h2 class="text-xl font-semibold mb-4 text-heading-light dark:text-heading-dark">
-            Thêm thẻ xe tháng
-        </h2>
+    <h2 class="text-xl font-semibold mb-4 text-heading-light dark:text-heading-dark">
+      Thêm thẻ xe tháng
+    </h2>
 
-        <div class="space-y-3">
+    <div class="space-y-3">
 
-            <!-- Tên chủ xe -->
-            <div>
-                <label class="text-sm font-medium">Tên chủ xe</label>
-                <input id="cardOwner" type="text"
-                    class="w-full mt-1 px-3 py-2 rounded-lg border focus:border-primary outline-none" />
-            </div>
+      <!-- Tên chủ xe -->
+      <div>
+        <label class="text-sm font-medium">Tên chủ xe</label>
+        <input id="cardOwner" type="text"
+          class="w-full mt-1 px-3 py-2 rounded-lg border focus:border-primary outline-none" />
+      </div>
 
-            <!-- Biển số xe -->
-            <div>
-                <label class="text-sm font-medium">Biển số xe</label>
-                <input id="plateNumber" type="text"
-                    class="w-full mt-1 px-3 py-2 rounded-lg border focus:border-primary outline-none" />
-            </div>
+      <!-- Biển số xe -->
+      <div>
+        <label class="text-sm font-medium">Biển số xe</label>
+        <input id="plateNumber" type="text"
+          class="w-full mt-1 px-3 py-2 rounded-lg border focus:border-primary outline-none" />
+      </div>
 
-            <!-- Loại xe -->
-            <div>
-                <label class="text-sm font-medium">Loại xe</label>
-                <select id="vehicleType"
-                    class="w-full mt-1 px-3 py-2 rounded-lg border focus:border-primary outline-none">
-                    <option value="Xe máy">Xe máy</option>
-                    <option value="Ô tô">Ô tô</option>
-                    <option value="Xe đạp">Xe đạp</option>
-                </select>
-            </div>
+      <!-- Loại xe -->
+      <div>
+        <label class="text-sm font-medium">Loại xe</label>
+        <select id="vehicleType" class="w-full mt-1 px-3 py-2 rounded-lg border focus:border-primary outline-none">
+          <option value="Xe máy">Xe máy</option>
+          <option value="Ô tô">Ô tô</option>
+          <option value="Xe đạp">Xe đạp</option>
+        </select>
+      </div>
 
-            <!-- Ngày bắt đầu -->
-            <div>
-                <label class="text-sm font-medium">Ngày bắt đầu</label>
-                <input id="startDate" type="date"
-                    class="w-full mt-1 px-3 py-2 rounded-lg border focus:border-primary outline-none" />
-            </div>
+      <!-- Ngày bắt đầu -->
+      <div>
+        <label class="text-sm font-medium">Ngày bắt đầu</label>
+        <input id="startDate" type="date"
+          class="w-full mt-1 px-3 py-2 rounded-lg border focus:border-primary outline-none" />
+      </div>
 
-            <!-- Ngày hết hạn -->
-            <div>
-                <label class="text-sm font-medium">Ngày hết hạn</label>
-                <input id="endDate" type="date"
-                    class="w-full mt-1 px-3 py-2 rounded-lg border focus:border-primary outline-none" />
-            </div>
+      <!-- Ngày hết hạn -->
+      <div>
+        <label class="text-sm font-medium">Ngày hết hạn</label>
+        <input id="endDate" type="date"
+          class="w-full mt-1 px-3 py-2 rounded-lg border focus:border-primary outline-none" />
+      </div>
 
-        </div>
-
-        <!-- FOOTER -->
-        <div class="mt-6 flex justify-end gap-3">
-            <button onclick="closeAddCardModal()"
-                class="px-4 py-2 rounded-lg border hover:bg-gray-100 dark:hover:bg-gray-700">
-                Hủy
-            </button>
-
-            <button onclick="saveNewCard()"
-                class="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/80">
-                Lưu thẻ
-            </button>
-        </div>
     </div>
+
+    <!-- FOOTER -->
+    <div class="mt-6 flex justify-end gap-3">
+      <button onclick="closeAddCardModal()"
+        class="px-4 py-2 rounded-lg border hover:bg-gray-100 dark:hover:bg-gray-700">
+        Hủy
+      </button>
+
+      <button onclick="saveNewCard()" class="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/80">
+        Lưu thẻ
+      </button>
+    </div>
+  </div>
 </div>
 
 </html>
