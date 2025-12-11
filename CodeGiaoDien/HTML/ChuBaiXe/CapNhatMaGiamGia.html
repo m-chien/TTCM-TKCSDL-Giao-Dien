@@ -41,6 +41,13 @@
             submenu.classList.toggle("hidden");
             arrow.classList.toggle("rotate-180");
         }
+        function openAddPromoModal() {
+    document.getElementById("addPromoModal").classList.remove("hidden");
+}
+
+function closeAddPromoModal() {
+    document.getElementById("addPromoModal").classList.add("hidden");
+}
     </script>
     <style>
         .material-symbols-outlined {
@@ -132,12 +139,11 @@
                             <span class="material-symbols-outlined">assessment</span>
                             <p class="text-sm font-medium">Thống kê</p>
                         </a>
-                         <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
-                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                        href="QuanLySuCo.html">
-                        <span class="material-icons-outlined text-lg">bar_chart</span>
-                        <span class="font-bold">Quản lý sự cố</span>
-                    </a>
+                        <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" href="QuanLySuCo.html">
+                            <span class="material-icons-outlined text-lg">bar_chart</span>
+                            <span class="font-bold">Quản lý sự cố</span>
+                        </a>
                         <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
                             href="#">
                             <span class="material-symbols-outlined">settings</span>
@@ -166,11 +172,12 @@
                 <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
                     <h1 class="text-gray-900 dark:text-gray-100 text-3xl font-bold tracking-tight">Quản lý khuyến mãi
                         &amp; Mã giảm giá</h1>
-                    <button
-                        class="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-primary text-black text-sm font-bold leading-normal tracking-[0.015em] hover:opacity-90">
+                    <button onclick="openAddPromoModal()"
+                        class="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-primary text-black text-sm font-bold hover:opacity-90">
                         <span class="material-symbols-outlined">add</span>
                         <span class="truncate">Thêm khuyến mãi mới</span>
                     </button>
+
                 </div>
                 <!-- Filters: SearchBar and Chips -->
                 <div
@@ -217,7 +224,7 @@
                             <tr>
                                 <th class="px-6 py-3 font-medium" scope="col">Tên chương trình</th>
                                 <th class="px-6 py-3 font-medium" scope="col">Mã giảm giá</th>
-                                <th class="px-6 py-3 font-medium" scope="col">Loại</th>
+                                <!-- <th class="px-6 py-3 font-medium" scope="col">Loại</th> -->
                                 <th class="px-6 py-3 font-medium" scope="col">Giá trị</th>
                                 <!-- <th class="px-6 py-3 font-medium" scope="col">Ngày bắt đầu</th> -->
                                 <th class="px-6 py-3 font-medium" scope="col">Hạn sử dụng</th>
@@ -230,7 +237,7 @@
                                 class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/50">
                                 <td class="px-6 py-4 font-medium whitespace-nowrap">Giảm giá cuối tuần</td>
                                 <td class="px-6 py-4 font-mono text-primary/80 dark:text-primary/70">WEEKEND_DEAL</td>
-                                <td class="px-6 py-4">VNĐ</td>
+                                <!-- <td class="px-6 py-4">VNĐ</td> -->
                                 <td class="px-6 py-4">20,000đ</td>
                                 <!-- <td class="px-6 py-4">15/03/2024</td> -->
                                 <td class="px-6 py-4">31/12/2024</td>
@@ -257,7 +264,7 @@
                                 class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/50">
                                 <td class="px-6 py-4 font-medium whitespace-nowrap">Khai trương bãi xe mới</td>
                                 <td class="px-6 py-4 font-mono text-primary/80 dark:text-primary/70">KHAI_TRUONG_20</td>
-                                <td class="px-6 py-4">%</td>
+                                <!-- <td class="px-6 py-4">%</td> -->
                                 <td class="px-6 py-4">20%</td>
                                 <!-- <td class="px-6 py-4">01/01/2024</td> -->
                                 <td class="px-6 py-4">31/01/2024</td>
@@ -284,7 +291,7 @@
                                 class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/50">
                                 <td class="px-6 py-4 font-medium whitespace-nowrap">Tri ân khách hàng thân thiết</td>
                                 <td class="px-6 py-4 font-mono text-primary/80 dark:text-primary/70">LOYALTY_MEMBER</td>
-                                <td class="px-6 py-4">VNĐ</td>
+                                <!-- <td class="px-6 py-4">VNĐ</td> -->
                                 <td class="px-6 py-4">50,000đ</td>
                                 <!-- <td class="px-6 py-4">01/06/2024</td> -->
                                 <td class="px-6 py-4">30/06/2024</td>
@@ -339,5 +346,89 @@
         </main>
     </div>
 </body>
+<!-- MODAL THÊM MÃ KHUYẾN MÃI -->
+<div id="addPromoModal"
+    class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-xl p-6">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100">
+                Thêm mã khuyến mãi
+            </h2>
+            <button onclick="closeAddPromoModal()"
+                class="text-gray-500 hover:text-gray-800 dark:hover:text-white">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        <!-- Form -->
+        <div class="space-y-4">
+
+            <div>
+                <label class="text-sm font-medium">Tên chương trình</label>
+                <input type="text"
+                    class="mt-1 w-full h-10 px-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm focus:ring-2 focus:ring-primary">
+            </div>
+
+            <div>
+                <label class="text-sm font-medium">Mã giảm giá</label>
+                <input type="text"
+                    class="mt-1 w-full h-10 px-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm uppercase focus:ring-2 focus:ring-primary">
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <!-- <div>
+                    <label class="text-sm font-medium">Loại giảm</label>
+                    <select
+                        class="mt-1 w-full h-10 px-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm focus:ring-2 focus:ring-primary">
+                        <option value="">Chọn loại</option>
+                        <option value="percent">Giảm theo %</option>
+                        <option value="fixed">Giảm theo số tiền</option>
+                    </select>
+                </div> -->
+
+                <div>
+                    <label class="text-sm font-medium">Giá trị</label>
+                    <input type="number"
+                        class="mt-1 w-full h-10 px-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm focus:ring-2 focus:ring-primary">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+
+
+                <div>
+                    <label class="text-sm font-medium">Hạn sử dụng</label>
+                    <input type="date"
+                        class="mt-1 w-full h-10 px-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm focus:ring-2 focus:ring-primary">
+                </div>
+            </div>
+
+            <div>
+                <label class="text-sm font-medium">Trạng thái</label>
+                <select
+                    class="mt-1 w-full h-10 px-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm focus:ring-2 focus:ring-primary">
+                    <option value="active">Đang hoạt động</option>
+                    <option value="inactive">Ngừng hoạt động</option>
+                </select>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="flex justify-end gap-3 mt-6">
+            <button onclick="closeAddPromoModal()"
+                class="px-4 h-10 rounded-lg bg-gray-200 hover:bg-gray-300 text-sm font-medium dark:bg-gray-700 dark:hover:bg-gray-600">
+                Hủy
+            </button>
+            <button
+                class="px-4 h-10 rounded-lg bg-primary text-black font-bold hover:opacity-90 text-sm">
+                Lưu
+            </button>
+        </div>
+
+    </div>
+</div>
 
 </html>
