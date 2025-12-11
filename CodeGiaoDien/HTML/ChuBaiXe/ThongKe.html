@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Tổng quan (Dashboard) - Parking Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#28C76F",
+                        "background-light": "#F8F8F8",
+                        "background-dark": "#161D31",
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#283046",
+                        "text-light": "#6E6B7B",
+                        "text-dark": "#B4B7BD",
+                        "heading-light": "#5E5873",
+                        "heading-dark": "#D0D2D6",
+                        "border-light": "#EBE9F1",
+                        "border-dark": "#3B4253",
+                    },
+                    fontFamily: {
+                        display: ["Be Vietnam Pro", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        .material-icons-outlined {
+            font-size: 24px;
+        }
+    </style>
+</head>
+
+<body class="font-display bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark">
+    <div class="flex h-screen">
+        <aside class="w-64 flex-shrink-0 bg-card-light dark:bg-card-dark flex flex-col">
+            <div class="flex items-center gap-3 p-6">
+                <div class="bg-primary p-2 rounded-lg">
+                    <span class="font-bold text-2xl text-white">P</span>
+                </div>
+                <h1 class="text-xl font-bold text-heading-light dark:text-heading-dark">Parking Admin</h1>
+            </div>
+            <nav class="flex-1 px-4 py-2 space-y-2">
+                <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                    href="#">
+                    <span class="material-icons-outlined text-lg">grid_view</span>
+                    <span class="font-medium">Tổng quan</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                    href="./CapNhatBaiXe.html">
+                    <span class="material-icons-outlined text-lg">local_parking</span>
+                    <span class="font-medium">Quản lý bãi xe</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                    href="./QuanLyNhanVien.html">
+                    <span class="material-icons-outlined text-lg">groups</span>
+                    <span class="font-medium">Quản lý nhân viên</span>
+                </a>
+                <a class="flex items-center gap-3 rounded-lg px-4 py-2.5  dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700  "
+                        href="./QuanLyKhuVuc_ChoDau.html">
+                        <span class="material-icons-outlined text-lg">calendar_month</span>
+                        <p class="text-sm font-medium">Lịch làm việc</p>
+                    </a>
+                <a class="flex items-center gap-3 rounded-lg px-4 py-2.5  dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700  "
+                        href="./QuanLyKhuVuc_ChoDau.html">
+                        <span class="material-icons-outlined text-lg">list</span>
+                        <p class="text-sm font-medium">Danh mục chỗ đậu</p>
+                    </a>
+                <a class="flex items-center gap-3 px-4 py-2.5 rounded text-primary bg-primary/10 transition-colors"
+                    href="./ThongKe.html">
+                    <span class="material-icons-outlined text-lg">bar_chart</span>
+                    <span class="font-bold">Thống kê</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                    href="#">
+                    <span class="material-icons-outlined text-lg">settings</span>
+                    <span class="font-medium">Cài đặt</span>
+                </a>
+            </nav>
+            <div class="p-4 border-t border-border-light dark:border-border-dark">
+                <div class="flex items-center gap-3">
+                    <img alt="Admin avatar" class="w-10 h-10 rounded-full"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpmhXUv0JeLQKqAiTsxrBbmChxJFeZqe-e_EVBe84A9FJehItWbTFzmGKDXCzlPVyXWuXq7M71T365Rm_P1uOERNbkcEK5I-npJ7IZk9IaGjcGDMGm6tVsGVKOzWWgWN1Np4-AppQ0swl4ITCPqGY3D2RB2KjWBGvnTuafeJN_6gvX9bfagNi4T2ai4g2rHpKCtdq-6s4Kjz5Ahk0L64HWhyb7mfpofnTdH-gQ_MRSkHMVhSLPLVJFiuqKaaBWvuhDBxRmNR5AXiI" />
+                    <div>
+                        <p class="font-semibold text-heading-light dark:text-heading-dark">Admin</p>
+                        <p class="text-sm">admin@email.com</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <main class="flex-1 flex flex-col">
+            <header
+                class="flex items-center justify-between p-6 bg-card-light dark:bg-card-dark border-b border-border-light dark:border-border-dark">
+                <div class="relative w-full max-w-sm">
+                    <span
+                        class="material-icons-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-light dark:text-text-dark">search</span>
+                    <input
+                        class="w-full pl-10 pr-4 py-2 rounded-lg bg-background-light dark:bg-background-dark border-transparent focus:border-primary focus:ring-primary text-sm"
+                        placeholder="Tìm kiếm bãi xe hoặc nhân viên" type="text" />
+                </div>
+                <div class="flex items-center gap-4">
+                    <button
+                        class="text-heading-light dark:text-heading-dark hover:text-primary dark:hover:text-primary transition-colors">
+                        <span class="material-icons-outlined">notifications</span>
+                    </button>
+                    <button
+                        class="text-heading-light dark:text-heading-dark hover:text-primary dark:hover:text-primary transition-colors">
+                        <span class="material-icons-outlined">account_circle</span>
+                    </button>
+                </div>
+            </header>
+            <div class="flex-1 p-6 overflow-y-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
+                    <div
+                        class="bg-card-light dark:bg-card-dark p-5 rounded-lg shadow-sm flex justify-between items-start">
+                        <div>
+                            <p class="text-sm">Tổng lượt xe vào bãi</p>
+                            <h3 class="text-2xl font-bold text-heading-light dark:text-heading-dark mt-1">1,567 <span
+                                    class="text-sm text-green-500 font-medium">+2.89%</span></h3>
+                            <p class="text-xs mt-1">so với tháng trước</p>
+                        </div>
+                        <div class="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-lg">
+                            <span class="material-icons-outlined text-blue-500">inventory_2</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-card-light dark:bg-card-dark p-5 rounded-lg shadow-sm flex justify-between items-start">
+                        <div>
+                            <p class="text-sm">Doanh thu tháng này</p>
+                            <h3 class="text-2xl font-bold text-heading-light dark:text-heading-dark mt-1">85.500.000
+                                <span class="text-sm text-red-500 font-medium">-2.89%</span></h3>
+                            <p class="text-xs mt-1">so với tháng trước</p>
+                        </div>
+                        <div class="bg-green-100 dark:bg-green-900/50 p-3 rounded-lg">
+                            <span class="material-icons-outlined text-green-500">monetization_on</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-card-light dark:bg-card-dark p-5 rounded-lg shadow-sm flex justify-between items-start">
+                        <div>
+                            <p class="text-sm">Thẻ xe tháng</p>
+                            <h3 class="text-2xl font-bold text-heading-light dark:text-heading-dark mt-1">200 <span
+                                    class="text-sm text-green-500 font-medium">+12.89%</span></h3>
+                            <p class="text-xs mt-1">so với tháng trước</p>
+                        </div>
+                        <div class="bg-yellow-100 dark:bg-yellow-900/50 p-3 rounded-lg">
+                            <span class="material-icons-outlined text-yellow-500">credit_card</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-card-light dark:bg-card-dark p-5 rounded-lg shadow-sm flex justify-between items-start">
+                        <div>
+                            <p class="text-sm">Đặt chỗ trước</p>
+                            <h3 class="text-2xl font-bold text-heading-light dark:text-heading-dark mt-1">450 <span
+                                    class="text-sm text-red-500 font-medium">-1.09%</span></h3>
+                            <p class="text-xs mt-1">so với tháng trước</p>
+                        </div>
+                        <div class="bg-purple-100 dark:bg-purple-900/50 p-3 rounded-lg">
+                            <span class="material-icons-outlined text-purple-500">bookmark_added</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
+                    <div class="xl:col-span-2 bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="font-bold text-lg text-heading-light dark:text-heading-dark">Tổng doanh thu
+                                </h4>
+                                <p class="text-sm">Doanh thu theo tháng (2025)</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-2xl font-bold text-heading-light dark:text-heading-dark">12.85
+                                    Tỷ</span>
+                                <span
+                                    class="text-xs px-2 py-1 rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">+15.2%</span>
+                            </div>
+                        </div>
+                        <div class="w-full h-80">
+                            <svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 500 200">
+                                <defs>
+                                    <linearGradient id="area-gradient" x1="0" x2="0" y1="0" y2="1">
+                                        <stop offset="0%" stop-color="#28C76F" stop-opacity="0.4"></stop>
+                                        <stop offset="100%" stop-color="#28C76F" stop-opacity="0"></stop>
+                                    </linearGradient>
+                                </defs>
+                                <g class="text-xs text-text-light dark:text-text-dark" style="font-size: 8px;">
+                                    <line class="stroke-current opacity-20" x1="30" x2="490" y1="180" y2="180"></line>
+                                    <line class="stroke-current opacity-20" x1="30" x2="490" y1="135" y2="135"></line>
+                                    <line class="stroke-current opacity-20" x1="30" x2="490" y1="90" y2="90"></line>
+                                    <line class="stroke-current opacity-20" x1="30" x2="490" y1="45" y2="45"></line>
+                                    <text dy="3" x="10" y="180">0</text>
+                                    <text dy="3" x="0" y="135">250tr</text>
+                                    <text dy="3" x="0" y="90">500tr</text>
+                                    <text dy="3" x="0" y="45">750tr</text>
+                                </g>
+                                <path
+                                    d="M 30 150 L 70 120 L 110 130 L 150 90 L 190 110 L 230 80 L 270 100 L 310 70 L 350 90 L 390 60 L 430 80 L 470 50 L 470 180 L 30 180 Z"
+                                    fill="url(#area-gradient)"></path>
+                                <path
+                                    d="M 30 150 L 70 120 L 110 130 L 150 90 L 190 110 L 230 80 L 270 100 L 310 70 L 350 90 L 390 60 L 430 80 L 470 50"
+                                    fill="none" stroke="#28C76F" stroke-width="2"></path>
+                                <g class="text-xs text-text-light dark:text-text-dark text-center"
+                                    style="font-size: 8px;">
+                                    <text x="30" y="195">T1</text> <text x="70" y="195">T2</text> <text x="110"
+                                        y="195">T3</text>
+                                    <text x="150" y="195">T4</text> <text x="190" y="195">T5</text> <text x="230"
+                                        y="195">T6</text>
+                                    <text x="270" y="195">T7</text> <text x="310" y="195">T8</text> <text x="350"
+                                        y="195">T9</text>
+                                    <text x="390" y="195">T10</text> <text x="430" y="195">T11</text> <text x="470"
+                                        y="195">T12</text>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-sm">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="font-bold text-lg text-heading-light dark:text-heading-dark">Loại hình thanh toán
+                            </h4>
+                            <div class="relative">
+                                <select
+                                    class="bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded-md text-sm p-1.5 focus:ring-primary focus:border-primary">
+                                    <option>Tháng 11</option>
+                                    <option>Tháng 10</option>
+                                    <option>Tháng 9</option>
+                                    <option>Tháng 8</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="w-full h-52 flex justify-center items-center my-4">
+                            <svg class="w-full h-full" viewBox="0 0 36 36">
+                                <circle class="stroke-current text-purple-200 dark:text-purple-800" cx="18" cy="18"
+                                    fill="none" r="15.91549430918954" stroke-width="4"></circle>
+                                <circle class="stroke-current text-green-500" cx="18" cy="18" fill="none"
+                                    r="15.91549430918954" stroke-dasharray="45, 100" stroke-dashoffset="0"
+                                    stroke-width="4"></circle>
+                                <circle class="stroke-current text-yellow-500" cx="18" cy="18" fill="none"
+                                    r="15.91549430918954" stroke-dasharray="30, 100" stroke-dashoffset="-45"
+                                    stroke-width="4"></circle>
+                                <circle class="stroke-current text-blue-500" cx="18" cy="18" fill="none"
+                                    r="15.91549430918954" stroke-dasharray="15, 100" stroke-dashoffset="-75"
+                                    stroke-width="4"></circle>
+                                <g class="text-center transform -translate-y-1 " x="18" y="15">
+                                    <text
+                                        class="text-[4px] font-bold fill-current text-heading-light dark:text-heading-dark"
+                                        x="13" y="20">9.85M</text>
+                                    <text class="text-[4px] fill-current text-text-light dark:text-text-dark" x="13"
+                                        y="26">Tổng</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-2 mt-4 text-sm">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
+                                <span>Tiền mặt (45%)</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-yellow-500"></span>
+                                <span>Thẻ (30%)</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+                                <span>Chuyển khoản (15%)</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-purple-200 dark:bg-purple-800"></span>
+                                <span>Ví điện tử (10%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-sm">
+                    <div class="flex flex-wrap justify-between items-center gap-4 mb-4">
+                        <h4 class="font-bold text-lg text-heading-light dark:text-heading-dark">Bảng số liệu doanh thu
+                        </h4>
+                        <div class="flex items-center gap-4">
+                            <div class="flex items-center gap-2">
+                                <button
+                                    class="p-2 border border-border-light dark:border-border-dark rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
+                                    <span class="material-icons-outlined text-xl">filter_list</span>
+                                </button>
+                                <div class="relative w-48">
+                                    <span
+                                        class="material-icons-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-light dark:text-text-dark text-xl">search</span>
+                                    <input
+                                        class="w-full pl-10 pr-4 py-2 rounded-lg bg-background-light dark:bg-background-dark border-transparent focus:border-primary focus:ring-primary text-sm"
+                                        placeholder="Search..." type="text" />
+                                </div>
+                            </div>
+                            <button
+                                class="bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors">
+                                <span class="material-icons-outlined text-xl">add</span>
+                                <span>Xem chi tiết</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead
+                                class="bg-gray-50 dark:bg-gray-700/50 text-xs uppercase text-text-light dark:text-text-dark">
+                                <tr>
+                                    <th class="p-4" scope="col"><input
+                                            class="rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary dark:bg-gray-900 dark:ring-offset-gray-900"
+                                            type="checkbox" /></th>
+                                    <th class="p-4" scope="col">#</th>
+                                    <th class="p-4" scope="col">Mã hóa đơn</th>
+                                    <th class="p-4" scope="col">Loại giao dịch</th>
+                                    <th class="p-4" scope="col">Biển số xe</th>
+                                    <th class="p-4" scope="col">Thời gian giao dịch</th>
+                                    <th class="p-4" scope="col">Tổng tiền</th>
+                                    <th class="p-4" scope="col">Phương thức TT</th>
+                                    <th class="p-4" scope="col">Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    class="border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                    <td class="p-4"><input
+                                            class="rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary dark:bg-gray-900 dark:ring-offset-gray-900"
+                                            type="checkbox" /></td>
+                                    <td class="p-4 text-heading-light dark:text-heading-dark">1</td>
+                                    <td class="p-4 font-medium text-heading-light dark:text-heading-dark">HD000121</td>
+                                    <td class="p-4">Thẻ xe tháng</td>
+                                    <td class="p-4">30A-123.45</td>
+                                    <td class="p-4">05/12/2025 <span class="block text-xs">09:30</span></td>
+                                    <td class="p-4 font-semibold text-green-600">+500.000 VND</td>
+                                    <td class="p-4">Chuyển khoản</td>
+                                    <td class="p-4"><span
+                                            class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Thành
+                                            công</span></td>
+                                </tr>
+                                <tr
+                                    class="border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                    <td class="p-4"><input
+                                            class="rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary dark:bg-gray-900 dark:ring-offset-gray-900"
+                                            type="checkbox" /></td>
+                                    <td class="p-4 text-heading-light dark:text-heading-dark">2</td>
+                                    <td class="p-4 font-medium text-heading-light dark:text-heading-dark">HD000122</td>
+                                    <td class="p-4">Đặt chỗ trước</td>
+                                    <td class="p-4">51F-678.90</td>
+                                    <td class="p-4">06/12/2025 <span class="block text-xs">10:30</span></td>
+                                    <td class="p-4 font-semibold text-green-600">+150.000 VND</td>
+                                    <td class="p-4">Tiền mặt</td>
+                                    <td class="p-4"><span
+                                            class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Thành
+                                            công</span></td>
+                                </tr>
+                                <tr
+                                    class="border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                    <td class="p-4"><input
+                                            class="rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary dark:bg-gray-900 dark:ring-offset-gray-900"
+                                            type="checkbox" /></td>
+                                    <td class="p-4 text-heading-light dark:text-heading-dark">3</td>
+                                    <td class="p-4 font-medium text-heading-light dark:text-heading-dark">HD000123</td>
+                                    <td class="p-4">Vé thường</td>
+                                    <td class="p-4">29C-000.11</td>
+                                    <td class="p-4">05/12/2025 <span class="block text-xs">08:50</span></td>
+                                    <td class="p-4 font-semibold text-green-600">+50.000 VND</td>
+                                    <td class="p-4">Thẻ/Ví</td>
+                                    <td class="p-4"><span
+                                            class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Thành
+                                            công</span></td>
+                                </tr>
+                                <tr
+                                    class="border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                    <td class="p-4"><input
+                                            class="rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary dark:bg-gray-900 dark:ring-offset-gray-900"
+                                            type="checkbox" /></td>
+                                    <td class="p-4 text-heading-light dark:text-heading-dark">4</td>
+                                    <td class="p-4 font-medium text-heading-light dark:text-heading-dark">HD000124</td>
+                                    <td class="p-4">Đặt chỗ trước</td>
+                                    <td class="p-4">33B-222.33</td>
+                                    <td class="p-4">06/12/2025 <span class="block text-xs">12:15</span></td>
+                                    <td class="p-4 font-semibold text-red-600">-50.000 VND</td>
+                                    <td class="p-4">Chuyển khoản</td>
+                                    <td class="p-4"><span
+                                            class="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">Thất
+                                            bại</span></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                    <td class="p-4"><input
+                                            class="rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary dark:bg-gray-900 dark:ring-offset-gray-900"
+                                            type="checkbox" /></td>
+                                    <td class="p-4 text-heading-light dark:text-heading-dark">5</td>
+                                    <td class="p-4 font-medium text-heading-light dark:text-heading-dark">HD000125</td>
+                                    <td class="p-4">Vé thường</td>
+                                    <td class="p-4">92L1-242.53</td>
+                                    <td class="p-4">05/12/2025 <span class="block text-xs">13:30</span></td>
+                                    <td class="p-4 font-semibold text-green-600">+80.000 VND</td>
+                                    <td class="p-4">Tiền mặt</td>
+                                    <td class="p-4"><span
+                                            class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Thành
+                                            công</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="flex flex-wrap justify-between items-center pt-4 text-sm">
+                        <span class="text-text-light dark:text-text-dark">1-10 of 97</span>
+                        <div class="flex items-center gap-4">
+                            <div class="flex items-center gap-2">
+                                <span>Rows per page:</span>
+                                <select
+                                    class="bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded-md text-sm p-1 focus:ring-primary focus:border-primary">
+                                    <option>10</option>
+                                    <option>25</option>
+                                    <option>50</option>
+                                </select>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span>1/10</span>
+                                <div class="flex items-center">
+                                    <button
+                                        class="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50"
+                                        disabled="">
+                                        <span class="material-icons-outlined text-lg">chevron_left</span>
+                                    </button>
+                                    <button class="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <span class="material-icons-outlined text-lg">chevron_right</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+
+</html>
