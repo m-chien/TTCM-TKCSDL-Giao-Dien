@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Quản lý Thiết Bị theo Khu Vực</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#0D6EFD", // Màu xanh dương (Chính)
+                        secondary: "#10B981", // Màu xanh lá (Phụ/Hành động)
+                        "background-light": "#F8F9FA",
+                        "background-dark": "#121212",
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#1F2937",
+                        "text-light-primary": "#212529",
+                        "text-light-secondary": "#6C757D",
+                        "text-dark-primary": "#F3F4F6",
+                        "text-dark-secondary": "#9CA3AF",
+                        "border-light": "#E5E7EB",
+                        "border-dark": "#374151",
+                        "status-active": "#34D399",       // Hoạt động
+                        "status-maintenance": "#FBBF24",  // Bảo trì
+                        "status-inactive": "#F87171",     // Ngừng hoạt động
+                    },
+                    fontFamily: {
+                        display: ["Be Vietnam Pro", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.4rem",
+                        lg: "0.6rem",
+                        xl: "0.75rem",
+                    },
+                    boxShadow: {
+                        'custom': '0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03)',
+                        'modal': '0 8px 10px -3px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
+                    }
+                },
+            },
+        };
+    </script>
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.875rem;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+            vertical-align: middle;
+        }
+
+        .overflow-y-scroll-custom::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .overflow-y-scroll-custom::-webkit-scrollbar-thumb {
+            background-color: #4B5563;
+            border-radius: 3px;
+        }
+
+        .overflow-y-scroll-custom::-webkit-scrollbar-track {
+            background: #374151;
+        }
+
+        :root:not(.dark) .overflow-y-scroll-custom::-webkit-scrollbar-thumb {
+            background-color: #D1D5DB;
+        }
+
+        :root:not(.dark) .overflow-y-scroll-custom::-webkit-scrollbar-track {
+            background: #F3F4F6;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-sm">
+    <div class="flex h-screen">
+        <aside class="w-64 flex-col border-r border-border-light dark:border-border-dark bg-background-light dark:bg-surface-dark/50">
+            <div class="flex h-full flex-col justify-between p-4 bg-[#111827] text-gray-300">
+                <div class="flex flex-col gap-6">
+                    <div class="flex items-center gap-3 px-2">
+                        <div class="flex items-center justify-center rounded-lg bg-primary/20 p-2 text-primary">
+                            <span class="material-symbols-outlined text-2xl">local_parking</span>
+                        </div>
+                        <h1 class="text-lg font-bold text-white">Parking Admin</h1>
+                    </div>
+                    <nav class="flex flex-col gap-2">
+                        <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-gray-700/50 transition-colors"
+                            href="#">
+                            <span class="material-symbols-outlined">dashboard</span>
+                            <p class="text-sm font-semibold">Tổng quan</p>
+                        </a>
+                        <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 bg-white font-semibold text-primary"
+                            href="#">
+                            <span class="material-symbols-outlined">devices_other</span>
+                            <p class="text-sm font-medium">Quản lý Thiết Bị</p>
+                        </a>
+                        <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-gray-700/50 transition-colors"
+                            href="#">
+                            <span class="material-symbols-outlined">groups</span>
+                            <p class="text-sm font-medium">Quản lý nhân viên</p>
+                        </a>
+                        <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-gray-700/50 transition-colors"
+                            href="#">
+                            <span class="material-symbols-outlined">shift</span>
+                            <p class="text-sm font-medium">Quản lý ca làm</p>
+                        </a>
+                        <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-gray-700/50 transition-colors"
+                            href="#">
+                            <span class="material-symbols-outlined">calendar_month</span>
+                            <p class="text-sm font-medium">Lịch làm việc</p>
+                        </a>
+                        <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-gray-700/50 transition-colors"
+                            href="#">
+                            <span class="material-symbols-outlined">list</span>
+                            <p class="text-sm font-medium">Danh mục Khu vực & Chỗ đỗ</p>
+                        </a>
+                        <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-gray-700/50 transition-colors"
+                            href="#">
+                            <span class="material-symbols-outlined">assessment</span>
+                            <p class="text-sm font-medium">Thống kê</p>
+                        </a>
+                    </nav>
+                </div>
+                <div class="flex flex-col gap-1 border-t border-gray-700 pt-4 text-gray-300">
+                    <div class="flex items-center gap-3 px-3 py-2">
+                        <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                            data-alt="Admin user avatar"
+                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDSBl77xDRyzdEmA1bqOR8us366h5umMmXmkFUxgpDrNq39j6NpuXlHVoGetK8-SZzQGlIuLxy8mqr7ki1JETuzLoOeljk18F04cc8-qVotv6ZxMn3nuchnPXz1WSbP5r_XBVVIPMh5J0OJYuSuLcT2_ugU5YHbXoAj3wU7oqY0G0P7YWEOWrRN7HsvX3PwcdYQwOu3AEMDQTsWfryfJOwRehe3z7dZKlO0S2EUzKzEouKb9NB73NvcSyWWOv44oFnxK88CgSonrnuT");'>
+                        </div>
+                        <div class="flex flex-col">
+                            <p class="text-sm font-semibold">Admin</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">admin@email.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <div class="flex-1 flex flex-col">
+            <header
+                class="h-14 bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark flex items-center justify-end px-4 shadow-sm z-10">
+                <div class="flex items-center space-x-3"> <button
+                        class="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-text-light-secondary dark:text-text-dark-secondary transition-colors">
+                        <span class="material-symbols-outlined text-xl">search</span> </button>
+                    <div class="h-5 border-l border-border-light dark:border-border-dark"></div>
+                    <button
+                        class="relative p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-text-light-secondary dark:text-text-dark-secondary transition-colors">
+                        <span class="material-symbols-outlined text-xl">notifications</span>
+                        <span
+                            class="absolute top-0.5 right-0.5 block h-2 w-2 rounded-full bg-red-500 ring-1 ring-surface-light dark:ring-surface-dark"></span> </button>
+                    <div
+                        class="flex items-center space-x-1 cursor-pointer p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        <img alt="Avatar of TinhBaiXe" class="h-8 w-8 rounded-full object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBc21mxH26fv-wDdQf5VeCcF3UZ5ikPIOoWb1o0C9w-SGZbzBHX7rodtGeIldrS6ftygPxH6W_WuCDvHGyI-D4Ey-aVOHanWhvfEY7i66ZrgN-1fc10ezaoikzhC3ytmq_RK1PJBwDmGzf8_f2zIney0UU5Rf7RFr2rLI9IyK5YTZeftVL_pHumxGOrJCkrQNIgNlJ7boVtG1Qnw_4cUuEvRbZdKMEbwrbCX-knD4WwU4RDcX6B8oI10hrvJggp63NZjIgmrF5mj4Y" />
+                        <div>
+                            <p class="font-semibold text-xs text-text-light-primary dark:text-text-dark-primary">
+                                TinhBaiXe</p>
+                            <p class="text-[0.65rem] text-text-light-secondary dark:text-text-dark-secondary">Chủ bãi xe</p>
+                        </div>
+                        <span class="material-symbols-outlined text-sm ml-1">expand_more</span>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-1 p-4 grid grid-cols-1 lg:grid-cols-12 gap-4 overflow-y-auto relative">
+
+                <div
+                    class="lg:col-span-4 bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-custom flex flex-col h-full"> <div class="flex justify-between items-center mb-3"> <h2
+                            class="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">Khu Vực: Bãi Đỗ QT</h2> </div>
+
+                    <button id="openAreaModalBtn"
+                        class="w-full bg-secondary text-white py-2.5 px-3 rounded-lg flex items-center justify-center font-semibold hover:bg-blue-600 transition-all shadow-md mb-4 text-sm"> <span class="material-symbols-outlined mr-2 text-base">add_circle</span>
+                        Tạo Khu Vực Mới
+                    </button>
+
+                    <div class="flex-1 space-y-3 overflow-y-auto overflow-y-scroll-custom pr-2"> <div
+                            class="bg-primary bg-opacity-10 dark:bg-primary/20 p-3 rounded-lg border-2 border-primary shadow-lg cursor-pointer transition-all hover:shadow-xl"> <div class="flex justify-between items-start mb-2"> <h3 class="font-bold text-base text-primary dark:text-white flex items-center"> <span class="material-symbols-outlined mr-2 text-xl">garage</span>
+                                    Khu vực A - Tầng hầm
+                                </h3>
+                                <div class="flex space-x-1 opacity-100"> <button
+                                        class="text-red-600 hover:text-red-800 p-0.5 rounded-full hover:bg-red-100 transition-colors"><span
+                                            class="material-symbols-outlined text-base">delete</span></button>
+                                    <button id="openEditAreaModalBtn"
+                                        class="text-secondary hover:text-blue-700 p-0.5 rounded-full hover:bg-blue-100 transition-colors open-edit-area-modal"><span
+                                            class="material-symbols-outlined text-base">edit</span></button>
+                                </div>
+                            </div>
+                            <img alt="Underground parking area with many cars"
+                                class="w-full h-24 object-cover rounded-md mb-2 border border-primary/50"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0RJmN0dStqJ8CLthTkblvKTSCM_POSkH4Peox7QbKIYq6BE_iV5OvP7docbTPhb9IM5djcdr8VASfXIALRXhw0ysV29ODoTWbkNZhz3-X46rRmlZ-604Qs_9hlcv_FdPcO09CiZrGPfbq463iE7ppxK0iVdV7TkigjrAaa-4LgTm9aqn8KnjXcrnDlFvznXwtjURKTTjZ4TbJIRYMTM5XaIVkIcdGZhg95PGMGtXvT71r_B6M5LkMnHECOXI72R5pBF0e8X0L7hs" /> <div class="text-xs text-text-light-secondary dark:text-text-dark-secondary"> <p class="flex justify-between"><span>**Tổng số chỗ:**</span> <span
+                                        class="font-medium">120</span></p>
+                                <p class="flex justify-between"><span>**Chỗ trống:**</span> <span
+                                        class="font-medium text-green-600 dark:text-green-400">45</span></p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="bg-background-light dark:bg-surface-dark/50 p-3 rounded-lg border border-border-light dark:border-border-dark cursor-pointer transition-all hover:shadow-md hover:border-primary/50">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3
+                                    class="font-semibold text-base text-text-light-primary dark:text-text-dark-primary flex items-center">
+                                    <span class="material-symbols-outlined mr-2 text-xl">layers</span>
+                                    Khu vực B1 - Xếp tầng
+                                </h3>
+                                <div class="flex space-x-1 opacity-70 hover:opacity-100 transition-opacity">
+                                    <button
+                                        class="text-red-500 hover:text-red-700 p-0.5 rounded-full hover:bg-red-100 transition-colors"><span
+                                            class="material-symbols-outlined text-base">delete</span></button>
+                                    <button
+                                        class="text-primary hover:text-green-700 p-0.5 rounded-full hover:bg-green-100 transition-colors open-edit-area-modal"><span
+                                            class="material-symbols-outlined text-base">edit</span></button>
+                                </div>
+                            </div>
+                            <img alt="Multi-level stacked parking system with white cars"
+                                class="w-full h-24 object-cover rounded-md mb-2"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBslDoB2GHxJryVxHwt2iEGlhAQ29EujGrX49a7-I6nINZ1LpG3lnok3M2cjbQG8kv1YlT1XhVd_dp7qI-F2a6TEN1qqHjPy22nCrxNC27jP4arq7o6uETjPduTI1WvdTIIzELVCfWidfUXxhRpLlckLir-5PvtOxYAOjTgp7vIKg1zSTV2lp9JUVVjJFrjBvN-qBY-DDcNhOj8MforfbW6eqdSNtj_bQ4sChTRWdzyxZL_l7iDXnYHYDwdIWwI1icFyM9rW2909kw" />
+                            <div class="text-xs text-text-light-secondary dark:text-text-dark-secondary">
+                                <p class="flex justify-between"><span>**Tổng số chỗ:**</span> <span
+                                        class="font-medium">80</span></p>
+                                <p class="flex justify-between"><span>**Chỗ trống:**</span> <span
+                                        class="font-medium text-green-600 dark:text-green-400">12</span></p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="bg-background-light dark:bg-surface-dark/50 p-3 rounded-lg border border-border-light dark:border-border-dark cursor-pointer transition-all hover:shadow-md hover:border-primary/50">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3
+                                    class="font-semibold text-base text-text-light-primary dark:text-text-dark-primary flex items-center">
+                                    <span class="material-symbols-outlined mr-2 text-xl">deck</span>
+                                    Khu vực C - Ngoài trời
+                                </h3>
+                                <div class="flex space-x-1 opacity-70 hover:opacity-100 transition-opacity">
+                                    <button
+                                        class="text-red-500 hover:text-red-700 p-0.5 rounded-full hover:bg-red-100 transition-colors"><span
+                                            class="material-symbols-outlined text-base">delete</span></button>
+                                    <button
+                                        class="text-primary hover:text-green-700 p-0.5 rounded-full hover:bg-green-100 transition-colors open-edit-area-modal"><span
+                                            class="material-symbols-outlined text-base">edit</span></button>
+                                </div>
+                            </div>
+                            <img alt="Aerial view of an outdoor parking lot"
+                                class="w-full h-24 object-cover rounded-md mb-2"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuhcxkPJ4ipCgGm16jHjA7UEaZj2FiUbZsnbkdx05e9lX_cJU_B_l8lqFDBur7mU7AAPPd_wvVPR9N4r93xmCENCAbfA3iUwy2TZC-rXi4xhIkqvbiPEF3ozSwFdyVPR-9Ym5jqJC-AQzZUMjHQ1Biwno04jRBwYQnqG7JjykiJ9h3rDwU9omTc_hzWwHEoHQRUczO9Vfn3A9_xlS843yQ6XhPzmJ7Fr9HDDQPuKPKUoXGI6jiOp3-v8qqBiMK7TNTNqDw-IpJGzc" />
+                            <div class="text-xs text-text-light-secondary dark:text-text-dark-secondary">
+                                <p class="flex justify-between"><span>**Tổng số chỗ:**</span> <span
+                                        class="font-medium">50</span></p>
+                                <p class="flex justify-between"><span>**Chỗ trống:**</span> <span
+                                        class="font-medium text-green-600 dark:text-green-400">28</span></p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="bg-background-light dark:bg-surface-dark/50 p-3 rounded-lg border border-border-light dark:border-border-dark cursor-pointer transition-all hover:shadow-md hover:border-primary/50">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3
+                                    class="font-semibold text-base text-text-light-primary dark:text-text-dark-primary flex items-center">
+                                    <span class="material-symbols-outlined mr-2 text-xl">layers</span>
+                                    Khu vực B2 - Xếp tầng
+                                </h3>
+                                <div class="flex space-x-1 opacity-70 hover:opacity-100 transition-opacity">
+                                    <button
+                                        class="text-red-500 hover:text-red-700 p-0.5 rounded-full hover:bg-red-100 transition-colors"><span
+                                            class="material-symbols-outlined text-base">delete</span></button>
+                                    <button
+                                        class="text-primary hover:text-green-700 p-0.5 rounded-full hover:bg-green-100 transition-colors open-edit-area-modal"><span
+                                            class="material-symbols-outlined text-base">edit</span></button>
+                                </div>
+                            </div>
+                            <img alt="Another multi-level stacked parking system"
+                                class="w-full h-24 object-cover rounded-md mb-2"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFwdcLfED6r4JQZNkvicbXin3zaySBTlCK9X7-LPXexu5b1fEK5qLBujTB3DQe8P2DNCDTxrJAqEqE4KTTnZZgo-LqcGFkhjR4uSLgfjoA55qBCLUzZWhE9GrdU-eLiFmg_ZeTK3j7LCkD63rieWLq3TiVP1L-zLe9EUpyxkfoi5k7r4pd2IaF7ZfSX9XVxs3rTJfFD2lk1a5kH0FlqiRu2sQH8Doh6c14GqXPo7n3NfHSgEEqSWOvEDf2Bv_c3YcT8Oi9NqIaM0w" />
+                            <div class="text-xs text-text-light-secondary dark:text-text-dark-secondary">
+                                <p class="flex justify-between"><span>**Tổng số chỗ:**</span> <span
+                                        class="font-medium">80</span></p>
+                                <p class="flex justify-between"><span>**Chỗ trống:**</span> <span
+                                        class="font-medium text-green-600 dark:text-green-400">10</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8 bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-custom flex flex-col h-full">
+                    <div class="flex justify-between items-center mb-5 border-b border-border-light dark:border-border-dark pb-4">
+                        <h2 class="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">
+                            Thiết Bị tại Khu vực A - Tầng hầm
+                        </h2>
+                        <button id="openDeviceModalBtn"
+                            class="bg-primary text-white py-2.5 px-4 rounded-lg flex items-center justify-center font-semibold hover:bg-secondary transition-colors shadow-md text-sm">
+                            <span class="material-symbols-outlined mr-2 text-base">add_box</span>
+                            Thêm Thiết Bị Mới
+                        </button>
+                    </div>
+
+                    <div class="flex flex-wrap gap-x-4 gap-y-1 mb-4 text-xs">
+                        <div
+                            class="flex items-center space-x-1.5 text-text-light-secondary dark:text-text-dark-secondary bg-background-light dark:bg-surface-dark/50 p-1.5 rounded-md">
+                            <span class="w-3 h-3 bg-status-active rounded-sm"></span>
+                            <span class="font-medium">Hoạt động</span>
+                        </div>
+                        <div
+                            class="flex items-center space-x-1.5 text-text-light-secondary dark:text-text-dark-secondary bg-background-light dark:bg-surface-dark/50 p-1.5 rounded-md">
+                            <span class="w-3 h-3 bg-status-maintenance rounded-sm"></span>
+                            <span class="font-medium">Bảo trì</span>
+                        </div>
+                        <div
+                            class="flex items-center space-x-1.5 text-text-light-secondary dark:text-text-dark-secondary bg-background-light dark:bg-surface-dark/50 p-1.5 rounded-md">
+                            <span class="w-3 h-3 bg-status-inactive rounded-sm"></span>
+                            <span class="font-medium">Ngừng hoạt động</span>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 overflow-auto overflow-y-scroll-custom">
+                        <table class="min-w-full divide-y divide-border-light dark:divide-border-dark">
+                            <thead class="bg-background-light dark:bg-surface-dark/50 sticky top-0 shadow-sm">
+                                <tr>
+                                    <th
+                                        class="px-4 py-2 text-left text-xs font-semibold text-text-light-secondary dark:text-text-dark-secondary uppercase tracking-wider">
+                                        Tên Thiết Bị</th>
+                                    <th
+                                        class="px-4 py-2 text-left text-xs font-semibold text-text-light-secondary dark:text-text-dark-secondary uppercase tracking-wider">
+                                        Loại Thiết Bị</th>
+                                    <th
+                                        class="px-4 py-2 text-left text-xs font-semibold text-text-light-secondary dark:text-text-dark-secondary uppercase tracking-wider">
+                                        Trạng Thái</th>
+                                    <th
+                                        class="px-4 py-2 text-left text-xs font-semibold text-text-light-secondary dark:text-text-dark-secondary uppercase tracking-wider">
+                                        Ngày Cài Đặt</th>
+                                    <th
+                                        class="px-4 py-2 text-left text-xs font-semibold text-text-light-secondary dark:text-text-dark-secondary uppercase tracking-wider text-right">
+                                        Giá (VND)</th>
+                                    <th class="px-4 py-2"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-border-light dark:divide-border-dark">
+
+                                <tr class="hover:bg-background-light dark:hover:bg-surface-dark/50 cursor-pointer">
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm font-semibold">Camera A01</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm">Camera Giám sát</td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-status-active/20 text-status-active">
+                                            Hoạt động
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm">01/08/2023</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-right">5,000,000</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">
+                                        <button class="text-primary hover:text-blue-700 p-1 rounded-full open-edit-device-modal"><span
+                                                class="material-symbols-outlined text-base">edit</span></button>
+                                    </td>
+                                </tr>
+
+                                <tr class="hover:bg-background-light dark:hover:bg-surface-dark/50 cursor-pointer">
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm font-semibold">Barrier Chính</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm">Cổng Ra/Vào</td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-status-maintenance/20 text-status-maintenance">
+                                            Bảo trì
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm">15/07/2023</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-right">15,000,000</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">
+                                        <button class="text-primary hover:text-blue-700 p-1 rounded-full open-edit-device-modal"><span
+                                                class="material-symbols-outlined text-base">edit</span></button>
+                                    </td>
+                                </tr>
+
+                                <tr class="hover:bg-background-light dark:hover:bg-surface-dark/50 cursor-pointer">
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm font-semibold">Cảm biến A05</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm">Cảm biến Chỗ đỗ</td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-status-inactive/20 text-status-inactive">
+                                            Ngừng hoạt động
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm">20/09/2023</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-right">800,000</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">
+                                        <button class="text-primary hover:text-blue-700 p-1 rounded-full open-edit-device-modal"><span
+                                                class="material-symbols-outlined text-base">edit</span></button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="areaModal"
+                    class="hidden fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 z-50 flex items-center justify-center p-4">
+                    <div
+                        class="bg-surface-light dark:bg-surface-dark w-full max-w-lg rounded-xl shadow-modal overflow-hidden transform transition-all duration-300">
+                        <div
+                            class="p-5 border-b border-border-light dark:border-border-dark flex justify-between items-center">
+                            <h3 id="areaModalTitle"
+                                class="text-xl font-bold text-text-light-primary dark:text-text-dark-primary flex items-center">
+                                <span class="material-symbols-outlined mr-2 text-2xl text-secondary">apartment</span>
+                                Chỉnh Sửa Khu Vực
+                            </h3>
+                            <button id="closeAreaModalBtn"
+                                class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-text-light-secondary dark:text-text-dark-secondary">
+                                <span class="material-symbols-outlined">close</span>
+                            </button>
+                        </div>
+
+                        <form class="p-6 space-y-4">
+                            <div>
+                                <label for="areaNameInput"
+                                    class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">Tên
+                                    Khu Vực <span class="text-red-500">*</span></label>
+                                <input type="text" id="areaNameInput" name="TenKhuVuc" value="Khu vực A"
+                                    class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-background-light dark:bg-surface-dark/50 text-text-light-primary dark:text-text-dark-primary focus:border-secondary focus:ring-secondary transition-colors"
+                                    placeholder="Ví dụ: Khu vực Tầng hầm P1" required>
+                            </div>
+
+                            <div>
+                                <label for="baiDoSelect"
+                                    class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">Thuộc Bãi Đỗ Chính</label>
+                                <select id="baiDoSelect" name="IDBaiDo"
+                                    class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-background-light dark:bg-surface-dark/50 text-text-light-primary dark:text-text-dark-primary focus:border-secondary focus:ring-secondary transition-colors">
+                                    <option value="1" selected>Bãi đỗ QT (Quốc Tế)</option>
+                                    <option value="2">Bãi đỗ MC (Miền Trung)</option>
+                                </select>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label for="areaCapacity"
+                                        class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">Sức chứa (Tổng chỗ đỗ) <span class="text-red-500">*</span></label>
+                                    <input type="number" id="areaCapacity" name="SucChua" value="120"
+                                        class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-background-light dark:bg-surface-dark/50 text-text-light-primary dark:text-text-dark-primary focus:border-secondary focus:ring-secondary transition-colors"
+                                        required>
+                                </div>
+                                <div>
+                                    <label for="areaStatusInput"
+                                        class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">Trạng
+                                        Thái Hoạt Động</label>
+                                    <select id="areaStatusInput" name="TrangThai"
+                                        class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-background-light dark:bg-surface-dark/50 text-text-light-primary dark:text-text-dark-primary focus:border-secondary focus:ring-secondary transition-colors">
+                                        <option value="active" selected>Hoạt động</option>
+                                        <option value="inactive">Tạm ngưng</option>
+                                        <option value="maintenance">Bảo trì</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label
+                                    class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary">Hình
+                                    Ảnh Khu Vực</label>
+                                <img id="areaImagePreview"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0RJmN0dStqJ8CLthTkblvKTSCM_POSkH4Peox7QbKIYq6BE_iV5OvP7docbTPhb9IM5djcdr8VASfXIALRXhw0ysV29ODoTWbkNZhz3-X46rRmlZ-604Qs_9hlcv_FdPcO09CiZrGPfbq463iE7ppxK0iVdV7TkigjrAaa-4LgTm9aqn8KnjXcrnDlFvznXwtjURKTTjZ4TbJIRYMTM5XaIVkIcdGZhg95PGMGtXvT71r_B6M5LkMnHECOXI72R5pBF0e8X0L7hs"
+                                    alt="Area Preview"
+                                    class="mt-3 h-24 w-auto object-cover rounded-md border border-border-light dark:border-border-dark">
+                                <input type="file" id="areaImage" name="HinhAnh" class="w-full text-sm mt-1" />
+                            </div>
+
+                        </form>
+
+                        <div
+                            class="p-5 border-t border-border-light dark:border-border-dark bg-background-light dark:bg-surface-dark/50 flex justify-end space-x-3">
+                            <button id="cancelAreaModalBtn"
+                                class="px-5 py-2 rounded-lg text-text-light-secondary dark:text-text-dark-secondary hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors font-medium">
+                                Hủy
+                            </button>
+                            <button id="saveAreaModalBtn"
+                                class="px-5 py-2 rounded-lg bg-secondary text-white font-semibold hover:bg-blue-600 transition-colors shadow-md">
+                                Lưu Thay Đổi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="deviceModal"
+                    class="hidden fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 z-50 flex items-center justify-center p-4">
+                    <div
+                        class="bg-surface-light dark:bg-surface-dark w-full max-w-md rounded-xl shadow-modal overflow-hidden transform transition-all duration-300">
+                        <div
+                            class="p-5 border-b border-border-light dark:border-border-dark flex justify-between items-center">
+                            <h3 id="deviceModalTitle"
+                                class="text-xl font-bold text-text-light-primary dark:text-text-dark-primary flex items-center">
+                                <span class="material-symbols-outlined mr-2 text-2xl text-secondary">device_hub</span>
+                                Thêm Thiết Bị Mới
+                            </h3>
+                            <button id="closeDeviceModalBtn"
+                                class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-text-light-secondary dark:text-text-dark-secondary">
+                                <span class="material-symbols-outlined">close</span>
+                            </button>
+                        </div>
+
+                        <form class="p-6 space-y-4">
+                            <div>
+                                <label for="deviceName"
+                                    class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">Tên
+                                    Thiết Bị <span class="text-red-500">*</span></label>
+                                <input type="text" id="deviceName" name="TenThietBi"
+                                    class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-background-light dark:bg-surface-dark/50 text-text-light-primary dark:text-text-dark-primary focus:border-secondary focus:ring-secondary transition-colors"
+                                    placeholder="Ví dụ: Camera Cổng A01" required>
+                            </div>
+
+                            <div>
+                                <label for="deviceType"
+                                    class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">Loại
+                                    Thiết Bị</label>
+                                <select id="deviceType" name="LoaiThietBi"
+                                    class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-background-light dark:bg-surface-dark/50 text-text-light-primary dark:text-text-dark-primary focus:border-secondary focus:ring-secondary transition-colors">
+                                    <option value="Camera">Camera Giám sát</option>
+                                    <option value="Barrier">Barrier Cổng</option>
+                                    <option value="Sensor">Cảm biến Chỗ đỗ</option>
+                                    <option value="POS">Thiết bị POS</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="deviceArea"
+                                    class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">Thuộc Khu Vực</label>
+                                <select id="deviceArea" name="IDKhuVuc"
+                                    class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-background-light dark:bg-surface-dark/50 text-text-light-primary dark:text-text-dark-primary focus:border-secondary focus:ring-secondary transition-colors">
+                                    <option value="A" selected>Khu vực A - Tầng hầm</option>
+                                    <option value="B">Khu vực B1 - Xếp tầng</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="deviceStatus"
+                                    class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">Trạng Thái Hoạt Động</label>
+                                <select id="deviceStatus" name="TrangThai"
+                                    class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-background-light dark:bg-surface-dark/50 text-text-light-primary dark:text-text-dark-primary focus:border-secondary focus:ring-secondary transition-colors">
+                                    <option value="Active" selected>Hoạt động</option>
+                                    <option value="Maintenance">Bảo trì</option>
+                                    <option value="Inactive">Ngừng hoạt động</option>
+                                </select>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label for="installDate"
+                                        class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">Ngày Cài Đặt</label>
+                                    <input type="date" id="installDate" name="NgayCaiDat"
+                                        class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-surface-light dark:bg-surface-dark/50 text-text-light-primary dark:text-text-dark-primary focus:border-primary focus:ring-primary transition-colors">
+                                </div>
+                                <div>
+                                    <label for="installCost"
+                                        class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">Giá Lắp Đặt (VND)</label>
+                                    <input type="number" id="installCost" name="GiaLapDat"
+                                        class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-surface-light dark:bg-surface-dark/50 text-text-light-primary dark:text-text-dark-primary focus:border-primary focus:ring-primary transition-colors"
+                                        placeholder="5000000">
+                                </div>
+                            </div>
+                        </form>
+
+                        <div
+                            class="p-5 border-t border-border-light dark:border-border-dark bg-background-light dark:bg-surface-dark/50 flex justify-end space-x-3">
+                            <button id="cancelDeviceModalBtn"
+                                class="px-5 py-2 rounded-lg text-text-light-secondary dark:text-text-dark-secondary hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors font-medium">
+                                Hủy
+                            </button>
+                            <button id="saveDeviceModalBtn"
+                                class="px-5 py-2 rounded-lg bg-secondary text-white font-semibold hover:bg-green-600 transition-colors shadow-md">
+                                Lưu Thiết Bị
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        // Modal Khu Vực
+                        const areaModal = document.getElementById('areaModal');
+                        const openAreaModalBtn = document.getElementById('openAreaModalBtn');
+                        const closeAreaModalBtn = document.getElementById('closeAreaModalBtn');
+                        const cancelAreaModalBtn = document.getElementById('cancelAreaModalBtn');
+                        const openEditAreaModalBtns = document.querySelectorAll('.open-edit-area-modal');
+                        const areaModalTitle = document.getElementById('areaModalTitle');
+
+                        // Modal Thiết Bị
+                        const deviceModal = document.getElementById('deviceModal');
+                        const openDeviceModalBtn = document.getElementById('openDeviceModalBtn');
+                        const closeDeviceModalBtn = document.getElementById('closeDeviceModalBtn');
+                        const cancelDeviceModalBtn = document.getElementById('cancelDeviceModalBtn');
+                        const openEditDeviceModalBtns = document.querySelectorAll('.open-edit-device-modal');
+                        const deviceModalTitle = document.getElementById('deviceModalTitle');
+                        const saveDeviceModalBtn = document.getElementById('saveDeviceModalBtn');
+
+
+                        // --- LOGIC CHUNG ---
+
+                        // Hàm mở modal Khu Vực
+                        const openAreaModal = (isEdit = false) => {
+                            areaModal.classList.remove('hidden');
+                            if (isEdit) {
+                                areaModalTitle.innerHTML = '<span class="material-symbols-outlined mr-2 text-xl text-secondary">edit</span> Chỉnh Sửa Khu Vực (A)';
+                                document.getElementById('saveAreaModalBtn').textContent = 'Cập Nhật Khu Vực';
+                            } else {
+                                areaModalTitle.innerHTML = '<span class="material-symbols-outlined mr-2 text-xl text-secondary">add_location</span> Thêm Khu Vực Mới';
+                                document.getElementById('saveAreaModalBtn').textContent = 'Tạo Khu Vực';
+                            }
+                        };
+
+                        // Hàm đóng modal Khu Vực
+                        const closeAreaModal = () => {
+                            areaModal.classList.add('hidden');
+                        };
+                        
+                        // Hàm mở modal Thiết Bị
+                        const openDeviceModal = (isEdit = false) => {
+                            deviceModal.classList.remove('hidden');
+                            if (isEdit) {
+                                deviceModalTitle.innerHTML = '<span class="material-symbols-outlined mr-2 text-2xl text-secondary">devices_other</span> Chỉnh Sửa Thiết Bị';
+                                saveDeviceModalBtn.textContent = 'Cập Nhật Thiết Bị';
+                                // Giả lập load dữ liệu vào form tại đây
+                                document.getElementById('deviceName').value = 'Camera A01';
+                            } else {
+                                deviceModalTitle.innerHTML = '<span class="material-symbols-outlined mr-2 text-2xl text-secondary">device_hub</span> Thêm Thiết Bị Mới';
+                                saveDeviceModalBtn.textContent = 'Lưu Thiết Bị';
+                                document.querySelector('#deviceModal form').reset();
+                            }
+                        };
+
+                        // Hàm đóng modal Thiết Bị
+                        const closeDeviceModal = () => {
+                            deviceModal.classList.add('hidden');
+                        };
+
+
+                        // --- GÁN SỰ KIỆN ---
+
+                        // Sự kiện cho Area Modal (Thêm/Sửa Khu Vực)
+                        openAreaModalBtn.addEventListener('click', () => openAreaModal(false));
+                        openEditAreaModalBtns.forEach(btn => {
+                            btn.addEventListener('click', () => openAreaModal(true));
+                        });
+                        closeAreaModalBtn.addEventListener('click', closeAreaModal);
+                        cancelAreaModalBtn.addEventListener('click', closeAreaModal);
+
+
+                        // Sự kiện cho Device Modal (Thêm/Sửa Thiết Bị)
+                        openDeviceModalBtn.addEventListener('click', () => openDeviceModal(false));
+
+                        openEditDeviceModalBtns.forEach(btn => {
+                            btn.addEventListener('click', (e) => {
+                                e.stopPropagation();
+                                openDeviceModal(true);
+                            });
+                        });
+                        closeDeviceModalBtn.addEventListener('click', closeDeviceModal);
+                        cancelDeviceModalBtn.addEventListener('click', closeDeviceModal);
+                    });
+                </script>
+
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>

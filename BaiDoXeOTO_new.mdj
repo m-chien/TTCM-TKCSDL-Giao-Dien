@@ -10117,8 +10117,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGaSkltAXpIAs8="
 							},
-							"name": "NgayTao",
-							"length": 0
+							"name": "Column1"
 						}
 					]
 				},
