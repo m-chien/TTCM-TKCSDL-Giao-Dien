@@ -41,12 +41,36 @@
             },
         }
         function toggleParkingMenu() {
-    const submenu = document.getElementById("parkingSubmenu");
-    const arrow = document.getElementById("arrowParking");
+            const submenu = document.getElementById("parkingSubmenu");
+            const arrow = document.getElementById("arrowParking");
 
-    submenu.classList.toggle("hidden");
-    arrow.classList.toggle("rotate-180");
-}
+            submenu.classList.toggle("hidden");
+            arrow.classList.toggle("rotate-180");
+        }
+        function openAddParkingModal() {
+        document.getElementById("modalAddParking").classList.remove("hidden");
+    }
+
+    function closeAddParkingModal() {
+        document.getElementById("modalAddParking").classList.add("hidden");
+    }
+
+    function saveNewParking() {
+        const name = document.getElementById("parkingName").value;
+        const area = document.getElementById("parkingArea").value;
+        const slots = document.getElementById("parkingSlots").value;
+
+        if (!name || !slots) {
+            alert("Vui lòng nhập đầy đủ thông tin!");
+            return;
+        }
+
+        console.log("THÊM BÃI XE:", { name, area, slots });
+        
+        // TODO: Gọi API ở đây nếu cần
+
+        closeAddParkingModal();
+    }
     </script>
     <style>
         .material-symbols-outlined {
@@ -73,47 +97,49 @@
                         <h1 class="text-lg font-bold">Parking Admin</h1>
                     </div>
                     <nav class="flex flex-col gap-2">
-                        <a class="flex items-center gap-3 rounded-lg  px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20" href="#">
+                        <a class="flex items-center gap-3 rounded-lg  px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
+                            href="#">
                             <span class="material-symbols-outlined">dashboard</span>
                             <p class="text-sm font-semibold">Tổng quan</p>
                         </a>
-                       <!-- MENU CHA: Quản lý bãi xe -->
-                    <div class="flex flex-col">
-                        <button onclick="toggleParkingMenu()" 
-                            class="flex items-center w-full justify-between gap-3 rounded-lg px-3 py-2.5 bg-primary/20 text-primary">
-                            <div class="flex items-center gap-3">
-                                <span class="material-symbols-outlined">garage</span>
-                                <p class="text-sm font-medium">Quản lý bãi xe</p>
+                        <!-- MENU CHA: Quản lý bãi xe -->
+                        <div class="flex flex-col">
+                            <button onclick="toggleParkingMenu()"
+                                class="flex items-center w-full justify-between gap-3 rounded-lg px-3 py-2.5 bg-primary/20 text-primary">
+                                <div class="flex items-center gap-3">
+                                    <span class="material-symbols-outlined">garage</span>
+                                    <p class="text-sm font-medium">Quản lý bãi xe</p>
+                                </div>
+                                <span id="arrowParking"
+                                    class="material-symbols-outlined transition-transform">expand_more</span>
+                            </button>
+
+                            <!-- MENU CON -->
+                            <div id="parkingSubmenu" class="ml-10 mt-1 flex flex-col gap-1 hidden">
+                                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                                    href="CapNhatBaiXe.html">
+                                    <span class="material-symbols-outlined text-base">local_offer</span>
+                                    Quản lý bãi xe
+                                </a>
+                                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                                    href="CapNhapGia.html">
+                                    <span class="material-symbols-outlined text-base">paid</span>
+                                    Quản lý giá
+                                </a>
+
+                                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                                    href="CapNhatMaGiamGia.html">
+                                    <span class="material-symbols-outlined text-base">local_offer</span>
+                                    Quản lý khuyến mãi
+                                </a>
+
+                                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                                    href="QuanLyTheThang.html">
+                                    <span class="material-symbols-outlined text-base">local_offer</span>
+                                    Quản lý thẻ xe tháng
+                                </a>
                             </div>
-                            <span id="arrowParking" class="material-symbols-outlined transition-transform">expand_more</span>
-                        </button>
-
-                        <!-- MENU CON -->
-                        <div id="parkingSubmenu" class="ml-10 mt-1 flex flex-col gap-1 hidden">
-                            <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
-                            href="CapNhatBaiXe.html">
-                                <span class="material-symbols-outlined text-base">local_offer</span>
-                                Quản lý bãi xe
-                            </a>
-                            <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
-                            href="CapNhapGia.html">
-                                <span class="material-symbols-outlined text-base">paid</span>
-                                Quản lý giá
-                            </a>
-
-                            <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
-                            href="CapNhatMaGiamGia.html">
-                                <span class="material-symbols-outlined text-base">local_offer</span>
-                                Quản lý khuyến mãi
-                            </a>
-
-                            <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
-                            href="QuanLyTheThang.html">
-                            <span class="material-symbols-outlined text-base">local_offer</span>
-                            Quản lý thẻ xe tháng
-                        </a>
                         </div>
-                    </div>
 
                         <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
                             href="./QuanLyNhanVien.html">
@@ -125,14 +151,14 @@
                             <span class="material-symbols-outlined">shift</span>
                             <p class="text-sm font-medium">Quản lý ca làm</p>
                         </a>
-                          <a class="flex items-center gap-3 rounded-lg px-4 py-2.5  dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700  "
+                        <a class="flex items-center gap-3 rounded-lg px-4 py-2.5  dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700  "
                             href="QuanLyLichLamViec.html">
-                             <span class="material-symbols-outlined">calendar_month</span>
+                            <span class="material-symbols-outlined">calendar_month</span>
                             <p class="text-sm font-medium">Lịch làm việc</p>
                         </a>
-                          <a class="flex items-center gap-3 rounded-lg px-4 py-2.5  dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700  "
+                        <a class="flex items-center gap-3 rounded-lg px-4 py-2.5  dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700  "
                             href="./QuanLyKhuVuc_ChoDau.html">
-                              <span class="material-symbols-outlined">list</span>
+                            <span class="material-symbols-outlined">list</span>
                             <p class="text-sm font-medium">Danh mục chỗ đậu</p>
                         </a>
                         <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
@@ -140,12 +166,11 @@
                             <span class="material-symbols-outlined">assessment</span>
                             <p class="text-sm font-medium">Thống kê</p>
                         </a>
-                         <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
-                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                        href="QuanLySuCo.html">
-                        <span class="material-icons-outlined text-lg">bar_chart</span>
-                        <span class="font-bold">Quản lý sự cố</span>
-                    </a>
+                        <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" href="QuanLySuCo.html">
+                            <span class="material-icons-outlined text-lg">bar_chart</span>
+                            <span class="font-bold">Quản lý sự cố</span>
+                        </a>
                         <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
                             href="#">
                             <span class="material-symbols-outlined">settings</span>
@@ -199,11 +224,12 @@
                     <!-- PageHeading -->
                     <div class="flex flex-wrap items-center justify-between gap-4">
                         <h2 class="text-3xl font-bold tracking-tight">Tổng quan Bãi đỗ xe</h2>
-                        <button
-                            class="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-11 px-5 bg-primary text-white text-sm font-bold leading-normal tracking-wide shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        <button onclick="openAddParkingModal()"
+                            class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/80 transition">
                             <span class="material-symbols-outlined">add</span>
-                            <span class="truncate">Thêm bãi xe mới</span>
+                            Thêm bãi xe mới
                         </button>
+
                     </div>
                     <!-- Stats -->
                     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -399,5 +425,65 @@
         </main>
     </div>
 </body>
+<!-- MODAL ADD PARKING -->
+<div id="modalAddParking" 
+     class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+
+    <div class="bg-white dark:bg-gray-800 w-[450px] rounded-xl shadow-xl overflow-hidden">
+
+        <!-- HEADER -->
+        <div class="flex items-center justify-between px-6 py-4 bg-primary text-white">
+            <h2 class="text-lg font-semibold">Thêm bãi xe mới</h2>
+            <span onclick="closeAddParkingModal()" 
+                  class="material-symbols-outlined cursor-pointer hover:scale-110 transition">
+                close
+            </span>
+        </div>
+
+        <!-- BODY -->
+        <div class="p-6 space-y-4">
+
+            <div>
+                <label class="font-medium">Tên bãi xe</label>
+                <input id="parkingName" 
+                       class="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-primary focus:ring-2 outline-none"
+                       placeholder="VD: Bãi xe A, Bãi xe tầng 1" />
+            </div>
+
+            <div>
+                <label class="font-medium">Khu vực</label>
+                <select id="parkingArea"
+                        class="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-primary focus:ring-2 outline-none">
+                    <option>Tầng 1</option>
+                    <option>Tầng 2</option>
+                    <option>Ngoài trời</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="font-medium">Số lượng chỗ đậu</label>
+                <input id="parkingSlots"
+                       type="number"
+                       class="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-primary focus:ring-2 outline-none"
+                       placeholder="VD: 150" />
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="flex justify-end gap-3 px-6 py-4 bg-gray-100 dark:bg-gray-700">
+            <button onclick="closeAddParkingModal()" 
+                    class="px-4 py-2 rounded-lg border">
+                Hủy
+            </button>
+
+            <button onclick="saveNewParking()" 
+                    class="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/80 transition">
+                Lưu
+            </button>
+        </div>
+
+    </div>
+</div>
 
 </html>

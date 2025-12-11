@@ -45,11 +45,22 @@
             submenu.classList.toggle("hidden");
             arrow.classList.toggle("rotate-180");
         }
+        function openIssueModal() {
+        const m = document.getElementById("modalIssue");
+        m.classList.remove("hidden");
+        m.classList.add("flex");
+    }
+    function closeIssueModal() {
+        const m = document.getElementById("modalIssue");
+        m.classList.add("hidden");
+        m.classList.remove("flex");
+    }
     </script>
     <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
+
     </style>
 </head>
 
@@ -143,8 +154,7 @@
 
                     <!-- Thống kê -->
                     <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
-                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                        href="./ThongKe.html">
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" href="./ThongKe.html">
                         <span class="material-icons-outlined text-lg">bar_chart</span>
                         <span class="font-bold">Thống kê</span>
                     </a>
@@ -186,11 +196,12 @@
                             <p class="text-gray-600 dark:text-gray-400 text-base font-normal leading-normal">Xem, quản
                                 lý và phản hồi các yêu cầu từ người dùng.</p>
                         </div>
-                        <button
-                            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-11 px-5 bg-primary text-background-dark text-sm font-bold leading-normal tracking-[0.015em] hover:opacity-90 transition-opacity">
-                            <span class="material-symbols-outlined">add_circle</span>
-                            <span class="truncate">Tạo phiếu mới</span>
+                        <button onclick="openIssueModal()"
+                            class="flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/20 text-primary hover:bg-primary/30">
+                            <span class="material-symbols-outlined">report</span>
+                            Tạo phiếu sự cố
                         </button>
+
                     </div>
                     <div class="flex flex-col lg:flex-row gap-6 mt-8">
                         <!-- Left Pane: List & Filters -->
@@ -389,9 +400,9 @@
                                         class="form-textarea w-full rounded-lg border-primary/20 dark:border-primary/30 bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 placeholder:text-gray-500 focus:ring-2 focus:ring-primary/50 text-sm"
                                         placeholder="Nhập phản hồi của bạn..." rows="4"></textarea>
                                     <div class="flex justify-end gap-3">
-                                        <button
+                                        <!-- <button
                                             class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary/20 dark:bg-primary/30 text-gray-900 dark:text-gray-100 text-sm font-bold hover:bg-primary/30 dark:hover:bg-primary/40">Cập
-                                            nhật trạng thái</button>
+                                            nhật trạng thái</button> -->
                                         <button
                                             class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-background-dark text-sm font-bold hover:opacity-90">Gửi
                                             phản hồi</button>
@@ -405,5 +416,76 @@
         </div>
     </div>
 </body>
+<div id="modalIssue" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden items-center justify-center z-50">
+    <div class="bg-white dark:bg-background-dark w-full max-w-xl rounded-xl shadow-lg p-6 animate-fadeIn">
 
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-bold flex items-center gap-2 text-gray-900 dark:text-gray-100">
+                <span class="material-symbols-outlined text-red-500">report</span>
+                Tạo phiếu sự cố
+            </h2>
+            <button onclick="closeIssueModal()" class="text-gray-500 hover:text-gray-700">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        <!-- Form -->
+        <div class="flex flex-col gap-4">
+
+            <div>
+                <label class="block text-sm font-medium mb-1">Tiêu đề sự cố</label>
+                <input type="text"
+                    class="w-full border border-primary/30 rounded-lg px-3 py-2 bg-background-light dark:bg-background-dark focus:ring-2 focus:ring-primary outline-none"
+                    placeholder="Ví dụ: Xe hỏng bánh, sự cố thẻ, lỗi barrier...">
+            </div>
+
+            <!-- <div>
+                <label class="block text-sm font-medium mb-1">Loại sự cố</label>
+                <select
+                    class="w-full border border-primary/30 rounded-lg px-3 py-2 bg-background-light dark:bg-background-dark focus:ring-2 focus:ring-primary outline-none">
+                    <option>Hỏng xe</option>
+                    <option>Lỗi hệ thống thẻ</option>
+                    <option>Barrier không hoạt động</option>
+                    <option>Camera lỗi</option>
+                    <option>Khác</option>
+                </select>
+            </div> -->
+
+            <div>
+                <label class="block text-sm font-medium mb-1">Mô tả chi tiết</label>
+                <textarea rows="4"
+                    class="w-full border border-primary/30 rounded-lg px-3 py-2 bg-background-light dark:bg-background-dark focus:ring-2 focus:ring-primary outline-none"
+                    placeholder="Ghi rõ tình trạng sự cố, thời gian phát hiện, vị trí..."></textarea>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium mb-1">Ngày phát sinh</label>
+                <input type="datetime-local"
+                    class="w-full border border-primary/30 rounded-lg px-3 py-2 bg-background-light dark:bg-background-dark focus:ring-2 focus:ring-primary outline-none">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium mb-1">Người báo cáo</label>
+                <input type="text"
+                    class="w-full border border-primary/30 rounded-lg px-3 py-2 bg-background-light dark:bg-background-dark focus:ring-2 focus:ring-primary outline-none"
+                    placeholder="Tên nhân viên phát hiện sự cố">
+            </div>
+
+        </div>
+
+        <!-- Footer buttons -->
+        <div class="flex justify-end mt-6 gap-3">
+            <button onclick="closeIssueModal()"
+                class="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-300">
+                Hủy
+            </button>
+            <button
+                class="px-4 py-2 rounded-lg bg-primary text-background-dark font-bold hover:opacity-90">
+                Tạo phiếu
+            </button>
+        </div>
+
+    </div>
+</div>
 </html>
