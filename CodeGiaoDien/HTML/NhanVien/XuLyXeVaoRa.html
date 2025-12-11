@@ -3,78 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Parking Admin - Quản lý bãi đỗ xe</title>
+<title>ParkManager - Quản lý Bãi đỗ xe</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body class="bg-gray-50">
 
 <div class="flex">
-
-<!-- SIDEBAR -->
-<aside class="w-64 h-screen bg-white border-r flex flex-col justify-between fixed shadow-sm">
-    <div>
-        <div class="flex items-center gap-3 p-5 border-b">
-            <div class="bg-gradient-to-br from-emerald-400 to-emerald-600 text-white font-bold text-xl p-3 rounded-xl shadow-md">P</div>
-            <div>
-                <b class="text-lg">Parking Admin</b>
-                <p class="text-xs text-gray-500">Quản lý thông minh</p>
-            </div>
+<aside class="w-64 bg-white border-r border-slate-200 hidden md:flex flex-col z-20 h-screen sticky top-0">
+    <div class="p-6 flex items-center gap-3">
+        <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
+            <span class="material-icons text-slate-900 text-xl">local_parking</span>
         </div>
-
-        <ul class="mt-4 text-sm">
-            <li class="bg-emerald-50 text-emerald-700 font-semibold border-l-4 border-emerald-600 px-5 py-3 flex items-center gap-2">
-                <span>📊</span> Tổng quan
-            </li>
-            <li class="px-5 py-3 hover:bg-gray-50 cursor-pointer flex items-center gap-2 text-gray-700">
-                <span>🅿️</span> Quản lý bãi xe
-            </li>
-            <li class="px-5 py-3 hover:bg-gray-50 cursor-pointer flex items-center gap-2 text-gray-700">
-                <span>👥</span> Quản lý nhân viên
-            </li>
-            <li class="px-5 py-3 hover:bg-gray-50 cursor-pointer flex items-center gap-2 text-gray-700">
-                <span>💰</span> Doanh thu
-            </li>
-            <li class="px-5 py-3 hover:bg-gray-50 cursor-pointer flex items-center gap-2 text-gray-700">
-                <span>📈</span> Báo cáo
-            </li>
-            <li class="px-5 py-3 hover:bg-gray-50 cursor-pointer flex items-center gap-2 text-gray-700">
-                <span>⚙️</span> Cài đặt
-            </li>
-        </ul>
-
-        <div class="px-5 py-4 mt-4 bg-blue-50 mx-4 rounded-lg">
-            <p class="text-xs text-blue-800 font-semibold mb-1">Trạng thái bãi xe</p>
-            <div class="flex justify-between items-center text-xs">
-                <span class="text-gray-600">Đã sử dụng</span>
-                <span class="font-bold text-blue-600">87/150</span>
-            </div>
-            <div class="w-full bg-blue-200 rounded-full h-2 mt-2">
-                <div class="bg-blue-600 h-2 rounded-full" style="width: 58%"></div>
-            </div>
-        </div>
+        <h1 class="text-xl font-bold tracking-tight text-gray-800">ParkManager</h1>
     </div>
 
-    <div class="border-t">
-        <div class="flex items-center gap-3 p-4">
-            <img src="https://i.pravatar.cc/40?img=12" class="rounded-full w-10 h-10">
-            <div class="flex-1">
-                <b class="text-sm">Admin User</b><br>
-                <small class="text-gray-500 text-xs">admin@parking.vn</small>
-            </div>
-            <button class="text-gray-400 hover:text-gray-600">⋯</button>
-        </div>
+    <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
+        <a class="nav-link" href="#"><span class="material-icons text-xl">people</span><span class="font-medium">Khách hàng</span></a>
+        
+        <a class="flex items-center gap-3 px-4 py-3 bg-emerald-500/10 text-emerald-800 rounded-xl transition-colors font-semibold" href="XuLyXeVaoRa.html">
+            <span class="material-icons text-xl">dashboard</span>
+            <span>Tổng quan</span>
+        </a>
+        
+        <a class="nav-link" href="DuyetDatCho.html">
+            <span class="material-icons text-xl">assignment_turned_in</span>
+            <span class="font-medium">Duyệt đặt chỗ</span>
+            <span class="ml-auto bg-emerald-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">12</span>
+        </a>
+        
+        <a class="nav-link" href="LichLamViec.html">
+            <span class="material-icons text-xl">schedule</span>
+            <span class="font-medium">Lịch làm việc</span>
+        </a>
+    </nav>
+    <div class="p-4 border-t border-slate-200">
+        <a class="nav-link-bottom" href="#">
+            <span class="material-icons text-xl">settings</span>
+            <span class="font-medium">Cài đặt</span>
+        </a>
     </div>
 </aside>
+<main class="flex-1 min-h-screen">
 
-<!-- MAIN -->
-<main class="ml-64 w-full min-h-screen">
-
-<!-- HEADER -->
 <header class="bg-white p-4 flex justify-between items-center border-b shadow-sm sticky top-0 z-10">
     <div class="flex items-center gap-4 flex-1">
         <input type="text" placeholder="🔍 Tìm kiếm theo biển số, số thẻ, tên chủ xe..."
-               class="w-96 px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
+               class="w-full max-w-lg px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm">
         <div class="text-sm text-gray-600">
             <span class="font-semibold">Hôm nay:</span> <span id="current-date">19/12/2025</span> - <span id="current-time">14:25:30</span>
         </div>
@@ -84,352 +60,344 @@
             <span class="text-2xl">🔔</span>
             <span class="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
         </button>
-        <button class="p-2 hover:bg-gray-100 rounded-lg">
+        <button class="p-2 hover:bg-gray-100 rounded-full w-10 h-10 flex items-center justify-center">
             <span class="text-2xl">👤</span>
         </button>
     </div>
 </header>
 
 
-<!-- DASHBOARD -->
-<section class="p-5 grid grid-cols-2 gap-6">
-
-<!-- LÀN VÀO -->
-<div class="bg-white rounded-xl border shadow-sm overflow-hidden">
-    <div class="bg-gradient-to-r from-green-500 to-emerald-600 p-4 flex justify-between items-center">
-        <div class="flex items-center gap-3">
-            <div class="bg-white/20 p-2 rounded-lg">
-                <span class="text-2xl">🚗</span>
-            </div>
-            <div>
-                <h2 class="font-bold text-xl text-white">Làn vào</h2>
-                <p class="text-green-100 text-sm">Gate A - Entry</p>
-            </div>
-        </div>
-        <div class="flex gap-2">
-            <button onclick="handleBarrier('in', 'close')" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-md transition">
-                🚫 Đóng
-            </button>
-            <button onclick="handleBarrier('in', 'open')" class="bg-white hover:bg-gray-100 text-green-600 px-4 py-2 rounded-lg text-sm font-semibold shadow-md transition">
-                ✅ Mở
-            </button>
-        </div>
-    </div>
-
-    <div class="p-5">
-        <!-- STATUS -->
-        <div class="flex items-center justify-between mb-4 p-3 bg-green-50 rounded-lg border border-green-200">
-            <div class="flex items-center gap-2">
-                <span class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
-                <span class="text-sm font-semibold text-green-700">Barrier: MỞ</span>
-            </div>
-            <div class="flex items-center gap-4 text-xs text-gray-600">
-                <span>📡 Cảm biến: OK</span>
-                <span>📷 Camera: OK</span>
-                <span>💳 Đầu đọc: OK</span>
-            </div>
-        </div>
-
-        <!-- CAMERA GRID -->
-        <div class="grid grid-cols-2 gap-3 mb-4">
-            <div class="relative group">
-                <img class="rounded-lg w-full h-36 object-cover border-2 border-gray-200" src="../../IMAGES/biensoxevao.png">
-                <span class="cam-label">📷 Biển số xe</span>
-                <div class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded font-semibold">LIVE</div>
-            </div>
-            <div class="relative group">
-                <img class="rounded-lg w-full h-36 object-cover border-2 border-gray-200" src="../../IMAGES/toancanhvao.png">
-                <span class="cam-label">📷 Toàn cảnh vào</span>
-                <div class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded font-semibold">LIVE</div>
-            </div>
-            <div class="relative group">
-                <img class="rounded-lg w-full h-36 object-cover border-2 border-gray-200" src="../../IMAGES/cameraphu1vao.png">
-                <span class="cam-label">📷 Camera phụ 1</span>
-            </div>
-            <div class="relative group">
-                <img class="rounded-lg w-full h-36 object-cover border-2 border-gray-200" src="../../IMAGES/cameraphu2vao.png">
-                <span class="cam-label">📷 Camera phụ 2</span>
-            </div>
-        </div>
-
-        <!-- VEHICLE INFO -->
-        <div class="bg-gray-50 p-4 rounded-lg mb-4 border">
-            <h3 class="font-bold text-sm mb-3 text-gray-700 flex items-center gap-2">
-                <span>📋</span> Thông tin xe vào
-            </h3>
-            <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Số thẻ:</span>
-                    <span class="font-semibold">24663331</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Biển số:</span>
-                    <span class="font-semibold text-blue-600">51G-999.99</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Loại xe:</span>
-                    <span class="font-semibold">Xe con 4 chỗ</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Loại vé:</span>
-                    <span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-xs font-semibold">Đặt trước</span>
-                </div>
-                <div class="flex justify-between col-span-2">
-                    <span class="text-gray-600">Chủ xe:</span>
-                    <span class="font-semibold">Lê Hoàng Quách Tỉnh</span>
-                </div>
-                <div class="flex justify-between col-span-2">
-                    <span class="text-gray-600">Thời gian vào:</span>
-                    <span class="font-semibold text-green-600">8:30 - 19/12/2025</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- PARKING SLOT -->
-        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-lg mb-4 border border-blue-200">
-            <h3 class="font-bold text-sm mb-2 text-blue-800 flex items-center gap-2">
-                <span>🅿️</span> Vị trí chỗ đỗ được gán
-            </h3>
-            <div class="grid grid-cols-2 gap-2 text-sm">
-                <div>
-                    <p class="text-gray-600 text-xs">Khu vực</p>
-                    <p class="font-bold text-blue-700">Tầng hầm 1</p>
-                </div>
-                <div>
-                    <p class="text-gray-600 text-xs">Vị trí</p>
-                    <p class="font-bold text-blue-700">Ô số 30</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- VALIDATION STATUS -->
-        <div class="bg-green-50 border-2 border-green-500 rounded-lg p-4 mb-4 flex items-center justify-between">
+<section class="p-5 grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="bg-white rounded-xl border shadow-lg overflow-hidden h-fit">
+        <div class="bg-gradient-to-r from-emerald-500 to-green-600 p-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="bg-green-500 rounded-full p-2">
-                    <span class="text-white text-2xl">✓</span>
+                <div class="bg-white/30 p-2 rounded-lg">
+                    <span class="material-icons text-white text-2xl">login</span>
                 </div>
                 <div>
-                    <p class="font-bold text-green-700 text-lg">Hợp lệ - Cho phép vào</p>
-                    <p class="text-green-600 text-xs">Thẻ hợp lệ, đã xác thực biển số</p>
+                    <h2 class="font-extrabold text-xl text-white">Làn vào</h2>
+                    <p class="text-green-100 text-sm">Gate A - Entry</p>
                 </div>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="handleBarrier('in', 'close', this)" data-lane="in" data-action="close"
+                        class="barrier-btn bg-white hover:bg-gray-100 text-red-600 px-4 py-2 rounded-lg text-sm font-semibold shadow-md transition">
+                    🚫 Đóng
+                </button>
+                <button onclick="handleBarrier('in', 'open', this)" data-lane="in" data-action="open"
+                        class="barrier-btn bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-md transition">
+                    ✅ Mở
+                </button>
             </div>
         </div>
 
-        <!-- ACTION BUTTONS -->
-        <div class="grid grid-cols-3 gap-2">
-            <button onclick="handleAction('rescan_in')" class="bg-yellow-500 hover:bg-yellow-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
-                <span>🔄</span> Quét lại
-            </button>
-            <button onclick="handleAction('manual_entry')" class="bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
-                <span>✍️</span> Nhập thủ công
-            </button>
-            <button onclick="handleAction('confirm_entry')" class="bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2 shadow-lg">
-                <span>✅</span> Xác nhận vào
-            </button>
-        </div>
+        <div class="p-5">
+            <div id="status-in" class="flex items-center justify-between mb-4 p-3 bg-green-50 rounded-lg border-2 border-green-400">
+                <div class="flex items-center gap-2">
+                    <span id="barrier-status-indicator-in" class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
+                    <span id="barrier-status-text-in" class="text-sm font-bold text-green-700">Barrier: MỞ</span>
+                </div>
+                <div class="flex items-center gap-4 text-xs text-gray-600">
+                    <span>📡 Cảm biến: **OK**</span>
+                    <span>📷 Camera: **OK**</span>
+                    <span>💳 Đầu đọc: **OK**</span>
+                </div>
+            </div>
 
-        <!-- ADDITIONAL ACTIONS -->
-        <div class="grid grid-cols-2 gap-2 mt-2">
-            <button onclick="handleAction('reject_entry')" class="bg-red-100 hover:bg-red-200 text-red-700 py-2 rounded-lg text-sm font-semibold transition">
-                ❌ Từ chối vào
-            </button>
-            <button onclick="handleAction('print_ticket')" class="bg-blue-100 hover:bg-blue-200 text-blue-700 py-2 rounded-lg text-sm font-semibold transition">
-                🖨️ In vé
-            </button>
+            <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="relative group aspect-video">
+                    <img class="rounded-lg w-full h-full object-cover border-2 border-gray-200" src="../../IMAGES/biensoxevao.png" alt="Biển số xe vào">
+                    <span class="cam-label">📷 Biển số xe</span>
+                    <div class="camera-live-badge bg-green-500">LIVE</div>
+                </div>
+                <div class="relative group aspect-video">
+                    <img class="rounded-lg w-full h-full object-cover border-2 border-gray-200" src="../../IMAGES/toancanhvao.png" alt="Toàn cảnh vào">
+                    <span class="cam-label">📷 Toàn cảnh vào</span>
+                    <div class="camera-live-badge bg-green-500">LIVE</div>
+                </div>
+                <div class="relative group aspect-video">
+                    <img class="rounded-lg w-full h-full object-cover border-2 border-gray-200" src="../../IMAGES/cameraphu1vao.png" alt="Camera phụ 1">
+                    <span class="cam-label">📷 Camera phụ 1</span>
+                    <div class="camera-live-badge bg-gray-500">OFF</div>
+                </div>
+                <div class="relative group aspect-video">
+                    <img class="rounded-lg w-full h-full object-cover border-2 border-gray-200" src="../../IMAGES/cameraphu2vao.png" alt="Camera phụ 2">
+                    <span class="cam-label">📷 Camera phụ 2</span>
+                    <div class="camera-live-badge bg-gray-500">OFF</div>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 p-4 rounded-lg mb-4 border">
+                <h3 class="font-bold text-base mb-3 text-gray-700 flex items-center gap-2 border-b pb-2">
+                    <span class="material-icons text-xl text-blue-600">directions_car</span> Thông tin xe vào
+                </h3>
+                <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Số thẻ:</span>
+                        <span class="font-semibold text-gray-800">24663331</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Biển số:</span>
+                        <span class="font-extrabold text-blue-600">51G-999.99</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Loại xe:</span>
+                        <span class="font-semibold">Xe con 4 chỗ</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Loại vé:</span>
+                        <span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-xs font-bold">Đặt trước</span>
+                    </div>
+                    <div class="flex justify-between col-span-2">
+                        <span class="text-gray-600">Chủ xe:</span>
+                        <span class="font-semibold text-gray-800">Lê Hoàng Quách Tỉnh</span>
+                    </div>
+                    <div class="flex justify-between col-span-2 pt-2 border-t mt-2">
+                        <span class="text-gray-600">Thời gian vào:</span>
+                        <span class="font-bold text-green-600">8:30 - 19/12/2025</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-blue-50 p-4 rounded-lg mb-4 border-2 border-blue-300">
+                <h3 class="font-bold text-base mb-2 text-blue-800 flex items-center gap-2">
+                    <span class="material-icons text-xl">local_parking</span> Vị trí chỗ đỗ được gán
+                </h3>
+                <div class="grid grid-cols-2 gap-2 text-sm">
+                    <div>
+                        <p class="text-gray-600 text-xs">Khu vực</p>
+                        <p class="text-xl font-extrabold text-blue-700">Tầng hầm 1</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600 text-xs">Vị trí</p>
+                        <p class="text-xl font-extrabold text-blue-700">Ô số 30</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-green-50 border-2 border-green-500 rounded-lg p-4 mb-4 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="bg-green-500 rounded-full p-2">
+                        <span class="material-icons text-white text-2xl">check_circle</span>
+                    </div>
+                    <div>
+                        <p class="font-bold text-green-700 text-lg">Hợp lệ - Cho phép vào</p>
+                        <p class="text-green-600 text-sm">Thẻ hợp lệ, đã xác thực biển số</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3">
+                <button onclick="handleAction('confirm_entry')"
+                        class="col-span-3 bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-lg text-lg font-extrabold transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/50">
+                    <span class="material-icons text-3xl">check_circle</span> XÁC NHẬN VÀO
+                </button>
+            </div>
+            <div class="grid grid-cols-4 gap-2 mt-3">
+                <button onclick="handleAction('rescan_in')" class="action-secondary-btn bg-yellow-100 text-yellow-700">
+                    <span class="material-icons text-lg">autorenew</span> Quét lại
+                </button>
+                <button onclick="handleAction('manual_entry')" class="action-secondary-btn bg-orange-100 text-orange-700">
+                    <span class="material-icons text-lg">edit</span> Thủ công
+                </button>
+                <button onclick="handleAction('reject_entry')" class="action-secondary-btn bg-red-100 text-red-700">
+                    <span class="material-icons text-lg">cancel</span> Từ chối
+                </button>
+                <button onclick="handleAction('print_ticket')" class="action-secondary-btn bg-blue-100 text-blue-700">
+                    <span class="material-icons text-lg">print</span> In vé
+                </button>
+            </div>
         </div>
     </div>
-</div>
 
 
-<!-- LÀN RA -->
-<div class="bg-white rounded-xl border shadow-sm overflow-hidden">
-    <div class="bg-gradient-to-r from-orange-500 to-red-600 p-4 flex justify-between items-center">
-        <div class="flex items-center gap-3">
-            <div class="bg-white/20 p-2 rounded-lg">
-                <span class="text-2xl">🚙</span>
+    <div class="bg-white rounded-xl border shadow-lg overflow-hidden h-fit">
+        <div class="bg-gradient-to-r from-red-500 to-orange-600 p-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-white/30 p-2 rounded-lg">
+                    <span class="material-icons text-white text-2xl">logout</span>
+                </div>
+                <div>
+                    <h2 class="font-extrabold text-xl text-white">Làn ra</h2>
+                    <p class="text-orange-100 text-sm">Gate B - Exit</p>
+                </div>
             </div>
-            <div>
-                <h2 class="font-bold text-xl text-white">Làn ra</h2>
-                <p class="text-orange-100 text-sm">Gate B - Exit</p>
-            </div>
-        </div>
-        <div class="flex gap-2">
-            <button onclick="handleBarrier('out', 'close')" class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-md transition">
-                🚫 Đóng
-            </button>
-            <button onclick="handleBarrier('out', 'open')" class="bg-white hover:bg-gray-100 text-orange-600 px-4 py-2 rounded-lg text-sm font-semibold shadow-md transition">
-                ✅ Mở
-            </button>
-        </div>
-    </div>
-
-    <div class="p-5">
-        <!-- STATUS -->
-        <div class="flex items-center justify-between mb-4 p-3 bg-red-50 rounded-lg border border-red-200">
-            <div class="flex items-center gap-2">
-                <span class="w-3 h-3 bg-red-500 rounded-full"></span>
-                <span class="text-sm font-semibold text-red-700">Barrier: ĐÓNG</span>
-            </div>
-            <div class="flex items-center gap-4 text-xs text-gray-600">
-                <span>📡 Cảm biến: OK</span>
-                <span>📷 Camera: OK</span>
-                <span>💳 Đầu đọc: OK</span>
+            <div class="flex gap-2">
+                <button onclick="handleBarrier('out', 'close', this)" data-lane="out" data-action="close"
+                        class="barrier-btn bg-white hover:bg-gray-100 text-red-600 px-4 py-2 rounded-lg text-sm font-semibold shadow-md transition">
+                    🚫 Đóng
+                </button>
+                <button onclick="handleBarrier('out', 'open', this)" data-lane="out" data-action="open"
+                        class="barrier-btn bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-md transition">
+                    ✅ Mở
+                </button>
             </div>
         </div>
 
-        <!-- CAMERA GRID -->
-        <div class="grid grid-cols-2 gap-3 mb-4">
-            <div class="relative group">
-                <img class="rounded-lg w-full h-36 object-cover border-2 border-gray-200" src="../../IMAGES/biensoxera.png">
-                <span class="cam-label">📷 Biển số xe</span>
-                <div class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded font-semibold">LIVE</div>
-            </div>
-            <div class="relative group">
-                <img class="rounded-lg w-full h-36 object-cover border-2 border-gray-200" src="../../IMAGES/toancanhra.png">
-                <span class="cam-label">📷 Toàn cảnh ra</span>
-                <div class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded font-semibold">LIVE</div>
-            </div>
-            <div class="relative group">
-                <img class="rounded-lg w-full h-36 object-cover border-2 border-gray-200" src="../../IMAGES/cameraphu1ra.png">
-                <span class="cam-label">📷 Camera phụ 1</span>
-            </div>
-            <div class="relative group">
-                <img class="rounded-lg w-full h-36 object-cover border-2 border-gray-200" src="../../IMAGES/cameraphu2ra.png">
-                <span class="cam-label">📷 Camera phụ 2</span>
-            </div>
-        </div>
-
-        <!-- VEHICLE INFO -->
-        <div class="bg-gray-50 p-4 rounded-lg mb-4 border">
-            <h3 class="font-bold text-sm mb-3 text-gray-700 flex items-center gap-2">
-                <span>📋</span> Thông tin xe ra
-            </h3>
-            <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Biển số:</span>
-                    <span class="font-semibold text-blue-600">61A-666.66</span>
+        <div class="p-5">
+            <div id="status-out" class="flex items-center justify-between mb-4 p-3 bg-red-50 rounded-lg border-2 border-red-400">
+                <div class="flex items-center gap-2">
+                    <span id="barrier-status-indicator-out" class="w-3 h-3 bg-red-500 rounded-full"></span>
+                    <span id="barrier-status-text-out" class="text-sm font-bold text-red-700">Barrier: ĐÓNG</span>
                 </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Số thẻ:</span>
-                    <span class="font-semibold">24G6H242</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Loại xe:</span>
-                    <span class="font-semibold">Xe con 5 chỗ</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">NV phụ trách:</span>
-                    <span class="font-semibold">Nguyễn Văn A</span>
-                </div>
-                <div class="flex justify-between col-span-2">
-                    <span class="text-gray-600">Thời gian vào:</span>
-                    <span class="font-semibold">08:30 - 19/12/2025</span>
-                </div>
-                <div class="flex justify-between col-span-2">
-                    <span class="text-gray-600">Thời gian ra:</span>
-                    <span class="font-semibold text-orange-600">16:30 - 20/12/2025</span>
+                <div class="flex items-center gap-4 text-xs text-gray-600">
+                    <span>📡 Cảm biến: **OK**</span>
+                    <span>📷 Camera: **OK**</span>
+                    <span>💳 Đầu đọc: **OK**</span>
                 </div>
             </div>
-        </div>
 
-        <!-- PARKING DURATION -->
-        <div class="bg-blue-50 p-4 rounded-lg mb-4 border border-blue-200">
-            <h3 class="font-bold text-sm mb-2 text-blue-800 flex items-center gap-2">
-                <span>⏱️</span> Thời gian gửi xe
-            </h3>
-            <div class="grid grid-cols-3 gap-2 text-center">
-                <div class="bg-white rounded p-2">
-                    <p class="text-2xl font-bold text-blue-600">1</p>
-                    <p class="text-xs text-gray-500">Ngày</p>
+            <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="relative group aspect-video">
+                    <img class="rounded-lg w-full h-full object-cover border-2 border-gray-200" src="../../IMAGES/biensoxera.png" alt="Biển số xe ra">
+                    <span class="cam-label">📷 Biển số xe</span>
+                    <div class="camera-live-badge bg-red-500">LIVE</div>
                 </div>
-                <div class="bg-white rounded p-2">
-                    <p class="text-2xl font-bold text-blue-600">8</p>
-                    <p class="text-xs text-gray-500">Giờ</p>
+                <div class="relative group aspect-video">
+                    <img class="rounded-lg w-full h-full object-cover border-2 border-gray-200" src="../../IMAGES/toancanhra.png" alt="Toàn cảnh ra">
+                    <span class="cam-label">📷 Toàn cảnh ra</span>
+                    <div class="camera-live-badge bg-red-500">LIVE</div>
                 </div>
-                <div class="bg-white rounded p-2">
-                    <p class="text-2xl font-bold text-blue-600">0</p>
-                    <p class="text-xs text-gray-500">Phút</p>
+                <div class="relative group aspect-video">
+                    <img class="rounded-lg w-full h-full object-cover border-2 border-gray-200" src="../../IMAGES/cameraphu1ra.png" alt="Camera phụ 1">
+                    <span class="cam-label">📷 Camera phụ 1</span>
+                    <div class="camera-live-badge bg-gray-500">OFF</div>
+                </div>
+                <div class="relative group aspect-video">
+                    <img class="rounded-lg w-full h-full object-cover border-2 border-gray-200" src="../../IMAGES/cameraphu2ra.png" alt="Camera phụ 2">
+                    <span class="cam-label">📷 Camera phụ 2</span>
+                    <div class="camera-live-badge bg-gray-500">OFF</div>
                 </div>
             </div>
-        </div>
 
-        <!-- PAYMENT CALCULATION -->
-        <div class="bg-gradient-to-r from-emerald-50 to-green-50 p-4 rounded-lg mb-4 border-2 border-emerald-300">
-            <h3 class="font-bold text-sm mb-3 text-emerald-800 flex items-center gap-2">
-                <span>💵</span> Chi tiết thanh toán
-            </h3>
-            <div class="space-y-2 text-sm">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Giá theo giờ (8h đầu):</span>
-                    <span class="font-semibold">15.000 đ/giờ</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Giá theo ngày (sau 8h):</span>
-                    <span class="font-semibold">80.000 đ/ngày</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Thời gian: 1 ngày 8 giờ</span>
-                    <span class="font-semibold">200.000 đ</span>
-                </div>
-                <div class="flex justify-between border-t pt-2">
-                    <span class="text-gray-600">Phụ phí:</span>
-                    <span class="font-semibold">0 đ</span>
-                </div>
-                <div class="flex justify-between items-center pt-2 border-t-2 border-emerald-300">
-                    <span class="font-bold text-gray-700">Tổng tiền:</span>
-                    <span class="text-2xl font-bold text-emerald-600">200.000 đ</span>
+            <div class="bg-gray-50 p-4 rounded-lg mb-4 border">
+                <h3 class="font-bold text-base mb-3 text-gray-700 flex items-center gap-2 border-b pb-2">
+                    <span class="material-icons text-xl text-red-600">directions_car</span> Thông tin xe ra
+                </h3>
+                <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Biển số:</span>
+                        <span class="font-extrabold text-blue-600">61A-666.66</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Số thẻ:</span>
+                        <span class="font-semibold text-gray-800">24G6H242</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Loại xe:</span>
+                        <span class="font-semibold">Xe con 5 chỗ</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">NV phụ trách:</span>
+                        <span class="font-semibold">Nguyễn Văn A</span>
+                    </div>
+                    <div class="flex justify-between col-span-2 pt-2 border-t mt-2">
+                        <span class="text-gray-600">Thời gian vào:</span>
+                        <span class="font-semibold">08:30 - 19/12/2025</span>
+                    </div>
+                    <div class="flex justify-between col-span-2">
+                        <span class="text-gray-600">Thời gian ra:</span>
+                        <span class="font-bold text-orange-600">16:30 - 20/12/2025</span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- PAYMENT METHOD
-        <div class="grid grid-cols-3 gap-2 mb-4">
-            <button onclick="selectPayment('cash')" class="payment-btn bg-green-100 hover:bg-green-200 text-green-700 py-3 rounded-lg font-semibold transition border-2 border-transparent">
-                💵 Tiền mặt
-            </button>
-            <button onclick="selectPayment('card')" class="payment-btn bg-blue-100 hover:bg-blue-200 text-blue-700 py-3 rounded-lg font-semibold transition border-2 border-transparent">
-                💳 Thẻ
-            </button>
-            <button onclick="selectPayment('ewallet')" class="payment-btn bg-purple-100 hover:bg-purple-200 text-purple-700 py-3 rounded-lg font-semibold transition border-2 border-transparent">
-                📱 Ví điện tử
-            </button>
-        </div> -->
+            <div class="bg-blue-50 p-4 rounded-lg mb-4 border-2 border-blue-300">
+                <h3 class="font-bold text-base mb-3 text-blue-800 flex items-center gap-2">
+                    <span class="material-icons text-xl">timer</span> Tổng thời gian gửi xe
+                </h3>
+                <p class="text-2xl font-extrabold text-blue-700 text-center">
+                    1 Ngày <span class="text-3xl mx-1 text-blue-800 font-black">8</span> Giờ <span class="text-2xl mx-1 font-extrabold text-blue-700">0</span> Phút
+                </p>
+            </div>
 
-        <!-- ACTION BUTTONS -->
-        <div class="grid grid-cols-3 gap-2">
-            <button onclick="handleAction('rescan_out')" class="bg-yellow-500 hover:bg-yellow-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
-                <span>🔄</span> Quét lại
-            </button>
-            <button onclick="handleAction('discount')" class="bg-indigo-500 hover:bg-indigo-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
-                <span>🎫</span> Giảm giá
-            </button>
-           <button onclick="openPaymentOverlay()" 
-        class="bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2 shadow-lg">
-            <span>💰</span> Thanh toán
-        </button>
+            <div class="bg-emerald-50 p-4 rounded-lg mb-4 border-2 border-emerald-500">
+                <h3 class="font-bold text-base mb-3 text-emerald-800 flex items-center gap-2 border-b pb-2">
+                    <span class="material-icons text-xl">payments</span> Chi tiết thanh toán
+                </h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Giá theo giờ (8h đầu):</span>
+                        <span class="font-semibold">15.000 đ/giờ</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Giá theo ngày (sau 8h):</span>
+                        <span class="font-semibold">80.000 đ/ngày</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="font-bold text-gray-700">Tổng phí tạm tính: (1 ngày 8 giờ)</span>
+                        <span class="font-extrabold text-gray-800">200.000 đ</span>
+                    </div>
+                    <div class="flex justify-between border-t pt-2">
+                        <span class="font-bold text-red-600">Giảm giá:</span>
+                        <span class="font-extrabold text-red-600">0 đ</span>
+                    </div>
+                    <div class="flex justify-between items-center pt-2 border-t-2 border-emerald-500">
+                        <span class="font-bold text-gray-800 text-xl">TỔNG CỘNG:</span>
+                        <span class="text-3xl font-black text-emerald-600">200.000 đ</span>
+                    </div>
+                </div>
+            </div>
 
-        </div>
-
-        <!-- ADDITIONAL ACTIONS -->
-        <div class="grid grid-cols-2 gap-2 mt-2">
-            <button onclick="handleAction('lost_ticket')" class="bg-orange-100 hover:bg-orange-200 text-orange-700 py-2 rounded-lg text-sm font-semibold transition">
-                🎫 Mất vé
-            </button>
-            <button onclick="handleAction('print_invoice')" class="bg-blue-100 hover:bg-blue-200 text-blue-700 py-2 rounded-lg text-sm font-semibold transition">
-                🖨️ In hóa đơn
-            </button>
+            <div class="grid grid-cols-3 gap-3">
+                <button onclick="openPaymentOverlay()"
+                        class="col-span-3 bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-lg text-lg font-extrabold transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/50">
+                    <span class="material-icons text-3xl">payment</span> THANH TOÁN
+                </button>
+            </div>
+            <div class="grid grid-cols-4 gap-2 mt-3">
+                <button onclick="handleAction('rescan_out')" class="action-secondary-btn bg-yellow-100 text-yellow-700">
+                    <span class="material-icons text-lg">autorenew</span> Quét lại
+                </button>
+                <button onclick="handleAction('discount')" class="action-secondary-btn bg-indigo-100 text-indigo-700">
+                    <span class="material-icons text-lg">local_offer</span> Giảm giá
+                </button>
+                <button onclick="handleAction('lost_ticket')" class="action-secondary-btn bg-red-100 text-red-700">
+                    <span class="material-icons text-lg">help_outline</span> Mất vé
+                </button>
+                <button onclick="handleAction('print_invoice')" class="action-secondary-btn bg-blue-100 text-blue-700">
+                    <span class="material-icons text-lg">receipt_long</span> Hóa đơn
+                </button>
+            </div>
         </div>
     </div>
-</div>
 
 </section>
-
-
-
 </main>
 </div>
 
-<!-- NOTIFICATION MODAL -->
+<div id="paymentOverlay" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-2xl w-[380px] p-6 shadow-2xl animate-fadeIn">
+        <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">
+            💳 Chọn phương thức thanh toán
+        </h3>
+        <div class="grid grid-cols-3 gap-3 mb-5">
+            <button onclick="selectPayment('cash', this)"
+                class="payment-btn bg-green-100 hover:bg-green-200 text-green-700 py-4 rounded-xl font-semibold transition border-2 border-transparent flex flex-col items-center gap-2">
+                <span class="text-2xl">💵</span> Tiền mặt
+            </button>
+            <button onclick="selectPayment('card', this)"
+                class="payment-btn bg-blue-100 hover:bg-blue-200 text-blue-700 py-4 rounded-xl font-semibold transition border-2 border-transparent flex flex-col items-center gap-2">
+                <span class="text-2xl">💳</span> Thẻ
+            </button>
+            <button onclick="selectPayment('ewallet', this)"
+                class="payment-btn bg-purple-100 hover:bg-purple-200 text-purple-700 py-4 rounded-xl font-semibold transition border-2 border-transparent flex flex-col items-center gap-2">
+                <span class="text-2xl">📱</span> Ví điện tử
+            </button>
+        </div>
+        <div class="flex gap-3">
+            <button onclick="closePaymentOverlay()"
+                class="flex-1 bg-gray-200 hover:bg-gray-300 py-2 rounded-lg font-semibold">
+                Hủy
+            </button>
+            <button onclick="confirmPayment()"
+                class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-semibold">
+                Xác nhận
+            </button>
+        </div>
+    </div>
+</div>
+
 <div id="notificationModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl">
         <div class="flex items-center gap-3 mb-4">
@@ -441,222 +409,14 @@
             <button onclick="closeModal()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 rounded-lg font-semibold transition">
                 Đóng
             </button>
-            <button id="modalAction" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-semibold transition">
+            <button id="modalAction" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-semibold">
                 Xác nhận
             </button>
         </div>
     </div>
 </div>
 
-<!-- STYLES -->
-<style>
-.cam-label {
-    position: absolute;
-    bottom: 8px;
-    left: 8px;
-    background: rgba(0, 0, 0, 0.75);
-    color: white;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 4px 8px;
-    border-radius: 6px;
-    backdrop-filter: blur(4px);
-}
 
-.payment-btn.selected {
-    border-color: #10b981;
-    background-color: #d1fae5;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-}
-
-.animate-pulse {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-</style>
-
-<!-- JAVASCRIPT -->
-<script>
-// Update current time
-function updateTime() {
-    const now = new Date();
-    const dateStr = now.toLocaleDateString('vi-VN');
-    const timeStr = now.toLocaleTimeString('vi-VN');
-    document.getElementById('current-date').textContent = dateStr;
-    document.getElementById('current-time').textContent = timeStr;
-}
-setInterval(updateTime, 1000);
-updateTime();
-
-// Handle barrier control
-function handleBarrier(lane, action) {
-    const laneText = lane === 'in' ? 'vào' : 'ra';
-    const actionText = action === 'open' ? 'mở' : 'đóng';
-    showNotification(
-        action === 'open' ? '✅' : '🚫',
-        `${actionText.charAt(0).toUpperCase() + actionText.slice(1)} barrier`,
-        `Đã ${actionText} barrier làn ${laneText} thành công`,
-        'success'
-    );
-}
-
-// Handle actions
-function handleAction(action) {
-    const actions = {
-        'rescan_in': { icon: '🔄', title: 'Quét lại', message: 'Đang quét lại thông tin xe vào...', type: 'info' },
-        'manual_entry': { icon: '✍️', title: 'Nhập thủ công', message: 'Chuyển sang chế độ nhập thủ công', type: 'info' },
-        'confirm_entry': { icon: '✅', title: 'Xác nhận vào', message: 'Xe đã được xác nhận vào bãi. Barrier đang mở...', type: 'success' },
-        'reject_entry': { icon: '❌', title: 'Từ chối', message: 'Đã từ chối xe vào. Lý do sẽ được ghi nhận.', type: 'error' },
-        'print_ticket': { icon: '🖨️', title: 'In vé', message: 'Đang in vé cho khách...', type: 'info' },
-        'rescan_out': { icon: '🔄', title: 'Quét lại', message: 'Đang quét lại thông tin xe ra...', type: 'info' },
-        'discount': { icon: '🎫', title: 'Giảm giá', message: 'Nhập mã giảm giá hoặc chọn chương trình khuyến mãi', type: 'info' },
-        'confirm_payment': { icon: '💰', title: 'Thanh toán', message: 'Đã xác nhận thanh toán 200.000 đ. Barrier đang mở...', type: 'success' },
-        'lost_ticket': { icon: '🎫', title: 'Mất vé', message: 'Áp dụng phí mất vé theo quy định', type: 'warning' },
-        'print_invoice': { icon: '🖨️', title: 'In hóa đơn', message: 'Đang in hóa đơn cho khách...', type: 'info' }
-    };
-    
-    const actionData = actions[action];
-    if (actionData) {
-        showNotification(actionData.icon, actionData.title, actionData.message, actionData.type);
-    }
-}
-
-// Payment method selection
-let selectedPayment = null;
-function selectPayment(method) {
-    // Remove previous selection
-    document.querySelectorAll('.payment-btn').forEach(btn => {
-        btn.classList.remove('selected');
-    });
-    
-    // Add selection to clicked button
-    event.target.classList.add('selected');
-    selectedPayment = method;
-    
-    const methods = {
-        'cash': 'Tiền mặt',
-        'card': 'Thẻ ngân hàng',
-        'ewallet': 'Ví điện tử'
-    };
-    
-    showNotification('💳', 'Phương thức thanh toán', `Đã chọn: ${methods[method]}`, 'info');
-}
-
-// Show notification modal
-function showNotification(icon, title, message, type) {
-    const modal = document.getElementById('notificationModal');
-    const modalIcon = document.getElementById('modalIcon');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalMessage = document.getElementById('modalMessage');
-    
-    modalIcon.textContent = icon;
-    modalTitle.textContent = title;
-    modalMessage.textContent = message;
-    
-    modal.classList.remove('hidden');
-    
-    // Auto close after 3 seconds
-    setTimeout(() => {
-        closeModal();
-    }, 3000);
-}
-
-// Close modal
-function closeModal() {
-    document.getElementById('notificationModal').classList.add('hidden');
-}
-
-// Mở overlay
-function openPaymentOverlay() {
-    document.getElementById("paymentOverlay").classList.remove("hidden");
-    selectedPayment = null;
-
-    document.querySelectorAll(".payment-btn").forEach(btn => {
-        btn.classList.remove("selected");
-    });
-}
-
-// Đóng overlay
-function closePaymentOverlay() {
-    document.getElementById("paymentOverlay").classList.add("hidden");
-}
-
-// Chọn phương thức
-function selectPayment(method, button) {
-    selectedPayment = method;
-
-    document.querySelectorAll(".payment-btn").forEach(btn => {
-        btn.classList.remove("selected");
-    });
-
-    button.classList.add("selected");
-}
-
-// Xác nhận thanh toán
-function confirmPayment() {
-    if (!selectedPayment) {
-        showNotification("⚠️", "Chưa chọn phương thức", "Vui lòng chọn phương thức trước!", "warning");
-        return;
-    }
-
-    const methodNames = {
-        cash: "Tiền mặt",
-        card: "Thẻ ngân hàng",
-        ewallet: "Ví điện tử"
-    };
-
-    closePaymentOverlay();
-
-    showNotification(
-        "✅",
-        "Thanh toán thành công",
-        `Đã thanh toán bằng ${methodNames[selectedPayment]}`,
-        "success"
-    );
-}
-
-</script>
-<!-- PAYMENT OVERLAY -->
-<div id="paymentOverlay" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-2xl w-[380px] p-6 shadow-2xl animate-fadeIn">
-
-        <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">
-            💳 Chọn phương thức thanh toán
-        </h3>
-
-        <div class="grid grid-cols-3 gap-3 mb-5">
-            <button onclick="selectPayment('cash', this)"
-                class="payment-btn bg-green-100 hover:bg-green-200 text-green-700 py-4 rounded-xl font-semibold transition border-2 border-transparent flex flex-col items-center gap-2">
-                <span class="text-2xl">💵</span> Tiền mặt
-            </button>
-
-            <button onclick="selectPayment('card', this)"
-                class="payment-btn bg-blue-100 hover:bg-blue-200 text-blue-700 py-4 rounded-xl font-semibold transition border-2 border-transparent flex flex-col items-center gap-2">
-                <span class="text-2xl">💳</span> Thẻ
-            </button>
-
-            <button onclick="selectPayment('ewallet', this)"
-                class="payment-btn bg-purple-100 hover:bg-purple-200 text-purple-700 py-4 rounded-xl font-semibold transition border-2 border-transparent flex flex-col items-center gap-2">
-                <span class="text-2xl">📱</span> Ví điện tử
-            </button>
-        </div>
-
-        <div class="flex gap-3">
-            <button onclick="closePaymentOverlay()"
-                class="flex-1 bg-gray-200 hover:bg-gray-300 py-2 rounded-lg font-semibold">
-                Hủy
-            </button>
-            <button onclick="confirmPayment()"
-                class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-semibold">
-                Xác nhận
-            </button>
-        </div>
-
-    </div>
-</div>
 
 </body>
 </html>

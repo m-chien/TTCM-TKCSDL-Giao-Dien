@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lịch làm việc của nhân viên - Parking Admin</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+         tailwind.config = {
+            darkMode: "class",
+            theme: {
+               extend: {
+                    colors: {
+                        "primary": "#13ec6d", 
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#102218",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2e22", 
+                        "text-main": "#0d1b13",
+                        "text-muted": "#4c9a6c",
+                        "border-color": "#e7f3ec",
+                        "border-dark": "#2a4234", 
+                     },
+                     fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px" },
+                        },
+                    },
+                }
+</script>
+<style>
+body {
+    font-family: 'Manrope', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+         }
+         .custom-scrollbar::-webkit-scrollbar-track {
+         background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+         }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #334155;
+     }
+</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-white transition-colors duration-200">
+<div class="flex h-screen overflow-hidden">
+<aside class="w-64 bg-surface-light dark:bg-surface-dark border-r border-border-color dark:border-border-dark hidden md:flex flex-col z-20">
+    <div class="p-6 flex items-center gap-3 border-b border-border-color dark:border-border-dark">
+        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+            <span class="material-icons text-text-main text-xl">local_parking</span>
+        </div>
+        <h1 class="text-xl font-bold tracking-tight">ParkManager</h1>
+    </div>
+
+    <nav class="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar pt-2">
+        <a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-background-light dark:hover:bg-white/5 rounded-xl transition-colors" href="#">
+            <span class="material-icons text-xl">people</span>
+            <span class="font-medium">Khách hàng</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-background-light dark:hover:bg-white/5 rounded-xl transition-colors" href="XuLyXeVaoRa.html">
+            <span class="material-icons text-xl">dashboard</span>
+            <span class="font-medium">Tổng quan</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-background-light dark:hover:bg-white/5 rounded-xl transition-colors" href="DuyetDatCho.html">
+            <span class="material-icons text-xl">assignment_turned_in</span>
+            <span class="font-medium">Duyệt đặt chỗ</span>
+            <span class="ml-auto bg-yellow-400/20 text-yellow-800 dark:text-yellow-400 text-xs font-bold px-2 py-0.5 rounded-full">12</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 bg-primary/20 text-green-800 dark:text-green-300 rounded-xl transition-colors font-semibold" href="LichLamViec.html">
+            <span class="material-icons text-xl">map</span>
+            <span>Lịch làm việc</span> 
+        </a>
+    </nav>
+    <div class="p-4 border-t border-border-color dark:border-border-dark">
+        <a class="flex items-center gap-3 px-4 py-2 text-slate-500 dark:text-slate-400 hover:text-text-main dark:hover:text-white transition-colors" href="#">
+            <span class="material-icons text-xl">settings</span>
+            <span class="font-medium">Cài đặt</span>
+        </a>
+    </div>
+</aside>
+<div class="flex flex-1 flex-col overflow-hidden relative">
+<header class="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-border-color dark:border-border-dark bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-md px-4 md:px-8">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-text-main dark:text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="md:hidden flex items-center gap-2 text-text-main dark:text-white">
+<div class="size-6 text-primary">
+<svg class="w-full h-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-sm font-bold">Parking Admin</h2>
+</div>
+<div class="hidden md:flex items-center gap-2 text-sm">
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary font-medium" href="#">Trang chủ</a>
+<span class="text-slate-400 dark:text-slate-500 font-medium">/</span>
+<span class="text-text-main dark:text-white font-bold">Lịch làm việc</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative p-2 text-slate-500 hover:bg-background-light dark:hover:bg-white/5 rounded-full transition-colors">
+<span class="material-icons">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-surface-dark"></span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-border-color dark:border-border-dark">
+    <div class="text-right hidden sm:block">
+        <p class="text-sm font-semibold text-text-main dark:text-white">Nguyễn Văn Nhân Viên</p>
+        <p class="text-xs text-slate-500 dark:text-slate-400">Giám sát ca</p>
+    </div>
+    <img alt="Avatar" class="w-9 h-9 rounded-full object-cover ring-2 ring-primary/20" data-alt="Portrait of a male staff member smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnGbekb5C73p1StkqoD-pTx-jsMbabtGmES1JakM4riFLsbB8eSl6NMC4GAfQDDKOWsPFRQ4YBrhucZGNqa__bT5Q7slUMPblo5eyS2zK4-d2ZbETWhTuBYoi_21Nsg49DZ86EGye4JOXcW9lsRbLXUtn4KAuVC5HrujUbt_V7nau9g7TrfLy2eAx_bYt0UrU_fWMDMS598lLkDsagBrWj1MjSmfBW_hIQ15oYlh7vavl_y0mpY2kf8W0BqhRuWagGmR9FK3ji9uPq"/>
+</div>
+</div>
+</header>
+<main class="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-8 custom-scrollbar">
+<div class="mx-auto flex w-full max-w-[1280px] flex-col gap-6">
+<div class="flex flex-wrap justify-between items-end gap-4">
+<div class="flex flex-col gap-2">
+<h1 class="text-text-main dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">Lịch làm việc của tôi</h1>
+<p class="text-slate-500 dark:text-slate-400 text-base font-normal">Xem và quản lý ca làm việc của bạn tại các bãi đỗ xe.</p>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-surface-dark border border-border-color dark:border-border-dark rounded-lg shadow-sm hover:bg-gray-50 dark:hover:bg-opacity-80 transition-colors">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400">download</span>
+<span class="text-sm font-bold text-slate-700 dark:text-white">Xuất Excel</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-border-color dark:border-border-dark bg-white dark:bg-surface-dark shadow-sm">
+<div class="flex justify-between items-start">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Tổng giờ tháng 12</p>
+<span class="material-symbols-outlined text-primary">schedule</span>
+</div>
+<div class="flex items-baseline gap-2">
+<p class="text-text-main dark:text-white text-2xl font-bold">176 giờ</p>
+<span class="text-green-600 text-xs font-bold bg-green-100 dark:bg-green-900/30 px-2 py-0.5 rounded-full">+4%</span>
+</div>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-border-color dark:border-border-dark bg-white dark:bg-surface-dark shadow-sm">
+<div class="flex justify-between items-start">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Ca sắp tới</p>
+<span class="material-symbols-outlined text-primary">calendar_month</span>
+</div>
+<p class="text-text-main dark:text-white text-2xl font-bold">5 ca</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-border-color dark:border-border-dark bg-white dark:bg-surface-dark shadow-sm">
+<div class="flex justify-between items-start">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Ca cần xác nhận</p>
+<span class="material-symbols-outlined text-amber-500">warning</span>
+</div>
+<p class="text-text-main dark:text-white text-2xl font-bold">2 ca</p>
+</div>
+</div>
+<div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-white dark:bg-surface-dark p-4 rounded-xl border border-border-color dark:border-border-dark shadow-sm">
+<div class="flex gap-2 flex-wrap">
+<button class="filter-btn flex h-9 items-center gap-x-2 rounded-lg bg-primary text-text-main px-4 hover:opacity-90 transition-opacity" onclick="filterByParkingLot('all', this)" data-lot="all">
+<span class="text-sm font-bold">Tất cả bãi đỗ</span>
+</button>
+<button class="filter-btn flex h-9 items-center gap-x-2 rounded-lg bg-background-light dark:bg-background-dark border border-transparent hover:border-border-color dark:hover:border-border-dark px-4 transition-colors" onclick="filterByParkingLot('vincom', this)" data-lot="vincom">
+<span class="text-text-main dark:text-white text-sm font-medium">Bãi Vincom</span>
+</button>
+<button class="filter-btn flex h-9 items-center gap-x-2 rounded-lg bg-background-light dark:bg-background-dark border border-transparent hover:border-border-color dark:hover:border-border-dark px-4 transition-colors" onclick="filterByParkingLot('royalcity', this)" data-lot="royalcity">
+<span class="text-text-main dark:text-white text-sm font-medium">Bãi Royal City</span>
+</button>
+<button class="filter-btn flex h-9 items-center gap-x-2 rounded-lg bg-background-light dark:bg-background-dark border border-transparent hover:border-border-color dark:hover:border-border-dark px-4 transition-colors" onclick="filterByParkingLot('timescity', this)" data-lot="timescity">
+<span class="text-text-main dark:text-white text-sm font-medium">Bãi Times City</span>
+</button>
+</div>
+<div class="flex items-center gap-3 w-full lg:w-auto justify-between lg:justify-end">
+<div class="flex items-center bg-background-light dark:bg-background-dark rounded-lg p-1 border border-border-color dark:border-border-dark">
+<button class="p-1 hover:bg-white dark:hover:bg-surface-dark rounded shadow-sm transition-all" onclick="changeMonth(-1)">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<span id="current-month-display" class="px-4 text-sm font-bold min-w-[120px] text-center">Tháng 12, 2025</span>
+<button class="p-1 hover:bg-white dark:hover:bg-surface-dark rounded shadow-sm transition-all" onclick="changeMonth(1)">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+<div class="flex bg-background-light dark:bg-background-dark rounded-lg p-1 border border-border-color dark:border-border-dark">
+<button id="view-week-btn" class="px-3 py-1 rounded-md text-sm font-medium hover:bg-white dark:hover:bg-surface-dark transition-colors" onclick="changeView('week', this)">Tuần</button>
+<button id="view-month-btn" class="px-3 py-1 rounded-md text-sm font-bold bg-white dark:bg-surface-dark shadow-sm text-primary" onclick="changeView('month', this)">Tháng</button>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-border-color dark:border-border-dark shadow-sm overflow-hidden">
+<div class="grid grid-cols-7 border-b border-border-color dark:border-border-dark">
+<div class="py-3 text-center text-sm font-bold text-slate-500 dark:text-slate-400">T2</div>
+<div class="py-3 text-center text-sm font-bold text-slate-500 dark:text-slate-400">T3</div>
+<div class="py-3 text-center text-sm font-bold text-slate-500 dark:text-slate-400">T4</div>
+<div class="py-3 text-center text-sm font-bold text-slate-500 dark:text-slate-400">T5</div>
+<div class="py-3 text-center text-sm font-bold text-slate-500 dark:text-slate-400">T6</div>
+<div class="py-3 text-center text-sm font-bold text-slate-500 dark:text-slate-400 text-primary">T7</div>
+<div class="py-3 text-center text-sm font-bold text-slate-500 dark:text-slate-400 text-primary">CN</div>
+</div>
+<div class="grid grid-cols-7 auto-rows-fr bg-border-color dark:bg-border-dark gap-px">
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer relative" onclick="viewShiftDetails('SHIFT-0112', '01')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold">01</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+<div class="shift-item bg-green-50 dark:bg-green-900/20 border-l-4 border-primary p-2 rounded-r mb-1" data-lot="vincom">
+<div class="flex justify-between items-center mb-1">
+<p class="text-xs font-bold text-text-main dark:text-white truncate">Ca Sáng</p>
+<span class="material-symbols-outlined text-[14px] text-green-600">check_circle</span>
+</div>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">schedule</span> 08:00 - 16:00
+                                </p>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">Vincom Center</p>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('SHIFT-0212', '02')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold">02</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+<div class="shift-item bg-green-50 dark:bg-green-900/20 border-l-4 border-primary p-2 rounded-r mb-1" data-lot="vincom">
+<div class="flex justify-between items-center mb-1">
+<p class="text-xs font-bold text-text-main dark:text-white truncate">Ca Sáng</p>
+<span class="material-symbols-outlined text-[14px] text-green-600">check_circle</span>
+</div>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">schedule</span> 08:00 - 16:00
+                                </p>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">Vincom Center</p>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('HOLIDAY-0312', '03')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold">03</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+<div class="flex items-center justify-center h-20">
+<span class="text-xs text-slate-500 dark:text-slate-400 italic">Nghỉ phép</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('SHIFT-0412', '04')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold">04</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+<div class="shift-item bg-green-50 dark:bg-green-900/20 border-l-4 border-primary p-2 rounded-r mb-1" data-lot="royalcity">
+<div class="flex justify-between items-center mb-1">
+<p class="text-xs font-bold text-text-main dark:text-white truncate">Ca Chiều</p>
+<span class="material-symbols-outlined text-[14px] text-green-600">check_circle</span>
+</div>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">schedule</span> 14:00 - 22:00
+                                </p>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">Royal City</p>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('LEAVE-0512', '05')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold">05</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+<div class="shift-item bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-500 p-2 rounded-r mb-1" data-lot="all">
+<div class="flex justify-between items-center mb-1">
+<p class="text-xs font-bold text-text-main dark:text-white truncate">Chờ xác nhận</p>
+<span class="material-symbols-outlined text-[14px] text-amber-500">pending_actions</span>
+</div>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                                    Xin nghỉ (Việc riêng)
+                                </p>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('SHIFT-0612', '06')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold text-primary">06</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+<div class="shift-item bg-green-50 dark:bg-green-900/20 border-l-4 border-primary p-2 rounded-r mb-1" data-lot="royalcity">
+<div class="flex justify-between items-center mb-1">
+<p class="text-xs font-bold text-text-main dark:text-white truncate">Ca Chiều</p>
+<span class="material-symbols-outlined text-[14px] text-green-600">check_circle</span>
+</div>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">schedule</span> 14:00 - 22:00
+                                </p>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">Royal City</p>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('NONE-0712', '07')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold text-primary">07</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('ABSENT-0812', '08')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold">08</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+<div class="shift-item bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-2 rounded-r mb-1" data-lot="all">
+<div class="flex justify-between items-center mb-1">
+<p class="text-xs font-bold text-text-main dark:text-white truncate">Vắng mặt</p>
+<span class="material-symbols-outlined text-[14px] text-red-500">cancel</span>
+</div>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 truncate">Không phép</p>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('SHIFT-0912', '09')">
+<span class="text-sm font-bold">09</span>
+<div class="shift-item bg-green-50 dark:bg-green-900/20 border-l-4 border-primary p-2 rounded-r mb-1" data-lot="vincom">
+<div class="flex justify-between items-center mb-1">
+<p class="text-xs font-bold text-text-main dark:text-white truncate">Ca Sáng</p>
+<span class="material-symbols-outlined text-[14px] text-green-600">check_circle</span>
+</div>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">schedule</span> 08:00 - 16:00
+                                </p>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">Vincom Center</p>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer relative ring-2 ring-inset ring-primary z-10" onclick="viewShiftDetails('SHIFT-1012', '10')">
+<div class="absolute top-2 right-2 size-2 rounded-full bg-primary"></div>
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold text-primary">10</span>
+</div>
+<div class="shift-item bg-primary/10 border-l-4 border-primary p-2 rounded-r mb-1" data-lot="vincom">
+<div class="flex justify-between items-center mb-1">
+<p class="text-xs font-bold text-text-main dark:text-white truncate">Ca Sáng</p>
+<div class="size-2 rounded-full bg-green-500 animate-pulse"></div>
+</div>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">schedule</span> 08:00 - 16:00
+                                </p>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">Vincom Center</p>
+<button class="mt-2 w-full bg-primary text-text-main text-[10px] font-bold py-1 rounded hover:bg-opacity-80" onclick="checkInShift('SHIFT-1012', event)">Check-in</button>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('SHIFT-1112', '11')">
+<span class="text-sm font-bold">11</span>
+<div class="shift-item bg-green-50 dark:bg-green-900/20 border-l-4 border-primary p-2 rounded-r mb-1 opacity-60" data-lot="vincom">
+<div class="flex justify-between items-center mb-1">
+<p class="text-xs font-bold text-text-main dark:text-white truncate">Ca Sáng</p>
+</div>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">schedule</span> 08:00 - 16:00
+                                </p>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">Vincom Center</p>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('SHIFT-1212', '12')">
+<span class="text-sm font-bold">12</span>
+<div class="shift-item bg-green-50 dark:bg-green-900/20 border-l-4 border-primary p-2 rounded-r mb-1 opacity-60" data-lot="vincom">
+<div class="flex justify-between items-center mb-1">
+<p class="text-xs font-bold text-text-main dark:text-white truncate">Ca Sáng</p>
+</div>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">schedule</span> 08:00 - 16:00
+                                </p>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">Vincom Center</p>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('NONE-1312', '13')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold text-primary">13</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('NONE-1412', '14')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold text-primary">14</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('NONE-1512', '15')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold">15</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('NONE-1612', '16')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold">16</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('NONE-1712', '17')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold">17</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('LEAVE-1812', '18')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold">18</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+<div class="shift-item bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-500 p-2 rounded-r mb-1" data-lot="all">
+<div class="flex justify-between items-center mb-1">
+<p class="text-xs font-bold text-text-main dark:text-white truncate">Chờ xác nhận</p>
+<span class="material-symbols-outlined text-[14px] text-amber-500">pending_actions</span>
+</div>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                                    Xin nghỉ (Báo ốm)
+                                </p>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('NONE-1912', '19')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold">19</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('NONE-2012', '20')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold text-primary">20</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('NONE-2112', '21')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold text-primary">21</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('NONE-2212', '22')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold">22</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('NONE-2312', '23')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold">23</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('HOLIDAY-2412', '24')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold">24</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('HOLIDAY-2512', '25')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold">25</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+<div class="shift-item bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-2 rounded-r mb-1" data-lot="all">
+<div class="flex justify-between items-center mb-1">
+<p class="text-xs font-bold text-text-main dark:text-white truncate">Lễ Giáng Sinh</p>
+<span class="material-symbols-outlined text-[14px] text-red-500">celebration</span>
+</div>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                                    Nghỉ lễ
+                                </p>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('NONE-2612', '26')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold">26</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('NONE-2712', '27')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold text-primary">27</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('NONE-2812', '28')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold text-primary">28</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('NONE-2912', '29')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold">29</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('NONE-3012', '30')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold">30</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark min-h-[140px] p-2 hover:bg-gray-50 dark:hover:bg-opacity-90 transition-colors group cursor-pointer" onclick="viewShiftDetails('NONE-3112', '31')">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold">31</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300 opacity-0 group-hover:opacity-100">add_circle</span>
+</div>
+</div>
+<div class="bg-gray-50 dark:bg-background-dark/50 min-h-[140px] p-2 opacity-50"><span class="text-sm font-medium text-slate-500 dark:text-slate-400">01</span></div>
+<div class="bg-gray-50 dark:bg-background-dark/50 min-h-[140px] p-2 opacity-50"><span class="text-sm font-medium text-slate-500 dark:text-slate-400">02</span></div>
+<div class="bg-gray-50 dark:bg-background-dark/50 min-h-[140px] p-2 opacity-50"><span class="text-sm font-medium text-slate-500 dark:text-slate-400">03</span></div>
+<div class="bg-gray-50 dark:bg-background-dark/50 min-h-[140px] p-2 opacity-50"><span class="text-sm font-medium text-slate-500 dark:text-slate-400">04</span></div>
+</div>
+</div>
+<div class="flex flex-wrap gap-6 items-center justify-center md:justify-start pb-8">
+<div class="flex items-center gap-2">
+<div class="size-3 rounded-full bg-green-100 border border-primary"></div>
+<span class="text-sm text-slate-500 dark:text-slate-400">Đã hoàn thành / Sắp tới</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-3 rounded-full bg-amber-100 border border-amber-500"></div>
+<span class="text-sm text-slate-500 dark:text-slate-400">Chờ xác nhận</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-3 rounded-full bg-red-100 border border-red-500"></div>
+<span class="text-sm text-slate-500 dark:text-slate-400">Vắng mặt (Đã duyệt) / Nghỉ lễ</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-3 rounded-full bg-primary"></div>
+<span class="text-sm text-slate-500 dark:text-slate-400">Hôm nay</span>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body>
+</html>
