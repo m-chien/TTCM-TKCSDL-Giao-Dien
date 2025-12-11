@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Duyệt đặt chỗ - Parking Admin</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+            extend: {
+                colors: {
+                    "primary": "#13ec6d",
+                    "background-light": "#f6f8f7",
+                    "background-dark": "#102218",
+                    "dark-card": "#1a2e22",
+                    "dark-border": "#2a4234",
+                },
+                fontFamily: {
+                    "display": ["Manrope", "sans-serif"]
+                },
+                borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+            },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for table container */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #334155;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 font-display transition-colors duration-200 h-screen overflow-hidden flex">
+<!-- Sidebar -->
+<aside class="w-64 bg-white dark:bg-dark-card border-r border-slate-200 dark:border-dark-border hidden md:flex flex-col z-20">
+<div class="p-6 flex items-center gap-3">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-icons text-slate-900 text-xl">local_parking</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight">ParkManager</h1>
+</div>
+<nav class="flex-1 px-4 space-y-1 overflow-y-auto">
+    <a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 rounded-xl transition-colors" href="#">
+        <span class="material-icons text-xl">people</span>
+        <span class="font-medium">Khách hàng</span>
+    </a>
+    <a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 rounded-xl transition-colors" href="XuLyXeVaoRa.html">
+        <span class="material-icons text-xl">dashboard</span>
+        <span class="font-medium">Tổng quan</span>
+    </a>
+    <a class="flex items-center gap-3 px-4 py-3 bg-primary/20 text-green-800 dark:text-green-300 rounded-xl transition-colors font-semibold" href="DuyetDatCho">
+        <span class="material-icons text-xl">assignment_turned_in</span>
+        <span>Duyệt đặt chỗ</span>
+        <span class="ml-auto bg-primary text-slate-900 text-xs font-bold px-2 py-0.5 rounded-full">12</span>
+    </a>
+    <a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 rounded-xl transition-colors" href="LichLamViec.html">
+        <span class="material-icons text-xl">map</span>
+        <span class="font-medium">Lịch làm việc</span> 
+    </a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-dark-border">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors" href="#">
+<span class="material-icons text-xl">settings</span>
+<span class="font-medium">Cài đặt</span>
+</a>
+</div>
+</aside>
+
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- Top Header -->
+<header class="h-16 bg-white dark:bg-dark-card border-b border-slate-200 dark:border-dark-border flex items-center justify-between px-6 shrink-0 z-10">
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<span>Trang chủ</span>
+<span class="material-icons text-base">chevron_right</span>
+<span class="text-slate-800 dark:text-slate-100 font-medium">Duyệt yêu cầu</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-white/5 rounded-full transition-colors">
+<span class="material-icons">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-dark-card"></span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-slate-200 dark:border-dark-border">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Nguyễn Văn Nhân Viên</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Điều phối viên</p>
+</div>
+<img alt="Avatar" class="w-9 h-9 rounded-full object-cover ring-2 ring-primary/20" data-alt="Portrait of a male staff member smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnGbekb5C73p1StkqoD-pTx-jsMbabtGmES1JakM4riFLsbB8eSl6NMC4GAfQDDKOWsPFRQ4YBrhucZGNqa__bT5Q7slUMPblo5eyS2zK4-d2ZbETWhTuBYoi_21Nsg49DZ86EGye4JOXcW9lsRbLXUtn4KAuVC5HrujUbt_V7nau9g7TrfLy2eAx_bYt0UrU_fWMDMS598lLkDsagBrWj1MjSmfBW_hIQ15oYlh7vavl_y0mpY2kf8W0BqhRuWagGmR9FK3ji9uPq"/>
+</div>
+</div>
+</header>
+<!-- Page Content Wrapper -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Left Panel: List -->
+<div class="flex-1 flex flex-col min-w-0 bg-background-light dark:bg-background-dark">
+<!-- Toolbar -->
+<div class="p-6 pb-4">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+<div>
+<h2 class="text-2xl font-bold text-slate-800 dark:text-white">Yêu cầu chờ duyệt</h2>
+<p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Hiện có <span class="text-primary font-bold">12</span> yêu cầu đặt chỗ mới cần xử lý.</p>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-white/5 transition-colors shadow-sm">
+<span class="material-icons text-lg">filter_list</span>
+<span>Bộ lọc</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-white/5 transition-colors shadow-sm">
+<span class="material-icons text-lg">file_download</span>
+<span>Xuất Excel</span>
+</button>
+</div>
+</div>
+<!-- Search & Filter Row -->
+<div class="bg-white dark:bg-dark-card p-4 rounded-xl shadow-sm border border-slate-200 dark:border-dark-border grid grid-cols-1 md:grid-cols-12 gap-4">
+<div class="md:col-span-4 relative">
+<span class="material-icons absolute left-3 top-2.5 text-slate-400">search</span>
+<input class="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-white/5 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm" placeholder="Tìm theo tên, biển số, mã..." type="text"/>
+</div>
+<div class="md:col-span-3">
+<select class="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-white/5 focus:outline-none focus:ring-2 focus:ring-primary text-sm text-slate-600 dark:text-slate-300">
+<option value="">Tất cả bãi đỗ</option>
+<option value="A">Bãi Vincom</option>
+<option value="B">Bãi Royal City</option>
+<option value="C">Bãi Time City</option>
+</select>
+</div>
+<div class="md:col-span-3">
+<input class="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-white/5 focus:outline-none focus:ring-2 focus:ring-primary text-sm text-slate-600 dark:text-slate-300" type="date"/>
+</div>
+<div class="md:col-span-2">
+<button class="w-full h-full bg-primary text-slate-900 font-semibold rounded-lg hover:bg-opacity-90 transition-colors text-sm">
+                                 Tìm kiếm
+                             </button>
+</div>
+</div>
+</div>
+<!-- Table Container -->
+<div class="flex-1 overflow-auto custom-scrollbar px-6 pb-6">
+<div class="bg-white dark:bg-dark-card rounded-xl shadow-sm border border-slate-200 dark:border-dark-border overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 dark:bg-white/5 border-b border-slate-200 dark:border-dark-border text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
+<th class="px-6 py-4">Mã đặt chỗ</th>
+<th class="px-6 py-4">Khách hàng</th>
+<th class="px-6 py-4">Biển số / Xe</th>
+<th class="px-6 py-4">Vị trí</th>
+<th class="px-6 py-4">Thời gian</th>
+<th class="px-6 py-4">Trạng thái</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-dark-border text-sm">
+<!-- Row 1 (Active) -->
+<tr class="bg-primary/5 cursor-pointer relative group">
+<td class="px-6 py-4 font-medium text-slate-900 dark:text-white">
+                                        #BK-9281
+                                        <span class="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-r"></span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">TV</div>
+<span class="font-medium text-slate-700 dark:text-slate-200">Trần Văn An</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="font-bold text-slate-800 dark:text-slate-100">30H-123.45</div>
+<div class="text-xs text-slate-500">Toyota Vios • Trắng</div>
+</td>
+<td class="px-6 py-4 text-slate-600 dark:text-slate-300">
+                                        Khu A • <span class="font-bold">A-12</span>
+</td>
+<td class="px-6 py-4">
+<div class="text-slate-700 dark:text-slate-200">14:00 - 18:00</div>
+<div class="text-xs text-slate-500">24/10/2023</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-900/50">
+                                            Chờ duyệt
+                                        </span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-white/5 cursor-pointer transition-colors">
+<td class="px-6 py-4 font-medium text-slate-600 dark:text-slate-300">#BK-9280</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="Portrait of young woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxuMRAUxQ35KpFfz8gxfVgxkRTP03GeUQLJW7GvdwYa7WvQJgx75NnM8gEASwFJHKvPDXLWobjQCwjpIAH8swBqeTr82cZ6Xbw-JpQPBdP8aMM5ZE2ukhw1ZMtoEtqEdmHtHV_rr23McHS_hrDrV5gx5RmbIR_MT0RVsVLIfRWgrVwyB9H9Yq_YSeB2Jel5N_FkrWECHDLgeolJRh3EfcvRQQccT-EegmNxAyWT4VXXitEWTllRI6fGkW6WuMvN7m5NHV-mRWR3GZp"/>
+<span class="font-medium text-slate-700 dark:text-slate-200">Lê Thị Bình</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="font-bold text-slate-800 dark:text-slate-100">29A-888.99</div>
+<div class="text-xs text-slate-500">Honda Civic • Đen</div>
+</td>
+<td class="px-6 py-4 text-slate-600 dark:text-slate-300">
+                                        Khu VIP • <span class="font-bold">V-05</span>
+</td>
+<td class="px-6 py-4">
+<div class="text-slate-700 dark:text-slate-200">08:00 - 17:00</div>
+<div class="text-xs text-slate-500">25/10/2023</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-900/50">
+                                            Chờ duyệt
+                                        </span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-white/5 cursor-pointer transition-colors">
+<td class="px-6 py-4 font-medium text-slate-600 dark:text-slate-300">#BK-9279</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-xs">NM</div>
+<span class="font-medium text-slate-700 dark:text-slate-200">Nguyễn Minh</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="font-bold text-slate-800 dark:text-slate-100">51F-555.21</div>
+<div class="text-xs text-slate-500">Mazda CX5 • Đỏ</div>
+</td>
+<td class="px-6 py-4 text-slate-600 dark:text-slate-300">
+                                        Khu B • <span class="font-bold">B-22</span>
+</td>
+<td class="px-6 py-4">
+<div class="text-slate-700 dark:text-slate-200">10:00 - 12:00</div>
+<div class="text-xs text-slate-500">25/10/2023</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-900/50">
+                                            Chờ duyệt
+                                        </span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-white/5 cursor-pointer transition-colors">
+<td class="px-6 py-4 font-medium text-slate-600 dark:text-slate-300">#BK-9278</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="Portrait of man smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBeAuv-rGijekuOuJdWPG3mW0C7rNfVXCJUKCth6msn7pjbv0j-KRDC5UAxfpFEFHQZNngwc-V3XG7DOf62ZuAK6tWBxt65dtCQPDEnUEVPHLzUb5WOFVHr1UHDuwav4UF1NsY9NKIjsrbNTGZDizrAiqrDq1VamvJNFVy-wHE09ziOTsGgrgiZfITEyRIqi1e6hPjv1rPD0H4_yLHLOxAOK1Q-H0Kc7FUdVbw6ANTzpEQSmqV8H00Sfuc8628T0PmmBBfg8jL8V7o"/>
+<span class="font-medium text-slate-700 dark:text-slate-200">Phạm Văn Cường</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="font-bold text-slate-800 dark:text-slate-100">60A-112.99</div>
+<div class="text-xs text-slate-500">Kia Cerato • Xám</div>
+</td>
+<td class="px-6 py-4 text-slate-600 dark:text-slate-300">
+                                        Khu A • <span class="font-bold">A-04</span>
+</td>
+<td class="px-6 py-4">
+<div class="text-slate-700 dark:text-slate-200">19:00 - 22:00</div>
+<div class="text-xs text-slate-500">25/10/2023</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-900/50">
+                                            Chờ duyệt
+                                        </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right Panel: Detail View -->
+<aside class="w-[400px] bg-white dark:bg-dark-card border-l border-slate-200 dark:border-dark-border flex flex-col shadow-xl z-10">
+<!-- Detail Header -->
+<div class="p-6 border-b border-slate-100 dark:border-dark-border flex justify-between items-center bg-slate-50/50 dark:bg-white/5">
+<div>
+<h3 class="text-lg font-bold text-slate-800 dark:text-white">Chi tiết yêu cầu</h3>
+<p class="text-sm text-slate-500">Mã: #BK-9281</p>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-icons">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-8">
+<!-- Customer Section -->
+<section>
+<h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">Thông tin khách hàng</h4>
+<div class="flex items-start gap-4">
+<div class="w-14 h-14 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xl shrink-0">TV</div>
+<div class="flex-1">
+<h5 class="font-bold text-slate-800 dark:text-white text-lg">Trần Văn An</h5>
+<div class="flex items-center gap-2 mt-1 text-slate-600 dark:text-slate-300 text-sm">
+<span class="material-icons text-base text-slate-400">phone</span>
+<span>0905 123 456</span>
+</div>
+<div class="flex items-center gap-2 mt-1 text-slate-600 dark:text-slate-300 text-sm">
+<span class="material-icons text-base text-slate-400">email</span>
+<span>an.tran@example.com</span>
+</div>
+<button class="mt-3 text-primary text-sm font-semibold hover:underline flex items-center gap-1">
+<span class="material-icons text-base">chat</span> Nhắn tin
+                                </button>
+</div>
+</div>
+</section>
+<hr class="border-slate-100 dark:border-dark-border"/>
+<!-- Vehicle Section -->
+<section>
+<h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">Phương tiện</h4>
+<div class="bg-slate-50 dark:bg-white/5 p-4 rounded-xl border border-slate-100 dark:border-dark-border">
+<div class="flex justify-between items-start mb-3">
+<div>
+<div class="font-bold text-xl text-slate-800 dark:text-white">30H-123.45</div>
+<div class="text-sm text-slate-500">Toyota Vios • Trắng</div>
+</div>
+<span class="material-icons text-slate-300">directions_car</span>
+</div>
+<!-- Small map preview or car image -->
+<div class="h-24 w-full rounded-lg overflow-hidden relative mt-2">
+<img alt="Car interior" class="w-full h-full object-cover opacity-80" data-alt="Close up of a modern white car dashboard and steering wheel" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACbHfGZnCa5CU59JUXQni8PTalmzj8R6gqxj-sUxCMeHAYYRBLs4gipauSx_S7O2cmJT2UP8EVc-Bdo8AlOA6HD4XzgXALI2Ll-AMgXu8hZ7K4lKOeJm9Qrl7ZdbLXn0zYoA6i4vzJ1cuA9QFoavgiiHbm95EM-XfleDf2RtjxmiQwyYjU4WaubT38DIeHfWRdnnRew9X5z6Pchpwg1bmITf04aqTUiPDAAQpWMjO_1o3rUwQcvln_kzMiGpGsa3TTN_fFFdXr2jW9"/>
+</div>
+</div>
+</section>
+<hr class="border-slate-100 dark:border-dark-border"/>
+<!-- Booking Details -->
+<section>
+<h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">Chi tiết đặt chỗ</h4>
+<div class="space-y-4">
+<div class="flex gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-icons text-primary">location_on</span>
+</div>
+<div>
+<p class="text-xs text-slate-500">Vị trí đỗ</p>
+<p class="font-bold text-slate-800 dark:text-white">Khu A - Tầng hầm 1</p>
+<p class="text-sm text-primary font-medium">Ô số: A-12</p>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="w-10 h-10 rounded-lg bg-orange-100 dark:bg-orange-900/20 flex items-center justify-center shrink-0">
+<span class="material-icons text-orange-500">schedule</span>
+</div>
+<div>
+<p class="text-xs text-slate-500">Thời gian</p>
+<p class="font-bold text-slate-800 dark:text-white">14:00 - 18:00 (4 giờ)</p>
+<p class="text-sm text-slate-500">Ngày: 24/10/2023</p>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/20 flex items-center justify-center shrink-0">
+<span class="material-icons text-purple-500">payments</span>
+</div>
+<div>
+<p class="text-xs text-slate-500">Chi phí ước tính</p>
+<p class="font-bold text-slate-800 dark:text-white">60.000 VNĐ</p>
+<p class="text-xs text-green-500 flex items-center gap-1">
+<span class="material-icons text-[14px]">check_circle</span> Đã thanh toán trước
+                                    </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Reject Reason Input (Hidden by default in logic, shown here for design completeness) -->
+<div class="hidden">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Lý do từ chối</label>
+<textarea class="w-full p-3 rounded-lg border border-slate-300 dark:border-dark-border bg-white dark:bg-white/5 text-sm" placeholder="Nhập lý do từ chối..." rows="3"></textarea>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="p-6 border-t border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-card/50">
+<div class="grid grid-cols-2 gap-3">
+<button class="px-4 py-3 rounded-xl border border-red-200 dark:border-red-900/30 text-red-600 dark:text-red-400 font-bold text-sm hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors">
+                            Từ chối
+                        </button>
+<button class="px-4 py-3 rounded-xl bg-primary text-slate-900 font-bold text-sm hover:bg-[#10d862] shadow-lg shadow-primary/25 transition-all transform active:scale-95 flex items-center justify-center gap-2">
+<span class="material-icons text-lg">check</span>
+                            Duyệt ngay
+                        </button>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Toast Notification (Simulated) -->
+<div class="fixed top-6 right-6 z-50 animate-bounce" style="animation-iteration-count: 1; animation-duration: 0.5s;">
+<div class="bg-slate-800 dark:bg-white text-white dark:text-slate-900 px-4 py-3 rounded-lg shadow-xl flex items-center gap-3">
+<span class="material-icons text-primary">check_circle</span>
+<div>
+<p class="font-bold text-sm">Đã duyệt thành công!</p>
+<p class="text-xs opacity-80">Mã đặt chỗ #BK-9281 đã được xác nhận.</p>
+</div>
+<button class="ml-2 opacity-60 hover:opacity-100">
+<span class="material-icons text-sm">close</span>
+</button>
+</div>
+</div>
+</body></html>

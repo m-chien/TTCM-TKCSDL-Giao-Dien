@@ -34,22 +34,32 @@
 <body class="font-display bg-background-light dark:bg-background-dark text-[#0d1b13] dark:text-gray-200">
 <div class="relative flex min-h-screen w-full flex-col">
 <!-- TopNavBar -->
-<header class="sticky top-0 z-10 flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200/80 dark:border-gray-700/80 bg-background-light/80 dark:bg-background-dark/80 px-4 py-3 backdrop-blur-sm sm:px-6 lg:px-8">
-<div class="flex items-center gap-4">
+<header class="sticky top-0 z-50 w-full bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
+<div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between whitespace-nowrap h-16">
+<div class="flex items-center gap-4 text-gray-800 dark:text-gray-200">
 <span class="material-symbols-outlined text-primary text-3xl">local_parking</span>
-<h2 class="text-lg font-bold tracking-tight">Parking Management</h2>
+<h2 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Parking Management</h2>
 </div>
-<div class="hidden items-center gap-6 md:flex">
-<a class="text-sm font-medium hover:text-primary" href="#">Trang chủ</a>
-<a class="text-sm font-bold text-primary" href="#">Đăng ký thẻ tháng</a>
-<a class="text-sm font-medium hover:text-primary" href="#">Lịch sử giao dịch</a>
-<a class="text-sm font-medium hover:text-primary" href="#">Hỗ trợ</a>
+<div class="hidden md:flex items-center gap-9">
+<a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal " href="ChonBai.html">Dashboard</a>
+<a class=" text-primary dark:text-primary text-sm font-bold leading-normal" href="DangKiTheThang.html">Đăng Kí thẻ tháng</a>
+<a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="LichSuGuiXe.html">Lịch sử đặt chỗ</a>
+<!-- <a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Thanh toán</a> -->
 </div>
-<div class="flex items-center gap-4">
-<button class="flex cursor-pointer items-center justify-center rounded-full h-10 w-10 bg-primary/20 text-primary hover:bg-primary/30">
+<div class="flex items-center gap-3">
+<button class="flex cursor-pointer items-center justify-center rounded-full h-10 w-10 bg-gray-200/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
 <span class="material-symbols-outlined">notifications</span>
 </button>
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCAuqhGcWhklvLna6KE7pAYYSYTALo77VvhC9bYjtUKwxCFmhZsv8ITSGKlVutEXwxt8pVYGKjGTo9MS5elEQW3Za1b-h0aFEMUDYTk3Ujti2XUnJ6S3V9Q4WuNw19DMC3_D9Ke3XDWu-DbEVkdC6HqFIfNpQo53yY9iaiiSBTS-vTgrPZsZH6HFLQuX2nO7q_ZVPT_uUsW4uRD27ywPpCT1-j8g2SNRXbYXNUzfN_e7Lnhkuep5pAV-Xz7vCOckjT2Qxz24cTWk3Cf");'></div>
+<button class="flex cursor-pointer items-center justify-center rounded-full h-10 w-10 bg-gray-200/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<a href="ThemPhuongTien.html"  class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDwjWTl2KRPAMOFhB9iTQ5SxyUbYBDjw6JId-QGkWKklxZiSO1DCrm2e8e9UHxL6hc-eKjvUj6uPXqU2EmA6ej944qRr_pMF-SCTsmj7dxqL0V3JsVbPrxby0wnNIrnhUx9VsvtH7cW1AHKEJ8mUszADbiVjw66TFpnWVhdcJzYROPA0Gp_1UBvba021j1q8L1haAjDdHeDF_i8_NYHnx8KkZC2LUDiWD4JMz4guGspDyO3V8FvcC9JsEPtsZLZ_RuyMNZFhz--sjF6");'>
+  
+</a>
+
+</div>
+</div>
 </div>
 </header>
 <!-- Main Content -->
@@ -107,7 +117,7 @@
 <h2 class="text-2xl font-bold tracking-tight px-1 pb-4">Chọn Gói Dịch Vụ Phù Hợp</h2>
 <!-- PricingCards -->
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-<div class="flex flex-col gap-4 rounded-lg border border-solid border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
+<!-- <div class="flex flex-col gap-4 rounded-lg border border-solid border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
 <div class="flex flex-col gap-1">
 <h3 class="text-lg font-bold">Gói Xe máy</h3>
 <p class="flex items-baseline gap-1">
@@ -129,7 +139,7 @@
 <button class="mt-auto flex w-full min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-4 bg-primary/20 text-primary text-sm font-bold tracking-wide hover:bg-primary/30">
 <span class="truncate">Chọn gói</span>
 </button>
-</div>
+</div> -->
 <div class="relative flex flex-col gap-4 rounded-lg border-2 border-solid border-primary bg-white dark:bg-gray-800 p-6 shadow-lg">
 <p class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 text-background-dark text-xs font-bold tracking-wider uppercase rounded-full bg-primary px-4 py-1">Phổ biến</p>
 <div class="flex flex-col gap-1">
@@ -151,7 +161,7 @@
                                         </div>
 </div>
 <button class="mt-auto flex w-full min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-4 bg-primary text-background-dark text-sm font-bold tracking-wide hover:opacity-90">
-<span class="truncate">Đã chọn</span>
+<a href="ThanhToanDangKiTheThang.html" class="truncate">Đã chọn</a>
 </button>
 </div>
 <div class="flex flex-col gap-4 rounded-lg border border-solid border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
@@ -174,7 +184,7 @@
                                         </div>
 </div>
 <button class="mt-auto flex w-full min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-4 bg-primary/20 text-primary text-sm font-bold tracking-wide hover:bg-primary/30">
-<span class="truncate">Chọn gói</span>
+<a href="ThanhToanDangKiTheThang.html" class="truncate">chọn gói</a>
 </button>
 </div>
 </div>
@@ -200,7 +210,7 @@
                                     Quay lại
                                 </button>
 <button class="flex w-full sm:w-auto flex-1 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-6 bg-primary text-background-dark text-sm font-bold tracking-wide hover:opacity-90">
-                                    Tiếp tục đến thanh toán
+                                    <a href="ThanhToanDangKiTheThang.html">Tiếp tục đến thanh toán</a>
                                 </button>
 </div>
 </section>

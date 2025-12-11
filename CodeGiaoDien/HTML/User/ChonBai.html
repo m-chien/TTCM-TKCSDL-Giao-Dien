@@ -39,24 +39,30 @@
 <body class="font-display bg-background-light dark:bg-background-dark">
 <div class="relative flex min-h-screen w-full flex-col group/design-root">
 <!-- TopNavBar -->
-<header class="sticky top-0 z-50 w-full bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-primary/20 dark:border-primary/10">
-<div class="container mx-auto px-4">
-<div class="flex items-center justify-between h-16">
-<div class="flex items-center gap-4 text-[#0d1b13] dark:text-gray-100">
-<div class="text-primary">
-<span class="material-symbols-outlined text-3xl">local_parking</span>
+<header class="sticky top-0 z-50 w-full bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
+<div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between whitespace-nowrap h-16">
+<div class="flex items-center gap-4 text-gray-800 dark:text-gray-200">
+<span class="material-symbols-outlined text-primary text-3xl">local_parking</span>
+<h2 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Parking Management</h2>
 </div>
-<h2 class="text-[#0d1b13] dark:text-gray-100 text-lg font-bold">ParkEasy</h2>
+<div class="hidden md:flex items-center gap-9">
+<a class="text-primary dark:text-primary text-sm font-bold leading-normal " href="ChonBai.html">Dashboard</a>
+<a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="DangKiTheThang.html">Đăng Kí thẻ tháng</a>
+<a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="LichSuGuiXe.html">Lịch sử đặt chỗ</a>
+<!-- <a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Thanh toán</a> -->
 </div>
-<div class="hidden md:flex items-center gap-9 text-sm font-medium text-[#0d1b13] dark:text-gray-300">
-<a class="text-primary font-semibold" href="#">Trang chủ</a>
-<a class="hover:text-primary transition-colors" href="#">Lịch sử</a>
-<a class="hover:text-primary transition-colors" href="#">Tài khoản</a>
-</div>
-<div class="flex items-center gap-4">
-<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-[#0d1b13] text-sm font-bold tracking-wide hover:opacity-90 transition-opacity">
-<span class="truncate">Đăng nhập</span>
+<div class="flex items-center gap-3">
+<button class="flex cursor-pointer items-center justify-center rounded-full h-10 w-10 bg-gray-200/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined">notifications</span>
 </button>
+<button class="flex cursor-pointer items-center justify-center rounded-full h-10 w-10 bg-gray-200/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<a href="ThemPhuongTien.html"  class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDwjWTl2KRPAMOFhB9iTQ5SxyUbYBDjw6JId-QGkWKklxZiSO1DCrm2e8e9UHxL6hc-eKjvUj6uPXqU2EmA6ej944qRr_pMF-SCTsmj7dxqL0V3JsVbPrxby0wnNIrnhUx9VsvtH7cW1AHKEJ8mUszADbiVjw66TFpnWVhdcJzYROPA0Gp_1UBvba021j1q8L1haAjDdHeDF_i8_NYHnx8KkZC2LUDiWD4JMz4guGspDyO3V8FvcC9JsEPtsZLZ_RuyMNZFhz--sjF6");'>
+  
+</a>
+
 </div>
 </div>
 </div>
@@ -112,24 +118,30 @@
 <div class="flex flex-col gap-4">
 <h3 class="text-lg font-bold text-[#0d1b13] dark:text-gray-100">3 bãi đỗ gần bạn</h3>
 <!-- Parking Lot Card 1 (Available) -->
+<a href="ChonChoKhiDatCho.html" style="text-decoration:none; color:inherit;">
 <div class="flex gap-4 p-4 rounded-xl border-2 border-primary/40 bg-background-light dark:bg-background-dark shadow-sm cursor-pointer transition-all hover:shadow-md hover:-translate-y-1">
-<img class="h-28 w-28 object-cover rounded-lg flex-shrink-0" data-alt="Photo of an outdoor parking lot with cars" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBsCAAO708HCjGE_bVB_nm7cub_-EsxTQJviImsQFfeEfQLGK2ZxXHVIrCuIgAEaP0Skz2i8baJBrOQJMCWg6o3iDtpNtKiQzxTu7VqRciRd6-iEB0IZXVAPSamyV-renAoyCJj22LdS24eUikzmmGZoMf80y9O0Tr5eC5VwXpHTICM05zSvflUBxldh0czQEb1ECh9_VSwZimNANja1ADBkaT69A__F2arDlYKSc-ujyHf0aL5b_CeCrVXq-wBB8UQYdBM4igaj6g"/>
-<div class="flex flex-col justify-between flex-grow">
-<div>
-<h4 class="font-bold text-base text-[#0d1b13] dark:text-white">Bãi xe Vincom Center</h4>
-<p class="text-sm text-gray-500 dark:text-gray-400">72 Lê Thánh Tôn, Bến Nghé, Quận 1</p>
-<p class="text-sm text-gray-600 dark:text-gray-300">Cách bạn 1.2 km</p>
+    <img class="h-28 w-28 object-cover rounded-lg flex-shrink-0"
+        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBsCAAO708HCjGE_bVB_nm7cub_-EsxTQJviImsQFfeEfQLGK2ZxXHVIrCuIgAEaP0Skz2i8baJBrOQJMCWg6o3iDtpNtKiQzxTu7VqRciRd6-iEB0IZXVAPSamyV-renAoyCJj22LdS24eUikzmmGZoMf80y9O0Tr5eC5VwXpHTICM05zSvflUBxldh0czQEb1ECh9_VSwZimNANja1ADBkaT69A__F2arDlYKSc-ujyHf0aL5b_CeCrVXq-wBB8UQYdBM4igaj6g"/>
+
+    <div class="flex flex-col justify-between flex-grow">
+        <div>
+            <h4 class="font-bold text-base text-[#0d1b13] dark:text-white">Bãi xe Vincom Center</h4>
+            <p class="text-sm text-gray-500 dark:text-gray-400">72 Lê Thánh Tôn, Bến Nghé, Quận 1</p>
+            <p class="text-sm text-gray-600 dark:text-gray-300">Cách bạn 1.2 km</p>
+        </div>
+        <div class="flex justify-between items-center mt-2">
+            <div class="flex items-center gap-2 px-2 py-1 rounded-full bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300">
+                <span class="material-symbols-outlined text-sm">event_available</span>
+                <p class="text-xs font-semibold">Còn 15/50 chỗ</p>
+            </div>
+            <p class="font-bold text-primary">15.000đ/h</p>
+        </div>
+    </div>
 </div>
-<div class="flex justify-between items-center mt-2">
-<div class="flex items-center gap-2 px-2 py-1 rounded-full bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300">
-<span class="material-symbols-outlined text-sm">event_available</span>
-<p class="text-xs font-semibold">Còn 15/50 chỗ</p>
-</div>
-<p class="font-bold text-primary">15.000đ/h</p>
-</div>
-</div>
-</div>
+</a>
+
 <!-- Parking Lot Card 2 (Limited) -->
+ <a href="ChonChoKhiDatCho.html" style="text-decoration:none; color:inherit;">
 <div class="flex gap-4 p-4 rounded-xl bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 shadow-sm cursor-pointer transition-all hover:shadow-md hover:-translate-y-1">
 <img class="h-28 w-28 object-cover rounded-lg flex-shrink-0" data-alt="Photo of an indoor parking garage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjgbeM1uY-DV85jV6VMOYlRQWKRb5Ovr-2i7Kp-IxXJuC-fuRxV-gri8PaRpTrQGsecTWG60Gm3AEftoX5n5hOIV1TJ91XoSlmJpO7KhxD5H6UnkHMJ9sckdsOTGSVGKM5UoW1jgTas04FKUYTXjI7_E2CJJ44_KxQQflHLP947_JTD2v_jwcd2eZ_O4Ar-jfj6kan4zPVwZss9ne1bf1Bt-6JCJeqo71kOS0x3oozJM6C-yHc0LdX11N1aGIoPiODqVqgO3xSM0Sj"/>
 <div class="flex flex-col justify-between flex-grow">
@@ -146,8 +158,9 @@
 <p class="font-bold text-primary">20.000đ/h</p>
 </div>
 </div>
-</div>
+</div></a>
 <!-- Parking Lot Card 3 (Full) -->
+  <a href="ChonChoKhiDatCho.html" style="text-decoration:none; color:inherit;">
 <div class="flex gap-4 p-4 rounded-xl bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 shadow-sm cursor-pointer transition-all hover:shadow-md hover:-translate-y-1">
 <img class="h-28 w-28 object-cover rounded-lg flex-shrink-0" data-alt="Photo of a multi-level parking structure" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUTcj1YiNE_1yLPYiSbPAXG9IUjdL_KfNB-4ej-nhgbdOpXFqwYwYkzrcy7k9YYpUFau3iUAiM3bHl1EDAm-4gyx9JQyps-oSAxD4hmzGxoURgBYN7E9sQioS_0EoAbZH6VxcVw70jBlBN_sDzVOlK7orD0VH9js2t6mCm-44M_BSYN_hizA-ZEXjgW7JMaBrOi1x46wuezq22N0nS50T5EgCD-6W1VBy6YLK1are6oiRS5PqAMkbqIQiwLA1t6RfQGOpQmly9AjhG"/>
 <div class="flex flex-col justify-between flex-grow">
@@ -166,7 +179,7 @@
 </div>
 </div>
 </div>
-</div>
+</div></a>
 <!-- Right Column: Map -->
 <div class="lg:col-span-8 sticky top-24 h-[calc(100vh-8rem)]">
 <div class="w-full h-full bg-gray-200 dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg">

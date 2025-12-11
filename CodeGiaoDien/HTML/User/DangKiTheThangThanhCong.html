@@ -40,29 +40,30 @@
 </head>
 <body class="font-display bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-200">
 <div class="min-h-screen flex flex-col">
-<header class="bg-background-light dark:bg-background-dark border-b border-gray-200 dark:border-gray-700">
-<div class="container mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex items-center justify-between h-16">
-<div class="flex items-center space-x-3">
-<div class="bg-primary p-2 rounded-lg">
-<span class="font-bold text-lg text-white">P</span>
+<header class="sticky top-0 z-50 w-full bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
+<div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between whitespace-nowrap h-16">
+<div class="flex items-center gap-4 text-gray-800 dark:text-gray-200">
+<span class="material-symbols-outlined text-primary text-3xl">local_parking</span>
+<h2 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Parking Management</h2>
 </div>
-<span class="font-semibold text-lg text-gray-900 dark:text-white">Parking Management</span>
+<div class="hidden md:flex items-center gap-9">
+<a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal " href="ChonBai.html">Dashboard</a>
+<a class=" text-primary dark:text-primary text-sm font-bold leading-normal" href="DangKiTheThang.html">Đăng Kí thẻ tháng</a>
+<a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="LichSuGuiXe.html">Lịch sử đặt chỗ</a>
+<!-- <a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Thanh toán</a> -->
 </div>
-<nav class="hidden md:flex items-center space-x-8">
-<a class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200" href="#">Trang chủ</a>
-<a class="text-sm font-medium text-primary border-b-2 border-primary" href="#">Đăng ký thẻ tháng</a>
-<a class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200" href="#">Lịch sử giao dịch</a>
-<a class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200" href="#">Hỗ trợ</a>
-</nav>
-<div class="flex items-center space-x-4">
-<button class="relative p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 rounded-full bg-gray-100 dark:bg-gray-800">
-<span class="material-symbols-outlined text-xl">notifications</span>
-<span class="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary"></span>
+<div class="flex items-center gap-3">
+<button class="flex cursor-pointer items-center justify-center rounded-full h-10 w-10 bg-gray-200/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined">notifications</span>
 </button>
-<div class="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center text-white font-bold text-sm">
-<img alt="User avatar" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUp77bbT0KfVTZDKLi4FiheN79MkaJUlJFOZm1QkJN3bvpeVfxZ_-fmTrQ2TN2U0tQFOgbCrYZ0bJTwqDNc7IUBs4coZhM8rmmWdJU4kAsZrGIFqs6kVWWpXtNsBikba0KCCSBfx9x2jjk0P4LUadEXmeUXZ_2Trq_rEpN_q4Roy8NlwVbqzyYSbMFT3yJw1NyMAU0PQldPZV-fzLcugwkVH9F738I28_Sn6gQ9JjXvo0MAujPpKGVjGt6wNQ5vnDdWr-70RnDTXWw"/>
-</div>
+<button class="flex cursor-pointer items-center justify-center rounded-full h-10 w-10 bg-gray-200/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<a href="ThemPhuongTien.html"  class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDwjWTl2KRPAMOFhB9iTQ5SxyUbYBDjw6JId-QGkWKklxZiSO1DCrm2e8e9UHxL6hc-eKjvUj6uPXqU2EmA6ej944qRr_pMF-SCTsmj7dxqL0V3JsVbPrxby0wnNIrnhUx9VsvtH7cW1AHKEJ8mUszADbiVjw66TFpnWVhdcJzYROPA0Gp_1UBvba021j1q8L1haAjDdHeDF_i8_NYHnx8KkZC2LUDiWD4JMz4guGspDyO3V8FvcC9JsEPtsZLZ_RuyMNZFhz--sjF6");'>
+  
+</a>
+
 </div>
 </div>
 </div>
@@ -151,8 +152,8 @@
 </div>
 <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-lg">
 <button class="w-full sm:w-auto px-6 py-3 rounded-lg font-semibold bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
-                            Về trang chủ
-                        </button>
+                            <a href="ChonBai.html">Về trang chủ
+                        </button></a>
 <button class="w-full sm:w-auto px-6 py-3 rounded-lg font-semibold bg-primary text-white hover:bg-green-600 transition-colors">
                             Xem chi tiết thẻ
                         </button>

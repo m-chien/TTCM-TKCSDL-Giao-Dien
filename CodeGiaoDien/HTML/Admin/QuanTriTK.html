@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quản lý tài khoản - Parking Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec6d",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#102218",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1c2e24",
+                        "text-dark": "#0d1b13",
+                        "text-light": "#f8fcfa",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-dark dark:text-text-light overflow-hidden">
+<div class="flex h-screen w-full">
+<aside class="w-72 flex-shrink-0 border-r border-[#e7f3ec] dark:border-[#2a4034] bg-surface-light dark:bg-surface-dark flex flex-col transition-all duration-300 z-20">
+<div class="p-6 border-b border-[#e7f3ec] dark:border-[#2a4034]">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-cover bg-center ring-2 ring-primary/20" data-alt="Administrator profile avatar with a neutral background" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD3qV4Rw312qyjrzCBkZKToGACNnC5C7Qdt6XRfYGC1kulIROf4u4GK9sdZZIwKxCySRsVST_pyIGR1bM5T5neR7KIGExqPjA8EO0kS0KR5OUN0jijDHyR_3vGeBGNIk-2BwRnqMM7gGCshHj1aKsXOAWBmVQCjXCYLlFIJxsDZLsPPGo8dR1lalYLS5UYv1pS0CHy-W-cJckBP-2cq0oN3p6uuNbGUshOfAWWze3F-U9zCzV3lAA3cgA8yk2lOIdcjfbKnLHDaBFZB');"></div>
+<div class="flex flex-col">
+<h1 class="font-bold text-base leading-tight">Parking Admin</h1>
+<p class="text-sm text-[#4c9a6c]">Administrator</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto px-4 py-6 space-y-1.5">
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg bg-[#e7f3ec] dark:bg-primary/10 text-text-dark dark:text-white" href="#">
+<span class="material-symbols-outlined fill-1 text-emerald-700 dark:text-primary">group</span>
+<span class="font-bold text-sm">Quản lý tài khoản</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-dark dark:text-gray-300 hover:bg-[#e7f3ec] dark:hover:bg-[#2a4034] transition-colors group" href="#">
+<span class="material-symbols-outlined text-gray-500 group-hover:text-[#0d1b13] dark:text-gray-400 dark:group-hover:text-white transition-colors">local_parking</span>
+<span class="font-medium text-sm">Bãi đỗ xe</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-dark dark:text-gray-300 hover:bg-[#e7f3ec] dark:hover:bg-[#2a4034] transition-colors group" href="#">
+<span class="material-symbols-outlined text-gray-500 group-hover:text-[#0d1b13] dark:text-gray-400 dark:group-hover:text-white transition-colors">payments</span>
+<span class="font-medium text-sm">Doanh thu</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-dark dark:text-gray-300 hover:bg-[#e7f3ec] dark:hover:bg-[#2a4034] transition-colors group" href="#">
+<span class="material-symbols-outlined text-gray-500 group-hover:text-[#0d1b13] dark:text-gray-400 dark:group-hover:text-white transition-colors">description</span>
+<span class="font-medium text-sm">Báo cáo</span>
+</a>
+</nav>
+<div class="p-4 border-t border-[#e7f3ec] dark:border-[#2a4034] space-y-1">
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors group" href="#">
+<span class="material-symbols-outlined text-red-500 group-hover:text-red-700 transition-colors">logout</span>
+<span class="font-medium text-sm">Đăng xuất</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 flex flex-col h-full overflow-hidden bg-background-light dark:bg-background-dark relative">
+<header class="bg-surface-light dark:bg-surface-dark border-b border-[#e7f3ec] dark:border-[#2a4034] px-8 py-5 flex items-center justify-between shrink-0 z-10">
+<div class="flex flex-col gap-1">
+<nav class="flex text-sm text-gray-500 dark:text-gray-400">
+<a class="hover:text-primary transition-colors text-[#4c9a6c] font-medium" href="#">Trang chủ</a>
+<span class="mx-2 text-gray-300">/</span>
+<span class="text-text-dark dark:text-white font-medium">Quản lý tài khoản</span>
+</nav>
+<h2 class="text-2xl font-black text-text-dark dark:text-white tracking-tight">Quản lý tài khoản</h2>
+<p class="text-[#4c9a6c] text-sm hidden md:block">Quản lý thông tin khách hàng, nhân viên và chủ bãi xe</p>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-4 md:p-8 scroll-smooth">
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 mb-6 shadow-sm border border-[#e7f3ec] dark:border-[#2a4034]">
+<div class="flex flex-col xl:flex-row gap-4 justify-between items-start xl:items-center">
+<div class="relative flex-1 w-full max-w-3xl">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#4c9a6c]">search</span>
+<input id="search-input" oninput="filterAccounts()" class="w-full pl-10 pr-4 py-2.5 rounded-lg border-none bg-[#e7f3ec] dark:bg-gray-800 text-text-dark dark:text-white placeholder:text-[#4c9a6c]/70 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all font-medium" placeholder="Tìm kiếm theo Tên đăng nhập, Họ tên, SĐT, Email..." type="text"/>
+</div>
+<div class="flex flex-wrap gap-3 w-full xl:w-auto">
+<div class="relative grow xl:grow-0">
+<select id="role-filter" onchange="filterAccounts()" class="appearance-none w-full bg-[#e7f3ec] dark:bg-gray-800 border-none text-text-dark dark:text-gray-200 py-2.5 pl-4 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm font-medium cursor-pointer">
+<option value="">Vai trò: Tất cả</option>
+<option value="Admin">Admin</option>
+<option value="Chủ bãi xe">Chủ bãi xe</option>
+<option value="Nhân viên">Nhân viên</option>
+<option value="Khách hàng">Khách hàng</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-text-dark dark:text-gray-400 text-lg">expand_more</span>
+</div>
+<div class="relative grow xl:grow-0">
+<select id="status-filter" onchange="filterAccounts()" class="appearance-none w-full bg-[#e7f3ec] dark:bg-gray-800 border-none text-text-dark dark:text-gray-200 py-2.5 pl-4 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm font-medium cursor-pointer">
+<option value="">Trạng thái: Tất cả</option>
+<option value="Hoạt động">Đang hoạt động</option>
+<option value="Đã khóa">Đã khóa</option>
+<option value="Chờ duyệt">Chờ duyệt</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-text-dark dark:text-gray-400 text-lg">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-[#e7f3ec] dark:border-[#2a4034] overflow-hidden flex flex-col h-[calc(100%-100px)]">
+<div class="overflow-x-auto flex-1">
+<table class="w-full text-left border-collapse whitespace-nowrap">
+<thead class="bg-[#f8fcfa] dark:bg-[#1c2e24] sticky top-0 z-10">
+<tr class="text-xs uppercase text-gray-500 dark:text-gray-400 font-bold tracking-wider">
+<th class="px-6 py-4 w-16 border-b border-[#e7f3ec] dark:border-[#2a4034]">STT</th>
+<th class="px-6 py-4 border-b border-[#e7f3ec] dark:border-[#2a4034]">Tên đăng nhập</th>
+<th class="px-6 py-4 border-b border-[#e7f3ec] dark:border-[#2a4034]">Vai trò</th>
+<th class="px-6 py-4 border-b border-[#e7f3ec] dark:border-[#2a4034]">Thông tin cá nhân</th>
+<th class="px-6 py-4 border-b border-[#e7f3ec] dark:border-[#2a4034]">Trạng thái</th>
+<!-- <th class="px-6 py-4 border-b border-[#e7f3ec] dark:border-[#2a4034]">Ngày tạo</th> -->
+<th class="px-6 py-4 text-right border-b border-[#e7f3ec] dark:border-[#2a4034]">Hành động</th>
+</tr>
+</thead>
+<tbody id="account-table-body" class="divide-y divide-[#e7f3ec] dark:divide-[#2a4034] text-sm">
+<tr class="hover:bg-gray-50 dark:hover:bg-[#23352b] transition-colors group" data-id="USR-8291" data-role="Chủ bãi xe" data-status="Hoạt động">
+<td class="px-6 py-4 text-gray-400 font-medium">001</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-9 w-9 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold text-xs">NV</div>
+<div>
+<p class="font-bold text-text-dark dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">nguyenvanan</p>
+<p class="text-xs text-gray-500">ID: #001</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-100 dark:border-blue-800">
+                                                 Chủ bãi xe
+                                             </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col gap-0.5">
+<span class="font-bold text-text-dark dark:text-gray-200">Nguyễn Văn An</span>
+<span class="text-xs text-gray-500 flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">call</span> 0987 654 321</span>
+<span class="text-xs text-gray-500 flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">mail</span> an.nguyen@email.com</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-[#e7f3ec] text-[#4c9a6c] dark:bg-green-900/20 dark:text-green-400">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                                                 Hoạt động
+                                             </span>
+</td>
+<!-- <td class="px-6 py-4 text-gray-500 font-medium">12/10/2023</td> -->
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button onclick="viewDetails('USR-8291')" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors" title="Xem chi tiết">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+<button onclick="lockAccount('USR-8291')" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20 rounded-lg transition-colors" title="Khóa tài khoản">
+<span class="material-symbols-outlined text-[20px]">lock_open</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="bg-orange-50/40 hover:bg-orange-50/70 dark:bg-orange-900/5 dark:hover:bg-orange-900/10 transition-colors group" data-id="USR-9921" data-role="Chủ bãi xe" data-status="Chờ duyệt">
+<td class="px-6 py-4 text-gray-400 font-medium">002</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-9 w-9 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400 font-bold text-xs">TB</div>
+<div>
+<p class="font-bold text-text-dark dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">tranbinh_parking</p>
+<p class="text-xs text-gray-500">ID: #002</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300 border border-purple-100 dark:border-purple-800">
+                                                 Chủ bãi xe
+                                             </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col gap-0.5">
+<span class="font-bold text-text-dark dark:text-gray-200">Trần Bình</span>
+<span class="text-xs text-gray-500 flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">call</span> 0912 345 678</span>
+<span class="text-xs text-gray-500 flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">mail</span> binh.tran@email.com</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300">
+<span class="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></span>
+                                                 Chờ duyệt
+                                             </span>
+</td>
+<!-- <td class="px-6 py-4 text-gray-500 font-medium">24/10/2023</td> -->
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button onclick="approveAccount('USR-9921')" class="w-8 h-8 flex items-center justify-center text-green-600 bg-green-100 hover:bg-green-200 dark:bg-green-900/30 dark:hover:bg-green-900/50 rounded-lg transition-colors shadow-sm" title="Duyệt">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</button>
+<button onclick="rejectAccount('USR-9921')" class="w-8 h-8 flex items-center justify-center text-red-600 bg-red-100 hover:bg-red-200 dark:bg-red-900/30 dark:hover:bg-red-900/50 rounded-lg transition-colors shadow-sm" title="Từ chối">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<button onclick="viewDetails('USR-9921')" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors" title="Xem chi tiết">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-[#23352b] transition-colors group" data-id="USR-1123" data-role="Nhân viên" data-status="Đã khóa">
+<td class="px-6 py-4 text-gray-400 font-medium">003</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-9 w-9 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 font-bold text-xs">L</div>
+<div>
+<p class="font-bold text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors">lethic</p>
+<p class="text-xs text-gray-400">ID: #003</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-cyan-50 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300 border border-cyan-100 dark:border-cyan-800">
+                                                 Nhân viên
+                                             </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col gap-0.5 opacity-60">
+<span class="font-bold text-text-dark dark:text-gray-200">Lê Thị C</span>
+<span class="text-xs text-gray-500 flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">call</span> 0933 444 555</span>
+<span class="text-xs text-gray-500 flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">mail</span> c.le@email.com</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-300 border border-red-100 dark:border-red-800">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+                                                 Đã khóa
+                                             </span>
+</td>
+<!-- <td class="px-6 py-4 text-gray-500 font-medium">10/09/2023</td> -->
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button onclick="viewDetails('USR-1123')" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors" title="Chỉnh sửa">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button onclick="unlockAccount('USR-1123')" class="w-8 h-8 flex items-center justify-center text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors" title="Mở khóa">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-[#23352b] transition-colors group" data-id="USR-5512" data-role="Khách hàng" data-status="Hoạt động">
+<td class="px-6 py-4 text-gray-400 font-medium">004</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-9 w-9 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 dark:text-orange-400 font-bold text-xs">P</div>
+<div>
+<p class="font-bold text-text-dark dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">phamvandu</p>
+<p class="text-xs text-gray-500">ID: #004</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600">
+                                                 Khách hàng
+                                             </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col gap-0.5">
+<span class="font-bold text-text-dark dark:text-gray-200">Phạm Văn Dư</span>
+<span class="text-xs text-gray-500 flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">call</span> 0901 000 111</span>
+<span class="text-xs text-gray-500 flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">mail</span> du.pham@email.com</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-[#e7f3ec] text-[#4c9a6c] dark:bg-green-900/20 dark:text-green-400">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                                                 Hoạt động
+                                             </span>
+</td>
+<!-- <td class="px-6 py-4 text-gray-500 font-medium">01/11/2023</td> -->
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button onclick="viewDetails('USR-5512')" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors" title="Xem chi tiết">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+<button onclick="lockAccount('USR-5512')" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20 rounded-lg transition-colors" title="Khóa tài khoản">
+<span class="material-symbols-outlined text-[20px]">lock_open</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-[#23352b] transition-colors group" data-id="USR-7732" data-role="Chủ bãi xe" data-status="Hoạt động">
+<td class="px-6 py-4 text-gray-400 font-medium">005</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-9 w-9 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold text-xs">V</div>
+<div>
+<p class="font-bold text-text-dark dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">vuthithanh</p>
+<p class="text-xs text-gray-500">ID: #005</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-100 dark:border-blue-800">
+                                                 Chủ bãi xe
+                                             </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col gap-0.5">
+<span class="font-bold text-text-dark dark:text-gray-200">Vũ Thị Thanh</span>
+<span class="text-xs text-gray-500 flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">call</span> 0977 888 999</span>
+<span class="text-xs text-gray-500 flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">mail</span> thanh.vu@email.com</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-[#e7f3ec] text-[#4c9a6c] dark:bg-green-900/20 dark:text-green-400">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                                                 Hoạt động
+                                             </span>
+</td>
+<!-- <td class="px-6 py-4 text-gray-500 font-medium">05/11/2023</td> -->
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button onclick="viewDetails('USR-7732')" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors" title="Xem chi tiết">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+<button onclick="lockAccount('USR-7732')" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20 rounded-lg transition-colors" title="Khóa tài khoản">
+<span class="material-symbols-outlined text-[20px]">lock_open</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 border-t border-[#e7f3ec] dark:border-[#2a4034] bg-surface-light dark:bg-surface-dark flex flex-col sm:flex-row items-center justify-between gap-4 sticky bottom-0 z-10">
+<div class="text-sm text-gray-500">
+                                 Hiển thị <span class="font-bold text-text-dark dark:text-white">1</span> đến <span class="font-bold text-text-dark dark:text-white">5</span> trong số <span class="font-bold text-text-dark dark:text-white">128</span> tài khoản
+                             </div>
+<div class="flex items-center gap-2">
+<button class="flex items-center gap-1 px-3 py-1.5 text-sm font-bold text-gray-400 bg-white dark:bg-gray-800 border border-[#e7f3ec] dark:border-[#2a4034] rounded-lg cursor-not-allowed transition-colors" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+                                 Trước
+                             </button>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-[#0d1b13] font-bold text-sm shadow-sm">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:bg-[#e7f3ec] dark:hover:bg-gray-800 font-bold text-sm transition-colors">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:bg-[#e7f3ec] dark:hover:bg-gray-800 font-bold text-sm transition-colors">3</button>
+<span class="text-gray-400 text-sm px-1 font-bold">...</span>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:bg-[#e7f3ec] dark:hover:bg-gray-800 font-bold text-sm transition-colors">12</button>
+</div>
+<button class="flex items-center gap-1 px-3 py-1.5 text-sm font-bold text-gray-600 hover:text-primary bg-white dark:bg-gray-800 border border-[#e7f3ec] dark:border-[#2a4034] rounded-lg hover:border-primary transition-all">
+                                 Sau
+                                 <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+    function filterAccounts() {
+        const searchText = document.getElementById('search-input').value.toLowerCase();
+        const role = document.getElementById('role-filter').value;
+        const status = document.getElementById('status-filter').value;
+        const rows = document.getElementById('account-table-body').getElementsByTagName('tr');
+
+        for (let i = 0; i < rows.length; i++) {
+            const row = rows[i];
+            const rowRole = row.getAttribute('data-role');
+            const rowStatus = row.getAttribute('data-status');
+            
+            // Lấy toàn bộ nội dung trong hàng để so sánh với searchText
+            const rowContent = row.textContent.toLowerCase();
+
+            let matchesSearch = rowContent.includes(searchText);
+            let matchesRole = role === "" || rowRole === role;
+            let matchesStatus = status === "" || rowStatus === status;
+
+            if (matchesSearch && matchesRole && matchesStatus) {
+                row.style.display = ""; // Hiển thị hàng
+            } else {
+                row.style.display = "none"; // Ẩn hàng
+            }
+        }
+        console.log(`Lọc: Tìm kiếm='${searchText}', Vai trò='${role}', Trạng thái='${status}'`);
+    }
+    function viewDetails(accountId) {
+        alert(`Chuyển đến trang chi tiết tài khoản: /accounts/details/${accountId}`);
+    }
+</script>
+</body></html>
