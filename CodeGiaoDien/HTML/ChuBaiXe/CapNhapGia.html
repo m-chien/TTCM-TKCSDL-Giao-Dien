@@ -25,6 +25,13 @@
         },
       },
     };
+     function toggleParkingMenu() {
+    const submenu = document.getElementById("parkingSubmenu");
+    const arrow = document.getElementById("arrowParking");
+
+    submenu.classList.toggle("hidden");
+    arrow.classList.toggle("rotate-180");
+}
   </script>
 <style>
     .material-symbols-outlined {
@@ -38,49 +45,96 @@
 </head>
 <body class="font-display bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200">
 <div class="flex h-screen">
-<aside class="w-64 flex-shrink-0 bg-white dark:bg-slate-800 p-4 flex flex-col justify-between">
-<div>
-<div class="flex items-center gap-4 p-4 mb-6">
-<img alt="Admin avatar" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdBZlQjV40rN_rc1Fel6niKp4gYqr5SlUtKtlRCRNx3mZ8vlkFVeqdnnDqt6XzN7bU2tm-r4yBx9UnAHnaGcz9XHaqSGWZdHNhvInZlU6gP5Qp7NaKJ4R1e32LX8MCBo6vb20M1LwQ9A7It-e6vbM82NUsIHuN7bli9wq9dKeLbjgkCUcw6-gT1u3mY4yECmef6nXmKys0TKOhVJ26YUAfnjeWi6bNQTETocpiAFEvuYGnUfH7uxm8R6IvGE3Q6Dg4rpiViLk7kVk"/>
-<div>
-<p class="font-bold text-slate-900 dark:text-white">Admin</p>
-<p class="text-sm text-slate-500 dark:text-slate-400">admin@parking.com</p>
-</div>
-</div>
-<nav class="flex flex-col gap-2">
-<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700" href="#">
-<span class="material-symbols-outlined">grid_view</span>
-<span>Tổng quan</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-300 rounded-lg bg-green-100 dark:bg-green-900/50 text-primary font-semibold" href="#">
-<span class="material-symbols-outlined">local_parking</span>
-<span>Quản lý bãi xe</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700" href="#">
-<span class="material-symbols-outlined">group</span>
-<span>Người dùng</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700" href="#">
-<span class="material-symbols-outlined">sell</span>
-<span>Khuyến mãi</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700" href="#">
-<span class="material-symbols-outlined">description</span>
-<span>Báo cáo</span>
-</a>
-</nav>
-</div>
-<div class="flex flex-col gap-2">
-<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700" href="#">
-<span class="material-symbols-outlined">settings</span>
-<span>Cài đặt</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700" href="#">
-<span class="material-symbols-outlined">logout</span>
-<span>Đăng xuất</span>
-</a>
-</div>
-</aside>
+ <aside
+            class="flex w-64 flex-col border-r border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark">
+            <div class="flex h-full flex-col justify-between p-4">
+                <div class="flex flex-col gap-6">
+                    <div class="flex items-center gap-3 px-2">
+                        <div class="flex items-center justify-center rounded-lg bg-primary/20 p-2 text-primary">
+                            <span class="material-symbols-outlined text-2xl">local_parking</span>
+                        </div>
+                        <h1 class="text-lg font-bold">Parking Admin</h1>
+                    </div>
+                    <nav class="flex flex-col gap-2">
+                        <a class="flex items-center gap-3 rounded-lg  px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20" href="#">
+                            <span class="material-symbols-outlined">dashboard</span>
+                            <p class="text-sm font-semibold">Tổng quan</p>
+                        </a>
+                       <!-- MENU CHA: Quản lý bãi xe -->
+                    <div class="flex flex-col">
+                        <button onclick="toggleParkingMenu()" 
+                            class="flex items-center w-full justify-between gap-3 rounded-lg px-3 py-2.5 bg-primary/20 text-primary">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined">garage</span>
+                                <p class="text-sm font-medium">Quản lý bãi xe</p>
+                            </div>
+                            <span id="arrowParking" class="material-symbols-outlined transition-transform">expand_more</span>
+                        </button>
+
+                        <!-- MENU CON -->
+                        <div id="parkingSubmenu" class="ml-10 mt-1 flex flex-col gap-1 hidden">
+
+                            <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                            href="CapNhapGia.html">
+                                <span class="material-symbols-outlined text-base">paid</span>
+                                Quản lý giá
+                            </a>
+
+                            <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                            href="CapNhatMaGiamGia.html">
+                                <span class="material-symbols-outlined text-base">local_offer</span>
+                                Quản lý khuyến mãi
+                            </a>
+
+                        </div>
+                    </div>
+
+                        <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
+                            href="./QuanLyNhanVien.html">
+                            <span class="material-symbols-outlined">groups</span>
+                            <p class="text-sm font-medium">Quản lý nhân viên</p>
+                        </a>
+                        <a class="flex items-center gap-3 rounded-lg px-3 py-2.5  hover:bg-primary/10 dark:hover:bg-primary/20"
+                            href="./QuanLyCaLam.html">
+                            <span class="material-symbols-outlined">shift</span>
+                            <p class="text-sm font-medium">Quản lý ca làm</p>
+                        </a>
+                          <a class="flex items-center gap-3 rounded-lg px-4 py-2.5  dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700  "
+                            href="./QuanLyKhuVuc_ChoDau.html">
+                             <span class="material-symbols-outlined">calendar_month</span>
+                            <p class="text-sm font-medium">Lịch làm việc</p>
+                        </a>
+                          <a class="flex items-center gap-3 rounded-lg px-4 py-2.5  dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700  "
+                            href="./QuanLyKhuVuc_ChoDau.html">
+                              <span class="material-symbols-outlined">list</span>
+                            <p class="text-sm font-medium">Danh mục chỗ đậu</p>
+                        </a>
+                        <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
+                            href="./ThongKe.html">
+                            <span class="material-symbols-outlined">assessment</span>
+                            <p class="text-sm font-medium">Thống kê</p>
+                        </a>
+                        <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
+                            href="#">
+                            <span class="material-symbols-outlined">settings</span>
+                            <p class="text-sm font-medium">Cài đặt</p>
+                        </a>
+                    </nav>
+                </div>
+                <div class="flex flex-col gap-1 border-t border-border-light dark:border-border-dark pt-4">
+                    <div class="flex items-center gap-3 px-3 py-2">
+                        <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                            data-alt="Admin user avatar"
+                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDSBl77xDRyzdEmA1bqOR8us366h5umMmXmkFUxgpDrNq39j6NpuXlHVoGetK8-SZzQGlIuLxy8mqr7ki1JETuzLoOeljk18F04cc8-qVotv6ZxMn3nuchnPXz1WSbP5r_XBVVIPMh5J0OJYuSuLcT2_ugU5YHbXoAj3wU7oqY0G0P7YWEOWrRN7HsvX3PwcdYQwOu3AEMDQTsWfryfJOwRehe3z7dZKlO0S2EUzKzEouKb9NB73NvcSyWWOv44oFnxK88CgSonrnuT");'>
+                        </div>
+                        <div class="flex flex-col">
+                            <p class="text-sm font-semibold">Admin</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">admin@email.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
 <main class="flex-1 p-8 overflow-y-auto">
 <div class="flex justify-between items-center mb-8">
 <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Quản lý giá bãi đậu xe</h1>

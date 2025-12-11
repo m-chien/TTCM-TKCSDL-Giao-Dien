@@ -36,6 +36,13 @@
                 },
             },
         };
+        function toggleParkingMenu() {
+    const submenu = document.getElementById("parkingSubmenu");
+    const arrow = document.getElementById("arrowParking");
+
+    submenu.classList.toggle("hidden");
+    arrow.classList.toggle("rotate-180");
+}
     </script>
     <style>
         .material-icons-outlined {
@@ -47,60 +54,108 @@
 <body class="font-display bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark">
     <div class="flex h-screen">
         <aside class="w-64 flex-shrink-0 bg-card-light dark:bg-card-dark flex flex-col">
-            <div class="flex items-center gap-3 p-6">
-                <div class="bg-primary p-2 rounded-lg">
-                    <span class="font-bold text-2xl text-white">P</span>
-                </div>
-                <h1 class="text-xl font-bold text-heading-light dark:text-heading-dark">Parking Admin</h1>
-            </div>
-            <nav class="flex-1 px-4 py-2 space-y-2">
-                <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                    href="#">
-                    <span class="material-icons-outlined text-lg">grid_view</span>
-                    <span class="font-medium">Tổng quan</span>
-                </a>
-                <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                    href="./CapNhatBaiXe.html">
-                    <span class="material-icons-outlined text-lg">local_parking</span>
-                    <span class="font-medium">Quản lý bãi xe</span>
-                </a>
-                <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                    href="./QuanLyNhanVien.html">
-                    <span class="material-icons-outlined text-lg">groups</span>
-                    <span class="font-medium">Quản lý nhân viên</span>
-                </a>
-                <a class="flex items-center gap-3 rounded-lg px-4 py-2.5  dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700  "
-                        href="./QuanLyKhuVuc_ChoDau.html">
-                        <span class="material-icons-outlined text-lg">calendar_month</span>
-                        <p class="text-sm font-medium">Lịch làm việc</p>
-                    </a>
-                <a class="flex items-center gap-3 rounded-lg px-4 py-2.5  dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700  "
-                        href="./QuanLyKhuVuc_ChoDau.html">
-                        <span class="material-icons-outlined text-lg">list</span>
-                        <p class="text-sm font-medium">Danh mục chỗ đậu</p>
-                    </a>
-                <a class="flex items-center gap-3 px-4 py-2.5 rounded text-primary bg-primary/10 transition-colors"
-                    href="./ThongKe.html">
-                    <span class="material-icons-outlined text-lg">bar_chart</span>
-                    <span class="font-bold">Thống kê</span>
-                </a>
-                <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                    href="#">
-                    <span class="material-icons-outlined text-lg">settings</span>
-                    <span class="font-medium">Cài đặt</span>
-                </a>
-            </nav>
-            <div class="p-4 border-t border-border-light dark:border-border-dark">
+    <div class="flex items-center gap-3 p-6">
+        <div class="bg-primary p-2 rounded-lg">
+            <span class="font-bold text-2xl text-white">P</span>
+        </div>
+        <h1 class="text-xl font-bold text-heading-light dark:text-heading-dark">Parking Admin</h1>
+    </div>
+
+    <nav class="flex-1 px-4 py-2 space-y-2">
+
+        <!-- Tổng quan -->
+        <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            href="#">
+            <span class="material-icons-outlined text-lg">grid_view</span>
+            <span class="font-medium">Tổng quan</span>
+        </a>
+
+        <!-- MENU CHA: Quản lý bãi xe -->
+        <div class="flex flex-col">
+
+            <button onclick="toggleParkingMenu()" 
+                class="flex items-center w-full justify-between gap-3 rounded-lg px-4 py-2.5 
+                       text-primary bg-primary/20 transition-colors">
                 <div class="flex items-center gap-3">
-                    <img alt="Admin avatar" class="w-10 h-10 rounded-full"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpmhXUv0JeLQKqAiTsxrBbmChxJFeZqe-e_EVBe84A9FJehItWbTFzmGKDXCzlPVyXWuXq7M71T365Rm_P1uOERNbkcEK5I-npJ7IZk9IaGjcGDMGm6tVsGVKOzWWgWN1Np4-AppQ0swl4ITCPqGY3D2RB2KjWBGvnTuafeJN_6gvX9bfagNi4T2ai4g2rHpKCtdq-6s4Kjz5Ahk0L64HWhyb7mfpofnTdH-gQ_MRSkHMVhSLPLVJFiuqKaaBWvuhDBxRmNR5AXiI" />
-                    <div>
-                        <p class="font-semibold text-heading-light dark:text-heading-dark">Admin</p>
-                        <p class="text-sm">admin@email.com</p>
-                    </div>
+                    <span class="material-icons-outlined text-lg">garage</span>
+                    <span class="font-medium">Quản lý bãi xe</span>
                 </div>
+                <span id="arrowParking" class="material-icons-outlined transition-transform">expand_more</span>
+            </button>
+
+            <!-- MENU CON -->
+            <div id="parkingSubmenu" class="ml-8 mt-1 flex flex-col gap-1 hidden">
+
+                <a class="flex items-center gap-3 px-3 py-2 rounded text-heading-light dark:text-heading-dark 
+                          hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors text-sm"
+                    href="CapNhapGia.html">
+                    <span class="material-icons-outlined text-base">paid</span>
+                    Quản lý giá
+                </a>
+
+                <a class="flex items-center gap-3 px-3 py-2 rounded text-heading-light dark:text-heading-dark 
+                          hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors text-sm"
+                    href="CapNhatMaGiamGia.html">
+                    <span class="material-icons-outlined text-base">local_offer</span>
+                    Quản lý khuyến mãi
+                </a>
+
             </div>
-        </aside>
+        </div>
+
+        <!-- Nhân viên -->
+        <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            href="./QuanLyNhanVien.html">
+            <span class="material-icons-outlined text-lg">groups</span>
+            <span class="font-medium">Quản lý nhân viên</span>
+        </a>
+
+        <!-- Lịch làm -->
+        <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            href="./QuanLyKhuVuc_ChoDau.html">
+            <span class="material-icons-outlined text-lg">calendar_month</span>
+            <span class="font-medium">Lịch làm việc</span>
+        </a>
+
+        <!-- Danh mục chỗ đậu -->
+        <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            href="./QuanLyKhuVuc_ChoDau.html">
+            <span class="material-icons-outlined text-lg">list</span>
+            <span class="font-medium">Danh mục chỗ đậu</span>
+        </a>
+
+        <!-- Thống kê -->
+        <a class="flex items-center gap-3 px-4 py-2.5 rounded text-primary bg-primary/10 transition-colors"
+            href="./ThongKe.html">
+            <span class="material-icons-outlined text-lg">bar_chart</span>
+            <span class="font-bold">Thống kê</span>
+        </a>
+
+        <!-- Cài đặt -->
+        <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            href="#">
+            <span class="material-icons-outlined text-lg">settings</span>
+            <span class="font-medium">Cài đặt</span>
+        </a>
+
+    </nav>
+
+    <div class="p-4 border-t border-border-light dark:border-border-dark">
+        <div class="flex items-center gap-3">
+            <img alt="Admin avatar" class="w-10 h-10 rounded-full"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpmhXUv0JeLQKqAiTsxrBbmChxJFeZqe-e_EVBe84A9FJehItWbTFzmGKDXCzlPVyXWuXq7M71T365Rm_P1uOERNbkcEK5I-npJ7IZk9IaGjcGDMGm6tVsGVKOzWWgWN1Np4-AppQ0swl4ITCPqGY3D2RB2KjWBGvnTuafeJN_6gvX9bfagNi4T2ai4g2rHpKCtdq-6s4Kjz5Ahk0L64HWhyb7mfpofnTdH-gQ_MRSkHMVhSLPLVJFiuqKaaBWvuhDBxRmNR5AXiI" />
+            <div>
+                <p class="font-semibold text-heading-light dark:text-heading-dark">Admin</p>
+                <p class="text-sm">admin@email.com</p>
+            </div>
+        </div>
+    </div>
+</aside>
         <main class="flex-1 flex flex-col">
             <header
                 class="flex items-center justify-between p-6 bg-card-light dark:bg-card-dark border-b border-border-light dark:border-border-dark">

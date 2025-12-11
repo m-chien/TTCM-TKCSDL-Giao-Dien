@@ -41,6 +41,13 @@
         },
       },
     }
+    function toggleParkingMenu() {
+    const submenu = document.getElementById("parkingSubmenu");
+    const arrow = document.getElementById("arrowParking");
+
+    submenu.classList.toggle("hidden");
+    arrow.classList.toggle("rotate-180");
+}
   </script>
 <style>
     .material-symbols-outlined {

@@ -29,6 +29,13 @@
                 },
             },
         }
+        function toggleParkingMenu() {
+    const submenu = document.getElementById("parkingSubmenu");
+    const arrow = document.getElementById("arrowParking");
+
+    submenu.classList.toggle("hidden");
+    arrow.classList.toggle("rotate-180");
+}
     </script>
 <style>
         .material-symbols-outlined {
@@ -210,9 +217,9 @@
 <p class="text-sm text-gray-800 dark:text-gray-200 leading-relaxed">Tôi đã cố gắng thanh toán phí gửi xe qua ứng dụng nhiều lần bằng thẻ Visa nhưng liên tục nhận được thông báo lỗi "Giao dịch không thành công". Xin vui lòng kiểm tra và hỗ trợ.</p>
 </div>
 <div class="flex flex-col gap-2">
-<h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300">Tệp đính kèm</h3>
+<!-- <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300">Tệp đính kèm</h3> -->
 <div class="flex gap-2">
-<div class="w-20 h-20 rounded-lg bg-cover bg-center" data-alt="Screenshot of payment error" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAC2Jcea9C327OrQ69hj3lMBdtZkpOlv7v3YKw9bkUKmtQ21x3HeWt0-PqbWMIHvRZpbFTG65hUmjGAvm0z2nFGDWicUFMELurYrKySf7CkQqJtHI_QHEy-n76UAbom04EaheqQjHX-gAkKWTO5vAmBhHox6dPzxA-uAeRMtsN46Gwdi2TKeYgWjtwV3be4xIhQyml-LR1_ag6ZufKjC1yvtZIVGT4RMvcPbAaURyhpEUL5L3MAsfnM478mJNwlYnRyYRH85GwPWuK3')"></div>
+<!-- <div class="w-20 h-20 rounded-lg bg-cover bg-center" data-alt="Screenshot of payment error" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAC2Jcea9C327OrQ69hj3lMBdtZkpOlv7v3YKw9bkUKmtQ21x3HeWt0-PqbWMIHvRZpbFTG65hUmjGAvm0z2nFGDWicUFMELurYrKySf7CkQqJtHI_QHEy-n76UAbom04EaheqQjHX-gAkKWTO5vAmBhHox6dPzxA-uAeRMtsN46Gwdi2TKeYgWjtwV3be4xIhQyml-LR1_ag6ZufKjC1yvtZIVGT4RMvcPbAaURyhpEUL5L3MAsfnM478mJNwlYnRyYRH85GwPWuK3')"></div> -->
 </div>
 </div>
 <div class="border-t border-primary/10 dark:border-primary/20"></div>

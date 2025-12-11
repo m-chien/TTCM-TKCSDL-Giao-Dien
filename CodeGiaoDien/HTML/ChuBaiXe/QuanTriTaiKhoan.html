@@ -36,6 +36,13 @@
                 },
             },
         }
+        function toggleParkingMenu() {
+    const submenu = document.getElementById("parkingSubmenu");
+    const arrow = document.getElementById("arrowParking");
+
+    submenu.classList.toggle("hidden");
+    arrow.classList.toggle("rotate-180");
+}
     </script>
     <style>
         .material-symbols-outlined {
@@ -65,7 +72,7 @@
                     <p class="text-[#0d1b13] dark:text-gray-300 text-sm font-medium leading-normal">Tổng quan</p>
                 </a>
 
-                <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20" href="#">
+                <a class="flex items-center gap-3 px-4 py-2.5 rounded text-primary bg-primary/10 transition-colors" href="#">
                     <span class="material-symbols-outlined text-[#0d1b13] dark:text-gray-100"
                         style="font-variation-settings: 'FILL' 1;">group</span>
                     <p class="text-[#0d1b13] dark:text-gray-100 text-sm font-medium leading-normal">Quản lý tài khoản
