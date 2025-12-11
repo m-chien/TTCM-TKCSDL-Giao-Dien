@@ -32,6 +32,33 @@
     submenu.classList.toggle("hidden");
     arrow.classList.toggle("rotate-180");
 }
+function openAddPriceModal() {
+    document.getElementById("addPriceModal").classList.remove("hidden");
+}
+
+function closeAddPriceModal() {
+    document.getElementById("addPriceModal").classList.add("hidden");
+}
+
+function saveNewPrice() {
+    const type = document.getElementById("vehicleType").value;
+    const hour = document.getElementById("hourPrice").value;
+    const night = document.getElementById("nightPrice").value;
+    const month = document.getElementById("monthPrice").value;
+    const status = document.getElementById("status").value;
+
+    if (!type || !hour || !night || !month) {
+        alert("Vui lòng nhập đầy đủ thông tin!");
+        return;
+    }
+
+    alert("Đã thêm giá mới cho: " + type);
+
+    // Đóng modal sau khi lưu
+    closeAddPriceModal();
+
+    // Tùy bạn muốn: gửi API – update table – refresh UI
+}
   </script>
 <style>
     .material-symbols-outlined {
@@ -73,7 +100,11 @@
 
                         <!-- MENU CON -->
                         <div id="parkingSubmenu" class="ml-10 mt-1 flex flex-col gap-1 hidden">
-
+                            <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                            href="CapNhatBaiXe.html">
+                                <span class="material-symbols-outlined text-base">local_offer</span>
+                                Quản lý bãi xe
+                            </a>
                             <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
                             href="CapNhapGia.html">
                                 <span class="material-symbols-outlined text-base">paid</span>
@@ -86,6 +117,11 @@
                                 Quản lý khuyến mãi
                             </a>
 
+                            <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                            href="QuanLyTheThang.html">
+                            <span class="material-symbols-outlined text-base">local_offer</span>
+                            Quản lý thẻ xe tháng
+                        </a>
                         </div>
                     </div>
 
@@ -100,7 +136,7 @@
                             <p class="text-sm font-medium">Quản lý ca làm</p>
                         </a>
                           <a class="flex items-center gap-3 rounded-lg px-4 py-2.5  dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700  "
-                            href="./QuanLyKhuVuc_ChoDau.html">
+                            href="QuanLyLichLamViec.html">
                              <span class="material-symbols-outlined">calendar_month</span>
                             <p class="text-sm font-medium">Lịch làm việc</p>
                         </a>
@@ -138,10 +174,12 @@
 <main class="flex-1 p-8 overflow-y-auto">
 <div class="flex justify-between items-center mb-8">
 <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Quản lý giá bãi đậu xe</h1>
-<button class="bg-primary text-white font-semibold py-2 px-4 rounded-lg flex items-center gap-2 hover:bg-green-600 transition-colors">
-<span class="material-symbols-outlined">add</span>
-          Thêm giá mới
-        </button>
+<button onclick="openAddPriceModal()" 
+class="bg-primary text-white font-semibold py-2 px-4 rounded-lg flex items-center gap-2 hover:bg-green-600 transition-colors">
+    <span class="material-symbols-outlined">add</span>
+    Thêm giá mới
+</button>
+
 </div>
 <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-sm mb-6 flex items-center gap-4">
 <div class="relative flex-grow">
@@ -248,4 +286,65 @@
 </main>
 </div>
 
-</body></html>
+</body>
+<!-- MODAL THÊM GIÁ MỚI -->
+<div id="addPriceModal" class="fixed inset-0 bg-black/40 flex items-center justify-center hidden z-50">
+    <div class="bg-white dark:bg-slate-800 p-6 rounded-lg w-full max-w-lg shadow-xl">
+        <h2 class="text-xl font-semibold mb-4">Thêm giá mới</h2>
+
+        <div class="flex flex-col gap-4">
+
+            <!-- Loại xe -->
+            <div>
+                <label class="text-sm font-medium">Loại xe</label>
+                <input id="vehicleType" type="text"
+                       class="w-full mt-1 border rounded-lg p-2 bg-slate-50 dark:bg-slate-700">
+            </div>
+
+            <!-- Giá mỗi giờ -->
+            <div>
+                <label class="text-sm font-medium">Giá mỗi giờ</label>
+                <input id="hourPrice" type="number"
+                       class="w-full mt-1 border rounded-lg p-2 bg-slate-50 dark:bg-slate-700">
+            </div>
+
+            <!-- Giá qua đêm -->
+            <div>
+                <label class="text-sm font-medium">Giá qua đêm</label>
+                <input id="nightPrice" type="number"
+                       class="w-full mt-1 border rounded-lg p-2 bg-slate-50 dark:bg-slate-700">
+            </div>
+
+            <!-- Giá theo tháng -->
+            <div>
+                <label class="text-sm font-medium">Giá theo tháng</label>
+                <input id="monthPrice" type="number"
+                       class="w-full mt-1 border rounded-lg p-2 bg-slate-50 dark:bg-slate-700">
+            </div>
+
+            <!-- Trạng thái -->
+            <div>
+                <label class="text-sm font-medium">Trạng thái</label>
+                <select id="status" class="w-full mt-1 border rounded-lg p-2 bg-slate-50 dark:bg-slate-700">
+                    <option value="active">Đang hoạt động</option>
+                    <option value="inactive">Tạm dừng</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- ACTION -->
+        <div class="flex justify-end gap-3 mt-6">
+            <button onclick="closeAddPriceModal()" 
+                class="px-4 py-2 rounded-lg bg-gray-200 dark:bg-slate-700 dark:text-white">
+                Hủy
+            </button>
+
+            <button onclick="saveNewPrice()"
+                class="px-4 py-2 rounded-lg bg-primary text-white hover:bg-green-600">
+                Lưu
+            </button>
+        </div>
+    </div>
+</div>
+
+</html>

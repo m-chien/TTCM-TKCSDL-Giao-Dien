@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 
-<html class="light" lang="vi"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Quản lý thẻ xe tháng</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script>
+<html class="light" lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Quản lý thẻ xe tháng</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <script>
     tailwind.config = {
       darkMode: "class",
       theme: {
@@ -42,250 +49,484 @@
       },
     }
     function toggleParkingMenu() {
-    const submenu = document.getElementById("parkingSubmenu");
-    const arrow = document.getElementById("arrowParking");
+      const submenu = document.getElementById("parkingSubmenu");
+      const arrow = document.getElementById("arrowParking");
 
-    submenu.classList.toggle("hidden");
-    arrow.classList.toggle("rotate-180");
+      submenu.classList.toggle("hidden");
+      arrow.classList.toggle("rotate-180");
+    }
+    function openAddCardModal() {
+    document.getElementById("addCardModal").classList.remove("hidden");
+}
+
+function closeAddCardModal() {
+    document.getElementById("addCardModal").classList.add("hidden");
+}
+
+function saveNewCard() {
+    const owner = document.getElementById("cardOwner").value;
+    const plate = document.getElementById("plateNumber").value;
+    const type = document.getElementById("vehicleType").value;
+    const start = document.getElementById("startDate").value;
+    const end = document.getElementById("endDate").value;
+
+    if (!owner || !plate || !start || !end) {
+        alert("Vui lòng nhập đầy đủ thông tin!");
+        return;
+    }
+
+    // TODO: Gửi dữ liệu lên API
+    console.log({
+        owner, plate, type, start, end
+    });
+
+    closeAddCardModal();
+    alert("Thêm thẻ xe mới thành công!");
 }
   </script>
-<style>
+  <style>
     .material-symbols-outlined {
       font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
       font-size: 20px;
     }
   </style>
 </head>
-<body class="font-display bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark">
-<div class="flex min-h-screen">
-<!-- SideNavBar -->
-<aside class="w-64 flex-shrink-0 bg-surface-light dark:bg-surface-dark border-r border-border-light dark:border-border-dark flex flex-col">
-<div class="p-6">
-<div class="flex items-center gap-3">
-<div class="bg-primary rounded-lg p-2 text-white">
-<span class="material-symbols-outlined !text-2xl">directions_car</span>
+
+<body
+  class="font-display bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark">
+  <div class="flex min-h-screen">
+    <!-- SideNavBar -->
+    <<aside
+      class="flex w-64 flex-col border-r border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark">
+      <div class="flex h-full flex-col justify-between p-4">
+        <div class="flex flex-col gap-6">
+          <div class="flex items-center gap-3 px-2">
+            <div class="flex items-center justify-center rounded-lg bg-primary/20 p-2 text-primary">
+              <span class="material-symbols-outlined text-2xl">local_parking</span>
+            </div>
+            <h1 class="text-lg font-bold">Parking Admin</h1>
+          </div>
+          <nav class="flex flex-col gap-2">
+            <a class="flex items-center gap-3 rounded-lg  px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
+              href="#">
+              <span class="material-symbols-outlined">dashboard</span>
+              <p class="text-sm font-semibold">Tổng quan</p>
+            </a>
+            <!-- MENU CHA: Quản lý bãi xe -->
+            <div class="flex flex-col">
+              <button onclick="toggleParkingMenu()"
+                class="flex items-center w-full justify-between gap-3 rounded-lg px-3 py-2.5 bg-primary/20 text-primary">
+                <div class="flex items-center gap-3">
+                  <span class="material-symbols-outlined">garage</span>
+                  <p class="text-sm font-medium">Quản lý bãi xe</p>
+                </div>
+                <span id="arrowParking" class="material-symbols-outlined transition-transform">expand_more</span>
+              </button>
+
+              <!-- MENU CON -->
+              <div id="parkingSubmenu" class="ml-10 mt-1 flex flex-col gap-1 hidden">
+                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                  href="CapNhatBaiXe.html">
+                  <span class="material-symbols-outlined text-base">local_offer</span>
+                  Quản lý bãi xe
+                </a>
+                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                  href="CapNhapGia.html">
+                  <span class="material-symbols-outlined text-base">paid</span>
+                  Quản lý giá
+                </a>
+
+                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                  href="CapNhatMaGiamGia.html">
+                  <span class="material-symbols-outlined text-base">local_offer</span>
+                  Quản lý khuyến mãi
+                </a>
+               <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                            href="QuanLyTheThang.html">
+                            <span class="material-symbols-outlined text-base">local_offer</span>
+                            Quản lý thẻ xe tháng
+                        </a>
+              </div>
+            </div>
+
+            <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
+              href="./QuanLyNhanVien.html">
+              <span class="material-symbols-outlined">groups</span>
+              <p class="text-sm font-medium">Quản lý nhân viên</p>
+            </a>
+            <a class="flex items-center gap-3 rounded-lg px-3 py-2.5  hover:bg-primary/10 dark:hover:bg-primary/20"
+              href="./QuanLyCaLam.html">
+              <span class="material-symbols-outlined">shift</span>
+              <p class="text-sm font-medium">Quản lý ca làm</p>
+            </a>
+            <a class="flex items-center gap-3 rounded-lg px-4 py-2.5  dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700  "
+              href="QuanLyLichLamViec.html">
+              <span class="material-symbols-outlined">calendar_month</span>
+              <p class="text-sm font-medium">Lịch làm việc</p>
+            </a>
+            <a class="flex items-center gap-3 rounded-lg px-4 py-2.5  dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700  "
+              href="./QuanLyKhuVuc_ChoDau.html">
+              <span class="material-symbols-outlined">list</span>
+              <p class="text-sm font-medium">Danh mục chỗ đậu</p>
+            </a>
+            <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
+              href="./ThongKe.html">
+              <span class="material-symbols-outlined">assessment</span>
+              <p class="text-sm font-medium">Thống kê</p>
+            </a>
+            <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
+              href="#">
+              <span class="material-symbols-outlined">settings</span>
+              <p class="text-sm font-medium">Cài đặt</p>
+            </a>
+          </nav>
+        </div>
+        <div class="flex flex-col gap-1 border-t border-border-light dark:border-border-dark pt-4">
+          <div class="flex items-center gap-3 px-3 py-2">
+            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Admin user avatar"
+              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDSBl77xDRyzdEmA1bqOR8us366h5umMmXmkFUxgpDrNq39j6NpuXlHVoGetK8-SZzQGlIuLxy8mqr7ki1JETuzLoOeljk18F04cc8-qVotv6ZxMn3nuchnPXz1WSbP5r_XBVVIPMh5J0OJYuSuLcT2_ugU5YHbXoAj3wU7oqY0G0P7YWEOWrRN7HsvX3PwcdYQwOu3AEMDQTsWfryfJOwRehe3z7dZKlO0S2EUzKzEouKb9NB73NvcSyWWOv44oFnxK88CgSonrnuT");'>
+            </div>
+            <div class="flex flex-col">
+              <p class="text-sm font-semibold">Admin</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">admin@email.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      </aside>
+      <!-- Main Content -->
+      <main class="flex-1 p-8 overflow-auto">
+        <div class="max-w-7xl mx-auto">
+          <!-- PageHeading -->
+          <header class="flex flex-wrap justify-between items-center gap-4 mb-8">
+            <div class="flex flex-col gap-1">
+              <h1 class="text-3xl font-bold tracking-tight">Quản lý thẻ xe tháng</h1>
+              <p class="text-text-secondary-light dark:text-text-secondary-dark">Xem, tìm kiếm, lọc và quản lý tất cả
+                thẻ xe tháng.</p>
+            </div>
+            <button onclick="openAddCardModal()" 
+            class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/80 transition">
+            <span class="material-symbols-outlined text-base">add</span>
+            Thêm thẻ mới
+        </button>
+
+          </header>
+          <!-- Filters & Search -->
+          <div
+            class="bg-surface-light dark:bg-surface-dark p-4 rounded-lg border border-border-light dark:border-border-dark mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <!-- SearchBar -->
+              <div class="lg:col-span-2">
+                <label class="flex flex-col w-full h-12">
+                  <div
+                    class="flex w-full flex-1 items-stretch rounded-lg h-full bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark focus-within:ring-2 focus-within:ring-primary">
+                    <div
+                      class="text-text-secondary-light dark:text-text-secondary-dark flex items-center justify-center pl-3">
+                      <span class="material-symbols-outlined">search</span>
+                    </div>
+                    <input
+                      class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden text-text-primary-light dark:text-text-primary-dark focus:outline-0 focus:ring-0 border-none bg-transparent h-full placeholder:text-text-secondary-light dark:placeholder:text-text-secondary-dark px-2 text-sm"
+                      placeholder="Tìm theo mã thẻ, biển số, tên khách hàng..." value="" />
+                  </div>
+                </label>
+              </div>
+              <!-- Chips/Filters -->
+              <div class="relative">
+                <select
+                  class="w-full h-12 px-3 pr-8 text-sm bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary">
+                  <option>Trạng thái: Tất cả</option>
+                  <option>Đang hoạt động</option>
+                  <option>Sắp hết hạn</option>
+                  <option>Đã hết hạn</option>
+                </select>
+                <div
+                  class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-text-secondary-light dark:text-text-secondary-dark">
+                  <span class="material-symbols-outlined">expand_more</span>
+                </div>
+              </div>
+              <div class="relative">
+                <select
+                  class="w-full h-12 px-3 pr-8 text-sm bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary">
+                  <option>Loại xe: Tất cả</option>
+                  <option>Ô tô</option>
+                  <option>Xe máy</option>
+                </select>
+                <div
+                  class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-text-secondary-light dark:text-text-secondary-dark">
+                  <span class="material-symbols-outlined">expand_more</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Table -->
+          <div
+            class="overflow-hidden rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-border-light dark:divide-border-dark">
+                <thead class="bg-background-light dark:bg-background-dark">
+                  <tr>
+                    <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6" scope="col">Mã thẻ</th>
+                    <th class="px-3 py-3.5 text-left text-sm font-semibold" scope="col">Biển số xe</th>
+                    <th class="px-3 py-3.5 text-left text-sm font-semibold" scope="col">Khách hàng</th>
+                    <th class="px-3 py-3.5 text-left text-sm font-semibold" scope="col">Ngày kích hoạt</th>
+                    <th class="px-3 py-3.5 text-left text-sm font-semibold" scope="col">Ngày hết hạn</th>
+                    <th class="px-3 py-3.5 text-left text-sm font-semibold" scope="col">Trạng thái</th>
+                    <th class="relative py-3.5 pl-3 pr-4 sm:pr-6 text-right text-sm font-semibold" scope="col">Hành động
+                    </th>
+                  </tr>
+                </thead>
+                <tbody
+                  class="divide-y divide-border-light dark:divide-border-dark bg-surface-light dark:bg-surface-dark">
+                  <!-- Table Row 1 -->
+                  <tr>
+                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">TH001</td>
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                      51F-123.45</td>
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                      Nguyễn Văn A</td>
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                      01/06/2024</td>
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                      01/07/2024</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm">
+                      <span
+                        class="inline-flex items-center rounded-full bg-success/10 px-2 py-1 text-xs font-medium text-success">Đang
+                        hoạt động</span>
+                    </td>
+                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                      <div class="flex items-center justify-end gap-2">
+                        <button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span
+                            class="material-symbols-outlined">edit</span></button>
+                        <button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span
+                            class="material-symbols-outlined">autorenew</span></button>
+                        <button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-danger"><span
+                            class="material-symbols-outlined">lock</span></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Table Row 2 -->
+                  <tr>
+                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">TH002</td>
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                      29H-678.90</td>
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                      Trần Thị B</td>
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                      15/05/2024</td>
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                      15/06/2024</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm">
+                      <span
+                        class="inline-flex items-center rounded-full bg-warning/10 px-2 py-1 text-xs font-medium text-warning">Sắp
+                        hết hạn</span>
+                    </td>
+                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                      <div class="flex items-center justify-end gap-2">
+                        <button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span
+                            class="material-symbols-outlined">edit</span></button>
+                        <button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span
+                            class="material-symbols-outlined">autorenew</span></button>
+                        <button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-danger"><span
+                            class="material-symbols-outlined">lock</span></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Table Row 3 -->
+                  <tr>
+                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">TH003</td>
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                      92K-111.22</td>
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                      Lê Văn C</td>
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                      01/04/2024</td>
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                      01/05/2024</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm">
+                      <span
+                        class="inline-flex items-center rounded-full bg-danger/10 px-2 py-1 text-xs font-medium text-danger">Đã
+                        hết hạn</span>
+                    </td>
+                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                      <div class="flex items-center justify-end gap-2">
+                        <button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span
+                            class="material-symbols-outlined">edit</span></button>
+                        <button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span
+                            class="material-symbols-outlined">autorenew</span></button>
+                        <button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-success"><span
+                            class="material-symbols-outlined">lock_open</span></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Table Row 4 -->
+                  <tr>
+                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">TH004</td>
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                      30A-333.44</td>
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                      Phạm Thị D</td>
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                      20/05/2024</td>
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                      20/06/2024</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm">
+                      <span
+                        class="inline-flex items-center rounded-full bg-success/10 px-2 py-1 text-xs font-medium text-success">Đang
+                        hoạt động</span>
+                    </td>
+                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                      <div class="flex items-center justify-end gap-2">
+                        <button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span
+                            class="material-symbols-outlined">edit</span></button>
+                        <button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span
+                            class="material-symbols-outlined">autorenew</span></button>
+                        <button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-danger"><span
+                            class="material-symbols-outlined">lock</span></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Table Row 5 -->
+                  <tr>
+                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">TH005</td>
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                      75C-555.66</td>
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                      Hoàng Văn E</td>
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                      10/06/2024</td>
+                    <td
+                      class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                      10/07/2024</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm">
+                      <span
+                        class="inline-flex items-center rounded-full bg-success/10 px-2 py-1 text-xs font-medium text-success">Đang
+                        hoạt động</span>
+                    </td>
+                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                      <div class="flex items-center justify-end gap-2">
+                        <button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span
+                            class="material-symbols-outlined">edit</span></button>
+                        <button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span
+                            class="material-symbols-outlined">autorenew</span></button>
+                        <button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-danger"><span
+                            class="material-symbols-outlined">lock</span></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- Pagination -->
+            <nav aria-label="Pagination"
+              class="flex items-center justify-between border-t border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark px-4 py-3 sm:px-6">
+              <div class="hidden sm:block">
+                <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                  Hiển thị
+                  <span class="font-medium">1</span>
+                  tới
+                  <span class="font-medium">5</span>
+                  trên
+                  <span class="font-medium">50</span>
+                  kết quả
+                </p>
+              </div>
+              <div class="flex flex-1 justify-between sm:justify-end">
+                <a class="relative inline-flex items-center rounded-md bg-surface-light dark:bg-surface-dark px-3 py-2 text-sm font-semibold text-text-primary-light dark:text-text-primary-dark ring-1 ring-inset ring-border-light dark:ring-border-dark hover:bg-background-light dark:hover:bg-background-dark focus-visible:outline-offset-0"
+                  href="#">Trước</a>
+                <a class="relative ml-3 inline-flex items-center rounded-md bg-surface-light dark:bg-surface-dark px-3 py-2 text-sm font-semibold text-text-primary-light dark:text-text-primary-dark ring-1 ring-inset ring-border-light dark:ring-border-dark hover:bg-background-light dark:hover:bg-background-dark focus-visible:outline-offset-0"
+                  href="#">Tiếp</a>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </main>
+  </div>
+</body>
+<!-- MODAL Thêm thẻ xe mới -->
+<div id="addCardModal"
+    class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center hidden z-50">
+
+    <div class="bg-white dark:bg-gray-800 w-[450px] rounded-xl shadow-lg p-6 animate-fadeIn">
+
+        <h2 class="text-xl font-semibold mb-4 text-heading-light dark:text-heading-dark">
+            Thêm thẻ xe tháng
+        </h2>
+
+        <div class="space-y-3">
+
+            <!-- Tên chủ xe -->
+            <div>
+                <label class="text-sm font-medium">Tên chủ xe</label>
+                <input id="cardOwner" type="text"
+                    class="w-full mt-1 px-3 py-2 rounded-lg border focus:border-primary outline-none" />
+            </div>
+
+            <!-- Biển số xe -->
+            <div>
+                <label class="text-sm font-medium">Biển số xe</label>
+                <input id="plateNumber" type="text"
+                    class="w-full mt-1 px-3 py-2 rounded-lg border focus:border-primary outline-none" />
+            </div>
+
+            <!-- Loại xe -->
+            <div>
+                <label class="text-sm font-medium">Loại xe</label>
+                <select id="vehicleType"
+                    class="w-full mt-1 px-3 py-2 rounded-lg border focus:border-primary outline-none">
+                    <option value="Xe máy">Xe máy</option>
+                    <option value="Ô tô">Ô tô</option>
+                    <option value="Xe đạp">Xe đạp</option>
+                </select>
+            </div>
+
+            <!-- Ngày bắt đầu -->
+            <div>
+                <label class="text-sm font-medium">Ngày bắt đầu</label>
+                <input id="startDate" type="date"
+                    class="w-full mt-1 px-3 py-2 rounded-lg border focus:border-primary outline-none" />
+            </div>
+
+            <!-- Ngày hết hạn -->
+            <div>
+                <label class="text-sm font-medium">Ngày hết hạn</label>
+                <input id="endDate" type="date"
+                    class="w-full mt-1 px-3 py-2 rounded-lg border focus:border-primary outline-none" />
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="mt-6 flex justify-end gap-3">
+            <button onclick="closeAddCardModal()"
+                class="px-4 py-2 rounded-lg border hover:bg-gray-100 dark:hover:bg-gray-700">
+                Hủy
+            </button>
+
+            <button onclick="saveNewCard()"
+                class="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/80">
+                Lưu thẻ
+            </button>
+        </div>
+    </div>
 </div>
-<h1 class="text-xl font-bold">ParkAdmin</h1>
-</div>
-</div>
-<div class="flex flex-col justify-between flex-grow p-4">
-<div class="flex flex-col gap-2">
-<a class="flex items-center gap-3 px-4 py-2.5 rounded text-sm font-semibold text-text-secondary-light dark:text-text-secondary-dark hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20" href="#">
-<span class="material-symbols-outlined">dashboard</span>
-<span>Bảng điều khiển</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-2.5 rounded text-sm font-semibold bg-primary/10 text-primary dark:bg-primary/20" href="#">
-<span class="material-symbols-outlined">credit_card</span>
-<span>Quản lý thẻ xe tháng</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-2.5 rounded text-sm font-semibold text-text-secondary-light dark:text-text-secondary-dark hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20" href="#">
-<span class="material-symbols-outlined">bar_chart</span>
-<span>Báo cáo</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-2.5 rounded text-sm font-semibold text-text-secondary-light dark:text-text-secondary-dark hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20" href="#">
-<span class="material-symbols-outlined">group</span>
-<span>Khách hàng</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-2.5 rounded text-sm font-semibold text-text-secondary-light dark:text-text-secondary-dark hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20" href="#">
-<span class="material-symbols-outlined">settings</span>
-<span>Cài đặt</span>
-</a>
-</div>
-<div class="flex flex-col gap-1">
-<div class="flex items-center gap-4 p-4 mt-4 border-t border-border-light dark:border-border-dark">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMYlq6IyKLlcY12Slg2IaUz1NksxdG_87Ercoj7p-xX7JTDvw2O_dtyBSS9Ey_UksZMHLBCihgL0Sfuoo5lROEA9G9_MgFdpBv56KS2fNHLg6JGJSmrAtIfTg98_jWqKrrJxBtaroqzh1bUuPiPcAWHHymD2Ed5h1PdRsKMDr03ffJDeGzMhqyJ-3VSw8gw2nsWcBTeL76jOiW3YszKrJRot9X7IMkbeYuB4u6xKgz3-6cfi5MJUvJ-5tHewoVQ6vreY1vIjxxfGzg");'></div>
-<div class="flex flex-col">
-<h2 class="text-sm font-semibold">Admin Bãi xe</h2>
-<p class="text-xs text-text-secondary-light dark:text-text-secondary-dark">admin@park.com</p>
-</div>
-<button class="ml-auto text-text-secondary-light dark:text-text-secondary-dark hover:text-primary">
-<span class="material-symbols-outlined">logout</span>
-</button>
-</div>
-</div>
-</div>
-</aside>
-<!-- Main Content -->
-<main class="flex-1 p-8 overflow-auto">
-<div class="max-w-7xl mx-auto">
-<!-- PageHeading -->
-<header class="flex flex-wrap justify-between items-center gap-4 mb-8">
-<div class="flex flex-col gap-1">
-<h1 class="text-3xl font-bold tracking-tight">Quản lý thẻ xe tháng</h1>
-<p class="text-text-secondary-light dark:text-text-secondary-dark">Xem, tìm kiếm, lọc và quản lý tất cả thẻ xe tháng.</p>
-</div>
-<button class="flex items-center justify-center gap-2 h-10 px-4 bg-primary text-white text-sm font-bold leading-normal rounded-lg shadow-sm hover:bg-primary/90 transition-colors">
-<span class="material-symbols-outlined !text-xl">add_circle</span>
-<span class="truncate">Thêm thẻ mới</span>
-</button>
-</header>
-<!-- Filters & Search -->
-<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-lg border border-border-light dark:border-border-dark mb-6">
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-<!-- SearchBar -->
-<div class="lg:col-span-2">
-<label class="flex flex-col w-full h-12">
-<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark focus-within:ring-2 focus-within:ring-primary">
-<div class="text-text-secondary-light dark:text-text-secondary-dark flex items-center justify-center pl-3">
-<span class="material-symbols-outlined">search</span>
-</div>
-<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden text-text-primary-light dark:text-text-primary-dark focus:outline-0 focus:ring-0 border-none bg-transparent h-full placeholder:text-text-secondary-light dark:placeholder:text-text-secondary-dark px-2 text-sm" placeholder="Tìm theo mã thẻ, biển số, tên khách hàng..." value=""/>
-</div>
-</label>
-</div>
-<!-- Chips/Filters -->
-<div class="relative">
-<select class="w-full h-12 px-3 pr-8 text-sm bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary">
-<option>Trạng thái: Tất cả</option>
-<option>Đang hoạt động</option>
-<option>Sắp hết hạn</option>
-<option>Đã hết hạn</option>
-</select>
-<div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-text-secondary-light dark:text-text-secondary-dark">
-<span class="material-symbols-outlined">expand_more</span>
-</div>
-</div>
-<div class="relative">
-<select class="w-full h-12 px-3 pr-8 text-sm bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary">
-<option>Loại xe: Tất cả</option>
-<option>Ô tô</option>
-<option>Xe máy</option>
-</select>
-<div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-text-secondary-light dark:text-text-secondary-dark">
-<span class="material-symbols-outlined">expand_more</span>
-</div>
-</div>
-</div>
-</div>
-<!-- Table -->
-<div class="overflow-hidden rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
-<div class="overflow-x-auto">
-<table class="min-w-full divide-y divide-border-light dark:divide-border-dark">
-<thead class="bg-background-light dark:bg-background-dark">
-<tr>
-<th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6" scope="col">Mã thẻ</th>
-<th class="px-3 py-3.5 text-left text-sm font-semibold" scope="col">Biển số xe</th>
-<th class="px-3 py-3.5 text-left text-sm font-semibold" scope="col">Khách hàng</th>
-<th class="px-3 py-3.5 text-left text-sm font-semibold" scope="col">Ngày kích hoạt</th>
-<th class="px-3 py-3.5 text-left text-sm font-semibold" scope="col">Ngày hết hạn</th>
-<th class="px-3 py-3.5 text-left text-sm font-semibold" scope="col">Trạng thái</th>
-<th class="relative py-3.5 pl-3 pr-4 sm:pr-6 text-right text-sm font-semibold" scope="col">Hành động</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-border-light dark:divide-border-dark bg-surface-light dark:bg-surface-dark">
-<!-- Table Row 1 -->
-<tr>
-<td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">TH001</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">51F-123.45</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">Nguyễn Văn A</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">01/06/2024</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">01/07/2024</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm">
-<span class="inline-flex items-center rounded-full bg-success/10 px-2 py-1 text-xs font-medium text-success">Đang hoạt động</span>
-</td>
-<td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-<div class="flex items-center justify-end gap-2">
-<button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
-<button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span class="material-symbols-outlined">autorenew</span></button>
-<button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-danger"><span class="material-symbols-outlined">lock</span></button>
-</div>
-</td>
-</tr>
-<!-- Table Row 2 -->
-<tr>
-<td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">TH002</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">29H-678.90</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">Trần Thị B</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">15/05/2024</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">15/06/2024</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm">
-<span class="inline-flex items-center rounded-full bg-warning/10 px-2 py-1 text-xs font-medium text-warning">Sắp hết hạn</span>
-</td>
-<td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-<div class="flex items-center justify-end gap-2">
-<button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
-<button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span class="material-symbols-outlined">autorenew</span></button>
-<button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-danger"><span class="material-symbols-outlined">lock</span></button>
-</div>
-</td>
-</tr>
-<!-- Table Row 3 -->
-<tr>
-<td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">TH003</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">92K-111.22</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">Lê Văn C</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">01/04/2024</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">01/05/2024</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm">
-<span class="inline-flex items-center rounded-full bg-danger/10 px-2 py-1 text-xs font-medium text-danger">Đã hết hạn</span>
-</td>
-<td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-<div class="flex items-center justify-end gap-2">
-<button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
-<button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span class="material-symbols-outlined">autorenew</span></button>
-<button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-success"><span class="material-symbols-outlined">lock_open</span></button>
-</div>
-</td>
-</tr>
-<!-- Table Row 4 -->
-<tr>
-<td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">TH004</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">30A-333.44</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">Phạm Thị D</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">20/05/2024</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">20/06/2024</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm">
-<span class="inline-flex items-center rounded-full bg-success/10 px-2 py-1 text-xs font-medium text-success">Đang hoạt động</span>
-</td>
-<td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-<div class="flex items-center justify-end gap-2">
-<button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
-<button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span class="material-symbols-outlined">autorenew</span></button>
-<button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-danger"><span class="material-symbols-outlined">lock</span></button>
-</div>
-</td>
-</tr>
-<!-- Table Row 5 -->
-<tr>
-<td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">TH005</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">75C-555.66</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">Hoàng Văn E</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">10/06/2024</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm text-text-secondary-light dark:text-text-secondary-dark">10/07/2024</td>
-<td class="whitespace-nowrap px-3 py-4 text-sm">
-<span class="inline-flex items-center rounded-full bg-success/10 px-2 py-1 text-xs font-medium text-success">Đang hoạt động</span>
-</td>
-<td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-<div class="flex items-center justify-end gap-2">
-<button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
-<button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span class="material-symbols-outlined">autorenew</span></button>
-<button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-danger"><span class="material-symbols-outlined">lock</span></button>
-</div>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<!-- Pagination -->
-<nav aria-label="Pagination" class="flex items-center justify-between border-t border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark px-4 py-3 sm:px-6">
-<div class="hidden sm:block">
-<p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">
-                Hiển thị
-                <span class="font-medium">1</span>
-                tới
-                <span class="font-medium">5</span>
-                trên
-                <span class="font-medium">50</span>
-                kết quả
-              </p>
-</div>
-<div class="flex flex-1 justify-between sm:justify-end">
-<a class="relative inline-flex items-center rounded-md bg-surface-light dark:bg-surface-dark px-3 py-2 text-sm font-semibold text-text-primary-light dark:text-text-primary-dark ring-1 ring-inset ring-border-light dark:ring-border-dark hover:bg-background-light dark:hover:bg-background-dark focus-visible:outline-offset-0" href="#">Trước</a>
-<a class="relative ml-3 inline-flex items-center rounded-md bg-surface-light dark:bg-surface-dark px-3 py-2 text-sm font-semibold text-text-primary-light dark:text-text-primary-dark ring-1 ring-inset ring-border-light dark:ring-border-dark hover:bg-background-light dark:hover:bg-background-dark focus-visible:outline-offset-0" href="#">Tiếp</a>
-</div>
-</nav>
-</div>
-</div>
-</main>
-</div>
-</body></html>
+
+</html>
