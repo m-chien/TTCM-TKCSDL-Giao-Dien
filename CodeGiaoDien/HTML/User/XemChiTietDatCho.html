@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chi Tiết Đặt Chỗ Của Tôi - Parking Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#00E274", // Light green from screenshots
+                        "primary-dark": "#00C966", // Slightly darker for hover
+                        "background-light": "#F9FAFB",
+                        "background-dark": "#111827",
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#1F2937",
+                        "text-light": "#1F2937",
+                        "text-dark": "#F3F4F6",
+                        "subtext-light": "#6B7280",
+                        "subtext-dark": "#9CA3AF",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "system-ui", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-display min-h-screen flex flex-col transition-colors duration-200">
+<header class="bg-card-light dark:bg-card-dark border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
+<div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="text-primary font-bold text-3xl">P</span>
+<span class="font-bold text-lg text-text-light dark:text-text-dark">Parking Management</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium text-subtext-light dark:text-subtext-dark hover:text-primary dark:hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-sm font-medium text-subtext-light dark:text-subtext-dark hover:text-primary dark:hover:text-primary transition-colors" href="#">Đăng Kí thẻ tháng</a>
+<a class="text-sm font-medium text-primary dark:text-primary transition-colors" href="#">Lịch sử đặt chỗ</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full text-subtext-light dark:text-subtext-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+<span class="material-icons-outlined text-[20px]">notifications</span>
+</button>
+<button class="p-2 rounded-full text-subtext-light dark:text-subtext-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+<span class="material-icons-outlined text-[20px]">help_outline</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden border border-gray-300 dark:border-gray-600">
+<img alt="User Avatar" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDMHC3QHQc720M5Cx8gS2PbFPiYxDMLiQ6pYw0Q5AO2dDkpDEqi8_16t1O7tKLTDn7Bn_vJQtLq0CzpiT2gbouNBHe_jsuPbr2KbuOp8tbe-IaeggzBD_LVvtLSSnYPCcOulvgdd93Mz2A2GzFjqngXiQ8SiS4bpreVErIoK4WYP4kldjZxF9BaFDJ1u9rxqvHrIL_TPVt8JaOZlkJC7oT0ck0DTcENOKnoH2dK5tNl-funJ3ztEh0QGMm6xgHQKgYH6aIU3mQnuLM"/>
+</div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 max-w-screen-2xl mx-auto w-full">
+<aside class="w-64 bg-card-light dark:bg-card-dark border-r border-gray-200 dark:border-gray-700 hidden lg:flex flex-col py-6 px-4">
+<div class="mb-8 flex items-center gap-3 px-2">
+<div class="h-10 w-10 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+<img alt="Profile" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoqtHHlniXPfGVhZpCLTVsh13Yaq-FTDe4wfBWQrBwIbwWAv1IGMK7cS8DPeL6lpeNUqEGx5-uC3RdaoGbyb1yarV36Ib2zkzmruXAxIqNhBlPKCtiBQY-jdxzZ67R9dSZ1NF1IJnMEF3KXJxSdxfPzAWqYE4880ETWufS5uPuiZdGPXX_WTuZ_ktnJfHR31xPPxf3PBFXgA_4QGl5KzHsQqPZzHxQYU7t9nNIB6QckAwlE3gJgm1m8UZQd1phcxW-1n4jnJjmFYM9"/>
+</div>
+<div>
+<p class="text-sm font-semibold text-text-light dark:text-text-dark">Nguyễn Văn A</p>
+<p class="text-xs text-subtext-light dark:text-subtext-dark truncate w-32">khachhang@email.com</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 rounded-lg transition-colors group" href="TrangChu.html">
+                    <span class="material-symbols-outlined text-[20px]">home</span>
+                    Trang chủ
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 rounded-lg transition-colors group" href="ChonBai.html">
+                    <span class="material-symbols-outlined text-[20px]">confirmation_number</span>
+                    Đặt chỗ
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium bg-primary/20 text-primary dark:text-primary rounded-lg transition-colors group" href="LichSuGuiXe.html">
+                    <span class="material-symbols-outlined text-[20px]">history</span>
+                    Lịch sử
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 rounded-lg transition-colors group" href="ThemPhuongTien.html">
+                    <span class="material-symbols-outlined text-[20px]">directions_car</span>
+                    Phương tiện
+                </a>
+                 <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 rounded-lg transition-colors group" href="#">
+                    <span class="material-symbols-outlined text-[20px]">account_circle</span>
+                    Tài khoản
+                </a>
+            </nav>
+
+            <div class="mt-auto pt-6 border-t border-gray-200 dark:border-gray-800 space-y-1">
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 rounded-lg transition-colors group" href="#">
+                    <span class="material-symbols-outlined text-[20px]">settings</span>
+                    Cài đặt
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-colors group" href="#">
+                    <span class="material-symbols-outlined text-[20px]">logout</span>
+                    Đăng xuất
+                </a>
+            </div>
+</aside>
+<main class="flex-1 p-6 lg:p-10 bg-background-light dark:bg-background-dark overflow-y-auto">
+<nav class="flex items-center text-sm text-subtext-light dark:text-subtext-dark mb-6">
+<a class="hover:text-primary dark:hover:text-primary" href="#">Trang chủ</a>
+<span class="mx-2">/</span>
+<a class="hover:text-primary dark:hover:text-primary" href="#">Lịch sử đặt chỗ</a>
+<span class="mx-2">/</span>
+<span class="text-text-light dark:text-text-dark font-medium">Chi tiết #BK-9821</span>
+</nav>
+<div class="flex flex-col lg:flex-row gap-8">
+<div class="flex-1 space-y-6">
+<div class="bg-card-light dark:bg-card-dark rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+<div class="p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+<div>
+<h1 class="text-2xl font-bold text-text-light dark:text-text-dark">Chi tiết đặt chỗ</h1>
+<p class="text-sm text-subtext-light dark:text-subtext-dark mt-1">Mã đặt chỗ: <span class="font-mono font-medium text-text-light dark:text-text-dark">#BK-9821</span></p>
+</div>
+<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
+<span class="w-2 h-2 mr-1.5 bg-green-500 rounded-full"></span>
+                                Đã đặt
+                            </span>
+</div>
+<div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-4">
+<h3 class="text-sm font-semibold uppercase tracking-wider text-subtext-light dark:text-subtext-dark">Thông tin bãi đỗ</h3>
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0">
+<span class="material-icons-outlined text-gray-500 dark:text-gray-400">local_parking</span>
+</div>
+<div>
+<p class="font-semibold text-text-light dark:text-text-dark text-lg">Bãi xe Vincom Center</p>
+<p class="text-sm text-subtext-light dark:text-subtext-dark mt-1">72 Lê Thánh Tôn, Bến Nghé, Quận 1</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="material-icons-outlined text-[16px] text-primary">place</span>
+<a class="text-sm text-primary hover:underline" href="#">Xem bản đồ</a>
+</div>
+</div>
+</div>
+<div class="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl mt-4">
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm text-subtext-light dark:text-subtext-dark">Vị trí đỗ:</span>
+<span class="font-medium text-text-light dark:text-text-dark">Khu A - Lô A12</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm text-subtext-light dark:text-subtext-dark">Loại xe:</span>
+<span class="font-medium text-text-light dark:text-text-dark">Ô tô 4 chỗ</span>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<h3 class="text-sm font-semibold uppercase tracking-wider text-subtext-light dark:text-subtext-dark">Thời gian &amp; Thanh toán</h3>
+<div class="relative pl-6 border-l-2 border-gray-200 dark:border-gray-700 space-y-6">
+<div class="relative">
+<div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full border-2 border-primary bg-background-light dark:bg-background-dark"></div>
+<p class="text-xs text-subtext-light dark:text-subtext-dark mb-0.5">Thời gian gửi</p>
+<p class="font-medium text-text-light dark:text-text-dark">10:30 - 24/10/2023</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark"></div>
+<p class="text-xs text-subtext-light dark:text-subtext-dark mb-0.5">Thời gian nhận (Dự kiến)</p>
+<p class="font-medium text-text-light dark:text-text-dark">14:30 - 24/10/2023</p>
+</div>
+</div>
+<div class="border-t border-gray-100 dark:border-gray-700 pt-4 mt-4">
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm text-subtext-light dark:text-subtext-dark">Đơn giá:</span>
+<span class="text-sm font-medium text-text-light dark:text-text-dark">15.000đ/h</span>
+</div>
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm text-subtext-light dark:text-subtext-dark">Thời gian dự kiến:</span>
+<span class="text-sm font-medium text-text-light dark:text-text-dark">4 giờ</span>
+</div>
+<div class="flex justify-between items-center mt-4 pt-4 border-t border-dashed border-gray-200 dark:border-gray-700">
+<span class="font-semibold text-text-light dark:text-text-dark">Tổng tiền cước</span>
+<span class="text-xl font-bold text-primary">60.000đ</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6 bg-gray-50 dark:bg-gray-800/30 border-t border-gray-200 dark:border-gray-700 flex justify-end gap-4">
+<button class="px-5 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 text-text-light dark:text-text-dark bg-white dark:bg-card-dark hover:bg-gray-50 dark:hover:bg-gray-700 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 dark:focus:ring-gray-700">
+                                Quay lại
+                            </button>
+<button class="px-5 py-2.5 rounded-lg border border-red-200 dark:border-red-900/50 text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200 dark:focus:ring-red-800">
+                                Hủy đặt chỗ
+                            </button>
+</div>
+</div>
+</div>
+<div class="w-full lg:w-80 space-y-6">
+<div class="bg-card-light dark:bg-card-dark rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-5">
+<h3 class="font-semibold text-text-light dark:text-text-dark mb-4 flex items-center gap-2">
+<span class="material-icons-outlined text-subtext-light dark:text-subtext-dark">directions_car</span>
+                            Phương tiện
+                        </h3>
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+<span class="material-icons-outlined text-gray-400 text-2xl">directions_car_filled</span>
+</div>
+<div>
+<p class="font-bold text-text-light dark:text-text-dark">Vinfast VF8</p>
+<p class="text-sm text-subtext-light dark:text-subtext-dark">51G-123.45</p>
+</div>
+</div>
+</div>
+<div class="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-5 border border-blue-100 dark:border-blue-900/30">
+<h3 class="font-semibold text-blue-900 dark:text-blue-200 mb-2">Cần trợ giúp?</h3>
+<p class="text-sm text-blue-800 dark:text-blue-300/80 mb-4">
+                            Nếu bạn gặp vấn đề khi tìm vị trí hoặc cần thay đổi thông tin, hãy liên hệ với chúng tôi.
+                        </p>
+<button class="w-full py-2 bg-white dark:bg-blue-900/40 text-blue-600 dark:text-blue-200 border border-blue-200 dark:border-blue-700 rounded-lg text-sm font-medium hover:bg-blue-50 dark:hover:bg-blue-900/60 transition-colors">
+                            Liên hệ hỗ trợ
+                        </button>
+</div>
+<div class="bg-card-light dark:bg-card-dark rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden h-48 relative group cursor-pointer">
+<img alt="Map Preview of Parking Location" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtR7ofcoEWODDc0BA7shvl0iSXExMnFZcVd3-g5bnxse3kJqiU4f0zr1AP040FG-_EddrkSbaCFPAQT8MdonJVomP0kPS4ZbyqVkgaiVYI5KjdDsGJCQINBwtFM_xt8u25A41F8tgVBI-AZWAzHChn8gdsQzHIGhesar5F4W0UHQUuWtw1UXqIE6O580261HuuRVgFV0HdTnIlL7h4ZHVbao5llhdqqSCOGWKHR_BuVbxcH8Em3XU9d7K7F4lcj0cMKpMUtBVkmcFX"/>
+<div class="absolute inset-0 bg-black/10 flex items-center justify-center">
+<div class="bg-white dark:bg-gray-800 p-2 rounded-full shadow-lg">
+<span class="material-icons-outlined text-red-500">location_on</span>
+</div>
+</div>
+<div class="absolute bottom-2 left-2 right-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-2 rounded text-center">
+<p class="text-xs font-medium text-text-light dark:text-text-dark">Nhấn để xem chỉ đường</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

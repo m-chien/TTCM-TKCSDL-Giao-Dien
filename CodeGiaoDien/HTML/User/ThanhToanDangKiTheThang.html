@@ -1,203 +1,296 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Payment &amp; Information Screen</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-<script>
+<html lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Thanh toán & Thông tin - Parking Management</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+   
+    <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        primary: "#10B981", // Emerald 500
-                        "background-light": "#FFFFFF",
-                        "background-dark": "#121212",
+                        primary: "#00E274",
+                        "primary-dark": "#00C966",
+                        "background-light": "#F9FAFB",
+                        "background-dark": "#111827",
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#1F2937",
+                        "text-light": "#1F2937",
+                        "text-dark": "#F3F4F6",
+                        "subtext-light": "#6B7280",
+                        "subtext-dark": "#9CA3AF",
                     },
                     fontFamily: {
-                        display: ["Roboto", "sans-serif"],
+                        display: ["Inter", "system-ui", "sans-serif"],
                     },
                     borderRadius: {
-                        DEFAULT: "8px",
+                        DEFAULT: "0.5rem",
                     },
                 },
             },
         };
     </script>
-<style>
-        body {
-            font-family: 'Roboto', sans-serif;
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Custom radio styling */
+        .payment-radio:checked + div {
+            border-color: #00E274;
+            background-color: rgba(0, 226, 116, 0.05);
+        }
+        .payment-radio:checked + div .radio-indicator {
+            border-color: #00E274;
+            background-color: #00E274;
+        }
+        .payment-radio:checked + div .radio-indicator::after {
+            display: block;
         }
     </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 font-display">
-<div class="min-h-screen">
-<header class="sticky top-0 z-50 w-full bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
-<div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex items-center justify-between whitespace-nowrap h-16">
-<div class="flex items-center gap-4 text-gray-800 dark:text-gray-200">
-<span class="material-symbols-outlined text-primary text-3xl">local_parking</span>
-<h2 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Parking Management</h2>
-</div>
-<div class="hidden md:flex items-center gap-9">
-<a class="text-primary dark:text-primary text-sm font-bold leading-normal " href="ChonBai.html">Dashboard</a>
-<a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="DangKiTheThang.html">Đăng Kí thẻ tháng</a>
-<a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="LichSuGuiXe.html">Lịch sử đặt chỗ</a>
-<!-- <a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Thanh toán</a> -->
-</div>
-<div class="flex items-center gap-3">
-<button class="flex cursor-pointer items-center justify-center rounded-full h-10 w-10 bg-gray-200/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
-<span class="material-symbols-outlined">notifications</span>
-</button>
-<button class="flex cursor-pointer items-center justify-center rounded-full h-10 w-10 bg-gray-200/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
-<span class="material-symbols-outlined">help_outline</span>
-</button>
-<a href="ThemPhuongTien.html"  class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDwjWTl2KRPAMOFhB9iTQ5SxyUbYBDjw6JId-QGkWKklxZiSO1DCrm2e8e9UHxL6hc-eKjvUj6uPXqU2EmA6ej944qRr_pMF-SCTsmj7dxqL0V3JsVbPrxby0wnNIrnhUx9VsvtH7cW1AHKEJ8mUszADbiVjw66TFpnWVhdcJzYROPA0Gp_1UBvba021j1q8L1haAjDdHeDF_i8_NYHnx8KkZC2LUDiWD4JMz4guGspDyO3V8FvcC9JsEPtsZLZ_RuyMNZFhz--sjF6");'>
-  
-</a>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-display min-h-screen flex flex-col transition-colors duration-200">
+    
+    <header class="bg-card-light dark:bg-card-dark border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
+        <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-primary font-bold text-3xl">P</span>
+                <span class="font-bold text-lg text-text-light dark:text-text-dark">Parking Management</span>
+            </div>
+            <nav class="hidden md:flex items-center gap-8">
+                <a class="text-sm font-medium text-subtext-light dark:text-subtext-dark hover:text-primary dark:hover:text-primary transition-colors" href="#">Dashboard</a>
+                <a class="text-sm font-medium text-primary dark:text-primary transition-colors" href="#">Đăng Kí thẻ tháng</a>
+                <a class="text-sm font-medium text-subtext-light dark:text-subtext-dark hover:text-primary dark:hover:text-primary transition-colors" href="#">Lịch sử đặt chỗ</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <button class="p-2 rounded-full text-subtext-light dark:text-subtext-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <span class="material-icons-outlined text-[20px]">notifications</span>
+                </button>
+                <div class="h-8 w-8 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden border border-gray-300 dark:border-gray-600">
+                    <img alt="User Avatar" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDMHC3QHQc720M5Cx8gS2PbFPiYxDMLiQ6pYw0Q5AO2dDkpDEqi8_16t1O7tKLTDn7Bn_vJQtLq0CzpiT2gbouNBHe_jsuPbr2KbuOp8tbe-IaeggzBD_LVvtLSSnYPCcOulvgdd93Mz2A2GzFjqngXiQ8SiS4bpreVErIoK4WYP4kldjZxF9BaFDJ1u9rxqvHrIL_TPVt8JaOZlkJC7oT0ck0DTcENOKnoH2dK5tNl-funJ3ztEh0QGMm6xgHQKgYH6aIU3mQnuLM"/>
+                </div>
+            </div>
+        </div>
+    </header>
 
-</div>
-</div>
-</div>
-</header>
-<main class="container mx-auto px-6 py-12">
-<div class="max-w-7xl mx-auto">
-<div class="mb-10">
-<h1 class="text-3xl font-bold text-gray-900 dark:text-gray-50">Thông tin &amp; Thanh toán</h1>
-<p class="text-gray-500 dark:text-gray-400 mt-2">Vui lòng điền thông tin cá nhân và thanh toán để hoàn tất đăng ký.</p>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-<div class="lg:col-span-2 flex flex-col md:flex-row gap-12">
-<div class="flex-shrink-0 w-full md:w-auto">
-<ul class="flex md:flex-col gap-8">
-<li>
-<div class="flex items-center space-x-3">
-<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white">
-<span class="material-icons-outlined text-xl">check</span>
-</div>
-<div>
-<p class="text-xs text-gray-500 dark:text-gray-400">Bước 1</p>
-<p class="font-medium text-gray-800 dark:text-gray-200">Chọn Gói</p>
-</div>
-</div>
-</li>
-<li>
-<div class="flex items-center space-x-3">
-<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm">
-                                            2
-                                        </div>
-<div>
-<p class="text-xs text-gray-500 dark:text-gray-400">Bước 2</p>
-<p class="font-bold text-primary">Thông tin &amp; Thanh toán</p>
-</div>
-</div>
-</li>
-<li>
-<div class="flex items-center space-x-3">
-<div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 font-bold text-sm">
-                                            3
-                                        </div>
-<div>
-<p class="text-xs text-gray-500 dark:text-gray-400">Bước 3</p>
-<p class="font-medium text-gray-400 dark:text-gray-500">Hoàn tất</p>
-</div>
-</div>
-</li>
-</ul>
-</div>
-<div class="flex-grow">
-<form class="space-y-8">
-<div>
-<h2 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Thông tin cá nhân</h2>
-<div class="space-y-4">
-<div>
-<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="name">Họ và tên</label>
-<input class="w-full rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-200 focus:ring-primary focus:border-primary" id="name" type="text" value="Nguyễn Văn A"/>
-</div>
-<div>
-<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="phone">Số điện thoại</label>
-<input class="w-full rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-200 focus:ring-primary focus:border-primary" id="phone" type="tel" value="0901234567"/>
-</div>
-<div>
-<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="email">Email</label>
-<input class="w-full rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-200 focus:ring-primary focus:border-primary" id="email" type="email" value="nguyenvana@email.com"/>
-</div>
-<div>
-<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="license-plate">Biển số xe</label>
-<input class="w-full rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-200 focus:ring-primary focus:border-primary" id="license-plate" type="text" value="51K-123.45"/>
-</div>
-</div>
-</div>
-<div>
-<h2 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Phương thức thanh toán</h2>
-<div class="space-y-3">
-<label class="flex items-center p-4 border border-primary dark:border-primary rounded-md bg-emerald-50 dark:bg-emerald-900/20 cursor-pointer" for="bank-card">
-<input checked="" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 dark:border-gray-600" id="bank-card" name="payment-method" type="radio"/>
-<div class="ml-4 flex-grow">
-<span class="font-medium text-gray-900 dark:text-gray-100">Thẻ ngân hàng (Nội địa/Quốc tế)</span>
-<div class="flex items-center space-x-2 mt-1">
-<img alt="Visa card logo" class="h-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBv36M-POFHtjvYjhr2ZUjAaL3AgyiWSkbpu4Vi2SSjwgOrJkWXtykdBDvr897yjcIIlNOhxE9qiKGvNphxA2PXL72eXJnHqEmN35SmlYXojIyYmZHhfDS2QXsbQUabB-cBZhAWhwZsXlvY-AyXVXY_qlS_nAGhgD5iY8Bss4DX2S4BZ3rbdNBiAr3RTymdApp9Ssqaz8XT7_pqmWDQONHhtWcn5Kd_wWMvL0yxdR4CytTGiN-8C6V_cI4Gn6sjciFVzQJmgYAF-8OV"/>
-<img alt="Mastercard logo" class="h-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTix6MvOwfBeuRKje5UBWglKoJiYkGsIPx_oei2l7h_hjWPY2ohW11kwBOkCrtxOENJZASk0JtAuEwAvrNOR0P_mC04tQvMeuDMG82rNtE3yZ8pIW81waTrbMZh6mnR_zK5KcUSbCsv4xwvz9JHjVRJaa82dyR-w9atxjWEa2OpX9NZvhA8jhHgnT3h1Br5-IcvWde7sInSBHL983MB5xla397-DTHOQuM1cCsDEmFG5K_zqo2PgBrAlDTWND_dd09BPwdukMPV1iB"/>
-<img alt="Maestro card logo" class="h-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVWxYZwZZEdwEuc4-AqBSo1uC1D8Sj5jc4SUP_vK76fMI_N2J5N910wFJM0CH09BVTBQV-SKV6Y-nThUkjefKLfy_iQaM-XcSXVTHmPLNh39si_XiFt2Ivxbrjdm0DPz6GoSMKQjuUqH-o1-FI7jOOZnu50eE6vpKZDsf0SEtv0mVDS7kwcScN6mfFsVJ651h5kcdMpYNyNes2pfb0D6-Cm5Qw6B7i0YQib6uKsAmxB-_1SXBVn2Jgu4cPgSw4nEIr3vbR3K3TRlmW"/>
-</div>
-</div>
-</label>
-<label class="flex items-center p-4 border border-gray-300 dark:border-gray-600 rounded-md bg-background-light dark:bg-gray-800 cursor-pointer hover:border-gray-400 dark:hover:border-gray-500" for="e-wallet">
-<input class="h-4 w-4 text-primary focus:ring-primary border-gray-300 dark:border-gray-600" id="e-wallet" name="payment-method" type="radio"/>
-<div class="ml-4 flex-grow">
-<span class="font-medium text-gray-900 dark:text-gray-100">Ví điện tử (Momo, ZaloPay)</span>
-<div class="flex items-center space-x-2 mt-1">
-<img alt="Momo e-wallet logo" class="h-6 w-6 rounded-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdP4tWfKn3dWTwAf2q7RH09LQgWY4G7yZF3eX1Ul9hy8_FxvZhaISsZrHB5BocsEKzxQh7GEfaIPhJOolpLYvqylNAtZZIwqWKfyWnNuov1Abzgz9RxWVHMSUj6GNG92ugiZqbD4pAmEPRIIydR4dYqMvA9azZXvnD3fvNN_gWNvUjNdM_Jk1yjvrSjDjshX4kV9Y02QdQn1zDbgUoOO-I9_9SIe0RdnOfjh23jkbjA3J61lM6fFpdFuGpji--CeWcewie5sH3t7Ds"/>
-<img alt="ZaloPay e-wallet logo" class="h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMxQrwNG5OzyGvcrR9znoGUvcBuUbQKBdVMb2MEeggSeeyKXaVLiF5CXgFTDFt-WFfZoOdxtid1Gkec1WFbe7kP-uABD5JDT6Y_PpJWX3PlCGGBAQ2vZu5H4fy8Fp_Ag0Jf8ezJriWXRkIDJtQb20_wF4X5jYi4Q-AhaSoXca2vGweJgiYrOYpvftoY2d29kF8VsEHUQ7_uJxkfCbMytH8DDuD1Sct8TB0p-fWFFLxlRCMi73QBIsUlV6217SLRz7uc0VZg6HUhC39"/>
-</div>
-</div>
-</label>
-<label class="flex items-center p-4 border border-gray-300 dark:border-gray-600 rounded-md bg-background-light dark:bg-gray-800 cursor-pointer hover:border-gray-400 dark:hover:border-gray-500" for="cash">
-<input class="h-4 w-4 text-primary focus:ring-primary border-gray-300 dark:border-gray-600" id="cash" name="payment-method" type="radio"/>
-<span class="ml-4 font-medium text-gray-900 dark:text-gray-100">Tiền mặt khi nhận thẻ</span>
-</label>
-</div>
-</div>
-</form>
-</div>
-</div>
-<div class="lg:col-span-1">
-<div class="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-<h2 class="text-lg font-semibold mb-6 text-gray-800 dark:text-gray-200">Tóm tắt đơn hàng</h2>
-<div class="space-y-4 text-sm text-gray-600 dark:text-gray-300">
-<div class="flex justify-between">
-<span>Gói đã chọn:</span>
-<span class="font-medium text-gray-800 dark:text-gray-200">Gói Ô tô 4 chỗ</span>
-</div>
-<div class="flex justify-between">
-<span>Giá gói:</span>
-<span class="font-medium text-gray-800 dark:text-gray-200">1.200.000đ / tháng</span>
-</div>
-<div class="flex justify-between">
-<span>Thời gian:</span>
-<span class="font-medium text-gray-800 dark:text-gray-200">1 tháng</span>
-</div>
-</div>
-<div class="border-t border-gray-200 dark:border-gray-600 my-6"></div>
-<div class="flex justify-between items-center">
-<span class="text-base font-medium text-gray-800 dark:text-gray-200">Tổng thanh toán:</span>
-<span class="text-2xl font-bold text-primary">1.200.000đ</span>
-</div>
-</div>
-</div>
-</div>
-<div class="mt-12 flex justify-start gap-4">
-<button class="px-6 py-3 rounded-md text-sm font-semibold bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
-                        Quay lại
-                    </button>
-<button class="px-8 py-3 rounded-md text-sm font-semibold bg-primary text-white hover:bg-emerald-600 transition-colors">
-                        <a href="DangKiTheThangThanhCong.html">Thanh toán ngay</a>
-                    </button>
-</div>
-</div>
-</main>
-</div>
+    <div class="flex flex-1 max-w-screen-2xl mx-auto w-full">
+        <aside class="w-64 bg-card-light dark:bg-card-dark border-r border-gray-200 dark:border-gray-700 hidden lg:flex flex-col py-6 px-4">
+            <div class="mb-8 flex items-center gap-3 px-2">
+                <div class="h-10 w-10 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                    <img alt="Profile" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoqtHHlniXPfGVhZpCLTVsh13Yaq-FTDe4wfBWQrBwIbwWAv1IGMK7cS8DPeL6lpeNUqEGx5-uC3RdaoGbyb1yarV36Ib2zkzmruXAxIqNhBlPKCtiBQY-jdxzZ67R9dSZ1NF1IJnMEF3KXJxSdxfPzAWqYE4880ETWufS5uPuiZdGPXX_WTuZ_ktnJfHR31xPPxf3PBFXgA_4QGl5KzHsQqPZzHxQYU7t9nNIB6QckAwlE3gJgm1m8UZQd1phcxW-1n4jnJjmFYM9"/>
+                </div>
+                <div>
+                    <p class="text-sm font-semibold text-text-light dark:text-text-dark">Nguyễn Văn A</p>
+                    <p class="text-xs text-subtext-light dark:text-subtext-dark truncate w-32">khachhang@email.com</p>
+                </div>
+            </div>
 
-</body></html>
+            <nav class="flex-1 space-y-1">
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-subtext-light dark:text-subtext-dark hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors group" href="#">
+                    <span class="material-icons-outlined text-[20px] group-hover:text-primary transition-colors">home</span>
+                    Trang chủ
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-subtext-light dark:text-subtext-dark hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors group" href="#">
+                    <span class="material-icons-outlined text-[20px] group-hover:text-primary transition-colors">confirmation_number</span>
+                    Đặt Chỗ
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-subtext-light dark:text-subtext-dark hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors group" href="#">
+                    <span class="material-icons-outlined text-[20px] group-hover:text-primary transition-colors">history</span>
+                    Lịch sử giao dịch
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-subtext-light dark:text-subtext-dark hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors group" href="#">
+                    <span class="material-icons-outlined text-[20px] group-hover:text-primary transition-colors">directions_car</span>
+                    Quản lý phương tiện
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-subtext-light dark:text-subtext-dark hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors group" href="#">
+                    <span class="material-icons-outlined text-[20px] group-hover:text-primary transition-colors">account_circle</span>
+                    Tài khoản
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 p-6 lg:p-10 bg-background-light dark:bg-background-dark overflow-y-auto">
+            <nav class="flex items-center text-sm text-subtext-light dark:text-subtext-dark mb-6">
+                <a class="hover:text-primary dark:hover:text-primary" href="#">Trang chủ</a>
+                <span class="mx-2">/</span>
+                <a class="hover:text-primary dark:hover:text-primary" href="#">Đăng ký thẻ tháng</a>
+                <span class="mx-2">/</span>
+                <span class="text-text-light dark:text-text-dark font-medium">Thanh toán</span>
+            </nav>
+
+            <div class="mb-8">
+                <div class="flex items-center justify-center w-full max-w-3xl mx-auto">
+                    <div class="flex items-center">
+                        <div class="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white">
+                            <span class="material-icons-outlined text-sm">check</span>
+                        </div>
+                        <span class="ml-2 text-sm font-medium text-text-light dark:text-text-dark">Chọn gói</span>
+                    </div>
+                    <div class="w-16 h-1 mx-4 bg-primary rounded"></div>
+                    
+                    <div class="flex items-center">
+                        <div class="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white text-sm font-bold shadow-lg shadow-primary/30">
+                            2
+                        </div>
+                        <span class="ml-2 text-sm font-bold text-primary">Thanh toán</span>
+                    </div>
+                    <div class="w-16 h-1 mx-4 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                    
+                    <div class="flex items-center">
+                        <div class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 text-subtext-light dark:text-subtext-dark text-sm font-medium">
+                            3
+                        </div>
+                        <span class="ml-2 text-sm font-medium text-subtext-light dark:text-subtext-dark">Hoàn tất</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="lg:col-span-2 space-y-6">
+                    
+                    <div class="bg-card-light dark:bg-card-dark rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+                        <h2 class="text-lg font-bold text-text-light dark:text-text-dark mb-4 flex items-center gap-2">
+                            <span class="material-icons-outlined text-primary">person</span>
+                            Thông tin cá nhân
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-text-light dark:text-text-dark mb-1.5">Họ và tên</label>
+                                <input type="text" value="Nguyễn Văn A" class="w-full px-4 py-2.5 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-text-light dark:text-text-dark mb-1.5">Số điện thoại</label>
+                                <input type="tel" value="0901234567" class="w-full px-4 py-2.5 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-text-light dark:text-text-dark mb-1.5">Email</label>
+                                <input type="email" value="nguyenvana@email.com" class="w-full px-4 py-2.5 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-text-light dark:text-text-dark mb-1.5">Biển số xe đăng ký</label>
+                                <input type="text" value="51K-123.45" class="w-full px-4 py-2.5 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-card-light dark:bg-card-dark rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+                        <h2 class="text-lg font-bold text-text-light dark:text-text-dark mb-4 flex items-center gap-2">
+                            <span class="material-icons-outlined text-primary">payments</span>
+                            Phương thức thanh toán
+                        </h2>
+                        <div class="space-y-3">
+                            <label class="block cursor-pointer group">
+                                <input type="radio" name="payment" class="hidden payment-radio" checked>
+                                <div class="flex items-center p-4 rounded-xl border border-gray-200 dark:border-gray-600 bg-background-light dark:bg-background-dark hover:border-gray-300 dark:hover:border-gray-500 transition-all">
+                                    <div class="w-5 h-5 rounded-full border border-gray-300 dark:border-gray-500 mr-4 flex items-center justify-center radio-indicator relative">
+                                        <div class="w-2.5 h-2.5 rounded-full bg-white hidden absolute"></div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="font-medium text-text-light dark:text-text-dark block">Thẻ ngân hàng (ATM/Visa/Master)</span>
+                                        <div class="flex gap-2 mt-1 opacity-70">
+                                            <span class="text-xs bg-gray-200 dark:bg-gray-700 px-1.5 py-0.5 rounded">Visa</span>
+                                            <span class="text-xs bg-gray-200 dark:bg-gray-700 px-1.5 py-0.5 rounded">Mastercard</span>
+                                        </div>
+                                    </div>
+                                    <span class="material-icons-outlined text-gray-400">credit_card</span>
+                                </div>
+                            </label>
+
+                            <label class="block cursor-pointer group">
+                                <input type="radio" name="payment" class="hidden payment-radio">
+                                <div class="flex items-center p-4 rounded-xl border border-gray-200 dark:border-gray-600 bg-background-light dark:bg-background-dark hover:border-gray-300 dark:hover:border-gray-500 transition-all">
+                                    <div class="w-5 h-5 rounded-full border border-gray-300 dark:border-gray-500 mr-4 flex items-center justify-center radio-indicator relative">
+                                        <div class="w-2.5 h-2.5 rounded-full bg-white hidden absolute"></div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="font-medium text-text-light dark:text-text-dark block">Ví điện tử</span>
+                                        <div class="flex gap-2 mt-1 opacity-70">
+                                            <span class="text-xs bg-pink-100 text-pink-700 px-1.5 py-0.5 rounded">Momo</span>
+                                            <span class="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">ZaloPay</span>
+                                        </div>
+                                    </div>
+                                    <span class="material-icons-outlined text-gray-400">smartphone</span>
+                                </div>
+                            </label>
+
+                             <label class="block cursor-pointer group">
+                                <input type="radio" name="payment" class="hidden payment-radio">
+                                <div class="flex items-center p-4 rounded-xl border border-gray-200 dark:border-gray-600 bg-background-light dark:bg-background-dark hover:border-gray-300 dark:hover:border-gray-500 transition-all">
+                                    <div class="w-5 h-5 rounded-full border border-gray-300 dark:border-gray-500 mr-4 flex items-center justify-center radio-indicator relative">
+                                        <div class="w-2.5 h-2.5 rounded-full bg-white hidden absolute"></div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="font-medium text-text-light dark:text-text-dark block">Tiền mặt tại quầy</span>
+                                        <span class="text-xs text-subtext-light dark:text-subtext-dark block mt-1">Thanh toán trực tiếp khi nhận thẻ</span>
+                                    </div>
+                                    <span class="material-icons-outlined text-gray-400">storefront</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 pt-2">
+                        <button class="px-6 py-3 rounded-lg text-sm font-medium border border-gray-300 dark:border-gray-600 text-text-light dark:text-text-dark bg-card-light dark:bg-card-dark hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                            Quay lại
+                        </button>
+                        <a href="DangKiTheThangThanhCong.html" class="flex-1 px-6 py-3 rounded-lg text-sm font-bold bg-primary hover:bg-primary-dark text-white text-center shadow-lg shadow-primary/30 transition-all hover:-translate-y-0.5">
+                            Thanh toán ngay
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="lg:col-span-1">
+                    <div class="sticky top-24">
+                        <div class="bg-card-light dark:bg-card-dark rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+                            <h3 class="text-lg font-bold text-text-light dark:text-text-dark mb-6">Tóm tắt đơn hàng</h3>
+                            
+                            <div class="flex gap-4 mb-6">
+                                <div class="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                    <span class="material-icons-outlined text-3xl text-primary">directions_car</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-text-light dark:text-text-dark">Gói Ô tô 4 chỗ</h4>
+                                    <p class="text-sm text-subtext-light dark:text-subtext-dark mt-1">Gói tháng tiêu chuẩn</p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3 py-4 border-t border-b border-gray-100 dark:border-gray-700 mb-4">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-subtext-light dark:text-subtext-dark">Thời hạn</span>
+                                    <span class="font-medium text-text-light dark:text-text-dark">1 tháng</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-subtext-light dark:text-subtext-dark">Đơn giá</span>
+                                    <span class="font-medium text-text-light dark:text-text-dark">1.200.000đ</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-subtext-light dark:text-subtext-dark">Phí dịch vụ</span>
+                                    <span class="font-medium text-green-500">Miễn phí</span>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-between items-end mb-6">
+                                <span class="font-medium text-text-light dark:text-text-dark">Tổng thanh toán</span>
+                                <span class="text-2xl font-bold text-primary">1.200.000đ</span>
+                            </div>
+
+                            <div class="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg flex gap-3 items-start">
+                                <span class="material-icons-outlined text-blue-500 text-sm mt-0.5">info</span>
+                                <p class="text-xs text-blue-700 dark:text-blue-300 leading-relaxed">
+                                    Bằng việc tiến hành thanh toán, bạn đồng ý với các điều khoản và quy định của bãi đỗ xe.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
