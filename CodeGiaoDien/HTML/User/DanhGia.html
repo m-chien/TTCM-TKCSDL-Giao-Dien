@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Đánh giá của tôi - Parking Management</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#00E274",
+                        "primary-dark": "#00C966",
+                        "background-light": "#F9FAFB",
+                        "background-dark": "#111827",
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#1F2937",
+                        "text-light": "#1F2937",
+                        "text-dark": "#F3F4F6",
+                        "subtext-light": "#6B7280",
+                        "subtext-dark": "#9CA3AF",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "system-ui", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .modal { display: none; }
+        .modal.active { display: flex; }
+        /* Star rating hover effect */
+        .star-rating .material-icons-outlined { cursor: pointer; transition: color 0.2s; }
+        .star-rating .material-icons-outlined.active { color: #FBBF24; font-family: 'Material Icons'; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-display min-h-screen flex flex-col transition-colors duration-200">
+
+    <header class="bg-card-light dark:bg-card-dark border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
+        <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-primary font-bold text-3xl">P</span>
+                <span class="font-bold text-lg text-text-light dark:text-text-dark">Parking Management</span>
+            </div>
+            <nav class="hidden md:flex items-center gap-8">
+                <a class="text-sm font-medium text-subtext-light dark:text-subtext-dark hover:text-primary dark:hover:text-primary transition-colors" href="Dashboard.html">Dashboard</a>
+                <a class="text-sm font-medium text-subtext-light dark:text-subtext-dark hover:text-primary dark:hover:text-primary transition-colors" href="DangKiTheThang.html">Đăng Kí thẻ tháng</a>
+                <a class="text-sm font-medium text-primary dark:text-primary transition-colors" href="DanhGia.html">Đánh Giá</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                 <div class="h-8 w-8 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden border border-gray-300 dark:border-gray-600">
+                    <img alt="User Avatar" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDMHC3QHQc720M5Cx8gS2PbFPiYxDMLiQ6pYw0Q5AO2dDkpDEqi8_16t1O7tKLTDn7Bn_vJQtLq0CzpiT2gbouNBHe_jsuPbr2KbuOp8tbe-IaeggzBD_LVvtLSSnYPCcOulvgdd93Mz2A2GzFjqngXiQ8SiS4bpreVErIoK4WYP4kldjZxF9BaFDJ1u9rxqvHrIL_TPVt8JaOZlkJC7oT0ck0DTcENOKnoH2dK5tNl-funJ3ztEh0QGMm6xgHQKgYH6aIU3mQnuLM"/>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-1 max-w-screen-2xl mx-auto w-full">
+        <aside class="w-64 bg-card-light dark:bg-card-dark border-r border-gray-200 dark:border-gray-700 hidden lg:flex flex-col py-6 px-4">
+            <div class="mb-8 flex items-center gap-3 px-2">
+                <div class="h-10 w-10 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                    <img alt="Profile" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoqtHHlniXPfGVhZpCLTVsh13Yaq-FTDe4wfBWQrBwIbwWAv1IGMK7cS8DPeL6lpeNUqEGx5-uC3RdaoGbyb1yarV36Ib2zkzmruXAxIqNhBlPKCtiBQY-jdxzZ67R9dSZ1NF1IJnMEF3KXJxSdxfPzAWqYE4880ETWufS5uPuiZdGPXX_WTuZ_ktnJfHR31xPPxf3PBFXgA_4QGl5KzHsQqPZzHxQYU7t9nNIB6QckAwlE3gJgm1m8UZQd1phcxW-1n4jnJjmFYM9"/>
+                </div>
+                <div>
+                    <p class="text-sm font-semibold text-text-light dark:text-text-dark">Nguyễn Văn A</p>
+                    <p class="text-xs text-subtext-light dark:text-subtext-dark">khachhang@email.com</p>
+                </div>
+            </div>
+                        <nav class="flex-1 space-y-1">
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 rounded-lg transition-colors group" href="TrangChu.html">
+                    <span class="material-symbols-outlined text-[20px]">home</span>
+                    Trang chủ
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 rounded-lg transition-colors group" href="ChonBai.html">
+                    <span class="material-symbols-outlined text-[20px]">confirmation_number</span>
+                    Đặt chỗ
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 rounded-lg transition-colors group" href="LichSuGuiXe.html">
+                    <span class="material-symbols-outlined text-[20px]">history</span>
+                    Lịch sử
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 rounded-lg transition-colors group" href="ThemPhuongTien.html">
+                    <span class="material-symbols-outlined text-[20px]">directions_car</span>
+                    Phương tiện
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 rounded-lg transition-colors group" href="XemTheThang.html">
+                    <span class="material-icons-outlined text-[20px]">credit_card</span>
+                    Thẻ tháng của tôi
+                </a>
+                 <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 rounded-lg transition-colors group" href="#">
+                    <span class="material-symbols-outlined text-[20px]">account_circle</span>
+                    Tài khoản
+                </a>
+            </nav>
+
+            <div class="mt-auto pt-6 border-t border-gray-200 dark:border-gray-800 space-y-1">
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 rounded-lg transition-colors group" href="#">
+                    <span class="material-symbols-outlined text-[20px]">settings</span>
+                    Cài đặt
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-colors group" href="#">
+                    <span class="material-symbols-outlined text-[20px]">logout</span>
+                    Đăng xuất
+                </a>
+            </div>
+        </aside>
+
+        <main class="flex-1 p-6 lg:p-10 bg-background-light dark:bg-background-dark overflow-y-auto">
+            
+            <nav class="flex items-center text-sm text-subtext-light dark:text-subtext-dark mb-6">
+                <a class="hover:text-primary dark:hover:text-primary" href="#">Trang chủ</a>
+                <span class="mx-2">/</span>
+                <span class="text-text-light dark:text-text-dark font-medium">Đánh giá của tôi</span>
+            </nav>
+
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h1 class="text-2xl font-bold text-text-light dark:text-text-dark mb-2">Đánh giá & Phản hồi</h1>
+                    <p class="text-sm text-subtext-light dark:text-subtext-dark">Quản lý các đánh giá bạn đã gửi cho các bãi đỗ xe.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-card-light dark:bg-card-dark p-6 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-500">
+                        <span class="material-icons-outlined text-2xl">rate_review</span>
+                    </div>
+                    <div>
+                        <p class="text-sm text-subtext-light dark:text-subtext-dark">Tổng số đánh giá</p>
+                        <h3 class="text-2xl font-bold text-text-light dark:text-text-dark">12</h3>
+                    </div>
+                </div>
+                <div class="bg-card-light dark:bg-card-dark p-6 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-yellow-50 dark:bg-yellow-900/20 flex items-center justify-center text-yellow-500">
+                        <span class="material-icons-outlined text-2xl">star</span>
+                    </div>
+                    <div>
+                        <p class="text-sm text-subtext-light dark:text-subtext-dark">Điểm trung bình đã cho</p>
+                        <h3 class="text-2xl font-bold text-text-light dark:text-text-dark">4.5 <span class="text-sm font-normal text-subtext-light dark:text-subtext-dark">/ 5</span></h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-2 mb-6 overflow-x-auto pb-2">
+                <button class="px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium whitespace-nowrap">Tất cả</button>
+                <button class="px-4 py-2 rounded-lg bg-card-light dark:bg-card-dark border border-gray-200 dark:border-gray-700 text-subtext-light dark:text-subtext-dark hover:bg-gray-50 dark:hover:bg-gray-800 text-sm font-medium whitespace-nowrap">5 Sao (8)</button>
+                <button class="px-4 py-2 rounded-lg bg-card-light dark:bg-card-dark border border-gray-200 dark:border-gray-700 text-subtext-light dark:text-subtext-dark hover:bg-gray-50 dark:hover:bg-gray-800 text-sm font-medium whitespace-nowrap">4 Sao (3)</button>
+                <button class="px-4 py-2 rounded-lg bg-card-light dark:bg-card-dark border border-gray-200 dark:border-gray-700 text-subtext-light dark:text-subtext-dark hover:bg-gray-50 dark:hover:bg-gray-800 text-sm font-medium whitespace-nowrap">Dưới 3 Sao (1)</button>
+            </div>
+
+            <div class="grid grid-cols-1 gap-6">
+                
+                <div class="bg-card-light dark:bg-card-dark rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex flex-col md:flex-row justify-between gap-4">
+                        <div class="flex items-start gap-4">
+                            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBsCAAO708HCjGE_bVB_nm7cub_-EsxTQJviImsQFfeEfQLGK2ZxXHVIrCuIgAEaP0Skz2i8baJBrOQJMCWg6o3iDtpNtKiQzxTu7VqRciRd6-iEB0IZXVAPSamyV-renAoyCJj22LdS24eUikzmmGZoMf80y9O0Tr5eC5VwXpHTICM05zSvflUBxldh0czQEb1ECh9_VSwZimNANja1ADBkaT69A__F2arDlYKSc-ujyHf0aL5b_CeCrVXq-wBB8UQYdBM4igaj6g" class="w-16 h-16 rounded-lg object-cover flex-shrink-0">
+                            <div>
+                                <h3 class="text-lg font-bold text-text-light dark:text-text-dark">Bãi xe Vincom Center</h3>
+                                <p class="text-xs text-subtext-light dark:text-subtext-dark mb-2">Đã ghé thăm: 01/01/2024</p>
+                                <div class="flex items-center gap-1 text-yellow-400 mb-2">
+                                    <span class="material-icons-outlined text-sm">star</span>
+                                    <span class="material-icons-outlined text-sm">star</span>
+                                    <span class="material-icons-outlined text-sm">star</span>
+                                    <span class="material-icons-outlined text-sm">star</span>
+                                    <span class="material-icons-outlined text-sm">star</span>
+                                </div>
+                                <p class="text-sm text-text-light dark:text-text-dark leading-relaxed">
+                                    "Bãi đỗ xe rất rộng rãi và sạch sẽ. Hệ thống chỉ dẫn rõ ràng, dễ tìm chỗ đỗ. Nhân viên bảo vệ nhiệt tình. Sẽ quay lại lần sau."
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex md:flex-col gap-2 justify-end md:justify-start">
+                            <button onclick="openEditModal('Vincom Center', 5, 'Bãi đỗ xe rất rộng rãi và sạch sẽ...')" class="p-2 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors" title="Chỉnh sửa">
+                                <span class="material-icons-outlined text-[20px]">edit</span>
+                            </button>
+                            <button class="p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors" title="Xóa">
+                                <span class="material-icons-outlined text-[20px]">delete</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-card-light dark:bg-card-dark rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex flex-col md:flex-row justify-between gap-4">
+                        <div class="flex items-start gap-4">
+                            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjgbeM1uY-DV85jV6VMOYlRQWKRb5Ovr-2i7Kp-IxXJuC-fuRxV-gri8PaRpTrQGsecTWG60Gm3AEftoX5n5hOIV1TJ91XoSlmJpO7KhxD5H6UnkHMJ9sckdsOTGSVGKM5UoW1jgTas04FKUYTXjI7_E2CJJ44_KxQQflHLP947_JTD2v_jwcd2eZ_O4Ar-jfj6kan4zPVwZss9ne1bf1Bt-6JCJeqo71kOS0x3oozJM6C-yHc0LdX11N1aGIoPiODqVqgO3xSM0Sj" class="w-16 h-16 rounded-lg object-cover flex-shrink-0">
+                            <div>
+                                <h3 class="text-lg font-bold text-text-light dark:text-text-dark">Giga Mall</h3>
+                                <p class="text-xs text-subtext-light dark:text-subtext-dark mb-2">Đã ghé thăm: 25/12/2023</p>
+                                <div class="flex items-center gap-1 text-yellow-400 mb-2">
+                                    <span class="material-icons-outlined text-sm">star</span>
+                                    <span class="material-icons-outlined text-sm">star</span>
+                                    <span class="material-icons-outlined text-sm">star</span>
+                                    <span class="material-icons-outlined text-sm">star_border</span>
+                                    <span class="material-icons-outlined text-sm">star_border</span>
+                                </div>
+                                <p class="text-sm text-text-light dark:text-text-dark leading-relaxed">
+                                    "Bãi xe hơi tối, khó tìm vị trí xe lúc ra về. Giá cả hợp lý nhưng cần cải thiện hệ thống đèn chiếu sáng."
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex md:flex-col gap-2 justify-end md:justify-start">
+                            <button onclick="openEditModal('Giga Mall', 3, 'Bãi xe hơi tối, khó tìm vị trí...')" class="p-2 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors">
+                                <span class="material-icons-outlined text-[20px]">edit</span>
+                            </button>
+                            <button class="p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
+                                <span class="material-icons-outlined text-[20px]">delete</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <div id="editReviewModal" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50 p-4">
+        <div class="bg-card-light dark:bg-card-dark rounded-2xl max-w-md w-full shadow-xl">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-bold text-text-light dark:text-text-dark">Chỉnh sửa đánh giá</h3>
+                    <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
+            </div>
+            <form id="editReviewForm" class="p-6 space-y-5">
+                <p class="text-sm text-subtext-light dark:text-subtext-dark">Cập nhật đánh giá cho: <span id="editLotName" class="font-bold text-text-light dark:text-text-dark"></span></p>
+                
+                <div class="flex justify-center gap-2 star-rating">
+                    <span class="material-icons-outlined text-4xl text-gray-300" onclick="editRate(1)">star_rate</span>
+                    <span class="material-icons-outlined text-4xl text-gray-300" onclick="editRate(2)">star_rate</span>
+                    <span class="material-icons-outlined text-4xl text-gray-300" onclick="editRate(3)">star_rate</span>
+                    <span class="material-icons-outlined text-4xl text-gray-300" onclick="editRate(4)">star_rate</span>
+                    <span class="material-icons-outlined text-4xl text-gray-300" onclick="editRate(5)">star_rate</span>
+                </div>
+                <input type="hidden" id="editRatingValue" value="0">
+
+                <div>
+                    <label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2">
+                        Nhận xét
+                    </label>
+                    <textarea id="editReviewText" rows="4" class="w-full px-4 py-2.5 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"></textarea>
+                </div>
+                
+                <div class="flex gap-3 pt-4">
+                    <button type="button" onclick="closeEditModal()" class="flex-1 px-5 py-2.5 border border-gray-300 dark:border-gray-600 text-text-light dark:text-text-dark bg-white dark:bg-card-dark hover:bg-gray-50 dark:hover:bg-gray-700 font-medium rounded-lg transition-colors">
+                        Hủy
+                    </button>
+                    <button type="submit" class="flex-1 px-5 py-2.5 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors">
+                        Cập nhật
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Open/Close Modal
+        function openEditModal(lotName, stars, text) {
+            document.getElementById('editLotName').innerText = lotName;
+            document.getElementById('editReviewText').value = text;
+            editRate(stars);
+            document.getElementById('editReviewModal').classList.add('active');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editReviewModal').classList.remove('active');
+        }
+
+        // Star Logic
+        function editRate(stars) {
+            document.getElementById('editRatingValue').value = stars;
+            const starElements = document.querySelectorAll('#editReviewForm .star-rating span');
+            starElements.forEach((star, index) => {
+                if (index < stars) {
+                    star.classList.add('active', 'text-yellow-400');
+                    star.classList.remove('text-gray-300');
+                    star.innerText = 'star'; 
+                } else {
+                    star.classList.remove('active', 'text-yellow-400');
+                    star.classList.add('text-gray-300');
+                    star.innerText = 'star_rate';
+                }
+            });
+        }
+
+        // Submit form
+        document.getElementById('editReviewForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert("Đã cập nhật đánh giá thành công!");
+            closeEditModal();
+        });
+
+        // Click outside to close
+        document.getElementById('editReviewModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeEditModal();
+            }
+        });
+    </script>
+</body>
+</html>
