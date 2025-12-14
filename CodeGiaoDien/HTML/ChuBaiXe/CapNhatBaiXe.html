@@ -48,29 +48,29 @@
             arrow.classList.toggle("rotate-180");
         }
         function openAddParkingModal() {
-        document.getElementById("modalAddParking").classList.remove("hidden");
-    }
-
-    function closeAddParkingModal() {
-        document.getElementById("modalAddParking").classList.add("hidden");
-    }
-
-    function saveNewParking() {
-        const name = document.getElementById("parkingName").value;
-        const area = document.getElementById("parkingArea").value;
-        const slots = document.getElementById("parkingSlots").value;
-
-        if (!name || !slots) {
-            alert("Vui lòng nhập đầy đủ thông tin!");
-            return;
+            document.getElementById("modalAddParking").classList.remove("hidden");
         }
 
-        console.log("THÊM BÃI XE:", { name, area, slots });
-        
-        // TODO: Gọi API ở đây nếu cần
+        function closeAddParkingModal() {
+            document.getElementById("modalAddParking").classList.add("hidden");
+        }
 
-        closeAddParkingModal();
-    }
+        function saveNewParking() {
+            const name = document.getElementById("parkingName").value;
+            const area = document.getElementById("parkingArea").value;
+            const slots = document.getElementById("parkingSlots").value;
+
+            if (!name || !slots) {
+                alert("Vui lòng nhập đầy đủ thông tin!");
+                return;
+            }
+
+            console.log("THÊM BÃI XE:", { name, area, slots });
+
+            // TODO: Gọi API ở đây nếu cần
+
+            closeAddParkingModal();
+        }
     </script>
     <style>
         .material-symbols-outlined {
@@ -171,11 +171,15 @@
                             <span class="material-icons-outlined text-lg">bar_chart</span>
                             <span class="font-bold">Quản lý sự cố</span>
                         </a>
-                        <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
-                            href="#">
-                            <span class="material-symbols-outlined">settings</span>
-                            <p class="text-sm font-medium">Cài đặt</p>
-                        </a>
+                        <a href="QuanLyThietBi.html" class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                            <span class="material-symbols-outlined">error_outline</span>
+                            <span>Quản lý thiết bị</span>
+                            <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
+                                href="#">
+                                <span class="material-symbols-outlined">settings</span>
+                                <p class="text-sm font-medium">Cài đặt</p>
+                            </a>
                     </nav>
                 </div>
                 <div class="flex flex-col gap-1 border-t border-border-light dark:border-border-dark pt-4">
@@ -426,16 +430,16 @@
     </div>
 </body>
 <!-- MODAL ADD PARKING -->
-<div id="modalAddParking" 
-     class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+<div id="modalAddParking"
+    class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
 
     <div class="bg-white dark:bg-gray-800 w-[450px] rounded-xl shadow-xl overflow-hidden">
 
         <!-- HEADER -->
         <div class="flex items-center justify-between px-6 py-4 bg-primary text-white">
             <h2 class="text-lg font-semibold">Thêm bãi xe mới</h2>
-            <span onclick="closeAddParkingModal()" 
-                  class="material-symbols-outlined cursor-pointer hover:scale-110 transition">
+            <span onclick="closeAddParkingModal()"
+                class="material-symbols-outlined cursor-pointer hover:scale-110 transition">
                 close
             </span>
         </div>
@@ -445,15 +449,15 @@
 
             <div>
                 <label class="font-medium">Tên bãi xe</label>
-                <input id="parkingName" 
-                       class="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-primary focus:ring-2 outline-none"
-                       placeholder="VD: Bãi xe A, Bãi xe tầng 1" />
+                <input id="parkingName"
+                    class="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-primary focus:ring-2 outline-none"
+                    placeholder="VD: Bãi xe A, Bãi xe tầng 1" />
             </div>
 
             <div>
                 <label class="font-medium">Khu vực</label>
                 <select id="parkingArea"
-                        class="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-primary focus:ring-2 outline-none">
+                    class="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-primary focus:ring-2 outline-none">
                     <option>Tầng 1</option>
                     <option>Tầng 2</option>
                     <option>Ngoài trời</option>
@@ -462,23 +466,21 @@
 
             <div>
                 <label class="font-medium">Số lượng chỗ đậu</label>
-                <input id="parkingSlots"
-                       type="number"
-                       class="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-primary focus:ring-2 outline-none"
-                       placeholder="VD: 150" />
+                <input id="parkingSlots" type="number"
+                    class="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-primary focus:ring-2 outline-none"
+                    placeholder="VD: 150" />
             </div>
 
         </div>
 
         <!-- FOOTER -->
         <div class="flex justify-end gap-3 px-6 py-4 bg-gray-100 dark:bg-gray-700">
-            <button onclick="closeAddParkingModal()" 
-                    class="px-4 py-2 rounded-lg border">
+            <button onclick="closeAddParkingModal()" class="px-4 py-2 rounded-lg border">
                 Hủy
             </button>
 
-            <button onclick="saveNewParking()" 
-                    class="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/80 transition">
+            <button onclick="saveNewParking()"
+                class="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/80 transition">
                 Lưu
             </button>
         </div>
