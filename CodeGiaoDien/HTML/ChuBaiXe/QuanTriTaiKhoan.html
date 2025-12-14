@@ -11,6 +11,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
+    <link href="../../CSS/style.css" rel="stylesheet">
     <script>
         tailwind.config = {
             darkMode: "class",
@@ -168,25 +169,50 @@
                         <tbody>
                             <tr class="border-t border-gray-200/50 dark:border-gray-700/50">
                                 <td class="p-4">
-                                    <div class="flex items-center gap-3">
-                                        <img class="size-10 rounded-full object-cover" data-alt="User avatar"
+                                    <div class="flex items-center gap-3" >
+                                        <div class="notification-icon">
+                                            <img class="size-10 rounded-full object-cover " data-alt="User avatar"
                                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCZdpJvFchCa0v3xErSH9BZw9FR7rRCBfFRGLL76vUg_-QTylkBFWGQ8BiVNxU8RXpZ4fNOh4nH5E6mrfd9uNVNeJf767oGR0mQlyeodE_wkPong-PrJNAsGhUti52JbRb1jduz-_QBh3mUcKDVHiFnry9AsRHw5QPFY6E6_2g3sn7gqEVAhUWHAO6laoE5OEtG3P3RNOgo4JJyqLeVb5PoFNPteAs-Sy5shlySqSJLRIfRGiqEaYmntj2iFr_7VnwffbfvbKS_lG7" />
-                                        <div>
-                                            <p class="text-[#0d1b13] dark:text-gray-200 font-medium">Nguyễn Văn A</p>
-                                            <p class="text-[#4c9a6c] dark:text-gray-400 text-sm">nguyenvana@email.com
+                                            <div class="badge">1</div>
+                                        </div>
+                                        <div >
+                                           <div class=" notification-icon">
+                                             <p class="text-[#0d1b13] dark:text-gray-200 font-medium">Nguyễn Văn A</p>
+                                              <div class="badge">7</div>
+                                           </div>
+                                         
+                                               
+                                            
+                                           <div class="notification-icon">
+                                             <p class="text-[#4c9a6c] dark:text-gray-400 text-sm notification-icon">nguyenvana@email.com
+                                               
+                                            </p>
+                                             <div class="badge">2</div>
+                                           </div>
                                             </p>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="p-4 text-[#0d1b13] dark:text-gray-300 text-sm">Admin</td>
+                                <td class="p-4 text-[#0d1b13] dark:text-gray-300 text-sm">
+                                    <div class="notification-icon">
+                                          <div class="badge">4</div>
+                                        Admin
+                                        
+                                    </div>
+                    
+                                    </td>
                                 <td class="p-4">
                                     <span
-                                        class="inline-flex items-center gap-1.5 rounded-full bg-green-100 dark:bg-green-900/50 px-2 py-1 text-xs font-medium text-green-700 dark:text-green-300">
+                                        class="notification-icon inline-flex items-center gap-1.5 rounded-full bg-green-100 dark:bg-green-900/50 px-2 py-1 text-xs font-medium text-green-700 dark:text-green-300">
                                         <span class="size-1.5 rounded-full bg-green-500"></span>
                                         Đang hoạt động
+                                         <div class="badge">5</div>
                                     </span>
                                 </td>
-                                <td class="p-4 text-[#4c9a6c] dark:text-gray-400 text-sm">20/07/2023</td>
+                                <td class="p-4 text-[#4c9a6c] dark:text-gray-400 text-sm "><div class="notification-icon">
+                                    20/07/2023
+                                     <div class="badge">6</div>
+                                </div></td>
                                 <td class="p-4">
                                     <div class="flex gap-2">
                                         <button id="openEditUserModal"
@@ -341,18 +367,19 @@
 
                 <form class="p-6 space-y-5">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
+                        <div class="">
                             <label for="fullName"
-                                class="block text-sm font-medium text-[#0d1b13] dark:text-gray-300 mb-1">Họ và Tên <span
-                                    class="text-red-500">*</span></label>
+                                class="  block text-sm font-medium text-[#0d1b13] dark:text-gray-300 mb-1">Họ và Tên <span
+                                    class="text-red-500 notification-icon">*<div class="badge">7</div></span> </label>
+                            
                             <input type="text" id="fullName" name="fullName"
                                 class="w-full px-4 py-2 border border-gray-200/50 dark:border-gray-700/50 rounded-lg bg-white dark:bg-black/20 text-[#0d1b13] dark:text-gray-200 focus:border-primary focus:ring-primary transition-colors placeholder:text-[#4c9a6c] dark:placeholder:text-gray-500"
                                 placeholder="Nguyễn Văn A" required>
                         </div>
                         <div>
                             <label for="email"
-                                class="block text-sm font-medium text-[#0d1b13] dark:text-gray-300 mb-1">Email <span
-                                    class="text-red-500">*</span></label>
+                                class="block text-sm font-medium text-[#0d1b13] dark:text-gray-300 mb-1">Tên đăng nhập <span
+                                    class="text-red-500 notification-icon">*<div class="badge">2</div></span></label>
                             <input type="email" id="email" name="email"
                                 class="w-full px-4 py-2 border border-gray-200/50 dark:border-gray-700/50 rounded-lg bg-white dark:bg-black/20 text-[#0d1b13] dark:text-gray-200 focus:border-primary focus:ring-primary transition-colors placeholder:text-[#4c9a6c] dark:placeholder:text-gray-500"
                                 placeholder="email@parking.com" required>
@@ -360,17 +387,17 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
+                        <!-- <div>
                             <label for="phone"
                                 class="block text-sm font-medium text-[#0d1b13] dark:text-gray-300 mb-1">Số điện thoại</label>
                             <input type="tel" id="phone" name="phone"
                                 class="w-full px-4 py-2 border border-gray-200/50 dark:border-gray-700/50 rounded-lg bg-white dark:bg-black/20 text-[#0d1b13] dark:text-gray-200 focus:border-primary focus:ring-primary transition-colors placeholder:text-[#4c9a6c] dark:placeholder:text-gray-500"
                                 placeholder="09xxxxxx">
-                        </div>
+                        </div> -->
                         <div>
                             <label for="password"
                                 class="block text-sm font-medium text-[#0d1b13] dark:text-gray-300 mb-1">Mật khẩu <span
-                                    id="passwordRequired" class="text-red-500">*</span></label>
+                                    id="passwordRequired" class="text-red-500 notification-icon">*<div class="badge">3</div></span></label>
                             <input type="password" id="password" name="password"
                                 class="w-full px-4 py-2 border border-gray-200/50 dark:border-gray-700/50 rounded-lg bg-white dark:bg-black/20 text-[#0d1b13] dark:text-gray-200 focus:border-primary focus:ring-primary transition-colors placeholder:text-[#4c9a6c] dark:placeholder:text-gray-500"
                                 placeholder="Nhập mật khẩu (Tối thiểu 6 ký tự)" required>
@@ -381,7 +408,7 @@
                         <div>
                             <label for="role"
                                 class="block text-sm font-medium text-[#0d1b13] dark:text-gray-300 mb-1">Vai trò <span
-                                    class="text-red-500">*</span></label>
+                                    class="text-red-500 notification-icon">*.  <div class="badge">4</div></span></label>
                             <select id="role" name="role"
                                 class="w-full px-4 py-2 border border-gray-200/50 dark:border-gray-700/50 rounded-lg bg-white dark:bg-black/20 text-[#0d1b13] dark:text-gray-200 focus:border-primary focus:ring-primary transition-colors"
                                 required>
@@ -395,7 +422,7 @@
                         <div>
                             <label for="status"
                                 class="block text-sm font-medium text-[#0d1b13] dark:text-gray-300 mb-1">Trạng thái tài
-                                khoản</label>
+                                khoản <span class="notification-icon">*. <div class="badge">5</div> </span></label>
                             <select id="status" name="status"
                                 class="w-full px-4 py-2 border border-gray-200/50 dark:border-gray-700/50 rounded-lg bg-white dark:bg-black/20 text-[#0d1b13] dark:text-gray-200 focus:border-primary focus:ring-primary transition-colors">
                                 <option value="active">Đang hoạt động</option>
@@ -407,9 +434,12 @@
                     <div class="pt-2">
                         <label
                             class="block text-sm font-medium text-[#0d1b13] dark:text-gray-300 mb-1">Ảnh đại diện</label>
-                        <div class="flex items-center gap-4">
-                            <img id="avatarPreview" class="size-16 rounded-full object-cover border border-primary/50"
+                        <div class="flex items-center gap-4 ">
+                            <div class="notification-icon">
+                                <img id="avatarPreview" class="size-16 rounded-full object-cover border border-primary/50"
                                 src="http://googleusercontent.com/profile/picture/default" alt="Avatar Preview" />
+                                 <div class="badge">1</div>
+                            </div>
                             <input type="file" id="avatarUpload"
                                 class="block w-full text-sm text-[#0d1b13] dark:text-gray-400
                                     file:mr-4 file:py-2 file:px-4

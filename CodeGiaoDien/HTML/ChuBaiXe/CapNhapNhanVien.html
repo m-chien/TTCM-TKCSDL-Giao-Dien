@@ -100,14 +100,7 @@
                     class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-500 dark:text-slate-400 focus:outline-0 focus:ring-0 border-none bg-slate-200 dark:bg-slate-800 h-14 p-4 text-base font-normal leading-normal cursor-not-allowed"
                     readonly="" value="0987 654 321" />
                 </label>
-                <div class="md:col-span-2">
-                  <label class="flex flex-col min-w-40 flex-1">
-                    <p class="text-slate-800 dark:text-slate-200 text-base font-medium leading-normal pb-2">Email</p>
-                    <input
-                      class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-500 dark:text-slate-400 focus:outline-0 focus:ring-0 border-none bg-slate-200 dark:bg-slate-800 h-14 p-4 text-base font-normal leading-normal cursor-not-allowed"
-                      readonly="" value="nguyenvana@example.com" />
-                  </label>
-                </div>
+               
               </div>
             </div>
             <!-- Editable Section -->
@@ -115,7 +108,16 @@
               <h2
                 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 border-b border-primary/20 dark:border-primary/30">
                 Thông tin công việc (Có thể chỉnh sửa)</h2>
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4 px-4 py-3">
+                
+              <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-4 px-4 py-3">
+                 <div class="md:col-span-2">
+                  <label class="flex flex-col min-w-40 flex-1">
+                    <p class="text-slate-800 dark:text-slate-200 text-base font-medium leading-normal pb-2">Email</p>
+                    <input
+                      class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-500 dark:text-slate-400 focus:outline-0 focus:ring-0 border-none bg-slate-200 dark:bg-slate-800 h-14 p-4 text-base font-normal leading-normal cursor-not-allowed"
+                      readonly="" value="nguyenvana@example.com" />
+                  </label>
+                </div>
                 <label class="flex flex-col min-w-40 flex-1">
                   <p class="text-slate-800 dark:text-slate-200 text-base font-medium leading-normal pb-2">Lương (VNĐ)
                   </p>
@@ -123,21 +125,19 @@
                     class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border-none bg-primary/20 dark:bg-primary/30 h-14 placeholder:text-slate-500 p-4 text-base font-normal leading-normal"
                     type="number" value="8000000" />
                 </label>
-                <label class="flex flex-col min-w-40 flex-1">
+                <!-- <label class="flex flex-col min-w-40 flex-1">
                   <p class="text-slate-800 dark:text-slate-200 text-base font-medium leading-normal pb-2">Thưởng (VNĐ)
                   </p>
                   <input
                     class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border-none bg-primary/20 dark:bg-primary/30 h-14 placeholder:text-slate-500 p-4 text-base font-normal leading-normal"
                     type="number" value="500000" />
-                </label>
+                </label> -->
                 <!-- <label class="flex flex-col min-w-40 flex-1">
                   <p class="text-slate-800 dark:text-slate-200 text-base font-medium leading-normal pb-2">Phạt (VNĐ)</p>
                   <input
                     class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border-none bg-primary/20 dark:bg-primary/30 h-14 placeholder:text-slate-500 p-4 text-base font-normal leading-normal"
                     type="number" value="0" />
                 </label> -->
-              </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 px-4 py-3">
                 <label class="flex flex-col min-w-40 flex-1">
                   <p class="text-slate-800 dark:text-slate-200 text-base font-medium leading-normal pb-2">Chức vụ</p>
                   <div class="relative w-full">
@@ -151,7 +151,10 @@
                       class="material-symbols-outlined pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 dark:text-slate-400">expand_more</span>
                   </div>
                 </label>
-                <div class="flex flex-col min-w-40 flex-1">
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 px-4 py-3">
+                
+                <!-- <div class="flex flex-col min-w-40 flex-1">
                   <p class="text-slate-800 dark:text-slate-200 text-base font-medium leading-normal pb-2">Trạng thái làm
                     việc</p>
                   <div class="flex items-center gap-6 h-14">
@@ -168,7 +171,7 @@
                       <span class="text-slate-800 dark:text-slate-200 text-base font-normal">Đã nghỉ việc</span>
                     </label>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
             <!-- Action Buttons -->

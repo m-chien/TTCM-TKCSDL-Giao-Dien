@@ -1,0 +1,21 @@
+.notification-icon {
+    position: relative;
+    /* width: 30px; 
+    height: 30px; */
+}
+
+.badge {
+    position: absolute;
+    top: -5%;         
+    right: -15px;        
+    width: 20px;
+    height: 20px;
+    background: red;
+    border-radius: 50%; 
+    color: white;
+
+    text-align: center;
+    line-height: 20px; 
+    font-size: 12px;
+    font-weight: bold;
+}

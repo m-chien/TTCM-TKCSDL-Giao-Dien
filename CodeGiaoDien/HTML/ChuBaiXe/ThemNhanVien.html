@@ -1,115 +1,147 @@
 <!DOCTYPE html>
 
-<html class="light" lang="vi"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Biểu mẫu thêm nhân viên mới</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              "primary": "#13ec6d",
-              "background-light": "#f6f8f7",
-              "background-dark": "#102218",
-            },
-            fontFamily: {
-              "display": ["Manrope", "sans-serif"]
-            },
-            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+<html class="light" lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Biểu mẫu thêm nhân viên mới</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#13ec6d",
+            "background-light": "#f6f8f7",
+            "background-dark": "#102218",
           },
+          fontFamily: {
+            "display": ["Manrope", "sans-serif"]
+          },
+          borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
         },
-      }
-    </script>
-<style>.form-input {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none
+      },
     }
-select.form-input {
-    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuBLfIMS65o9jKhmrOyh1rq_Yq9lWkOfIczJiEuIMem3JEMb96Tmz42KfgWGDJn6QVvpCGFDZiXalmjgNuYo5uj6XJJ3lCxWFv8f0VNCp6irG7ehM0lamnagj6T6BZnFXSxZmTWyXPhv5iCQ-1xvkz7p1yrVWHZVtVPO1MYhsIQOaKgFK9q81hcrZWuNTnDXm_TwWHaZoNDGcbTHinKcyTMVQmU7lfxyk2eys5osNUJCsJ-bIHaE-n4kGISRtcCuh7X718bJOHNM0T2J);
-    background-position: right 0.5rem center;
-    background-repeat: no-repeat;
-    background-size: 1.5em 1.5em;
-    padding-right: 2.5rem
+  </script>
+  <style>
+    .form-input {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none
     }
-html.dark select.form-input {
-    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuBLfIMS65o9jKhmrOyh1rq_Yq9lWkOfIczJiEuIMem3JEMb96Tmz42KfgWGDJn6QVvpCGFDZiXalmjgNuYo5uj6XJJ3lCxWFv8f0VNCp6irG7ehM0lamnagj6T6BZnFXSxZmTWyXPhv5iCQ-1xvkz7p1yrVWHZVtVPO1MYhsIQOaKgFK9q81hcrZWuNTnDXm_TwWHaZoNDGcbTHinKcyTMVQmU7lfxyk2eys5osNUJCsJ-bIHaE-n4kGISRtcCuh7X718bJOHNM0T2J)
-    }</style>
+
+    select.form-input {
+      background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuBLfIMS65o9jKhmrOyh1rq_Yq9lWkOfIczJiEuIMem3JEMb96Tmz42KfgWGDJn6QVvpCGFDZiXalmjgNuYo5uj6XJJ3lCxWFv8f0VNCp6irG7ehM0lamnagj6T6BZnFXSxZmTWyXPhv5iCQ-1xvkz7p1yrVWHZVtVPO1MYhsIQOaKgFK9q81hcrZWuNTnDXm_TwWHaZoNDGcbTHinKcyTMVQmU7lfxyk2eys5osNUJCsJ-bIHaE-n4kGISRtcCuh7X718bJOHNM0T2J);
+      background-position: right 0.5rem center;
+      background-repeat: no-repeat;
+      background-size: 1.5em 1.5em;
+      padding-right: 2.5rem
+    }
+
+    html.dark select.form-input {
+      background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuBLfIMS65o9jKhmrOyh1rq_Yq9lWkOfIczJiEuIMem3JEMb96Tmz42KfgWGDJn6QVvpCGFDZiXalmjgNuYo5uj6XJJ3lCxWFv8f0VNCp6irG7ehM0lamnagj6T6BZnFXSxZmTWyXPhv5iCQ-1xvkz7p1yrVWHZVtVPO1MYhsIQOaKgFK9q81hcrZWuNTnDXm_TwWHaZoNDGcbTHinKcyTMVQmU7lfxyk2eys5osNUJCsJ-bIHaE-n4kGISRtcCuh7X718bJOHNM0T2J)
+    }
+  </style>
 </head>
+
 <body class="font-display bg-background-light dark:bg-background-dark">
-<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
-<div class="layout-container flex h-full grow flex-col">
-<main class="flex-1 px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-<div class="layout-content-container mx-auto flex max-w-4xl flex-col flex-1">
-<div class="flex flex-col gap-8">
-<div class="flex flex-wrap justify-between gap-4">
-<div class="flex flex-col gap-2">
-<h1 class="text-3xl font-bold text-gray-900 dark:text-white leading-tight tracking-tight">Thêm nhân viên mới</h1>
-<p class="text-base font-normal text-gray-500 dark:text-gray-400">Điền thông tin chi tiết để thêm nhân viên vào hệ thống quản lý bãi xe.</p>
-</div>
-</div>
-<div class="bg-white dark:bg-background-dark/50 p-6 sm:p-8 rounded-xl border border-gray-200 dark:border-gray-800">
-<form class="flex flex-col gap-6">
-<div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
-<label class="flex flex-col col-span-1">
-<p class="text-sm font-medium text-gray-800 dark:text-gray-200 pb-2">Tên Nhân Viên</p>
-<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-gray-800 h-12 placeholder:text-gray-400 dark:placeholder:text-gray-500 px-4 text-base font-normal leading-normal" placeholder="Nhập tên đầy đủ" value=""/>
-</label>
-<label class="flex flex-col col-span-1">
-<p class="text-sm font-medium text-gray-800 dark:text-gray-200 pb-2">Số Điện Thoại</p>
-<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-gray-800 h-12 placeholder:text-gray-400 dark:placeholder:text-gray-500 px-4 text-base font-normal leading-normal" placeholder="Nhập số điện thoại" value=""/>
-</label>
-<label class="flex flex-col md:col-span-2">
-<p class="text-sm font-medium text-gray-800 dark:text-gray-200 pb-2">Email</p>
-<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-gray-800 h-12 placeholder:text-gray-400 dark:placeholder:text-gray-500 px-4 text-base font-normal leading-normal" placeholder="Nhập địa chỉ email" value=""/>
-</label>
-<label class="flex flex-col col-span-1">
-<p class="text-sm font-medium text-gray-800 dark:text-gray-200 pb-2">Chức Vụ</p>
-<select class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-gray-800 h-12 px-4 text-base font-normal leading-normal">
-<option value="">Chọn chức vụ</option>
-<option value="staff">Nhân viên trông xe</option>
-<option value="manager">Quản lý bãi</option>
-<option value="security">Bảo vệ</option>
-</select>
-</label>
-<label class="flex flex-col col-span-1">
-<p class="text-sm font-medium text-gray-800 dark:text-gray-200 pb-2">Lương (VND)</p>
-<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-gray-800 h-12 placeholder:text-gray-400 dark:placeholder:text-gray-500 px-4 text-base font-normal leading-normal" placeholder="Nhập mức lương" value=""/>
-</label>
-<label class="flex flex-col col-span-1">
-<p class="text-sm font-medium text-gray-800 dark:text-gray-200 pb-2">Ca Làm Việc</p>
-<select class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-gray-800 h-12 px-4 text-base font-normal leading-normal">
-<option value="">Chọn ca làm việc</option>
-<option value="morning">Ca Sáng (6:00 - 14:00)</option>
-<option value="afternoon">Ca Chiều (14:00 - 22:00)</option>
-<option value="night">Ca Tối (22:00 - 6:00)</option>
-</select>
-</label>
-<label class="flex flex-col col-span-1">
-<p class="text-sm font-medium text-gray-800 dark:text-gray-200 pb-2">Bãi Làm Việc</p>
-<select class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-gray-800 h-12 px-4 text-base font-normal leading-normal">
-<option value="">Chọn bãi làm việc</option>
-<option value="park1">Bãi xe A - Tầng hầm B1</option>
-<option value="park2">Bãi xe B - Sân ngoài trời</option>
-<option value="park3">Bãi xe C - Khu vực VIP</option>
-</select>
-</label>
-</div>
-<div class="flex flex-col sm:flex-row justify-end items-center gap-4 pt-4 mt-4 border-t border-gray-200 dark:border-gray-800">
-<button class="flex items-center justify-center w-full sm:w-auto h-11 px-6 text-base font-semibold rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" type="button"><a href="QuanLyNhanVien.html">Hủy</a></button>
-<button class="flex items-center justify-center w-full sm:w-auto h-11 px-6 text-base font-semibold rounded-lg bg-primary text-black hover:bg-primary/90 transition-colors" type="submit"><a href="QuanLyNhanVien.html">Thêm Nhân Viên</a></button>
-</div>
-</form>
-</div>
-</div>
-</div>
-</main>
-</div>
-</div>
-</body></html>
+  <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+    <div class="layout-container flex h-full grow flex-col">
+      <main class="flex-1 px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+        <div class="layout-content-container mx-auto flex max-w-4xl flex-col flex-1">
+          <div class="flex flex-col gap-8">
+            <div class="flex flex-wrap justify-between gap-4">
+              <div class="flex flex-col gap-2">
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white leading-tight tracking-tight">Thêm nhân viên
+                  mới</h1>
+                <p class="text-base font-normal text-gray-500 dark:text-gray-400">Điền thông tin chi tiết để thêm nhân
+                  viên vào hệ thống quản lý bãi xe.</p>
+              </div>
+            </div>
+            <div
+              class="bg-white dark:bg-background-dark/50 p-6 sm:p-8 rounded-xl border border-gray-200 dark:border-gray-800">
+              <form class="flex flex-col gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
+                  <label class="flex flex-col col-span-1">
+                    <p class="text-sm font-medium text-gray-800 dark:text-gray-200 pb-2">Tên Nhân Viên</p>
+                    <input
+                      class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-gray-800 h-12 placeholder:text-gray-400 dark:placeholder:text-gray-500 px-4 text-base font-normal leading-normal"
+                      placeholder="Nhập tên đầy đủ" value="" />
+                  </label>
+                  <label class="flex flex-col col-span-1">
+                    <p class="text-sm font-medium text-gray-800 dark:text-gray-200 pb-2">Số Điện Thoại</p>
+                    <input
+                      class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-gray-800 h-12 placeholder:text-gray-400 dark:placeholder:text-gray-500 px-4 text-base font-normal leading-normal"
+                      placeholder="Nhập số điện thoại" value="" />
+                  </label>
+                  <label class="flex flex-col md:col-span-2">
+                    <p class="text-sm font-medium text-gray-800 dark:text-gray-200 pb-2">Email</p>
+                    <input
+                      class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-gray-800 h-12 placeholder:text-gray-400 dark:placeholder:text-gray-500 px-4 text-base font-normal leading-normal"
+                      placeholder="Nhập địa chỉ email" value="" />
+                  </label>
+                  <label class="flex flex-col col-span-1">
+                    <p class="text-sm font-medium text-gray-800 dark:text-gray-200 pb-2">Chức Vụ</p>
+                    <select
+                      class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-gray-800 h-12 px-4 text-base font-normal leading-normal">
+                      <option value="">Chọn chức vụ</option>
+                      <option value="staff">Nhân viên trông xe</option>
+                      <option value="manager">Quản lý bãi</option>
+                      <option value="security">Bảo vệ</option>
+                    </select>
+                  </label>
+                  <label class="flex flex-col col-span-1">
+                    <p class="text-sm font-medium text-gray-800 dark:text-gray-200 pb-2">Lương (VND)</p>
+                    <input
+                      class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-gray-800 h-12 placeholder:text-gray-400 dark:placeholder:text-gray-500 px-4 text-base font-normal leading-normal"
+                      placeholder="Nhập mức lương" value="" />
+                  </label>
+                  <label class="flex flex-col col-span-1">
+                    <p class="text-sm font-medium text-gray-800 dark:text-gray-200 pb-2">Ca Làm Việc</p>
+                    <select
+                      class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-gray-800 h-12 px-4 text-base font-normal leading-normal">
+                      <option value="">Chọn ca làm việc</option>
+                      <option value="morning">Ca Sáng (6:00 - 14:00)</option>
+                      <option value="afternoon">Ca Chiều (14:00 - 22:00)</option>
+                      <option value="night">Ca Tối (22:00 - 6:00)</option>
+                    </select>
+                  </label>
+                  <label class="flex flex-col col-span-1">
+                    <p class="text-sm font-medium text-gray-800 dark:text-gray-200 pb-2">Bãi Làm Việc</p>
+                    <select
+                      class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-background-light dark:bg-gray-800 h-12 px-4 text-base font-normal leading-normal">
+                      <option value="">Chọn bãi làm việc</option>
+                      <option value="park1">Bãi xe A - Tầng hầm B1</option>
+                      <option value="park2">Bãi xe B - Sân ngoài trời</option>
+                      <option value="park3">Bãi xe C - Khu vực VIP</option>
+                    </select>
+                  </label>
+                </div>
+                <div
+                  class="flex flex-col sm:flex-row justify-end items-center gap-4 pt-4 mt-4 border-t border-gray-200 dark:border-gray-800">
+                  <button
+                    class="flex items-center justify-center w-full sm:w-auto h-11 px-6 text-base font-semibold rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                    type="button"><a href="QuanLyNhanVien.html">Hủy</a></button>
+                  <button
+                    class="flex items-center justify-center w-full sm:w-auto h-11 px-6 text-base font-semibold rounded-lg bg-primary text-black hover:bg-primary/90 transition-colors"
+                    type="submit"><a href="QuanLyNhanVien.html">Thêm Nhân Viên</a></button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+
+</html>

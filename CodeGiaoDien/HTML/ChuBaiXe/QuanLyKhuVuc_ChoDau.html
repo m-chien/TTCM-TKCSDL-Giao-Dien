@@ -9,6 +9,7 @@
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0"
         rel="stylesheet" />
+    <link href="../../CSS/style.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
     <script>
         tailwind.config = {
@@ -236,9 +237,10 @@
 
                 <div
                     class="lg:col-span-4 bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-custom flex flex-col h-full">
-                    <div class="flex justify-between items-center mb-3">
-                        <h2 class="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">Khu Vực: Bãi
-                            Đỗ QT</h2>
+                    <div class="flex justify-between items-center mb-3 ">
+                        <h2 class="notification-icon text-xl font-bold text-text-light-primary dark:text-text-dark-primary">Khu Vực: Bãi
+                            Đỗ QT <div class="badge">1</div></h2>
+                       
                     </div>
 
                     <button id="openAreaModalBtn"
@@ -251,9 +253,10 @@
                         <div
                             class="bg-primary bg-opacity-10 dark:bg-primary/20 p-3 rounded-lg border-2 border-primary shadow-lg cursor-pointer transition-all hover:shadow-xl">
                             <div class="flex justify-between items-start mb-2">
-                                <h3 class="font-bold text-base text-primary dark:text-white flex items-center"> <span
-                                        class="material-symbols-outlined mr-2 text-xl">garage</span>
+                                <h3 class="notification-icon font-bold text-base text-primary dark:text-white flex items-center"> <span
+                                        class="material-symbols-outlined mr-2 text-xl ">garage</span>
                                     Khu vực A - Tầng hầm
+                                    <div class="badge">2</div>
                                 </h3>
                                 <div class="flex space-x-1 opacity-100"> <button
                                         class="text-red-600 hover:text-red-800 p-0.5 rounded-full hover:bg-red-100 transition-colors"><span
@@ -263,14 +266,28 @@
                                             class="material-symbols-outlined text-base">edit</span></button>
                                 </div>
                             </div>
-                            <img alt="Underground parking area with many cars"
+                            <div class="notification-icon"><img alt="Underground parking area with many cars"
                                 class="w-full h-24 object-cover rounded-md mb-2 border border-primary/50"
                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0RJmN0dStqJ8CLthTkblvKTSCM_POSkH4Peox7QbKIYq6BE_iV5OvP7docbTPhb9IM5djcdr8VASfXIALRXhw0ysV29ODoTWbkNZhz3-X46rRmlZ-604Qs_9hlcv_FdPcO09CiZrGPfbq463iE7ppxK0iVdV7TkigjrAaa-4LgTm9aqn8KnjXcrnDlFvznXwtjURKTTjZ4TbJIRYMTM5XaIVkIcdGZhg95PGMGtXvT71r_B6M5LkMnHECOXI72R5pBF0e8X0L7hs" />
+                                  <div class="badge">4</div>
+                            </div>
                             <div class="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                                <p class="flex justify-between"><span>**Tổng số chỗ:**</span> <span
-                                        class="font-medium">120</span></p>
+                                <div class="notification-icon">
+                                            <div class="badge">3</div>
+                                        </div>
+                                <p class="flex justify-between ">
+                                     
+                                    <span>**Tổng số chỗ:**
+                                    </span> 
+                                    <span
+                                        class="font-medium">120</span>
+                                    </p>
+                                    
                                 <p class="flex justify-between"><span>**Chỗ trống:**</span> <span
                                         class="font-medium text-green-600 dark:text-green-400">45</span></p>
+                                 <div class="notification-icon">
+                                            <div class="badge">5</div>
+                                        </div>
                             </div>
                         </div>
 
@@ -402,10 +419,14 @@
                         class="flex-1 overflow-auto overflow-y-scroll-custom p-3 border border-dashed border-border-light dark:border-border-dark rounded-xl">
                         <div class="grid grid-cols-8 gap-2 auto-rows-max">
                             <div title="A01" id="openEditSpotModalBtn"
-                                class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
+                                class=" parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
+                                <div class="notification-icon">
+                                            <div class="badge">6</div>
+                                        </div>
                                 <span
                                     class="material-symbols-outlined text-2xl text-status-available">directions_car</span>
                                 <span class="text-[0.6rem] font-semibold text-status-available mt-0.5">A01</span>
+                                 
                             </div>
                             <div title="A02" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-available/10 border-2 border-status-available rounded-md p-1 cursor-pointer hover:bg-status-available/30 transition-all group aspect-square">
@@ -456,6 +477,9 @@
                             </div>
                             <div title="A08: Đã Đậu" id="openEditSpotModalBtn"
                                 class="parking-spot flex flex-col items-center justify-center bg-status-occupied/30 border-2 border-status-occupied rounded-md p-1 cursor-pointer transition-all aspect-square relative group">
+                                  <div class="notification-icon">
+                                    <div class="badge">8</div>
+                                  </div>
                                 <img alt="car icon" class="h-6 w-6 object-contain"
                                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv8fziGfjjuGyC5_leo38JMxyjJ91OemQ2pk-yJyfMUfDsj6l3Mif1MFuOjEl5lqpHXfpMWh4UacXLFik1nHsZnBwo3JFYLWvfKM1QMmBwxEa5PiejlwoQR9wNyZPtgGZGuON7qhU3Hipe44RfDG-R2kml5Ezy-ETLbghAaGh0E4iLRk_AfkJBqjXedf-NURetOWVEHqnNhIJJnSGBOy6BW-oTLujjAZGH6tOD3EF55qPpxZvH5ZePZObmcqoQv5ojFbCL_q0VNvk" />
                                 <span class="text-[0.6rem] font-semibold text-status-occupied mt-0.5">A08</span>
@@ -833,6 +857,10 @@
                                 <label for="spotID"
                                     class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">Tên/ID
                                     Chỗ Đỗ <span class="text-red-500">*</span></label>
+                                    <div class="notification-icon">
+                                      <div class="badge">6</div>
+
+                                    </div>
                                 <input type="text" id="spotID" name="spotID" value="A01" disabled class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg 
                                         bg-background-light dark:bg-surface-dark/50 text-text-light-primary 
                                         dark:text-text-dark-primary focus:border-primary focus:ring-primary 
@@ -843,19 +871,28 @@
                                 <label for="spotType"
                                     class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">Loại
                                     Chỗ Đỗ</label>
+                                     <div class="notification-icon">
+                                      <div class="badge">7</div>
+
+                                    </div>
                                 <select id="spotType" name="spotType"
                                     class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-background-light dark:bg-surface-dark/50 text-text-light-primary dark:text-text-dark-primary focus:border-primary focus:ring-primary transition-colors">
-                                    <option value="car" selected>Ô tô 4 chỗ</option>
-                                    <option value="motorbike">Ô tô 7 chỗ</option>
-                                    <option value="priority">Xe bus</option>
-                                    <option value="charging">Ô tô điện</option>
+                                    <option value="car" selected>Ô tô 4 chỗ (4.5x5.5m)</option>
+                                    <option value="motorbike">Ô tô 7 chỗ (5x8m)</option>
+                                    <option value="priority">Xe bus (5x10m)</option>
+                                    <option value="charging">Ô tô điện (4x5m)</option>
                                 </select>
+                                
                             </div>
 
                             <div>
                                 <label for="spotStatus"
                                     class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">Cập
                                     Nhật Trạng Thái</label>
+                                 <div class="notification-icon">
+                                      <div class="badge">8</div>
+
+                                    </div>
                                 <select id="spotStatus" name="spotStatus"
                                     class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-background-light dark:bg-surface-dark/50 text-text-light-primary dark:text-text-dark-primary focus:border-primary focus:ring-primary transition-colors">
                                     <option value="available" class="text-status-available" selected>Trống (Available)
