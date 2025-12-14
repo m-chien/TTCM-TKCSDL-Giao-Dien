@@ -46,21 +46,20 @@
             arrow.classList.toggle("rotate-180");
         }
         function openIssueModal() {
-        const m = document.getElementById("modalIssue");
-        m.classList.remove("hidden");
-        m.classList.add("flex");
-    }
-    function closeIssueModal() {
-        const m = document.getElementById("modalIssue");
-        m.classList.add("hidden");
-        m.classList.remove("flex");
-    }
+            const m = document.getElementById("modalIssue");
+            m.classList.remove("hidden");
+            m.classList.add("flex");
+        }
+        function closeIssueModal() {
+            const m = document.getElementById("modalIssue");
+            m.classList.add("hidden");
+            m.classList.remove("flex");
+        }
     </script>
     <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
-
     </style>
 </head>
 
@@ -163,13 +162,17 @@
                         <span class="material-icons-outlined text-lg">bar_chart</span>
                         <span class="font-bold">Quản lý sự cố</span>
                     </a>
+                    <a href="QuanLyThietBi.html" class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        <span class="material-symbols-outlined">error_outline</span>
+                        <span>Quản lý thiết bị</span>
 
-                    <!-- Cài đặt -->
-                    <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                        <!-- Cài đặt -->
+                        <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
                   hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" href="#">
-                        <span class="material-icons-outlined text-lg">settings</span>
-                        <span class="font-medium">Cài đặt</span>
-                    </a>
+                            <span class="material-icons-outlined text-lg">settings</span>
+                            <span class="font-medium">Cài đặt</span>
+                        </a>
 
                 </nav>
 
@@ -480,12 +483,12 @@
                 class="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-300">
                 Hủy
             </button>
-            <button
-                class="px-4 py-2 rounded-lg bg-primary text-background-dark font-bold hover:opacity-90">
+            <button class="px-4 py-2 rounded-lg bg-primary text-background-dark font-bold hover:opacity-90">
                 Tạo phiếu
             </button>
         </div>
 
     </div>
 </div>
+
 </html>
