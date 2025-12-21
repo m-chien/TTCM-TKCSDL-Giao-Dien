@@ -585,116 +585,131 @@
     </div>
 
     <!-- Modal Chỉnh sửa Nhân viên -->
-    <div id="editEmployeeModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div class="sticky top-0 bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark p-6 z-10">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h2 class="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">Chỉnh sửa Nhân viên</h2>
-                        <p class="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-1">Cập nhật thông tin nhân viên</p>
+    <!-- MODAL CHỈNH SỬA NHÂN VIÊN - ĐÃ CHỈNH THEO HÌNH -->
+<div id="editEmployeeModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto border border-[#e7f3ec] dark:border-[#2a4034]">
+        <!-- Header -->
+        <div class="p-6 border-b border-[#e7f3ec] dark:border-[#2a4034]">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h2 class="text-2xl font-bold text-text-dark dark:text-text-light">Cập nhật thông tin nhân viên</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        Chỉnh sửa thông tin ứng viên cho nhân viên <span class="font-semibold text-text-dark dark:text-text-light">Nguyễn Văn A</span>
+                    </p>
+                </div>
+                <button onclick="closeEditEmployeeModal()" class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-[#e7f3ec] dark:hover:bg-[#2a4034] transition-colors">
+                    <span class="material-symbols-outlined text-2xl text-gray-500">close</span>
+                </button>
+            </div>
+        </div>
+
+        <form id="editEmployeeForm" onsubmit="handleEditSubmit(event)" class="p-6 space-y-8">
+            <!-- Nhóm 1: Thông tin cá nhân (Không thể chỉnh sửa) -->
+            <div>
+                <h3 class="text-lg font-bold text-text-dark dark:text-text-light mb-4 flex items-center gap-2">
+                    Thông tin cá nhân
+                    <span class="text-sm font-medium text-gray-500">(Không thể chỉnh sửa)</span>
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
+                            Họ và Tên
+                        </label>
+                        <input type="text" value="Nguyễn Văn A" disabled
+                            class="w-full px-4 py-2.5 rounded-lg bg-[#e7f3ec] dark:bg-gray-800 text-text-dark dark:text-gray-300 cursor-not-allowed">
+                        
                     </div>
-                    <button onclick="closeEditEmployeeModal()" 
-                        class="p-2 rounded-DEFAULT hover:bg-background-light dark:hover:bg-background-dark text-text-light-secondary dark:text-text-dark-secondary">
-                        <span class="material-symbols-outlined">close</span>
-                    </button>
+
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
+                            Số điện thoại
+                        </label>
+                        <input type="tel" value="0987 654 321" disabled
+                            class="w-full px-4 py-2.5 rounded-lg bg-[#e7f3ec] dark:bg-gray-800 text-text-dark dark:text-gray-300 cursor-not-allowed">
+                        
+                    </div>
+
+                    <div class="relative md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
+                            Email
+                        </label>
+                        <input type="email" value="an.nguyen@email.com" disabled
+                            class="w-full px-4 py-2.5 rounded-lg bg-[#e7f3ec] dark:bg-gray-800 text-text-dark dark:text-gray-300 cursor-not-allowed">
+                        
+                    </div>
                 </div>
             </div>
-            
-            <form id="editEmployeeForm" onsubmit="handleEditSubmit(event)" class="p-6 space-y-6">
+
+            <!-- Nhóm 2: Thông tin công việc (Có thể chỉnh sửa) -->
+            <div>
+                <h3 class="text-lg font-bold text-text-dark dark:text-text-light mb-4 flex items-center gap-2">
+                    Thông tin công việc
+                    <span class="text-sm font-medium text-gray-500">(Có thể chỉnh sửa)</span>
+                </h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Họ và Tên -->
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-                            Họ và Tên <span class="text-red-500">*</span>
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-text-dark dark:text-text-light mb-2">
+                            Lương (VNĐ)
                         </label>
-                        <input type="text" id="editFullName" name="fullName" required
-                            class="w-full rounded-DEFAULT border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark px-4 py-2.5 text-sm text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-primary"
-                            placeholder="Nhập họ và tên đầy đủ">
+                        <input type="number" id="editSalary" name="salary" value="8000000" min="0" step="100000"
+                            class="w-full px-4 py-2.5 rounded-lg border border-[#e7f3ec] dark:border-[#2a4034] bg-surface-light dark:bg-surface-dark focus:outline-none focus:ring-2 focus:ring-primary"
+                            placeholder="8000000">
+                        
                     </div>
 
-                    <!-- Số điện thoại -->
-                    <div>
-                        <label class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-                            Số điện thoại <span class="text-red-500">*</span>
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-text-dark dark:text-text-light mb-2">
+                            Chức vụ
                         </label>
-                        <input type="tel" id="editPhone" name="phone" required pattern="[0-9]{10,11}"
-                            class="w-full rounded-DEFAULT border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark px-4 py-2.5 text-sm text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-primary"
-                            placeholder="0912345678">
-                    </div>
-
-                    <!-- Email -->
-                    <div>
-                        <label class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-                            Email <span class="text-red-500">*</span>
-                        </label>
-                        <input type="email" id="editEmail" name="email" required
-                            class="w-full rounded-DEFAULT border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark px-4 py-2.5 text-sm text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-primary"
-                            placeholder="email@example.com">
-                    </div>
-
-                    <!-- Chức vụ -->
-                    <div>
-                        <label class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-                            Chức vụ <span class="text-red-500">*</span>
-                        </label>
-                        <select id="editPosition" name="position" required
-                            class="w-full rounded-DEFAULT border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark px-4 py-2.5 text-sm text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-primary">
+                        <select id="editPosition" name="position"
+                            class="w-full px-4 py-2.5 rounded-lg border border-[#e7f3ec] dark:border-[#2a4034] bg-surface-light dark:bg-surface-dark focus:outline-none focus:ring-2 focus:ring-primary appearance-none">
                             <option value="">Chọn chức vụ</option>
-                            <option value="attendant">Nhân viên trông xe</option>
+                            <option value="attendant" selected>Nhân viên trông xe</option>
                             <option value="cashier">Nhân viên thu phí</option>
                             <option value="supervisor">Quản lý ca</option>
                             <option value="manager">Quản lý bãi xe</option>
                         </select>
+                        
+                        <span class="absolute right-10 top-9 text-gray-400 pointer-events-none">
+                            <span class="material-symbols-outlined text-xl">expand_more</span>
+                        </span>
                     </div>
 
-                    <!-- Bãi xe -->
-                    <div>
-                        <label class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-                            Bãi xe <span class="text-red-500">*</span>
+                    <div class="relative md:col-span-2">
+                        <label class="block text-sm font-medium text-text-dark dark:text-text-light mb-2">
+                            Bãi xe làm việc
                         </label>
-                        <select id="editParkingLot" name="parkingLot" required
-                            class="w-full rounded-DEFAULT border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark px-4 py-2.5 text-sm text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-primary">
+                        <select id="editParkingLot" name="parkingLot"
+                            class="w-full px-4 py-2.5 rounded-lg border border-[#e7f3ec] dark:border-[#2a4034] bg-surface-light dark:bg-surface-dark focus:outline-none focus:ring-2 focus:ring-primary appearance-none">
                             <option value="">Chọn bãi xe</option>
-                            <option value="lot-a">Bãi xe A - Trung tâm</option>
+                            <option value="lot-a" selected>Bãi xe A - Trung tâm</option>
                             <option value="lot-b">Bãi xe B - Sân bay</option>
                             <option value="lot-c">Bãi xe C - Bệnh viện</option>
                             <option value="lot-d">Bãi xe D - Tầng hầm</option>
                         </select>
-                    </div>
-
-                    <!-- Ngày bắt đầu -->
-                    <div>
-                        <label class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-                            Ngày bắt đầu làm việc
-                        </label>
-                        <input type="date" name="startDate"
-                            class="w-full rounded-DEFAULT border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark px-4 py-2.5 text-sm text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-primary">
-                    </div>
-
-                    <!-- Lương cơ bản -->
-                    <div>
-                        <label class="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-                            Lương cơ bản (VNĐ)
-                        </label>
-                        <input type="number" name="salary" min="0" step="100000"
-                            class="w-full rounded-DEFAULT border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark px-4 py-2.5 text-sm text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-primary"
-                            placeholder="5000000">
+                        
+                        <span class="absolute right-10 top-9 text-gray-400 pointer-events-none">
+                            <span class="material-symbols-outlined text-xl">expand_more</span>
+                        </span>
                     </div>
                 </div>
+            </div>
 
-                <div class="flex justify-end gap-3 pt-4 border-t border-border-light dark:border-border-dark">
-                    <button type="button" onclick="closeEditEmployeeModal()"
-                        class="px-6 py-2.5 rounded-DEFAULT border border-border-light dark:border-border-dark text-text-light-primary dark:text-text-dark-primary text-sm font-medium hover:bg-background-light dark:hover:bg-background-dark">
-                        Hủy
-                    </button>
-                    <button type="submit"
-                        class="px-6 py-2.5 rounded-DEFAULT bg-primary text-white text-sm font-bold hover:bg-primary/90 shadow-sm">
-                        Cập nhật
-                    </button>
-                </div>
-            </form>
-        </div>
+            <!-- Nút hành động -->
+            <div class="flex justify-end gap-4 pt-6 border-t border-[#e7f3ec] dark:border-[#2a4034]">
+                <button type="button" onclick="closeEditEmployeeModal()"
+                    class="px-6 py-2.5 rounded-lg border border-[#e7f3ec] dark:border-[#2a4034] text-text-dark dark:text-text-light font-medium hover:bg-[#e7f3ec] dark:hover:bg-[#2a4034] transition-colors">
+                    Hủy bỏ
+                </button>
+                <button type="submit"
+                    class="px-6 py-2.5 rounded-lg bg-primary text-white font-bold shadow-sm hover:bg-primary/90 transition-colors flex items-center gap-2">
+                    Lưu thay đổi
+                    <span class="material-symbols-outlined text-xl">check</span>
+                </button>
+            </div>
+        </form>
     </div>
+</div>
 
     <!-- Modal Xác nhận Xóa -->
     <div id="deleteConfirmModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
