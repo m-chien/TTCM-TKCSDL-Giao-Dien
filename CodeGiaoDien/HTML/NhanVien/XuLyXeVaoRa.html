@@ -6,6 +6,14 @@
 <title>ParkManager - Quản lý Bãi đỗ xe</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<style>
+    /* Thêm một chút CSS để hỗ trợ hiển thị Modal */
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24 }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+</style>
 </head>
 
 <body class="bg-gray-50">
@@ -20,7 +28,7 @@
     </div>
 
     <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
-        <a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-background-light dark:hover:bg-white/5 rounded-xl transition-colors" href="#">
+        <a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-gray-100 rounded-xl transition-colors" href="#">
             <span class="material-icons text-xl">people</span>
             <span class="font-medium">Khách hàng</span>
         </a>
@@ -28,23 +36,24 @@
             <span class="material-icons text-xl">dashboard</span>
             <span>Tổng quan</span>
         </a>
-         <a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-background-light dark:hover:bg-white/5 rounded-xl transition-colors" href="DuyetDatCho.html">
+         <a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-gray-100 rounded-xl transition-colors" href="DuyetDatCho.html">
             <span class="material-icons text-xl">assignment_turned_in</span>
             <span class="font-medium">Duyệt đặt chỗ</span>
-            <span class="ml-auto bg-yellow-400/20 text-yellow-800 dark:text-yellow-400 text-xs font-bold px-2 py-0.5 rounded-full">12</span>
+            <span class="ml-auto bg-yellow-400/20 text-yellow-800 text-xs font-bold px-2 py-0.5 rounded-full">12</span>
         </a>
-        <a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 rounded-xl transition-colors" href="LichLamViec.html">
+        <a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-50 rounded-xl transition-colors" href="LichLamViec.html">
         <span class="material-icons text-xl">map</span>
         <span class="font-medium">Lịch làm việc</span> 
     </a>
     </nav>
     <div class="p-4 border-t border-slate-200">
-        <a class="nav-link-bottom" href="#">
+        <a class="nav-link-bottom flex items-center gap-3" href="#">
             <span class="material-icons text-xl">settings</span>
             <span class="font-medium">Cài đặt</span>
         </a>
     </div>
 </aside>
+
 <main class="flex-1 min-h-screen">
 
 <header class="bg-white p-4 flex justify-between items-center border-b shadow-sm sticky top-0 z-10">
@@ -339,84 +348,227 @@
                 </div>
             </div>
 
+
             <div class="grid grid-cols-3 gap-3">
-                <button onclick="openPaymentOverlay()"
-                        class="col-span-3 bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-lg text-lg font-extrabold transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/50">
-                    <span class="material-icons text-3xl">payment</span> THANH TOÁN
+                <button class="col-span-3 bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-lg text-lg font-extrabold transition shadow-lg">
+                    THANH TOÁN
                 </button>
             </div>
             <div class="grid grid-cols-4 gap-2 mt-3">
-                <button onclick="handleAction('rescan_out')" class="action-secondary-btn bg-yellow-100 text-yellow-700">
+                <button class="flex flex-col items-center p-2 bg-yellow-100 text-yellow-700 rounded-lg text-[11px] font-bold">
                     <span class="material-icons text-lg">autorenew</span> Quét lại
                 </button>
-                <button onclick="handleAction('discount')" class="action-secondary-btn bg-indigo-100 text-indigo-700">
-                    <span class="material-icons text-lg">local_offer</span> Giảm giá
+                
+                <button id="btnBulkPayment" class="flex flex-col items-center p-2 bg-indigo-100 text-indigo-700 rounded-lg text-[11px] font-bold hover:bg-indigo-200 transition">
+                    <span class="material-icons text-lg">local_offer</span> Thanh Toán gộp
                 </button>
-                <button onclick="handleAction('lost_ticket')" class="action-secondary-btn bg-red-100 text-red-700">
+
+                <button class="flex flex-col items-center p-2 bg-red-100 text-red-700 rounded-lg text-[11px] font-bold">
                     <span class="material-icons text-lg">help_outline</span> Mất vé
                 </button>
-                <button onclick="handleAction('print_invoice')" class="action-secondary-btn bg-blue-100 text-blue-700">
+                <button class="flex flex-col items-center p-2 bg-blue-100 text-blue-700 rounded-lg text-[11px] font-bold">
                     <span class="material-icons text-lg">receipt_long</span> Hóa đơn
                 </button>
             </div>
         </div>
     </div>
-
 </section>
 </main>
 </div>
 
-<div id="paymentOverlay" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-2xl w-[380px] p-6 shadow-2xl animate-fadeIn">
-        <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">
-            💳 Chọn phương thức thanh toán
-        </h3>
-        <div class="grid grid-cols-3 gap-3 mb-5">
-            <button onclick="selectPayment('cash', this)"
-                class="payment-btn bg-green-100 hover:bg-green-200 text-green-700 py-4 rounded-xl font-semibold transition border-2 border-transparent flex flex-col items-center gap-2">
-                <span class="text-2xl">💵</span> Tiền mặt
-            </button>
-            <button onclick="selectPayment('card', this)"
-                class="payment-btn bg-blue-100 hover:bg-blue-200 text-blue-700 py-4 rounded-xl font-semibold transition border-2 border-transparent flex flex-col items-center gap-2">
-                <span class="text-2xl">💳</span> Thẻ
-            </button>
-            <button onclick="selectPayment('ewallet', this)"
-                class="payment-btn bg-purple-100 hover:bg-purple-200 text-purple-700 py-4 rounded-xl font-semibold transition border-2 border-transparent flex flex-col items-center gap-2">
-                <span class="text-2xl">📱</span> Ví điện tử
-            </button>
-        </div>
-        <div class="flex gap-3">
-            <button onclick="closePaymentOverlay()"
-                class="flex-1 bg-gray-200 hover:bg-gray-300 py-2 rounded-lg font-semibold">
-                Hủy
-            </button>
-            <button onclick="confirmPayment()"
-                class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-semibold">
-                Xác nhận
-            </button>
-        </div>
-    </div>
+<div id="bulkPaymentModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 hidden">
+<div class="bg-white dark:bg-slate-900 w-full max-w-4xl rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in zoom-in duration-200">
+<div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-indigo-100 text-indigo-600 rounded-lg dark:bg-indigo-900/30 dark:text-indigo-400">
+<span class="material-symbols-outlined">library_add_check</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Bảng thanh toán gộp</h3>
+<p class="text-xs text-slate-500">Chọn nhiều xe để thanh toán một lần (Phím tắt: F2)</p>
+</div>
+</div>
+<button onclick="closeBulkModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors p-1 hover:bg-slate-100 rounded-full dark:hover:bg-slate-800">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="px-6 py-3 border-b border-slate-100 dark:border-slate-800 flex gap-3 bg-white dark:bg-slate-900 items-center flex-wrap">
+<div class="relative flex-1 min-w-[200px]">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 text-[18px]">qr_code_scanner</span>
+<input autofocus="" class="w-full pl-10 pr-12 py-2 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary text-sm dark:bg-slate-800 dark:border-slate-700 dark:text-white" placeholder="Quét mã vé, barcode hoặc nhập biển số..." type="text" value=""/>
+<kbd class="absolute right-3 top-2.5 text-[10px] bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200 text-slate-500 font-sans">Enter</kbd>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar relative">
+<table class="w-full text-left text-sm border-collapse">
+<thead class="bg-slate-50 dark:bg-slate-800 text-slate-500 font-medium text-xs uppercase sticky top-0 z-10 shadow-sm">
+<tr>
+<th class="px-6 py-3 w-12 text-center">
+<input checked="" class="rounded border-slate-300 text-primary focus:ring-primary w-4 h-4 cursor-pointer" type="checkbox"/>
+</th>
+<th class="px-4 py-3">Thông tin xe</th>
+<th class="px-4 py-3">Vị trí</th>
+<th class="px-4 py-3">Thời gian</th>
+<th class="px-4 py-3 text-right">Chi phí</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 bg-indigo-50/40 dark:bg-indigo-900/10 border-l-4 border-l-indigo-500">
+<td class="px-6 py-3 text-center">
+<input checked="" class="rounded border-slate-300 text-primary focus:ring-primary w-4 h-4 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3">
+<div class="flex flex-col">
+<span class="font-bold text-slate-900 dark:text-white font-mono text-base">43H-123.45</span>
+<span class="text-xs text-slate-500">Xe 4 chỗ • Khách vãng lai</span>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
+<span class="w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5 animate-pulse"></span>
+                                    Làn ra B (Gate B)
+                                </span>
+</td>
+<td class="px-4 py-3 text-slate-600 dark:text-slate-400">
+<div class="flex flex-col">
+<span class="font-medium">4h 30m</span>
+<span class="text-[11px] text-slate-400">Vào: 08:00 20/10</span>
+</div>
+</td>
+<td class="px-4 py-3 text-right">
+<span class="block font-bold text-slate-900 dark:text-white text-base">45.000đ</span>
+<span class="text-xs text-emerald-600 cursor-pointer hover:underline">Áp dụng KM</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 bg-indigo-50/20 dark:bg-indigo-900/5">
+<td class="px-6 py-3 text-center">
+<input checked="" class="rounded border-slate-300 text-primary focus:ring-primary w-4 h-4 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3">
+<div class="flex flex-col">
+<span class="font-bold text-slate-900 dark:text-white font-mono text-base">92G-888.99</span>
+<span class="text-xs text-slate-500">Xe 7 chỗ • Cty Vận Tải A</span>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
+                                    Trong bãi (Khu A)
+                                </span>
+</td>
+<td class="px-4 py-3 text-slate-600 dark:text-slate-400">
+<div class="flex flex-col">
+<span class="font-medium">1d 2h 15m</span>
+<span class="text-[11px] text-slate-400">Vào: 09:15 19/10</span>
+</div>
+</td>
+<td class="px-4 py-3 text-right">
+<span class="block font-bold text-slate-900 dark:text-white text-base">155.000đ</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 relative group">
+<td class="px-6 py-3 text-center">
+<input class="rounded border-slate-300 text-primary focus:ring-primary w-4 h-4 cursor-pointer peer" id="warning-check" type="checkbox"/>
+</td>
+<td class="px-4 py-3">
+<div class="flex flex-col">
+<span class="font-bold text-slate-900 dark:text-white font-mono text-base">92A-555.88</span>
+<span class="text-xs text-slate-500">Xe 4 chỗ • Cty Vận Tải A</span>
+</div>
+<div class="absolute left-14 top-10 bg-orange-100 border border-orange-200 text-orange-800 text-xs px-2 py-1 rounded shadow-lg z-20 hidden peer-checked:block animate-in fade-in slide-in-from-left-2">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                                        Xe chưa tới làn ra, bạn chắc chắn muốn thanh toán?
+                                    </div>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
+                                    Trong bãi (Khu B)
+                                </span>
+</td>
+<td class="px-4 py-3 text-slate-600 dark:text-slate-400">
+<div class="flex flex-col">
+<span class="font-medium">45m</span>
+<span class="text-[11px] text-slate-400">Vào: 10:00 20/10</span>
+</div>
+</td>
+<td class="px-4 py-3 text-right">
+<span class="block font-bold text-slate-900 dark:text-white text-base">30.000đ</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 bg-slate-50 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-800 z-20 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+<div class="flex justify-between items-end mb-4">
+<div class="flex items-center gap-4">
+<span class="text-sm font-medium text-slate-600 dark:text-slate-400">Tùy chọn in:</span>
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="text-indigo-600 focus:ring-indigo-500 border-slate-300" name="invoice_type" type="radio"/>
+<span class="text-sm text-slate-700 dark:text-slate-300">Gộp 01 hóa đơn</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="text-indigo-600 focus:ring-indigo-500 border-slate-300" name="invoice_type" type="radio"/>
+<span class="text-sm text-slate-700 dark:text-slate-300">In tách rời</span>
+</label>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-xs text-slate-500 mb-1">Tổng thanh toán (2 xe):</span>
+<div class="flex items-baseline gap-1">
+<span class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">200.000</span>
+<span class="text-sm font-semibold text-slate-500">VNĐ</span>
+</div>
+</div>
+</div>
+<div class="flex gap-3 pt-2 border-t border-dashed border-slate-200 dark:border-slate-700">
+<button onclick="closeBulkModal()" class="px-5 py-2.5 rounded-lg border border-slate-300 text-slate-700 font-medium hover:bg-white hover:text-slate-900 bg-white shadow-sm transition-colors w-32">
+                        Hủy
+                    </button>
+<div class="flex-1 flex gap-2 justify-end">
+<button class="px-4 py-2.5 rounded-lg bg-white border border-slate-300 text-slate-700 font-medium hover:bg-slate-50 flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[20px]">qr_code_2</span>
+                            QR Tổng
+                        </button>
+<button class="px-6 py-2.5 rounded-lg bg-indigo-600 text-white font-bold hover:bg-indigo-700 shadow-lg shadow-indigo-500/30 flex items-center gap-2 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined">payments</span>
+                            Thanh toán &amp; Mở Barrier
+                        </button>
+</div>
+</div>
+</div>
+</div>
 </div>
 
-<div id="notificationModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl">
-        <div class="flex items-center gap-3 mb-4">
-            <div id="modalIcon" class="text-4xl"></div>
-            <h3 id="modalTitle" class="font-bold text-xl"></h3>
-        </div>
-        <p id="modalMessage" class="text-gray-600 mb-6"></p>
-        <div class="flex gap-3">
-            <button onclick="closeModal()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 rounded-lg font-semibold transition">
-                Đóng
-            </button>
-            <button id="modalAction" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-semibold">
-                Xác nhận
-            </button>
-        </div>
-    </div>
-</div>
+<script>
+    const bulkModal = document.getElementById('bulkPaymentModal');
+    const btnOpenBulk = document.getElementById('btnBulkPayment');
 
+    // Mở modal khi bấm vào nút "Thanh toán gộp"
+    btnOpenBulk.addEventListener('click', () => {
+        bulkModal.classList.remove('hidden');
+    });
 
+    // Hàm đóng modal
+    function closeBulkModal() {
+        bulkModal.classList.add('hidden');
+    }
+
+    // Đóng khi bấm ra ngoài vùng trắng của modal (vùng xám mờ)
+    window.addEventListener('click', (e) => {
+        if (e.target === bulkModal) closeBulkModal();
+    });
+
+    // Thêm phím tắt F2 để mở nhanh (theo mô tả trong giao diện của bạn)
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'F2') {
+            e.preventDefault();
+            bulkModal.classList.remove('hidden');
+        }
+        if (e.key === 'Escape') {
+            closeBulkModal();
+        }
+    });
+</script>
 
 </body>
 </html>
