@@ -442,13 +442,28 @@
 											"top": 1181,
 											"width": 123.2890625,
 											"height": 13
+										},
+										{
+											"_type": "ERDColumnView",
+											"_id": "AAAAAAGbRbDUBClLi28=",
+											"_parent": {
+												"$ref": "AAAAAAGZNGh6By7+izU="
+											},
+											"model": {
+												"$ref": "AAAAAAGbRbDT+SlI0EM="
+											},
+											"font": "Arial;13;0",
+											"left": 901,
+											"top": 1196,
+											"width": 123.2890625,
+											"height": 13
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 896,
 									"top": 1071,
 									"width": 133.2890625,
-									"height": 128
+									"height": 143
 								}
 							],
 							"font": "Arial;13;0",
@@ -6879,6 +6894,15 @@
 								"$ref": "AAAAAAGZNGh6Bi76qg4="
 							},
 							"name": "Trangthai",
+							"length": 0
+						},
+						{
+							"_type": "ERDColumn",
+							"_id": "AAAAAAGbRbDT+SlI0EM=",
+							"_parent": {
+								"$ref": "AAAAAAGZNGh6Bi76qg4="
+							},
+							"name": "NgayTao",
 							"length": 0
 						}
 					]
@@ -32818,7 +32842,7 @@
 									"left": 474,
 									"top": 970,
 									"width": 54.18994140625,
-									"height": 52,
+									"height": 39,
 									"text": "Quét mã/nhập biển số xe",
 									"wordWrap": true
 								}
@@ -146790,7 +146814,7 @@
 									"font": "Arial;16;0",
 									"left": 485.5,
 									"top": 757,
-									"width": 178,
+									"width": 178.8984375,
 									"height": 28,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGaxcgqm6jefq4="
@@ -147358,7 +147382,7 @@
 									"font": "Arial;16;0",
 									"left": 1805,
 									"top": 389,
-									"width": 138,
+									"width": 138.8984375,
 									"height": 28,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGaxcgqm6j5uvM="
@@ -147652,7 +147676,7 @@
 									"font": "Arial;16;0",
 									"left": 1772.5,
 									"top": 2157,
-									"width": 136,
+									"width": 137.140625,
 									"height": 28,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGaxcgqnKkIcLU="
@@ -149705,7 +149729,7 @@
 									"font": "Arial;16;0",
 									"left": 1798.5,
 									"top": 1261,
-									"width": 145,
+									"width": 146.015625,
 									"height": 28,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGaxcgqnalm71I="
@@ -150757,7 +150781,7 @@
 									"font": "Arial;13;0",
 									"left": 1457,
 									"top": 660.5,
-									"width": 79,
+									"width": 80.04638671875,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGaxcgqnqmYHB4="
@@ -151146,7 +151170,7 @@
 									"font": "Arial;16;0",
 									"left": 1827,
 									"top": 1373,
-									"width": 127,
+									"width": 128.25,
 									"height": 28,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGaxcgqnqmrxl0="
@@ -151714,7 +151738,7 @@
 									"font": "Arial;13;0",
 									"left": 1913.5,
 									"top": 1468.5,
-									"width": 123,
+									"width": 123.40087890625,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGaxcgqn6nGuYg="
