@@ -1,92 +1,62 @@
 <!DOCTYPE html>
 
-<html class="light" lang="vi">
+<html class="light" lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Quản lý bãi đỗ (cho Admin)</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+    <title>Cập nhật thông tin bãi xe </title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap"
         rel="stylesheet" />
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
-    <script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#10B981",
-                        "background-light": "#F8F9FA",
-                        "background-dark": "#102218",
-                        "text-light": "#333333",
-                        "text-dark": "#E5E7EB",
-                        "card-light": "#FFFFFF",
-                        "card-dark": "#1F2937",
-                        "border-light": "#E5E7EB",
-                        "border-dark": "#374151"
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2632",
+                        "border-light": "#dbe0e6",
+                        "border-dark": "#2a3848",
+                        "text-main": "#111418",
+                        "text-secondary": "#617589",
+                        "text-dark-main": "#ffffff",
+                        "text-dark-secondary": "#9ca3af",
                     },
                     fontFamily: {
-                        "display": ["Manrope", "sans-serif"]
+                        "display": ["Inter", "sans-serif"]
                     },
-                    borderRadius: {
-                        "DEFAULT": "0.5rem",
-                        "lg": "0.75rem",
-                        "xl": "1rem",
-                        "full": "9999px"
-                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
             },
         }
-        function toggleParkingMenu() {
+                function toggleParkingMenu() {
             const submenu = document.getElementById("parkingSubmenu");
             const arrow = document.getElementById("arrowParking");
 
             submenu.classList.toggle("hidden");
             arrow.classList.toggle("rotate-180");
         }
-        function openAddParkingModal() {
-            document.getElementById("modalAddParking").classList.remove("hidden");
-        }
-
-        function closeAddParkingModal() {
-            document.getElementById("modalAddParking").classList.add("hidden");
-        }
-
-        function saveNewParking() {
-            const name = document.getElementById("parkingName").value;
-            const area = document.getElementById("parkingArea").value;
-            const slots = document.getElementById("parkingSlots").value;
-
-            if (!name || !slots) {
-                alert("Vui lòng nhập đầy đủ thông tin!");
-                return;
-            }
-
-            console.log("THÊM BÃI XE:", { name, area, slots });
-
-            // TODO: Gọi API ở đây nếu cần
-
-            closeAddParkingModal();
-        }
     </script>
-    <style>
-        .material-symbols-outlined {
-            font-variation-settings:
-                'FILL' 0,
-                'wght' 400,
-                'GRAD' 0,
-                'opsz' 24
-        }
-    </style>
 </head>
 
-<body class="font-display bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark">
-    <div class="flex min-h-screen w-full">
-        <!-- SideNavBar -->
-        <aside
+<body
+    class="font-display bg-background-light dark:bg-background-dark text-text-main dark:text-text-dark-main overflow-hidden">
+    <div class="flex h-screen w-full flex-row">
+        <!-- Sidebar Navigation -->
+       <aside
             class="flex w-64 flex-col border-r border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark">
             <div class="flex h-full flex-col justify-between p-4">
                 <div class="flex flex-col gap-6">
@@ -196,296 +166,303 @@
                 </div>
             </div>
         </aside>
-        <!-- Main Content -->
-        <main class="flex flex-1 flex-col">
-            <!-- ToolBar and SearchBar -->
-            <header
-                class="flex items-center justify-between gap-4 border-b border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark px-6 py-3">
-                <div class="flex-1 max-w-lg">
-                    <label class="flex flex-col min-w-40 h-11 w-full">
-                        <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+                    <!-- Main Content Area -->
+                    <main class="flex-1 flex flex-col h-full overflow-hidden relative">
+                        <!-- Scrollable Content -->
+                        <div class="flex-1 overflow-y-auto pb-24">
                             <div
-                                class="text-gray-500 dark:text-gray-400 flex border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark items-center justify-center pl-4 rounded-l-lg border-r-0">
-                                <span class="material-symbols-outlined">search</span>
+                                class="layout-container flex flex-col w-full max-w-[1200px] mx-auto px-6 md:px-10 py-6 md:py-10">
+                                <!-- Breadcrumbs -->
+                                <div class="flex flex-wrap gap-2 mb-6">
+                                    <a class="text-text-secondary dark:text-text-dark-secondary text-sm md:text-base font-medium leading-normal hover:text-primary transition-colors"
+                                        href="#">Home</a>
+                                    <span
+                                        class="text-text-secondary dark:text-text-dark-secondary text-sm md:text-base font-medium leading-normal">/</span>
+                                    <a class="text-text-secondary dark:text-text-dark-secondary text-sm md:text-base font-medium leading-normal hover:text-primary transition-colors"
+                                        href="#">My Lots</a>
+                                    <span
+                                        class="text-text-secondary dark:text-text-dark-secondary text-sm md:text-base font-medium leading-normal">/</span>
+                                    <a class="text-text-secondary dark:text-text-dark-secondary text-sm md:text-base font-medium leading-normal hover:text-primary transition-colors"
+                                        href="#">Downtown Metro Parking</a>
+                                    <span
+                                        class="text-text-secondary dark:text-text-dark-secondary text-sm md:text-base font-medium leading-normal">/</span>
+                                    <span
+                                        class="text-text-main dark:text-white text-sm md:text-base font-bold leading-normal">Edit</span>
+                                </div>
+                                <!-- Page Heading -->
+                                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+                                    <div class="flex flex-col gap-1">
+                                        <h1
+                                            class="text-text-main dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">
+                                            Cập nhật thông tin bãi xe</h1>
+                                        <p
+                                            class="text-text-secondary dark:text-text-dark-secondary text-sm font-normal">
+                                            Last updated: Oct 24, 2023 • ID: #LOT-8821</p>
+                                    </div>
+                                    <button
+                                        class="flex w-fit items-center justify-center gap-2 rounded-lg h-10 px-4 bg-background-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-red-600 dark:text-red-400 text-sm font-bold hover:bg-red-50 dark:hover:bg-red-900/20 transition-all">
+                                        <span class="material-symbols-outlined text-[18px]">delete</span>
+                                        <span>Xoá bãi</span>
+                                    </button>
+                                </div>
+                                <!-- Main Form Grid -->
+                                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                                    <!-- Left Column (Inputs) -->
+                                    <div class="lg:col-span-2 flex flex-col gap-8">
+                                        <!-- Section: Media -->
+                                        <div
+                                            class="bg-surface-light dark:bg-surface-dark rounded-xl p-6 shadow-sm border border-border-light dark:border-border-dark">
+                                            <h3 class="text-text-main dark:text-white text-xl font-bold mb-4">Hình ảnh</h3>
+                                            <div
+                                                class="relative w-full h-64 rounded-lg overflow-hidden group/image cursor-pointer border-2 border-dashed border-border-light dark:border-border-dark hover:border-primary transition-colors bg-background-light dark:bg-background-dark flex items-center justify-center">
+                                                <div class="absolute inset-0 bg-cover bg-center opacity-80 group-hover/image:opacity-40 transition-opacity"
+                                                    data-alt="Aerial view of a parking lot with cars parked in rows"
+                                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDE2Cu_4zpA61lnqkcD90UE_nGVMa8YrQ07h-9uWcRzwmvyrunS_GD-Uh56pup4Cpz1K71FH4tKJKX9F-Rc5yyA1n6VWeHriidQjgQx3Zrpwj1JlS6GPMu17iC15R5lKUEi0dwGkOmK-Q-XsptK1SIaYH7hn1d-MtI0WgqupnPXCYRtrVYLF3MSAGa2uCeOlMHEnO6kWHiz5Hy84iI-h3BmfGGrf7sDqT900s63o6llTS-kh06ES6EPm5TuCqVp9E067IiYDlvr_Q");'>
+                                                </div>
+                                                <div
+                                                    class="z-10 flex flex-col items-center gap-2 opacity-0 group-hover/image:opacity-100 transition-opacity">
+                                                    <div
+                                                        class="p-3 bg-white dark:bg-surface-dark rounded-full shadow-md">
+                                                        <span
+                                                            class="material-symbols-outlined text-primary">cloud_upload</span>
+                                                    </div>
+                                                    <span
+                                                        class="text-text-main dark:text-white font-medium shadow-black/20 text-shadow-sm">Click
+                                                        or drop to update image</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex gap-4 mt-4 overflow-x-auto pb-2">
+                                                <div class="w-20 h-20 rounded-lg bg-cover bg-center shrink-0 cursor-pointer ring-2 ring-primary"
+                                                    data-alt="Close up of parking lot entrance"
+                                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC0N4Y_Srs4xCSH47v6sg-wk-j8t33uwYIeZdOpmCKPqUA2mlUDg3uPnS8L61BE8etSTtBqn0s6oyrdlbde-gEArhtiq5PQYRj8GSckJV0EWt5hCAE_eGTTu16qv_bOjS68tkR5cbxf_8GSOunbhvFsg64QelMOfOZOnb34AtGDX0bvIgjza0jh5pG_7nMm26BHRGYfb3my2_w0cddOzQ39RV1pe2vH2OEMBfnLhQppdVnwg2yyI84gUwulYKE196NvcjTYsfnKgA");'>
+                                                </div>
+                                                <div class="w-20 h-20 rounded-lg bg-cover bg-center shrink-0 cursor-pointer opacity-60 hover:opacity-100 transition-opacity"
+                                                    data-alt="Interior view of covered parking garage"
+                                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB4A2PDCOnBTejPFsKter3t5nB3Wt77aVdRWM5vV-GuBg_Vy7RG8CWBS1UkeoUvQ1g83SFiSURV08XyQoqPG07byD9IwLZnzAIPT4Fa_AmrJAFi_fAgqjlyNJMGeEFmSQ-eTCMiS4an7cNWluJ1gzNzL337KdEMoFQ9_O-oegs2vgCH0ODej0z-tmWqCRJNKX0voGKG8wKzRwZNtrMZAWlGQ7M_pmE4t-MPlg849x0zYbqUcES_E3TpBBnXXCSx5-kkn5mnO8xryg");'>
+                                                </div>
+                                                <div
+                                                    class="w-20 h-20 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark flex items-center justify-center shrink-0 cursor-pointer text-text-secondary hover:text-primary transition-colors">
+                                                    <span class="material-symbols-outlined">add</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Section: Basic Information -->
+                                        <div
+                                            class="bg-surface-light dark:bg-surface-dark rounded-xl p-6 shadow-sm border border-border-light dark:border-border-dark">
+                                            <h3 class="text-text-main dark:text-white text-xl font-bold mb-6">Thông tin cơ bản</h3>
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <label class="flex flex-col flex-1">
+                                                    <p class="text-text-main dark:text-white text-sm font-medium pb-2">
+                                                        Tên bãi <span class="text-red-500">*</span></p>
+                                                    <input
+                                                        class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-12 px-4 text-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all dark:text-white placeholder:text-text-secondary"
+                                                        type="text" value="Downtown Metro Parking" />
+                                                </label>
+                                                <label class="flex flex-col flex-1">
+                                                    <p class="text-text-main dark:text-white text-sm font-medium pb-2">
+                                                       Địa chỉ <span class="text-red-500">*</span></p>
+                                                    <input
+                                                        class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-12 px-4 text-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all dark:text-white placeholder:text-text-secondary"
+                                                        type="text" value="1200 Main St." />
+                                                </label>
+                                                <div class="flex gap-4">
+                                                    <!-- <label class="flex flex-col w-2/3">
+                                                        <p
+                                                            class="text-text-main dark:text-white text-sm font-medium pb-2">
+                                                            City</p>
+                                                        <input
+                                                            class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-12 px-4 text-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all dark:text-white placeholder:text-text-secondary"
+                                                            type="text" value="Seattle" />
+                                                    </label> -->
+                                                    <!-- <label class="flex flex-col w-1/3">
+                                                        <p
+                                                            class="text-text-main dark:text-white text-sm font-medium pb-2">
+                                                            State</p>
+                                                        <input
+                                                            class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-12 px-4 text-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all dark:text-white placeholder:text-text-secondary"
+                                                            type="text" value="WA" />
+                                                    </label> -->
+                                                </div>
+                                                <!-- <label class="flex flex-col flex-1">
+                                                    <p class="text-text-main dark:text-white text-sm font-medium pb-2">
+                                                        Zip Code</p>
+                                                    <input
+                                                        class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-12 px-4 text-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all dark:text-white placeholder:text-text-secondary"
+                                                        type="text" value="98101" />
+                                                </label> -->
+                                                <!-- <label class="flex flex-col md:col-span-2">
+                                                    <p class="text-text-main dark:text-white text-sm font-medium pb-2">
+                                                        Description</p>
+                                                    <textarea
+                                                        class="form-textarea w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark p-4 text-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all dark:text-white min-h-[100px] resize-y placeholder:text-text-secondary">Secure, covered parking in the heart of downtown. 24/7 access with security patrol.</textarea>
+                                                </label> -->
+                                            </div>
+                                        </div>
+                                        <!-- Section: Amenities -->
+                                        <!-- <div
+                                            class="bg-surface-light dark:bg-surface-dark rounded-xl p-6 shadow-sm border border-border-light dark:border-border-dark"> -->
+                                            <!-- <h3 class="text-text-main dark:text-white text-xl font-bold mb-6">Amenities
+                                                &amp; Features</h3> -->
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                                                <!-- <label
+                                                    class="flex items-center gap-3 p-3 rounded-lg border border-border-light dark:border-border-dark cursor-pointer hover:bg-background-light dark:hover:bg-background-dark transition-colors">
+                                                    <input checked=""
+                                                        class="w-5 h-5 text-primary bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded focus:ring-primary"
+                                                        type="checkbox" />
+                                                    <span
+                                                        class="text-text-main dark:text-white font-medium text-sm">Covered
+                                                        Parking</span>
+                                                </label>
+                                                <label
+                                                    class="flex items-center gap-3 p-3 rounded-lg border border-border-light dark:border-border-dark cursor-pointer hover:bg-background-light dark:hover:bg-background-dark transition-colors">
+                                                    <input checked=""
+                                                        class="w-5 h-5 text-primary bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded focus:ring-primary"
+                                                        type="checkbox" />
+                                                    <span
+                                                        class="text-text-main dark:text-white font-medium text-sm">Security
+                                                        Cameras</span>
+                                                </label>
+                                                <label
+                                                    class="flex items-center gap-3 p-3 rounded-lg border border-border-light dark:border-border-dark cursor-pointer hover:bg-background-light dark:hover:bg-background-dark transition-colors">
+                                                    <input
+                                                        class="w-5 h-5 text-primary bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded focus:ring-primary"
+                                                        type="checkbox" />
+                                                    <span class="text-text-main dark:text-white font-medium text-sm">EV
+                                                        Charging</span>
+                                                </label>
+                                                <label
+                                                    class="flex items-center gap-3 p-3 rounded-lg border border-border-light dark:border-border-dark cursor-pointer hover:bg-background-light dark:hover:bg-background-dark transition-colors">
+                                                    <input checked=""
+                                                        class="w-5 h-5 text-primary bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded focus:ring-primary"
+                                                        type="checkbox" />
+                                                    <span
+                                                        class="text-text-main dark:text-white font-medium text-sm">24/7
+                                                        Access</span>
+                                                </label>
+                                                <label
+                                                    class="flex items-center gap-3 p-3 rounded-lg border border-border-light dark:border-border-dark cursor-pointer hover:bg-background-light dark:hover:bg-background-dark transition-colors">
+                                                    <input
+                                                        class="w-5 h-5 text-primary bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded focus:ring-primary"
+                                                        type="checkbox" />
+                                                    <span
+                                                        class="text-text-main dark:text-white font-medium text-sm">Valet
+                                                        Service</span>
+                                                </label>
+                                                <label
+                                                    class="flex items-center gap-3 p-3 rounded-lg border border-border-light dark:border-border-dark cursor-pointer hover:bg-background-light dark:hover:bg-background-dark transition-colors">
+                                                    <input
+                                                        class="w-5 h-5 text-primary bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded focus:ring-primary"
+                                                        type="checkbox" />
+                                                    <span
+                                                        class="text-text-main dark:text-white font-medium text-sm">Handicap
+                                                        Access</span>
+                                                </label> -->
+                                            </div>
+                                        <!-- </div> -->
+                                    </div>
+                                    <!-- Right Column (Operations & Map) -->
+                                    <div class="flex flex-col gap-8">
+                                        <!-- Section: Pricing & Capacity -->
+                                        <div
+                                            class="bg-surface-light dark:bg-surface-dark rounded-xl p-6 shadow-sm border border-border-light dark:border-border-dark">
+                                            <h3 class="text-text-main dark:text-white text-xl font-bold mb-6">Operations
+                                                &amp; Pricing</h3>
+                                            <div class="flex flex-col gap-6">
+                                                <label class="flex flex-col">
+                                                    <div class="flex justify-between items-center pb-2">
+                                                        <p class="text-text-main dark:text-white text-sm font-medium">
+                                                            Súc Chứa</p>
+                                                        <span class="text-xs text-text-secondary">Slots</span>
+                                                    </div>
+                                                    <input
+                                                        class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-12 px-4 text-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all dark:text-white"
+                                                        type="number" value="150" />
+                                                </label>
+                                                <div class="h-px bg-border-light dark:bg-border-dark w-full"></div>
+                                                <div class="grid grid-cols-2 gap-4">
+                                                    <label class="flex flex-col">
+                                                        <p
+                                                            class="text-text-main dark:text-white text-sm font-medium pb-2">
+                                                            Giá 1 giờ ($)</p>
+                                                        <input
+                                                            class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-12 px-4 text-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all dark:text-white"
+                                                            step="0.50" type="number" value="8.00" />
+                                                    </label>
+                                                    <label class="flex flex-col">
+                                                        <p
+                                                            class="text-text-main dark:text-white text-sm font-medium pb-2">
+                                                            Giá qua đêm ($)</p>
+                                                        <input
+                                                            class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-12 px-4 text-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all dark:text-white"
+                                                            step="1.00" type="number" value="35.00" />
+                                                    </label>
+                                                </div>
+                                                <div class="h-px bg-border-light dark:bg-border-dark w-full"></div>
+                                                <div class="flex flex-col gap-3">
+                                                    <p class="text-text-main dark:text-white text-sm font-medium">
+                                                        mở cửa vào</p>
+                                                    <div class="flex items-center gap-2">
+                                                        <input
+                                                            class="form-input flex-1 rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-10 px-3 text-sm focus:ring-2 focus:ring-primary dark:text-white"
+                                                            type="time" value="06:00" />
+                                                        <span class="text-text-secondary text-sm">to</span>
+                                                        <input
+                                                            class="form-input flex-1 rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-10 px-3 text-sm focus:ring-2 focus:ring-primary dark:text-white"
+                                                            type="time" value="23:00" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Section: Map Preview -->
+                                        <div
+                                            class="bg-surface-light dark:bg-surface-dark rounded-xl p-6 shadow-sm border border-border-light dark:border-border-dark flex flex-col gap-4">
+                                            <div class="flex justify-between items-center">
+                                                <h3 class="text-text-main dark:text-white text-base font-bold">Xem trước vị trí
+                                                    Preview</h3>
+                                                <button class="text-primary text-sm font-medium hover:underline">Edit
+                                                    </button>
+                                            </div>
+                                            <div class="w-full h-48 rounded-lg bg-cover bg-center"
+                                                data-alt="Map showing street view of Seattle" data-Xem trước vị trí="Seattle"
+                                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAjy-nJuFN0rUwO3UP2JG5zhGzcEDGYxKirAiQcS9Dy5DH-PuA0WIGE_-fU9pHvS61HYXRj3VmU9kQC392oiwBYkcp24MSxHpNOGzWs_HfwqdxTke9g0Vn6ySezMJJa0wRRkTqZ0yL8u4G5PN8cUXqySKuuxIU0btlszzR9BvwT-vZO_vryTLhKjSeg5_JZOIIIySHk8hw1k3p8_zoun4DzDn1o85Bcisq6M-4sEo6i_KxUigiJb16n2-PRMk4AKmQxb0u8b1v8nQ");'>
+                                                <div class="w-full h-full bg-black/10 flex items-center justify-center">
+                                                    <span
+                                                        class="material-symbols-outlined text-red-500 text-4xl drop-shadow-lg"></span>
+                                                </div>
+                                            </div>
+                                            <p class="text-xs text-text-secondary dark:text-text-dark-secondary">Drag
+                                                the pin on the full map view to adjust the precise entrance 
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <input
-                                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-sm font-medium focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:border-primary/50 h-full placeholder:text-gray-500 dark:placeholder:text-gray-400 px-4 rounded-l-none border-l-0 pl-2 leading-normal"
-                                placeholder="Tìm kiếm bãi xe hoặc nhân viên" value="" />
                         </div>
-                    </label>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button class="p-2.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <span class="material-symbols-outlined">notifications</span>
-                    </button>
-                    <button class="p-2.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <span class="material-symbols-outlined">account_circle</span>
-                    </button>
-                </div>
-            </header>
-            <div class="flex-1 overflow-y-auto p-6 md:p-8 lg:p-10">
-                <div class="mx-auto flex w-full max-w-7xl flex-col gap-8">
-                    <!-- PageHeading -->
-                    <div class="flex flex-wrap items-center justify-between gap-4">
-                        <h2 class="text-3xl font-bold tracking-tight">Tổng quan Bãi đỗ xe</h2>
-                        <button onclick="openAddParkingModal()"
-                            class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/80 transition">
-                            <span class="material-symbols-outlined">add</span>
-                            Thêm bãi xe mới
-                        </button>
-
-                    </div>
-                    <!-- Stats -->
-                    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                        <!-- Sticky Action Bar -->
                         <div
-                            class="flex flex-1 flex-col gap-2 rounded-xl p-6 bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark">
-                            <p class="text-base font-medium text-gray-600 dark:text-gray-300">Tổng số bãi xe</p>
-                            <p class="tracking-tight text-3xl font-bold">12</p>
-                            <p class="text-sm font-medium text-green-500">+2% so với tháng trước</p>
-                        </div>
-                        <div
-                            class="flex flex-1 flex-col gap-2 rounded-xl p-6 bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark">
-                            <p class="text-base font-medium text-gray-600 dark:text-gray-300">Tổng sức chứa</p>
-                            <p class="tracking-tight text-3xl font-bold">1,500</p>
-                            <p class="text-sm font-medium text-green-500">+5% so với tháng trước</p>
-                        </div>
-                        <div
-                            class="flex flex-1 flex-col gap-2 rounded-xl p-6 bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark">
-                            <p class="text-base font-medium text-gray-600 dark:text-gray-300">Số chỗ trống</p>
-                            <p class="tracking-tight text-3xl font-bold">432</p>
-                            <p class="text-sm font-medium text-red-500">-10% so với hôm qua</p>
-                        </div>
-                        <div
-                            class="flex flex-1 flex-col gap-2 rounded-xl p-6 bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark">
-                            <p class="text-base font-medium text-gray-600 dark:text-gray-300">Tổng số nhân viên</p>
-                            <p class="tracking-tight text-3xl font-bold">45</p>
-                            <p class="text-sm font-medium text-green-500">+1% so với tháng trước</p>
-                        </div>
-                    </div>
-                    <!-- Data Table -->
-                    <div class="flex flex-col gap-4">
-                        <h3 class="text-xl font-bold">Danh sách Bãi đỗ xe</h3>
-                        <div
-                            class="overflow-hidden rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark">
-                            <div class="overflow-x-auto">
-                                <table class="min-w-full divide-y divide-border-light dark:divide-border-dark">
-                                    <thead class="bg-background-light dark:bg-background-dark">
-                                        <tr>
-                                            <th class="px-6 py-3.5 text-left text-sm font-semibold" scope="col">Tên bãi
-                                                xe</th>
-                                            <th class="px-6 py-3.5 text-left text-sm font-semibold" scope="col">Địa chỉ
-                                            </th>
-                                            <th class="px-6 py-3.5 text-left text-sm font-semibold" scope="col">Sức chứa
-                                            </th>
-                                            <th class="px-6 py-3.5 text-left text-sm font-semibold" scope="col">Chỗ
-                                                trống</th>
-                                            <th class="px-6 py-3.5 text-left text-sm font-semibold" scope="col">Trạng
-                                                thái</th>
-                                            <th class="relative px-6 py-3.5" scope="col"><span class="sr-only">Hành
-                                                    động</span></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-border-light dark:divide-border-dark">
-                                        <tr>
-                                            <td class="whitespace-nowrap px-6 py-4 text-sm font-medium">Vincom Center Bà
-                                                Triệu</td>
-                                            <td
-                                                class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-                                                191 Bà Triệu, Hai Bà Trưng</td>
-                                            <td
-                                                class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-                                                300</td>
-                                            <td
-                                                class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-                                                58</td>
-                                            <td class="whitespace-nowrap px-6 py-4 text-sm">
-                                                <span
-                                                    class="inline-flex items-center rounded-full bg-green-100 dark:bg-green-900/50 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:text-green-300">Hoạt
-                                                    động</span>
-                                            </td>
-                                            <td
-                                                class="whitespace-nowrap px-6 py-4 text-right text-sm font-medium space-x-2">
-                                                <button
-                                                    class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400"><span
-                                                        class="material-symbols-outlined text-base">edit</span></button>
-                                                <button
-                                                    class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400"><span
-                                                        class="material-symbols-outlined text-base">delete</span></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="whitespace-nowrap px-6 py-4 text-sm font-medium">Royal City</td>
-                                            <td
-                                                class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-                                                72A Nguyễn Trãi, Thanh Xuân</td>
-                                            <td
-                                                class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-                                                500</td>
-                                            <td
-                                                class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-                                                120</td>
-                                            <td class="whitespace-nowrap px-6 py-4 text-sm">
-                                                <span
-                                                    class="inline-flex items-center rounded-full bg-green-100 dark:bg-green-900/50 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:text-green-300">Hoạt
-                                                    động</span>
-                                            </td>
-                                            <td
-                                                class="whitespace-nowrap px-6 py-4 text-right text-sm font-medium space-x-2">
-                                                <button
-                                                    class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400"><span
-                                                        class="material-symbols-outlined text-base">edit</span></button>
-                                                <button
-                                                    class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400"><span
-                                                        class="material-symbols-outlined text-base">delete</span></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="whitespace-nowrap px-6 py-4 text-sm font-medium">Bãi xe Dịch Vọng
-                                            </td>
-                                            <td
-                                                class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-                                                Trần Quý Kiên, Cầu Giấy</td>
-                                            <td
-                                                class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-                                                150</td>
-                                            <td
-                                                class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-                                                12</td>
-                                            <td class="whitespace-nowrap px-6 py-4 text-sm">
-                                                <span
-                                                    class="inline-flex items-center rounded-full bg-yellow-100 dark:bg-yellow-900/50 px-2.5 py-0.5 text-xs font-medium text-yellow-800 dark:text-yellow-300">Bảo
-                                                    trì</span>
-                                            </td>
-                                            <td
-                                                class="whitespace-nowrap px-6 py-4 text-right text-sm font-medium space-x-2">
-                                                <button
-                                                    class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400"><span
-                                                        class="material-symbols-outlined text-base">edit</span></button>
-                                                <button
-                                                    class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400"><span
-                                                        class="material-symbols-outlined text-base">delete</span></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="whitespace-nowrap px-6 py-4 text-sm font-medium">Bệnh viện Bạch
-                                                Mai</td>
-                                            <td
-                                                class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-                                                78 Giải Phóng, Đống Đa</td>
-                                            <td
-                                                class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-                                                200</td>
-                                            <td
-                                                class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-                                                45</td>
-                                            <td class="whitespace-nowrap px-6 py-4 text-sm">
-                                                <span
-                                                    class="inline-flex items-center rounded-full bg-green-100 dark:bg-green-900/50 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:text-green-300">Hoạt
-                                                    động</span>
-                                            </td>
-                                            <td
-                                                class="whitespace-nowrap px-6 py-4 text-right text-sm font-medium space-x-2">
-                                                <button
-                                                    class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400"><span
-                                                        class="material-symbols-outlined text-base">edit</span></button>
-                                                <button
-                                                    class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400"><span
-                                                        class="material-symbols-outlined text-base">delete</span></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="whitespace-nowrap px-6 py-4 text-sm font-medium">Landmark 81</td>
-                                            <td
-                                                class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-                                                720A Điện Biên Phủ, Bình Thạnh</td>
-                                            <td
-                                                class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-                                                350</td>
-                                            <td
-                                                class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-                                                97</td>
-                                            <td class="whitespace-nowrap px-6 py-4 text-sm">
-                                                <span
-                                                    class="inline-flex items-center rounded-full bg-red-100 dark:bg-red-900/50 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:text-red-300">Tạm
-                                                    dừng</span>
-                                            </td>
-                                            <td
-                                                class="whitespace-nowrap px-6 py-4 text-right text-sm font-medium space-x-2">
-                                                <button
-                                                    class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400"><span
-                                                        class="material-symbols-outlined text-base">edit</span></button>
-                                                <button
-                                                    class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400"><span
-                                                        class="material-symbols-outlined text-base">delete</span></button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            class="absolute bottom-0 w-full bg-surface-light dark:bg-surface-dark border-t border-border-light dark:border-border-dark p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-20">
+                            <div class="max-w-[1200px] mx-auto flex items-center justify-between">
+                                <div class="hidden md:flex flex-col">
+                                    <span class="text-text-main dark:text-white font-medium text-sm">Unsaved
+                                        Changes</span>
+                                    <span class="text-text-secondary dark:text-text-dark-secondary text-xs">Careful,
+                                        changes are not saved automatically.</span>
+                                </div>
+                                <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+                                    <button
+                                        class="px-6 py-2.5 rounded-lg border border-border-light dark:border-border-dark text-text-main dark:text-white font-bold text-sm bg-transparent hover:bg-background-light dark:hover:bg-background-dark transition-colors">
+                                        Cancel
+                                    </button>
+                                    <button
+                                        class="px-6 py-2.5 rounded-lg bg-primary hover:bg-blue-600 text-white font-bold text-sm shadow-md transition-colors flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-[18px]">save</span>
+                                        Save Changes
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </main>
                 </div>
-            </div>
-        </main>
-    </div>
 </body>
-<!-- MODAL ADD PARKING -->
-<div id="modalAddParking"
-    class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
-
-    <div class="bg-white dark:bg-gray-800 w-[450px] rounded-xl shadow-xl overflow-hidden">
-
-        <!-- HEADER -->
-        <div class="flex items-center justify-between px-6 py-4 bg-primary text-white">
-            <h2 class="text-lg font-semibold">Thêm bãi xe mới</h2>
-            <span onclick="closeAddParkingModal()"
-                class="material-symbols-outlined cursor-pointer hover:scale-110 transition">
-                close
-            </span>
-        </div>
-
-        <!-- BODY -->
-        <div class="p-6 space-y-4">
-
-            <div>
-                <label class="font-medium">Tên bãi xe</label>
-                <input id="parkingName"
-                    class="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-primary focus:ring-2 outline-none"
-                    placeholder="VD: Bãi xe A, Bãi xe tầng 1" />
-            </div>
-
-            <div>
-                <label class="font-medium">Khu vực</label>
-                <select id="parkingArea"
-                    class="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-primary focus:ring-2 outline-none">
-                    <option>Tầng 1</option>
-                    <option>Tầng 2</option>
-                    <option>Ngoài trời</option>
-                </select>
-            </div>
-
-            <div>
-                <label class="font-medium">Số lượng chỗ đậu</label>
-                <input id="parkingSlots" type="number"
-                    class="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-primary focus:ring-2 outline-none"
-                    placeholder="VD: 150" />
-            </div>
-
-        </div>
-
-        <!-- FOOTER -->
-        <div class="flex justify-end gap-3 px-6 py-4 bg-gray-100 dark:bg-gray-700">
-            <button onclick="closeAddParkingModal()" class="px-4 py-2 rounded-lg border">
-                Hủy
-            </button>
-
-            <button onclick="saveNewParking()"
-                class="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/80 transition">
-                Lưu
-            </button>
-        </div>
-
-    </div>
-</div>
 
 </html>
