@@ -565,3 +565,98 @@ begin
 		from Voucher v join inserted i on v.ID = i.IDVoucher
 	end
 end;
+
+
+
+-- TRIGGER QUẢN LÝ THẺ XE THÁNG (Đăng ký, Gia hạn, Hủy)
+CREATE TRIGGER trg_KiemTraTheXeThang
+ON TheXeThang
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @NgayDangKy DATE, @NgayHetHan DATE, @TrangThai BIT;
+    
+    -- Lấy dữ liệu từ dòng vừa được thêm hoặc sửa
+    SELECT @NgayDangKy = NgayDangKy, 
+           @NgayHetHan = NgayHetHan, 
+           @TrangThai = TrangThai
+    FROM inserted;
+
+    -- 1. LOGIC ĐĂNG KÝ & GIA HẠN: Kiểm tra ngày hợp lệ
+    IF @NgayHetHan IS NOT NULL AND @NgayDangKy IS NOT NULL
+    BEGIN
+        IF @NgayHetHan <= @NgayDangKy
+        BEGIN
+            RAISERROR(N'Lỗi: Ngày hết hạn phải lớn hơn ngày đăng ký.', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+    END
+
+    -- 2. LOGIC HỦY THẺ: Nếu TrangThai chuyển sang 0 (False), không cần xóa record, chỉ cần đảm bảo logic nghiệp vụ
+    -- (Phần này SQL tự lưu update, trigger chỉ dùng để chặn nếu có rule đặc biệt, ví dụ: Không cho hủy khi còn nợ tiền)
+    
+    -- 3. LOGIC TỰ ĐỘNG KÍCH HOẠT KHI GIA HẠN
+    -- Nếu người dùng update Ngày hết hạn mới > Ngày hiện tại, tự động set TrangThai = 1 (Active)
+    IF UPDATE(NgayHetHan)
+    BEGIN
+        UPDATE TheXeThang
+        SET TrangThai = 1
+        FROM TheXeThang t
+        JOIN inserted i ON t.ID = i.ID
+        WHERE i.NgayHetHan > GETDATE() AND i.TrangThai = 0;
+    END
+END;
+GO
+
+
+
+-- TRIGGER XỬ LÝ XE VÀO / RA (Tự động cập nhật Chỗ Đậu)
+CREATE TRIGGER trg_CapNhatTrangThaiChoDau
+ON PhieuGiuXe
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- TRƯỜNG HỢP 1: XE VÀO (INSERT)
+    -- Khi tạo phiếu giữ xe mới, cập nhật trạng thái chỗ đậu thành 'Đang đỗ'
+    IF EXISTS (SELECT * FROM inserted) AND NOT EXISTS (SELECT * FROM deleted)
+    BEGIN
+        UPDATE ChoDauXe
+        SET TrangThai = N'Đang đỗ'
+        FROM ChoDauXe c
+        JOIN inserted i ON c.ID = i.IDChoDau;
+    END
+
+    -- TRƯỜNG HỢP 2: XE RA (UPDATE)
+    -- Khi cập nhật thời gian ra (TgianRa khác NULL), cập nhật trạng thái chỗ đậu thành 'Trống'
+    IF UPDATE(TgianRa)
+    BEGIN
+        UPDATE ChoDauXe
+        SET TrangThai = N'Trống'
+        FROM ChoDauXe c
+        JOIN inserted i ON c.ID = i.IDChoDau
+        WHERE i.TgianRa IS NOT NULL; -- Chỉ khi xe thực sự đã ra
+    END
+    
+    -- TRƯỜNG HỢP 3: ĐỔI CHỖ ĐẬU (UPDATE IDChoDau)
+    -- Nếu nhân viên đổi chỗ xe sang vị trí khác khi xe đang gửi
+    IF UPDATE(IDChoDau)
+    BEGIN
+        -- Trả lại trạng thái 'Trống' cho chỗ cũ
+        UPDATE ChoDauXe
+        SET TrangThai = N'Trống'
+        FROM ChoDauXe c
+        JOIN deleted d ON c.ID = d.IDChoDau;
+
+        -- Set trạng thái 'Đang đỗ' cho chỗ mới
+        UPDATE ChoDauXe
+        SET TrangThai = N'Đang đỗ'
+        FROM ChoDauXe c
+        JOIN inserted i ON c.ID = i.IDChoDau;
+    END
+END;
+GO
