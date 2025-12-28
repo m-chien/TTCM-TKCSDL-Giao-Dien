@@ -438,9 +438,6 @@ BEGIN
 END;
 GO
 
-
-
-
 -- Tìm chỗ trống ở bãi xe có ID = 1
 SELECT * FROM f_TimKiemChoTrong(1);
 
@@ -453,3 +450,118 @@ EXEC sp_TimKiemThongTinXe @TuKhoa = '999';
 
 -- Xuất báo cáo từ ngày 01/12 đến 31/12
 EXEC sp_BaoCaoThongKeTongHop @NgayBatDau = '2025-12-01', @NgayKetThuc = '2025-12-31';
+
+--cập nhật trạng thái đỗ xe khi đặt vé
+go
+create trigger capnhatrangthaidokhiVao
+on datcho
+after insert
+as
+begin
+	update ChoDauXe
+	set TrangThai = N'Đã đặt'
+	from ChoDauXe c
+	join inserted i on c.ID = i.IDChoDau
+end
+
+--cập nhật trạng thái đỗ xe khi khách ra
+go
+CREATE TRIGGER trg_CapNhatTrangThai_KhiRa
+ON PhieuGiuXe
+AFTER UPDATE
+AS
+BEGIN
+    IF UPDATE(TgianRa)
+    BEGIN
+        UPDATE ChoDauXe
+        SET TrangThai = N'Trống'
+        FROM ChoDauXe c
+        JOIN Inserted i ON c.ID = i.IDChoDau
+        WHERE i.TgianRa IS NOT NULL;
+    END
+END;
+
+--cập nhất trạng thái chỗ sau khi đặt thành công hoặc hủy
+go
+CREATE TRIGGER trg_GiaiPhongCho_KhiHuyDat
+ON DatCho
+AFTER UPDATE
+AS
+BEGIN
+	update ChoDauXe
+	set TrangThai = N'Trống'
+	from ChoDauXe c join inserted i on c.ID = i.IDChoDau
+	where i.TrangThai IN (N'Đã hủy', N'Hoàn thành', N'Quá hạn')
+		and c.TrangThai = N'Đã đặt'
+end
+
+--: Tự động tính tổng tiền hóa đơn khi thay đổi Chi tiết
+go
+CREATE TRIGGER trg_TinhTongTien_HoaDon
+ON ChiTietHoaDon
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    DECLARE @AffectedIDs TABLE (IDHoaDon INT);
+
+    INSERT INTO @AffectedIDs
+    SELECT IDHoaDon FROM Inserted
+    UNION
+    SELECT IDHoaDon FROM Deleted;
+
+    UPDATE HoaDon
+    SET ThanhTien = (
+        SELECT ISNULL(SUM(TongTien), 0)
+        FROM ChiTietHoaDon
+        WHERE ChiTietHoaDon.IDHoaDon = HoaDon.ID
+    )
+    WHERE ID IN (SELECT IDHoaDon FROM @AffectedIDs);
+END;
+
+-- Ngăn chặn trùng lịch đặt chỗ
+go
+CREATE TRIGGER trg_CheckTrungLich_DatCho
+ON DatCho
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    IF EXISTS (
+        SELECT 1
+        FROM DatCho d
+        JOIN Inserted i ON d.IDChoDau = i.IDChoDau
+        WHERE d.ID <> i.ID
+          AND d.TrangThai NOT IN (N'Đã hủy')
+          AND (d.TgianBatDau < i.TgianKetThuc AND d.TgianKetThuc > i.TgianBatDau)
+    )
+    BEGIN
+        ROLLBACK TRANSACTION;
+        RAISERROR (N'Lỗi: Chỗ đậu xe này đã có người đặt trong khung giờ này!', 16, 1);
+        RETURN;
+    END
+END;
+
+--kiểm tra hóa đơn dùng voucher
+go
+create trigger trg_XuLyVoucher_HoaDon
+on hoadon
+after insert
+as
+begin
+	if exists (select 1 from inserted where IDVoucher is not null)
+	begin
+		if exists (
+			select 1
+			from Voucher v join inserted i on v.ID = i.IDVoucher
+			where v.SoLuong > 0 or v.HanSuDung < GETDATE()
+		)
+		BEGIN
+            ROLLBACK TRANSACTION;
+            RAISERROR (N'Lỗi: Voucher đã hết hạn hoặc hết số lượng!', 16, 1);
+            RETURN;
+        END
+
+		update Voucher
+		set SoLuong = SoLuong - 1
+		from Voucher v join inserted i on v.ID = i.IDVoucher
+	end
+end;
