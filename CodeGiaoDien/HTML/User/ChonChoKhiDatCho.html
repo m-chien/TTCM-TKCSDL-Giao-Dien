@@ -1,208 +1,375 @@
 <!DOCTYPE html>
-
-<html class="light" lang="vi"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Chi tiết bãi đỗ &amp; Đặt chỗ</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script>
+<html lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Chi tiết bãi đỗ & Đặt chỗ - Parking Management</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+    <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#005A9C",
-                        "background-light": "#F8F9FA",
-                        "background-dark": "#102218", // Using a placeholder dark bg
+                        primary: "#00E274",
+                        "primary-dark": "#00C966",
+                        "background-light": "#F9FAFB",
+                        "background-dark": "#111827",
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#1F2937",
+                        "text-light": "#1F2937",
+                        "text-dark": "#F3F4F6",
+                        "subtext-light": "#6B7280",
+                        "subtext-dark": "#9CA3AF",
                     },
                     fontFamily: {
-                        "display": ["Manrope", "sans-serif"]
+                        display: ["Inter", "system-ui", "sans-serif"],
                     },
                     borderRadius: {
-                        "DEFAULT": "0.5rem",
-                        "lg": "0.75rem",
-                        "xl": "1rem",
-                        "full": "9999px"
+                        DEFAULT: "0.5rem",
                     },
                 },
             },
-        }
+        };
     </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-            font-size: 20px;
-        }
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .parking-spot { transition: all 0.2s; user-select: none; }
+        .parking-spot.available:hover { transform: scale(1.05); }
+        .parking-spot.selected { background-color: #00E274; border-color: #00E274; color: white; transform: scale(1.05); box-shadow: 0 4px 6px -1px rgba(0, 226, 116, 0.4); }
+        .parking-spot.booked { background-color: #E5E7EB; border-color: #D1D5DB; color: #9CA3AF; cursor: not-allowed; }
+        .dark .parking-spot.booked { background-color: #374151; border-color: #4B5563; color: #6B7280; }
+        .parking-spot.available { background-color: #ECFDF5; border-color: #00E274; color: #00E274; cursor: pointer; }
+        .dark .parking-spot.available { background-color: rgba(0, 226, 116, 0.1); border-color: #00E274; color: #00E274; }
+        
+        /* Hiệu ứng Tab */
+        .tab-btn.active { background-color: #00E274; color: white; border-color: #00E274; }
+        .tab-btn:not(.active):hover { background-color: #F3F4F6; }
+        .dark .tab-btn:not(.active):hover { background-color: #374151; }
     </style>
 </head>
-<body class="font-display bg-background-light dark:bg-background-dark">
-<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
-<!-- TopNavBar -->
-<header class="sticky top-0 z-50 w-full bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
-<div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex items-center justify-between whitespace-nowrap h-16">
-<div class="flex items-center gap-4 text-gray-800 dark:text-gray-200">
-<span class="material-symbols-outlined text-primary text-3xl">local_parking</span>
-<h2 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Parking Management</h2>
-</div>
-<div class="hidden md:flex items-center gap-9">
-<a class="text-primary dark:text-primary text-sm font-bold leading-normal " href="ChonBai.html">Dashboard</a>
-<a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="DangKiTheThang.html">Đăng Kí thẻ tháng</a>
-<a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="LichSuGuiXe.html">Lịch sử đặt chỗ</a>
-<!-- <a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Thanh toán</a> -->
-</div>
-<div class="flex items-center gap-3">
-<button class="flex cursor-pointer items-center justify-center rounded-full h-10 w-10 bg-gray-200/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
-<span class="material-symbols-outlined">notifications</span>
-</button>
-<button class="flex cursor-pointer items-center justify-center rounded-full h-10 w-10 bg-gray-200/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
-<span class="material-symbols-outlined">help_outline</span>
-</button>
-<a href="ThemPhuongTien.html"  class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDwjWTl2KRPAMOFhB9iTQ5SxyUbYBDjw6JId-QGkWKklxZiSO1DCrm2e8e9UHxL6hc-eKjvUj6uPXqU2EmA6ej944qRr_pMF-SCTsmj7dxqL0V3JsVbPrxby0wnNIrnhUx9VsvtH7cW1AHKEJ8mUszADbiVjw66TFpnWVhdcJzYROPA0Gp_1UBvba021j1q8L1haAjDdHeDF_i8_NYHnx8KkZC2LUDiWD4JMz4guGspDyO3V8FvcC9JsEPtsZLZ_RuyMNZFhz--sjF6");'>
-  
-</a>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-display min-h-screen flex flex-col transition-colors duration-200">
 
-</div>
-</div>
-</div>
-</header>
-<main class="layout-container flex h-full grow flex-col">
-<div class="flex flex-1 justify-center py-8">
-<div class="layout-content-container flex flex-col w-full max-w-screen-xl px-4 sm:px-6 lg:px-8">
-<!-- Breadcrumbs -->
-<div class="flex flex-wrap gap-2 mb-4">
-<a class="text-primary text-sm font-medium leading-normal hover:underline" href="#">Trang chủ</a>
-<span class="text-gray-500 dark:text-gray-400 text-sm font-medium leading-normal">/</span>
-<a class="text-primary text-sm font-medium leading-normal hover:underline" href="#">Danh sách bãi đỗ</a>
-<span class="text-gray-500 dark:text-gray-400 text-sm font-medium leading-normal">/</span>
-<span class="text-gray-800 dark:text-gray-200 text-sm font-medium leading-normal">Chi tiết bãi đỗ</span>
-</div>
-<!-- PageHeading -->
-<div class="flex flex-wrap justify-between items-center gap-3 mb-8">
-<div class="flex min-w-72 flex-col gap-1">
-<p class="text-gray-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Bãi đỗ xe Vincom Center</p>
-<p class="text-gray-600 dark:text-gray-400 text-base font-normal leading-normal">123 Lê Thánh Tôn, Phường Bến Nghé, Quận 1, TP.HCM</p>
-</div>
-<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-4 hover:bg-gray-200 dark:hover:bg-gray-700">
-<span class="material-symbols-outlined">arrow_back</span>
-<span>Quay lại</span>
-</button>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full">
-<!-- Left Column: Parking Map -->
-<div class="lg:col-span-2 bg-white dark:bg-gray-900/50 p-6 rounded-xl border border-gray-200 dark:border-gray-800">
-<!-- SectionHeader -->
-<h2 class="text-gray-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-2">Sơ đồ bãi đỗ</h2>
-<!-- BodyText -->
-<p class="text-gray-600 dark:text-gray-400 text-base font-normal leading-normal pb-6">Di chuột để xem chi tiết và nhấp để chọn vị trí mong muốn.</p>
-<div class="w-full bg-gray-100 dark:bg-gray-800/50 p-4 rounded-lg">
-<!-- Parking Grid -->
-<div class="grid grid-cols-8 gap-3">
-<!-- Aisle -->
-<div class="col-span-8 flex items-center justify-center text-gray-500 dark:text-gray-400 font-semibold py-4 bg-gray-200/70 dark:bg-gray-900/70 rounded">LỐI ĐI</div>
-<!-- Parking Spots - Row 1 -->
-<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#28A745]/20 text-[#1e7e34] border border-[#28A745] rounded hover:bg-[#28A745]/40 transition-colors flex items-center justify-center"><span class="font-bold text-sm">A01</span></div>
-<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#FFC107]/20 text-[#b38600] border border-[#FFC107] rounded hover:bg-[#FFC107]/40 transition-colors flex items-center justify-center"><span class="font-bold text-sm">A02</span></div>
-<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#495057]/20 text-[#32363a] dark:text-gray-400 border border-[#495057] rounded flex items-center justify-center cursor-not-allowed"><span class="font-bold text-sm">A03</span></div>
-<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#28A745]/20 text-[#1e7e34] border border-[#28A745] rounded hover:bg-[#28A745]/40 transition-colors flex items-center justify-center"><span class="font-bold text-sm">A04</span></div>
-<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#28A745]/20 text-[#1e7e34] border border-[#28A745] rounded hover:bg-[#28A745]/40 transition-colors flex items-center justify-center"><span class="font-bold text-sm">A05</span></div>
-<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#495057]/20 text-[#32363a] dark:text-gray-400 border border-[#495057] rounded flex items-center justify-center cursor-not-allowed"><span class="font-bold text-sm">A06</span></div>
-<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#495057]/20 text-[#32363a] dark:text-gray-400 border border-[#495057] rounded flex items-center justify-center cursor-not-allowed"><span class="font-bold text-sm">A07</span></div>
-<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#28A745]/20 text-[#1e7e34] border border-[#28A745] rounded hover:bg-[#28A745]/40 transition-colors flex items-center justify-center"><span class="font-bold text-sm">A08</span></div>
-<!-- Parking Spots - Row 2 -->
-<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#28A745]/20 text-[#1e7e34] border border-[#28A745] rounded hover:bg-[#28A745]/40 transition-colors flex items-center justify-center"><span class="font-bold text-sm">B01</span></div>
-<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#28A745]/20 text-[#1e7e34] border border-[#28A745] rounded hover:bg-[#28A745]/40 transition-colors flex items-center justify-center"><span class="font-bold text-sm">B02</span></div>
-<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#495057]/20 text-[#32363a] dark:text-gray-400 border border-[#495057] rounded flex items-center justify-center cursor-not-allowed"><span class="font-bold text-sm">B03</span></div>
-<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#495057]/20 text-[#32363a] dark:text-gray-400 border border-[#495057] rounded flex items-center justify-center cursor-not-allowed"><span class="font-bold text-sm">B04</span></div>
-<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#28A745]/20 text-[#1e7e34] border border-[#28A745] rounded hover:bg-[#28A745]/40 transition-colors flex items-center justify-center"><span class="font-bold text-sm">B05</span></div>
-<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#28A745]/20 text-[#1e7e34] border border-[#28A745] rounded hover:bg-[#28A745]/40 transition-colors flex items-center justify-center"><span class="font-bold text-sm">B06</span></div>
-<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#495057]/20 text-[#32363a] dark:text-gray-400 border border-[#495057] rounded flex items-center justify-center cursor-not-allowed"><span class="font-bold text-sm">B07</span></div>
-<div class="group relative cursor-pointer aspect-w-2 aspect-h-3 bg-[#28A745]/20 text-[#1e7e34] border border-[#28A745] rounded hover:bg-[#28A745]/40 transition-colors flex items-center justify-center"><span class="font-bold text-sm">B08</span></div>
-</div>
-</div>
-<!-- Legend -->
-<div class="flex flex-wrap gap-x-6 gap-y-2 mt-6">
-<div class="flex items-center gap-2">
-<div class="w-4 h-4 rounded-sm bg-[#28A745]/80"></div>
-<span class="text-sm text-gray-700 dark:text-gray-300">Còn trống</span>
-</div>
-<div class="flex items-center gap-2">
-<div class="w-4 h-4 rounded-sm bg-[#495057]/80"></div>
-<span class="text-sm text-gray-700 dark:text-gray-300">Đã đặt</span>
-</div>
-<div class="flex items-center gap-2">
-<div class="w-4 h-4 rounded-sm bg-[#FFC107]/80"></div>
-<span class="text-sm text-gray-700 dark:text-gray-300">Đang chọn</span>
-</div>
-</div>
-</div>
-<!-- Right Column: Booking Form -->
-<div class="lg:col-span-1 bg-white dark:bg-gray-900/50 p-6 rounded-xl border border-gray-200 dark:border-gray-800 flex flex-col gap-6 h-fit sticky top-24">
-<h3 class="text-gray-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Đặt chỗ của bạn</h3>
-<div class="flex flex-col gap-4">
-<!-- Package Type -->
-<div class="grid grid-cols-2 gap-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
-<button class="px-3 py-2 text-sm font-semibold rounded-md bg-white dark:bg-gray-700 text-primary shadow">Gói theo lượt</button>
-<button class="px-3 py-2 text-sm font-semibold rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700/50">Gói theo tháng</button>
-</div>
-<!-- Date & Time Pickers -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-<div>
-<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="start-time">Thời gian vào</label>
-<input class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 shadow-sm focus:border-primary focus:ring-primary text-sm" id="start-time" type="datetime-local" value="2024-08-15T09:00"/>
-</div>
-<div>
-<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="end-time">Thời gian ra</label>
-<input class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 shadow-sm focus:border-primary focus:ring-primary text-sm" id="end-time" type="datetime-local" value="2024-08-15T11:00"/>
-</div>
-</div>
-<!-- Vehicle Type -->
-<div>
-<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="vehicle-type">Loại xe</label>
-<select class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 shadow-sm focus:border-primary focus:ring-primary text-sm" id="vehicle-type">
-<option>Ô tô</option>
-<option>Xe máy</option>
-</select>
-</div>
-<!-- Promo Code -->
-<div>
-<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="promo-code">Mã ưu đãi</label>
-<div class="flex">
-<input class="flex-grow w-full rounded-l-md border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 shadow-sm focus:border-primary focus:ring-primary text-sm" id="promo-code" placeholder="Nhập mã giảm giá" type="text"/>
-<button class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold text-sm rounded-r-md hover:bg-gray-300 dark:hover:bg-gray-600">Áp dụng</button>
-</div>
-</div>
-</div>
-<!-- Cost Summary -->
-<div class="border-t border-gray-200 dark:border-gray-700 pt-4 flex flex-col gap-2">
-<div class="flex justify-between text-sm text-gray-600 dark:text-gray-400">
-<span>Vị trí đã chọn</span>
-<span class="font-medium text-gray-800 dark:text-gray-200">A02</span>
-</div>
-<div class="flex justify-between text-sm text-gray-600 dark:text-gray-400">
-<span>Phí gửi xe (2 giờ)</span>
-<span class="font-medium text-gray-800 dark:text-gray-200">40.000đ</span>
-</div>
-<div class="flex justify-between text-sm text-gray-600 dark:text-gray-400">
-<span>Phí dịch vụ</span>
-<span class="font-medium text-gray-800 dark:text-gray-200">2.000đ</span>
-</div>
-<div class="flex justify-between mt-2 pt-2 border-t border-dashed border-gray-300 dark:border-gray-700">
-<span class="text-base font-bold text-gray-900 dark:text-white">Tổng cộng</span>
-<span class="text-base font-bold text-primary">42.000đ</span>
-</div>
-</div>
-<!-- CTA Button -->
-<button class="w-full flex items-center justify-center gap-2 h-12 px-6 bg-primary text-white rounded-lg font-bold text-base hover:bg-primary/90 transition-colors">
-<span>Đặt chỗ ngay</span>
-<span class="material-symbols-outlined">arrow_forward</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-</main>
-</div>
-</body></html>
+    <header class="bg-card-light dark:bg-card-dark border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
+        <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-primary font-bold text-3xl">P</span>
+                <span class="font-bold text-lg text-text-light dark:text-text-dark">Parking Management</span>
+            </div>
+            <div class="hidden md:flex items-center gap-9">
+                    <a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Dashboard</a>
+                    <a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="DangKiTheThang.html">Đăng Kí thẻ tháng</a>
+                    <a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="DanhGia.html">Đánh Giá</a>
+                </div>
+            <div class="flex items-center gap-3">
+                    <button class="flex cursor-pointer items-center justify-center rounded-full h-10 w-10 bg-gray-200/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <button class="flex cursor-pointer items-center justify-center rounded-full h-10 w-10 bg-gray-200/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
+                        <span class="material-symbols-outlined">help_outline</span>
+                    </button>
+                    <a href="ThemPhuongTien.html" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-gray-200 dark:border-gray-700" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDwjWTl2KRPAMOFhB9iTQ5SxyUbYBDjw6JId-QGkWKklxZiSO1DCrm2e8e9UHxL6hc-eKjvUj6uPXqU2EmA6ej944qRr_pMF-SCTsmj7dxqL0V3JsVbPrxby0wnNIrnhUx9VsvtH7cW1AHKEJ8mUszADbiVjw66TFpnWVhdcJzYROPA0Gp_1UBvba021j1q8L1haAjDdHeDF_i8_NYHnx8KkZC2LUDiWD4JMz4guGspDyO3V8FvcC9JsEPtsZLZ_RuyMNZFhz--sjF6");'></a>
+                </div>
+        </div>
+    </header>
+
+    <div class="flex flex-1 max-w-screen-2xl mx-auto w-full">
+        <aside class="w-64 bg-card-light dark:bg-card-dark border-r border-gray-200 dark:border-gray-700 hidden lg:flex flex-col py-6 px-4 h-[calc(100vh-4rem)] sticky top-16 overflow-y-auto">
+             <div class="mb-8 flex items-center gap-3 px-2">
+                <div class="h-10 w-10 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                    <img alt="Profile" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwjWTl2KRPAMOFhB9iTQ5SxyUbYBDjw6JId-QGkWKklxZiSO1DCrm2e8e9UHxL6hc-eKjvUj6uPXqU2EmA6ej944qRr_pMF-SCTsmj7dxqL0V3JsVbPrxby0wnNIrnhUx9VsvtH7cW1AHKEJ8mUszADbiVjw66TFpnWVhdcJzYROPA0Gp_1UBvba021j1q8L1haAjDdHeDF_i8_NYHnx8KkZC2LUDiWD4JMz4guGspDyO3V8FvcC9JsEPtsZLZ_RuyMNZFhz--sjF6"/>
+                </div>
+                <div>
+                    <p class="text-sm font-semibold text-text-light dark:text-text-dark">Nguyễn Văn A</p>
+                    <p class="text-xs text-subtext-light dark:text-subtext-dark">khachhang@email.com</p>
+                </div>
+            </div>
+            <nav class="flex-1 space-y-1">
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 rounded-lg transition-colors group" href="LichSuGuiXe.html">
+                    <span class="material-symbols-outlined text-[20px]">home</span>
+                    Trang chủ
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium bg-primary/20 text-primary dark:text-primary rounded-lg transition-colors group" href="#">
+                    <span class="material-symbols-outlined text-[20px]">confirmation_number</span>
+                    Đặt chỗ
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 rounded-lg transition-colors group" href="LichSuGuiXe.html">
+                    <span class="material-symbols-outlined text-[20px]">history</span>
+                    Lịch sử
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 rounded-lg transition-colors group" href="ThemPhuongTien.html">
+                    <span class="material-symbols-outlined text-[20px]">directions_car</span>
+                    Phương tiện
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 rounded-lg transition-colors group" href="XemTheThang.html">
+                    <span class="material-icons-outlined text-[20px]">credit_card</span>
+                    Thẻ tháng của tôi
+                </a>
+                 <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 rounded-lg transition-colors group" href="#">
+                    <span class="material-symbols-outlined text-[20px]">account_circle</span>
+                    Tài khoản
+                </a>
+            </nav>
+
+            <div class="mt-auto pt-6 border-t border-gray-200 dark:border-gray-800 space-y-1">
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 rounded-lg transition-colors group" href="#">
+                    <span class="material-symbols-outlined text-[20px]">settings</span>
+                    Cài đặt
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-colors group" href="#">
+                    <span class="material-symbols-outlined text-[20px]">logout</span>
+                    Đăng xuất
+                </a>
+            </div>
+        </aside>
+
+        <main class="flex-1 p-6 lg:p-10 bg-background-light dark:bg-background-dark overflow-y-auto">
+            
+            <nav class="flex items-center text-sm text-subtext-light dark:text-subtext-dark mb-6">
+                <a class="hover:text-primary dark:hover:text-primary" href="#">Trang chủ</a>
+                <span class="mx-2">/</span>
+                <a class="hover:text-primary dark:hover:text-primary" href="#">Tìm bãi đỗ</a>
+                <span class="mx-2">/</span>
+                <span class="text-text-light dark:text-text-dark font-medium">Chi tiết bãi đỗ</span>
+            </nav>
+
+            <div class="flex flex-wrap justify-between items-end gap-4 mb-8">
+                <div>
+                    <h1 class="text-3xl font-bold text-text-light dark:text-text-dark mb-1">Bãi đỗ xe Vincom Center</h1>
+                    <div class="flex items-center gap-2 text-subtext-light dark:text-subtext-dark">
+                        <span class="material-icons-outlined text-sm">location_on</span>
+                        <span>72 Lê Thánh Tôn, Bến Nghé, Quận 1, TP.HCM</span>
+                    </div>
+                </div>
+                <button onclick="window.location.href='ChonBai.html'" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-card-dark border border-gray-300 dark:border-gray-600 text-text-light dark:text-text-dark hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm font-medium">
+                    <span class="material-icons-outlined text-[18px]">arrow_back</span>
+                    Quay lại
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <div class="lg:col-span-2">
+                    <div class="bg-card-light dark:bg-card-dark rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+                        
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                            <h2 class="text-lg font-bold text-text-light dark:text-text-dark flex items-center gap-2">
+                                <span class="material-icons-outlined text-primary">map</span>
+                                Sơ đồ vị trí
+                            </h2>
+                            
+                            <div class="flex gap-4 text-xs font-medium">
+                                <div class="flex items-center gap-1.5">
+                                    <div class="w-3 h-3 rounded-sm bg-[#ECFDF5] border border-primary"></div>
+                                    <span class="text-subtext-light dark:text-subtext-dark">Còn trống</span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <div class="w-3 h-3 rounded-sm bg-primary border border-primary"></div>
+                                    <span class="text-subtext-light dark:text-subtext-dark">Đang chọn</span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <div class="w-3 h-3 rounded-sm bg-gray-200 border border-gray-300"></div>
+                                    <span class="text-subtext-light dark:text-subtext-dark">Đã đặt</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4 overflow-x-auto pb-2">
+                            <div class="flex space-x-2">
+                                <button onclick="switchZone('A')" id="tab-A" class="tab-btn active px-4 py-2 rounded-lg text-sm font-semibold border border-gray-200 dark:border-gray-600 transition-colors whitespace-nowrap">
+                                    Khu A (Tầng 1)
+                                </button>
+                                <button onclick="switchZone('B')" id="tab-B" class="tab-btn px-4 py-2 rounded-lg text-sm font-semibold border border-gray-200 dark:border-gray-600 text-subtext-light dark:text-subtext-dark transition-colors whitespace-nowrap">
+                                    Khu B (Tầng 1)
+                                </button>
+                                <button onclick="switchZone('C')" id="tab-C" class="tab-btn px-4 py-2 rounded-lg text-sm font-semibold border border-gray-200 dark:border-gray-600 text-subtext-light dark:text-subtext-dark transition-colors whitespace-nowrap">
+                                    Khu C (Tầng 2)
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-xl border border-dashed border-gray-200 dark:border-gray-700">
+                            
+                            <div id="zone-A" class="zone-display block">
+                                <div class="grid grid-cols-8 gap-3 max-w-2xl mx-auto">
+                                    <div class="col-span-8 flex items-center justify-center py-2 mb-2 bg-blue-100/50 dark:bg-blue-900/30 rounded text-xs font-bold text-blue-600 dark:text-blue-400 tracking-widest border border-blue-200 dark:border-blue-800">
+                                        KHU VỰC A - GẦN CỔNG CHÍNH
+                                    </div>
+                                    
+                                    <div class="parking-spot available aspect-[2/3] border rounded-md flex items-center justify-center font-bold text-sm" onclick="selectSpot(this, 'A01', 'Khu A')">A01</div>
+                                    <div class="parking-spot available aspect-[2/3] border rounded-md flex items-center justify-center font-bold text-sm" onclick="selectSpot(this, 'A02', 'Khu A')">A02</div>
+                                    <div class="parking-spot booked aspect-[2/3] border rounded-md flex items-center justify-center font-bold text-sm">A03</div>
+                                    <div class="parking-spot available aspect-[2/3] border rounded-md flex items-center justify-center font-bold text-sm" onclick="selectSpot(this, 'A04', 'Khu A')">A04</div>
+                                    <div class="parking-spot available aspect-[2/3] border rounded-md flex items-center justify-center font-bold text-sm" onclick="selectSpot(this, 'A05', 'Khu A')">A05</div>
+                                    <div class="parking-spot booked aspect-[2/3] border rounded-md flex items-center justify-center font-bold text-sm">A06</div>
+                                    <div class="parking-spot booked aspect-[2/3] border rounded-md flex items-center justify-center font-bold text-sm">A07</div>
+                                    <div class="parking-spot available aspect-[2/3] border rounded-md flex items-center justify-center font-bold text-sm" onclick="selectSpot(this, 'A08', 'Khu A')">A08</div>
+                                </div>
+                            </div>
+
+                            <div id="zone-B" class="zone-display hidden">
+                                <div class="grid grid-cols-8 gap-3 max-w-2xl mx-auto">
+                                    <div class="col-span-8 flex items-center justify-center py-2 mb-2 bg-green-100/50 dark:bg-green-900/30 rounded text-xs font-bold text-green-600 dark:text-green-400 tracking-widest border border-green-200 dark:border-green-800">
+                                        KHU VỰC B - GẦN THANG MÁY
+                                    </div>
+                                    
+                                    <div class="parking-spot available aspect-[2/3] border rounded-md flex items-center justify-center font-bold text-sm" onclick="selectSpot(this, 'B01', 'Khu B')">B01</div>
+                                    <div class="parking-spot available aspect-[2/3] border rounded-md flex items-center justify-center font-bold text-sm" onclick="selectSpot(this, 'B02', 'Khu B')">B02</div>
+                                    <div class="parking-spot booked aspect-[2/3] border rounded-md flex items-center justify-center font-bold text-sm">B03</div>
+                                    <div class="parking-spot booked aspect-[2/3] border rounded-md flex items-center justify-center font-bold text-sm">B04</div>
+                                    <div class="parking-spot available aspect-[2/3] border rounded-md flex items-center justify-center font-bold text-sm" onclick="selectSpot(this, 'B05', 'Khu B')">B05</div>
+                                    <div class="parking-spot available aspect-[2/3] border rounded-md flex items-center justify-center font-bold text-sm" onclick="selectSpot(this, 'B06', 'Khu B')">B06</div>
+                                    <div class="parking-spot booked aspect-[2/3] border rounded-md flex items-center justify-center font-bold text-sm">B07</div>
+                                    <div class="parking-spot available aspect-[2/3] border rounded-md flex items-center justify-center font-bold text-sm" onclick="selectSpot(this, 'B08', 'Khu B')">B08</div>
+                                </div>
+                            </div>
+
+                             <div id="zone-C" class="zone-display hidden">
+                                <div class="flex flex-col items-center justify-center h-48 text-subtext-light dark:text-subtext-dark">
+                                    <span class="material-icons-outlined text-4xl mb-2">construction</span>
+                                    <p>Khu vực đang bảo trì hoặc chưa mở</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-1">
+                    <div class="bg-card-light dark:bg-card-dark rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-lg sticky top-24">
+                        <h3 class="text-lg font-bold text-text-light dark:text-text-dark mb-6">Thông tin đặt chỗ</h3>
+                        
+                        <form class="space-y-4">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-medium text-subtext-light dark:text-subtext-dark mb-1">Giờ vào</label>
+                                    <input type="datetime-local" class="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg text-sm text-text-light dark:text-text-dark focus:ring-primary focus:border-primary">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-subtext-light dark:text-subtext-dark mb-1">Giờ ra (Dự kiến)</label>
+                                    <input type="datetime-local" class="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg text-sm text-text-light dark:text-text-dark focus:ring-primary focus:border-primary">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-subtext-light dark:text-subtext-dark mb-1">Biển số xe phương tiện</label>
+                                <select class="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg text-sm text-text-light dark:text-text-dark focus:ring-primary focus:border-primary">
+                                    <option>51G-123.45</option>
+                                    <option>30A-999.99</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-subtext-light dark:text-subtext-dark mb-1">Mã ưu đãi</label>
+                                <div class="flex gap-2">
+                                    <input type="text" placeholder="Nhập mã" class="flex-1 px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg text-sm text-text-light dark:text-text-dark focus:ring-primary focus:border-primary">
+                                    <button type="button" class="px-3 py-2 bg-gray-200 dark:bg-gray-700 text-text-light dark:text-text-dark text-sm font-medium rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600">Áp dụng</button>
+                                </div>
+                            </div>
+                            <div class="pt-4 mt-4 border-t border-dashed border-gray-200 dark:border-gray-700 space-y-2">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-subtext-light dark:text-subtext-dark">Khu vực</span>
+                                    <span class="font-medium text-text-light dark:text-text-dark" id="selectedZoneDisplay">--</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-subtext-light dark:text-subtext-dark">Vị trí</span>
+                                    <span class="font-bold text-primary" id="selectedSpotDisplay">Chưa chọn</span>
+                                </div>
+                                <div class="flex justify-between items-end pt-2">
+                                    <span class="font-bold text-text-light dark:text-text-dark">Tổng cộng</span>
+                                    <span class="text-xl font-bold text-primary">40.000đ</span>
+                                </div>
+                            </div>
+
+                            <button type="button" id="confirmBtn" class="w-full flex items-center justify-center gap-2 py-3 px-4 bg-gray-300 dark:bg-gray-700 text-gray-500 font-bold rounded-lg transition-all cursor-not-allowed" disabled onclick="window.location.href='ThanhToanDatCho.html'">
+                                Xác nhận đặt chỗ
+                                <span class="material-icons-outlined text-lg">arrow_forward</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let currentSpot = null;
+
+        // Chuyển Tab Khu vực
+        function switchZone(zoneId) {
+            // 1. Ẩn tất cả zone
+            document.querySelectorAll('.zone-display').forEach(el => el.classList.add('hidden'));
+            
+            // 2. Hiện zone được chọn
+            const selectedZone = document.getElementById('zone-' + zoneId);
+            if(selectedZone) selectedZone.classList.remove('hidden');
+
+            // 3. Update style cho Tab button
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.remove('text-white');
+                btn.classList.add('text-subtext-light', 'dark:text-subtext-dark');
+            });
+            const activeBtn = document.getElementById('tab-' + zoneId);
+            activeBtn.classList.add('active');
+            activeBtn.classList.remove('text-subtext-light', 'dark:text-subtext-dark');
+
+            // 4. (Tuỳ chọn) Nếu chuyển tab mà muốn reset lựa chọn cũ thì uncomment dòng dưới
+            // if (currentSpot) {
+            //     currentSpot.classList.remove('selected');
+            //     currentSpot.classList.add('available');
+            //     currentSpot = null;
+            //     updateDisplay(null, '--');
+            // }
+        }
+
+        function selectSpot(element, spotId, zoneName) {
+            // Nếu click vào ô đã chọn -> Bỏ chọn
+            if (currentSpot === element) {
+                element.classList.remove('selected');
+                element.classList.add('available');
+                currentSpot = null;
+                updateDisplay(null, '--');
+                return;
+            }
+
+            // Bỏ chọn ô cũ (nếu có, dù ở Tab khác)
+            if (currentSpot) {
+                currentSpot.classList.remove('selected');
+                currentSpot.classList.add('available');
+            }
+
+            // Chọn ô mới
+            element.classList.remove('available');
+            element.classList.add('selected');
+            currentSpot = element;
+            updateDisplay(spotId, zoneName);
+        }
+
+        function updateDisplay(spotId, zoneName) {
+            const displaySpot = document.getElementById('selectedSpotDisplay');
+            const displayZone = document.getElementById('selectedZoneDisplay');
+            const btn = document.getElementById('confirmBtn');
+
+            if (spotId) {
+                displaySpot.innerText = spotId;
+                displayZone.innerText = zoneName;
+                // Enable button
+                btn.disabled = false;
+                btn.classList.remove('bg-gray-300', 'dark:bg-gray-700', 'text-gray-500', 'cursor-not-allowed');
+                btn.classList.add('bg-primary', 'hover:bg-primary-dark', 'text-white', 'shadow-lg', 'shadow-primary/30', 'hover:-translate-y-0.5');
+            } else {
+                displaySpot.innerText = 'Chưa chọn';
+                displayZone.innerText = '--';
+                // Disable button
+                btn.disabled = true;
+                btn.classList.add('bg-gray-300', 'dark:bg-gray-700', 'text-gray-500', 'cursor-not-allowed');
+                btn.classList.remove('bg-primary', 'hover:bg-primary-dark', 'text-white', 'shadow-lg', 'shadow-primary/30', 'hover:-translate-y-0.5');
+            }
+        }
+    </script>
+</body>
+</html>
