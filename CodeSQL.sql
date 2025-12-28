@@ -252,6 +252,28 @@ CREATE TABLE DanhGia (
     NgayDanhGia DATETIME DEFAULT GETDATE()
 );
 
+ALTER TABLE BangGia ADD CONSTRAINT CK_BangGia_HopLe CHECK (IDBaiDo IS NOT NULL);
+ALTER TABLE LoaiHinhTinhPhi ADD CONSTRAINT CK_GiaTien CHECK (GiaTien > 0);
+ALTER TABLE BaiDo ADD CONSTRAINT CK_BaiDo_SucChua CHECK (SucChua > 0);
+ALTER TABLE KhuVuc ADD CONSTRAINT CK_KhuVuc_SucChua CHECK (SucChua > 0);
+ALTER TABLE NhanVien ADD CONSTRAINT CK_LuongCB CHECK (LuongCB >= 0);
+
+ALTER TABLE DanhGia
+ADD CONSTRAINT CK_DanhGia_Diem
+CHECK (DiemDanhGia BETWEEN 1 AND 5);
+
+ALTER TABLE DatCho
+ADD CONSTRAINT CK_DatCho_Time
+CHECK (TgianKetThuc > TgianBatDau);
+
+ALTER TABLE PhieuGiuXe
+ADD CONSTRAINT CK_PhieuGiuXe_Time
+CHECK (TgianRa IS NULL OR TgianRa > TgianVao);
+
+ALTER TABLE HoaDon ADD CONSTRAINT DF_HoaDon_NgayTao DEFAULT GETDATE() FOR NgayTao;
+ALTER TABLE PhieuGiuXe ADD CONSTRAINT DF_PhieuGiuXe_TrangThai DEFAULT N'Đang gửi' FOR TrangThai;
+ALTER TABLE DatCho ADD CONSTRAINT DF_DatCho_TrangThai DEFAULT N'Đã đặt' FOR TrangThai;
+
 -- Kiểm tra SĐT Khách hàng: Phải là số và dài từ 10-15 ký tự
 ALTER TABLE KhachHang
 ADD CONSTRAINT CK_KhachHang_SDT 
