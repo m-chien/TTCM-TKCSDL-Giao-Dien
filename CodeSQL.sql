@@ -251,113 +251,325 @@ CREATE TABLE DanhGia (
     DiemDanhGia INT, -- 1 đến 5 sao
     NgayDanhGia DATETIME DEFAULT GETDATE()
 );
+--- 1. Ràng buộc cơ bản về sức chứa (ngăn giá trị vô lý)
+-- 1. Ràng buộc sức chứa > 0
+ALTER TABLE BaiDo
+ADD CONSTRAINT CK_BaiDo_SucChua CHECK (SucChua > 0);
 
-ALTER TABLE BangGia ADD CONSTRAINT CK_BangGia_HopLe CHECK (IDBaiDo IS NOT NULL);
-ALTER TABLE LoaiHinhTinhPhi ADD CONSTRAINT CK_GiaTien CHECK (GiaTien > 0);
-ALTER TABLE BaiDo ADD CONSTRAINT CK_BaiDo_SucChua CHECK (SucChua > 0);
-ALTER TABLE KhuVuc ADD CONSTRAINT CK_KhuVuc_SucChua CHECK (SucChua > 0);
-ALTER TABLE NhanVien ADD CONSTRAINT CK_LuongCB CHECK (LuongCB >= 0);
+ALTER TABLE KhuVuc
+ADD CONSTRAINT CK_KhuVuc_SucChua CHECK (SucChua > 0);
 
-ALTER TABLE DanhGia
-ADD CONSTRAINT CK_DanhGia_Diem
-CHECK (DiemDanhGia BETWEEN 1 AND 5);
-
-ALTER TABLE DatCho
-ADD CONSTRAINT CK_DatCho_Time
-CHECK (TgianKetThuc > TgianBatDau);
-
-ALTER TABLE PhieuGiuXe
-ADD CONSTRAINT CK_PhieuGiuXe_Time
-CHECK (TgianRa IS NULL OR TgianRa > TgianVao);
-
-ALTER TABLE HoaDon ADD CONSTRAINT DF_HoaDon_NgayTao DEFAULT GETDATE() FOR NgayTao;
-ALTER TABLE PhieuGiuXe ADD CONSTRAINT DF_PhieuGiuXe_TrangThai DEFAULT N'Đang gửi' FOR TrangThai;
-ALTER TABLE DatCho ADD CONSTRAINT DF_DatCho_TrangThai DEFAULT N'Đã đặt' FOR TrangThai;
-
--- Kiểm tra SĐT Khách hàng: Phải là số và dài từ 10-15 ký tự
-ALTER TABLE KhachHang
-ADD CONSTRAINT CK_KhachHang_SDT 
-CHECK (SDT NOT LIKE '%[^0-9]%' AND LEN(SDT) >= 10);
-
--- Kiểm tra SĐT Nhân viên
-ALTER TABLE NhanVien
-ADD CONSTRAINT CK_NhanVien_SDT 
-CHECK (SDT NOT LIKE '%[^0-9]%' AND LEN(SDT) >= 10);
-
--- Kiểm tra SĐT Chủ bãi xe
-ALTER TABLE ChuBaiXe
-ADD CONSTRAINT CK_ChuBaiXe_SDT 
-CHECK (SDT NOT LIKE '%[^0-9]%' AND LEN(SDT) >= 10);
-
--- Kiểm tra Email Nhân viên
-ALTER TABLE NhanVien
-ADD CONSTRAINT CK_NhanVien_Email 
-CHECK (Email LIKE '%_@__%.__%');
-
--- Kiểm tra Email Chủ bãi xe
-ALTER TABLE ChuBaiXe
-ADD CONSTRAINT CK_ChuBaiXe_Email 
-CHECK (Email LIKE '%_@__%.__%');
-
--- 1. Bảng BaiDo (TrangThai)
+-- 2. Ràng buộc trạng thái (enum-like)
 ALTER TABLE BaiDo
 ADD CONSTRAINT CK_BaiDo_TrangThai 
 CHECK (TrangThai IN (N'Hoạt động', N'Đóng cửa', N'Bảo trì', N'Tạm dừng'));
 
--- 2. Bảng ChoDauXe (TrangThai - Quan trọng nhất)
--- Chỉ cho phép các trạng thái logic của ô đỗ
 ALTER TABLE ChoDauXe
 ADD CONSTRAINT CK_ChoDauXe_TrangThai 
 CHECK (TrangThai IN (N'Trống', N'Đã đặt', N'Đang đỗ', N'Bảo trì'));
 
--- 3. Bảng ThietBi (TrangThai)
-ALTER TABLE ThietBi
-ADD CONSTRAINT CK_ThietBi_TrangThai 
-CHECK (TrangThai IN (N'Hoạt động', N'Hỏng', N'Bảo trì', N'Thanh lý'));
-
--- 4. Bảng DatCho (TrangThai)
-ALTER TABLE DatCho
-ADD CONSTRAINT CK_DatCho_TrangThai 
-CHECK (TrangThai IN (N'Đã đặt', N'Đã hủy', N'Hoàn thành', N'Quá hạn'));
-
--- 5. Bảng PhieuGiuXe (TrangThai)
 ALTER TABLE PhieuGiuXe
 ADD CONSTRAINT CK_PhieuGiuXe_TrangThai 
 CHECK (TrangThai IN (N'Đang gửi', N'Đã lấy', N'Quá hạn', N'Mất vé'));
 
--- 6. Bảng SuCo (TrangThaiXuLy & MucDo)
-ALTER TABLE SuCo
-ADD CONSTRAINT CK_SuCo_TrangThaiXuLy 
-CHECK (TrangThaiXuLy IN (N'Chưa xử lý', N'Đang xử lý', N'Đã xử lý'));
+ALTER TABLE DatCho
+ADD CONSTRAINT CK_DatCho_TrangThai 
+CHECK (TrangThai IN (N'Đã đặt', N'Đã hủy', N'Hoàn thành', N'Quá hạn'));
 
-ALTER TABLE SuCo
-ADD CONSTRAINT CK_SuCo_MucDo 
-CHECK (MucDo IN (N'Nhẹ', N'Trung bình', N'Nghiêm trọng'));
+-- 3. Ràng buộc thời gian logic
+ALTER TABLE DatCho
+ADD CONSTRAINT CK_DatCho_ThoiGian 
+CHECK (TgianKetThuc > TgianBatDau);
 
--- 7. Bảng KhachHang (LoaiKH)
-ALTER TABLE KhachHang
-ADD CONSTRAINT CK_KhachHang_LoaiKH 
-CHECK (LoaiKH IN (N'Vãng lai', N'Thường xuyên', N'VIP'));
+ALTER TABLE PhieuGiuXe
+ADD CONSTRAINT CK_PhieuGiuXe_ThoiGian 
+CHECK (TgianRa IS NULL OR TgianRa > TgianVao);
 
--- 8. Bảng ThanhToan (PhuongThuc)
-ALTER TABLE ThanhToan
-ADD CONSTRAINT CK_ThanhToan_PhuongThuc 
-CHECK (PhuongThuc IN (N'Tiền mặt', N'Thẻ', N'QR Code', N'Chuyển khoản'));
+ALTER TABLE KhungGio
+ADD CONSTRAINT CK_KhungGio_ThoiGian 
+CHECK (ThoiGianKetThuc > ThoiGianBatDau);
 
+ALTER TABLE CaLam
+ADD CONSTRAINT CK_CaLam_ThoiGian 
+CHECK (TgianKetThuc > TgianBatDau);
 
--- Thẻ xe tháng: Mặc định là 1 (Còn hạn)
+-- 4. Ràng buộc giá tiền & giá trị tài chính (>= 0)
+ALTER TABLE LoaiHinhTinhPhi
+ADD CONSTRAINT CK_LoaiHinhTinhPhi_GiaTien 
+CHECK (GiaTien >= 0);
+
+ALTER TABLE HoaDon
+ADD CONSTRAINT CK_HoaDon_ThanhTien 
+CHECK (ThanhTien >= 0);
+
+ALTER TABLE ChiTietHoaDon
+ADD CONSTRAINT CK_ChiTietHoaDon_TongTien 
+CHECK (TongTien >= 0);
+
+ALTER TABLE Voucher
+ADD CONSTRAINT CK_Voucher_GiaTri 
+CHECK (GiaTri >= 0);
+
+-- 5. Ràng buộc điểm đánh giá
+ALTER TABLE DanhGia
+ADD CONSTRAINT CK_DanhGia_DiemDanhGia 
+CHECK (DiemDanhGia BETWEEN 1 AND 5);
+
+-- 6. Ràng buộc lương & hệ số lương
+ALTER TABLE NhanVien
+ADD CONSTRAINT CK_NhanVien_LuongCB 
+CHECK (LuongCB >= 0);
+
+ALTER TABLE CaLam
+ADD CONSTRAINT CK_CaLam_HeSoLuong 
+CHECK (HeSoLuong >= 1.0);
+
+-- 7. Các DEFAULT hữu ích (nếu chưa có)
+
 ALTER TABLE TheXeThang
 ADD CONSTRAINT DF_TheXeThang_TrangThai DEFAULT 1 FOR TrangThai;
 
--- Voucher: Mặc định là 1 (Có thể sử dụng)
+
+
 ALTER TABLE Voucher
 ADD CONSTRAINT DF_Voucher_TrangThai DEFAULT 1 FOR TrangThai;
 
--- Lịch làm việc: Mặc định là 0 (Chưa duyệt/Chờ duyệt) hoặc 1 tuỳ logic
-ALTER TABLE LichLamViec
-ADD CONSTRAINT DF_LichLamViec_TrangThai DEFAULT 0 FOR TrangThai;
+ALTER TABLE ThanhToan
+ADD CONSTRAINT DF_ThanhToan_TrangThai DEFAULT 1 FOR TrangThai;  -- 1 = thành công
 
-go
+ALTER TABLE LichLamViec
+ADD CONSTRAINT DF_LichLamViec_TrangThai DEFAULT 0 FOR TrangThai; -- chờ duyệt
+
+
+
+-- =============================================================================
+-- PHẦN BỔ SUNG: Ràng buộc FOREIGN KEY với ON DELETE / ON UPDATE
+-- Chèn toàn bộ phần này vào CUỐI script, sau tất cả CREATE TABLE và CHECK/DEFAULT
+-- =============================================================================
+
+-- 2. HỆ THỐNG TÀI KHOẢN
+ALTER TABLE TaiKhoan
+ADD CONSTRAINT FK_TaiKhoan_VaiTro 
+    FOREIGN KEY (IDVaiTro) REFERENCES VaiTro(ID)
+    ON DELETE NO ACTION 
+    ON UPDATE NO ACTION;
+
+ALTER TABLE KhachHang
+ADD CONSTRAINT FK_KhachHang_TaiKhoan 
+    FOREIGN KEY (IDTaiKhoan) REFERENCES TaiKhoan(ID)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+
+ALTER TABLE NhanVien
+ADD CONSTRAINT FK_NhanVien_TaiKhoan 
+    FOREIGN KEY (IDTaiKhoan) REFERENCES TaiKhoan(ID)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+
+ALTER TABLE ChuBaiXe
+ADD CONSTRAINT FK_ChuBaiXe_TaiKhoan 
+    FOREIGN KEY (IDTaiKhoan) REFERENCES TaiKhoan(ID)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+
+-- 3. QUẢN LÝ XE
+ALTER TABLE Xe
+ADD CONSTRAINT FK_Xe_LoaiXe 
+    FOREIGN KEY (IDLoaiXe) REFERENCES LoaiXe(ID)
+    ON DELETE NO ACTION 
+    ON UPDATE NO ACTION;
+
+ALTER TABLE KhachHang_Xe
+ADD CONSTRAINT FK_KhachHang_Xe_KhachHang 
+    FOREIGN KEY (IDKhachHang) REFERENCES KhachHang(ID)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+
+ALTER TABLE KhachHang_Xe
+ADD CONSTRAINT FK_KhachHang_Xe_Xe 
+    FOREIGN KEY (IDXe) REFERENCES Xe(BienSoXe)
+    ON DELETE NO ACTION 
+    ON UPDATE CASCADE;
+
+-- 4. CẤU TRÚC BÃI ĐỖ
+ALTER TABLE BaiDo
+ADD CONSTRAINT FK_BaiDo_ChuBaiXe 
+    FOREIGN KEY (IDChuBai) REFERENCES ChuBaiXe(ID)
+    ON DELETE NO ACTION 
+    ON UPDATE NO ACTION;
+
+ALTER TABLE KhuVuc
+ADD CONSTRAINT FK_KhuVuc_BaiDo 
+    FOREIGN KEY (IDBaiDo) REFERENCES BaiDo(ID)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+
+ALTER TABLE ChoDauXe
+ADD CONSTRAINT FK_ChoDauXe_KhuVuc 
+    FOREIGN KEY (IDKhuVuc) REFERENCES KhuVuc(ID)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+
+ALTER TABLE ThietBi
+ADD CONSTRAINT FK_ThietBi_KhuVuc 
+    FOREIGN KEY (IDKhuVuc) REFERENCES KhuVuc(ID)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+
+-- 5. GIÁ VÀ DỊCH VỤ
+ALTER TABLE BangGia
+ADD CONSTRAINT FK_BangGia_BaiDo 
+    FOREIGN KEY (IDBaiDo) REFERENCES BaiDo(ID)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+
+ALTER TABLE BangGia
+ADD CONSTRAINT FK_BangGia_LoaiXe 
+    FOREIGN KEY (IDLoaiXe) REFERENCES LoaiXe(ID)
+    ON DELETE NO ACTION 
+    ON UPDATE NO ACTION;
+
+ALTER TABLE LoaiHinhTinhPhi
+ADD CONSTRAINT FK_LoaiHinhTinhPhi_BangGia 
+    FOREIGN KEY (IDBangGia) REFERENCES BangGia(ID)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+
+ALTER TABLE KhungGio
+ADD CONSTRAINT FK_KhungGio_LoaiHinhTinhPhi 
+    FOREIGN KEY (IDLoaiHinhTinhPhi) REFERENCES LoaiHinhTinhPhi(ID)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+
+ALTER TABLE TheXeThang
+ADD CONSTRAINT FK_TheXeThang_KhachHang_Xe 
+    FOREIGN KEY (IDKhachHang_Xe) REFERENCES KhachHang_Xe(ID)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+
+ALTER TABLE Voucher
+ADD CONSTRAINT FK_Voucher_BaiDo 
+    FOREIGN KEY (IDBaiDo) REFERENCES BaiDo(ID)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+
+-- 6. NGHIỆP VỤ VÀO/RA
+ALTER TABLE DatCho
+ADD CONSTRAINT FK_DatCho_KhachHang 
+    FOREIGN KEY (IDKhachHang) REFERENCES KhachHang(ID)
+    ON DELETE NO ACTION 
+    ON UPDATE NO ACTION;
+
+ALTER TABLE DatCho
+ADD CONSTRAINT FK_DatCho_NhanVien 
+    FOREIGN KEY (IDNhanVien) REFERENCES NhanVien(ID)
+    ON DELETE SET NULL 
+    ON UPDATE NO ACTION;
+
+ALTER TABLE DatCho
+ADD CONSTRAINT FK_DatCho_ChoDauXe 
+    FOREIGN KEY (IDChoDau) REFERENCES ChoDauXe(ID)
+    ON DELETE NO ACTION 
+    ON UPDATE CASCADE;
+
+ALTER TABLE HoaDon
+ADD CONSTRAINT FK_HoaDon_Voucher 
+    FOREIGN KEY (IDVoucher) REFERENCES Voucher(ID)
+    ON DELETE SET NULL 
+    ON UPDATE NO ACTION;
+
+ALTER TABLE PhieuGiuXe
+ADD CONSTRAINT FK_PhieuGiuXe_Xe 
+    FOREIGN KEY (IDXe) REFERENCES Xe(BienSoXe)
+    ON DELETE NO ACTION 
+    ON UPDATE CASCADE;
+
+ALTER TABLE PhieuGiuXe
+ADD CONSTRAINT FK_PhieuGiuXe_ChoDauXe 
+    FOREIGN KEY (IDChoDau) REFERENCES ChoDauXe(ID)
+    ON DELETE NO ACTION 
+    ON UPDATE CASCADE;
+
+ALTER TABLE PhieuGiuXe
+ADD CONSTRAINT FK_PhieuGiuXe_NhanVien 
+    FOREIGN KEY (IDNhanVien) REFERENCES NhanVien(ID)
+    ON DELETE SET NULL 
+    ON UPDATE NO ACTION;
+
+ALTER TABLE PhieuGiuXe
+ADD CONSTRAINT FK_PhieuGiuXe_HoaDon 
+    FOREIGN KEY (IDHoaDon) REFERENCES HoaDon(ID)
+    ON DELETE NO ACTION 
+    ON UPDATE NO ACTION;
+
+ALTER TABLE ChiTietHoaDon
+ADD CONSTRAINT FK_ChiTietHoaDon_TheXeThang 
+    FOREIGN KEY (IDTheXeThang) REFERENCES TheXeThang(ID)
+    ON DELETE SET NULL 
+    ON UPDATE NO ACTION;
+
+ALTER TABLE ChiTietHoaDon
+ADD CONSTRAINT FK_ChiTietHoaDon_DatCho 
+    FOREIGN KEY (IDDatCho) REFERENCES DatCho(ID)
+    ON DELETE SET NULL 
+    ON UPDATE NO ACTION;
+
+ALTER TABLE ChiTietHoaDon
+ADD CONSTRAINT FK_ChiTietHoaDon_HoaDon 
+    FOREIGN KEY (IDHoaDon) REFERENCES HoaDon(ID)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+
+ALTER TABLE ThanhToan
+ADD CONSTRAINT FK_ThanhToan_HoaDon 
+    FOREIGN KEY (IDHoaDon) REFERENCES HoaDon(ID)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+
+-- 7. BẢNG PHỤ TRỢ
+ALTER TABLE LichLamViec
+ADD CONSTRAINT FK_LichLamViec_NhanVien 
+    FOREIGN KEY (IDNhanVien) REFERENCES NhanVien(ID)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+
+ALTER TABLE LichLamViec
+ADD CONSTRAINT FK_LichLamViec_CaLam 
+    FOREIGN KEY (IDCaLam) REFERENCES CaLam(ID)
+    ON DELETE NO ACTION 
+    ON UPDATE NO ACTION;
+
+ALTER TABLE LichLamViec
+ADD CONSTRAINT FK_LichLamViec_BaiDo 
+    FOREIGN KEY (IDBaiDo) REFERENCES BaiDo(ID)
+    ON DELETE NO ACTION 
+    ON UPDATE NO ACTION;
+
+ALTER TABLE SuCo
+ADD CONSTRAINT FK_SuCo_NhanVien 
+    FOREIGN KEY (IDNhanVien) REFERENCES NhanVien(ID)
+    ON DELETE SET NULL 
+    ON UPDATE NO ACTION;
+
+ALTER TABLE SuCo
+ADD CONSTRAINT FK_SuCo_ThietBi 
+    FOREIGN KEY (IDThietBi) REFERENCES ThietBi(ID)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+
+ALTER TABLE DanhGia
+ADD CONSTRAINT FK_DanhGia_KhachHang 
+    FOREIGN KEY (IDKhachHang) REFERENCES KhachHang(ID)
+    ON DELETE NO ACTION 
+    ON UPDATE NO ACTION;
+
+ALTER TABLE DanhGia
+ADD CONSTRAINT FK_DanhGia_HoaDon 
+    FOREIGN KEY (IDHoaDon) REFERENCES HoaDon(ID)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+-
+
 -- Function Tìm kiếm:Lấy danh sách chỗ trống theo khu vực
 CREATE FUNCTION f_TimKiemChoTrong (@IDBaiDo INT)
 RETURNS TABLE
