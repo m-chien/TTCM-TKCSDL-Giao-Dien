@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Cập nhật thông tin bãi xe </title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2632",
+                        "border-light": "#dbe0e6",
+                        "border-dark": "#2a3848",
+                        "text-main": "#111418",
+                        "text-secondary": "#617589",
+                        "text-dark-main": "#ffffff",
+                        "text-dark-secondary": "#9ca3af",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+                function toggleParkingMenu() {
+            const submenu = document.getElementById("parkingSubmenu");
+            const arrow = document.getElementById("arrowParking");
+
+            submenu.classList.toggle("hidden");
+            arrow.classList.toggle("rotate-180");
+        }
+    </script>
+</head>
+
+<body
+    class="font-display bg-background-light dark:bg-background-dark text-text-main dark:text-text-dark-main overflow-hidden">
+    <div class="flex h-screen w-full flex-row">
+        <!-- Sidebar Navigation -->
+       <aside
+            class="flex w-64 flex-col border-r border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark">
+            <div class="flex h-full flex-col justify-between p-4">
+                <div class="flex flex-col gap-6">
+                    <div class="flex items-center gap-3 px-2">
+                        <div class="flex items-center justify-center rounded-lg bg-primary/20 p-2 text-primary">
+                            <span class="material-symbols-outlined text-2xl">local_parking</span>
+                        </div>
+                        <h1 class="text-lg font-bold">Parking Admin</h1>
+                    </div>
+                    <nav class="flex flex-col gap-2">
+                        <a class="flex items-center gap-3 rounded-lg  px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
+                            href="#">
+                            <span class="material-symbols-outlined">dashboard</span>
+                            <p class="text-sm font-semibold">Tổng quan</p>
+                        </a>
+                        <!-- MENU CHA: Quản lý bãi xe -->
+                        <div class="flex flex-col">
+                            <button onclick="toggleParkingMenu()"
+                                class="flex items-center w-full justify-between gap-3 rounded-lg px-3 py-2.5 bg-primary/20 text-primary">
+                                <div class="flex items-center gap-3">
+                                    <span class="material-symbols-outlined">garage</span>
+                                    <p class="text-sm font-medium">Quản lý bãi xe</p>
+                                </div>
+                                <span id="arrowParking"
+                                    class="material-symbols-outlined transition-transform">expand_more</span>
+                            </button>
+
+                            <!-- MENU CON -->
+                            <div id="parkingSubmenu" class="ml-10 mt-1 flex flex-col gap-1 hidden">
+                                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                                    href="CapNhatBaiXe.html">
+                                    <span class="material-symbols-outlined text-base">local_offer</span>
+                                    Quản lý bãi xe
+                                </a>
+                                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                                    href="CapNhapGia.html">
+                                    <span class="material-symbols-outlined text-base">paid</span>
+                                    Quản lý giá
+                                </a>
+
+                                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                                    href="CapNhatMaGiamGia.html">
+                                    <span class="material-symbols-outlined text-base">local_offer</span>
+                                    Quản lý khuyến mãi
+                                </a>
+
+                                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-primary/10 dark:hover:bg-primary/20"
+                                    href="QuanLyTheThang.html">
+                                    <span class="material-symbols-outlined text-base">local_offer</span>
+                                    Quản lý thẻ xe tháng
+                                </a>
+                            </div>
+                        </div>
+
+                        <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
+                            href="./QuanLyNhanVien.html">
+                            <span class="material-symbols-outlined">groups</span>
+                            <p class="text-sm font-medium">Quản lý nhân viên</p>
+                        </a>
+                        <a class="flex items-center gap-3 rounded-lg px-3 py-2.5  hover:bg-primary/10 dark:hover:bg-primary/20"
+                            href="./QuanLyCaLam.html">
+                            <span class="material-symbols-outlined">shift</span>
+                            <p class="text-sm font-medium">Quản lý ca làm</p>
+                        </a>
+                        <a class="flex items-center gap-3 rounded-lg px-4 py-2.5  dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700  "
+                            href="QuanLyLichLamViec.html">
+                            <span class="material-symbols-outlined">calendar_month</span>
+                            <p class="text-sm font-medium">Lịch làm việc</p>
+                        </a>
+                        <a class="flex items-center gap-3 rounded-lg px-4 py-2.5  dark:text-heading-dark hover:bg-gray-100 dark:hover:bg-gray-700  "
+                            href="./QuanLyKhuVuc_ChoDau.html">
+                            <span class="material-symbols-outlined">list</span>
+                            <p class="text-sm font-medium">Danh mục chỗ đậu</p>
+                        </a>
+                        <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
+                            href="./ThongKe.html">
+                            <span class="material-symbols-outlined">assessment</span>
+                            <p class="text-sm font-medium">Thống kê</p>
+                        </a>
+                        <a class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" href="QuanLySuCo.html">
+                            <span class="material-icons-outlined text-lg">bar_chart</span>
+                            <span class="font-bold">Quản lý sự cố</span>
+                        </a>
+                        <a href="QuanLyThietBi.html" class="flex items-center gap-3 px-4 py-2.5 rounded text-heading-light dark:text-heading-dark 
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                            <span class="material-symbols-outlined">error_outline</span>
+                            <span>Quản lý thiết bị</span>
+                            <a class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-primary/10 dark:hover:bg-primary/20"
+                                href="#">
+                                <span class="material-symbols-outlined">settings</span>
+                                <p class="text-sm font-medium">Cài đặt</p>
+                            </a>
+                    </nav>
+                </div>
+                <div class="flex flex-col gap-1 border-t border-border-light dark:border-border-dark pt-4">
+                    <div class="flex items-center gap-3 px-3 py-2">
+                        <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                            data-alt="Admin user avatar"
+                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDSBl77xDRyzdEmA1bqOR8us366h5umMmXmkFUxgpDrNq39j6NpuXlHVoGetK8-SZzQGlIuLxy8mqr7ki1JETuzLoOeljk18F04cc8-qVotv6ZxMn3nuchnPXz1WSbP5r_XBVVIPMh5J0OJYuSuLcT2_ugU5YHbXoAj3wU7oqY0G0P7YWEOWrRN7HsvX3PwcdYQwOu3AEMDQTsWfryfJOwRehe3z7dZKlO0S2EUzKzEouKb9NB73NvcSyWWOv44oFnxK88CgSonrnuT");'>
+                        </div>
+                        <div class="flex flex-col">
+                            <p class="text-sm font-semibold">Admin</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">admin@email.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+                    <!-- Main Content Area -->
+                    <main class="flex-1 flex flex-col h-full overflow-hidden relative">
+                        <!-- Scrollable Content -->
+                        <div class="flex-1 overflow-y-auto pb-24">
+                            <div
+                                class="layout-container flex flex-col w-full max-w-[1200px] mx-auto px-6 md:px-10 py-6 md:py-10">
+                                <!-- Breadcrumbs -->
+                                <div class="flex flex-wrap gap-2 mb-6">
+                                    <a class="text-text-secondary dark:text-text-dark-secondary text-sm md:text-base font-medium leading-normal hover:text-primary transition-colors"
+                                        href="#">Home</a>
+                                    <span
+                                        class="text-text-secondary dark:text-text-dark-secondary text-sm md:text-base font-medium leading-normal">/</span>
+                                    <a class="text-text-secondary dark:text-text-dark-secondary text-sm md:text-base font-medium leading-normal hover:text-primary transition-colors"
+                                        href="#">My Lots</a>
+                                    <span
+                                        class="text-text-secondary dark:text-text-dark-secondary text-sm md:text-base font-medium leading-normal">/</span>
+                                    <a class="text-text-secondary dark:text-text-dark-secondary text-sm md:text-base font-medium leading-normal hover:text-primary transition-colors"
+                                        href="#">Downtown Metro Parking</a>
+                                    <span
+                                        class="text-text-secondary dark:text-text-dark-secondary text-sm md:text-base font-medium leading-normal">/</span>
+                                    <span
+                                        class="text-text-main dark:text-white text-sm md:text-base font-bold leading-normal">Edit</span>
+                                </div>
+                                <!-- Page Heading -->
+                                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+                                    <div class="flex flex-col gap-1">
+                                        <h1
+                                            class="text-text-main dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">
+                                            Cập nhật thông tin bãi xe</h1>
+                                        <p
+                                            class="text-text-secondary dark:text-text-dark-secondary text-sm font-normal">
+                                            Last updated: Oct 24, 2023 • ID: #LOT-8821</p>
+                                    </div>
+                                    <button
+                                        class="flex w-fit items-center justify-center gap-2 rounded-lg h-10 px-4 bg-background-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-red-600 dark:text-red-400 text-sm font-bold hover:bg-red-50 dark:hover:bg-red-900/20 transition-all">
+                                        <span class="material-symbols-outlined text-[18px]">delete</span>
+                                        <span>Xoá bãi</span>
+                                    </button>
+                                </div>
+                                <!-- Main Form Grid -->
+                                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                                    <!-- Left Column (Inputs) -->
+                                    <div class="lg:col-span-2 flex flex-col gap-8">
+                                        <!-- Section: Media -->
+                                        <div
+                                            class="bg-surface-light dark:bg-surface-dark rounded-xl p-6 shadow-sm border border-border-light dark:border-border-dark">
+                                            <h3 class="text-text-main dark:text-white text-xl font-bold mb-4">Hình ảnh</h3>
+                                            <div
+                                                class="relative w-full h-64 rounded-lg overflow-hidden group/image cursor-pointer border-2 border-dashed border-border-light dark:border-border-dark hover:border-primary transition-colors bg-background-light dark:bg-background-dark flex items-center justify-center">
+                                                <div class="absolute inset-0 bg-cover bg-center opacity-80 group-hover/image:opacity-40 transition-opacity"
+                                                    data-alt="Aerial view of a parking lot with cars parked in rows"
+                                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDE2Cu_4zpA61lnqkcD90UE_nGVMa8YrQ07h-9uWcRzwmvyrunS_GD-Uh56pup4Cpz1K71FH4tKJKX9F-Rc5yyA1n6VWeHriidQjgQx3Zrpwj1JlS6GPMu17iC15R5lKUEi0dwGkOmK-Q-XsptK1SIaYH7hn1d-MtI0WgqupnPXCYRtrVYLF3MSAGa2uCeOlMHEnO6kWHiz5Hy84iI-h3BmfGGrf7sDqT900s63o6llTS-kh06ES6EPm5TuCqVp9E067IiYDlvr_Q");'>
+                                                </div>
+                                                <div
+                                                    class="z-10 flex flex-col items-center gap-2 opacity-0 group-hover/image:opacity-100 transition-opacity">
+                                                    <div
+                                                        class="p-3 bg-white dark:bg-surface-dark rounded-full shadow-md">
+                                                        <span
+                                                            class="material-symbols-outlined text-primary">cloud_upload</span>
+                                                    </div>
+                                                    <span
+                                                        class="text-text-main dark:text-white font-medium shadow-black/20 text-shadow-sm">Click
+                                                        or drop to update image</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex gap-4 mt-4 overflow-x-auto pb-2">
+                                                <div class="w-20 h-20 rounded-lg bg-cover bg-center shrink-0 cursor-pointer ring-2 ring-primary"
+                                                    data-alt="Close up of parking lot entrance"
+                                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC0N4Y_Srs4xCSH47v6sg-wk-j8t33uwYIeZdOpmCKPqUA2mlUDg3uPnS8L61BE8etSTtBqn0s6oyrdlbde-gEArhtiq5PQYRj8GSckJV0EWt5hCAE_eGTTu16qv_bOjS68tkR5cbxf_8GSOunbhvFsg64QelMOfOZOnb34AtGDX0bvIgjza0jh5pG_7nMm26BHRGYfb3my2_w0cddOzQ39RV1pe2vH2OEMBfnLhQppdVnwg2yyI84gUwulYKE196NvcjTYsfnKgA");'>
+                                                </div>
+                                                <div class="w-20 h-20 rounded-lg bg-cover bg-center shrink-0 cursor-pointer opacity-60 hover:opacity-100 transition-opacity"
+                                                    data-alt="Interior view of covered parking garage"
+                                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB4A2PDCOnBTejPFsKter3t5nB3Wt77aVdRWM5vV-GuBg_Vy7RG8CWBS1UkeoUvQ1g83SFiSURV08XyQoqPG07byD9IwLZnzAIPT4Fa_AmrJAFi_fAgqjlyNJMGeEFmSQ-eTCMiS4an7cNWluJ1gzNzL337KdEMoFQ9_O-oegs2vgCH0ODej0z-tmWqCRJNKX0voGKG8wKzRwZNtrMZAWlGQ7M_pmE4t-MPlg849x0zYbqUcES_E3TpBBnXXCSx5-kkn5mnO8xryg");'>
+                                                </div>
+                                                <div
+                                                    class="w-20 h-20 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark flex items-center justify-center shrink-0 cursor-pointer text-text-secondary hover:text-primary transition-colors">
+                                                    <span class="material-symbols-outlined">add</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Section: Basic Information -->
+                                        <div
+                                            class="bg-surface-light dark:bg-surface-dark rounded-xl p-6 shadow-sm border border-border-light dark:border-border-dark">
+                                            <h3 class="text-text-main dark:text-white text-xl font-bold mb-6">Thông tin cơ bản</h3>
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <label class="flex flex-col flex-1">
+                                                    <p class="text-text-main dark:text-white text-sm font-medium pb-2">
+                                                        Tên bãi <span class="text-red-500">*</span></p>
+                                                    <input
+                                                        class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-12 px-4 text-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all dark:text-white placeholder:text-text-secondary"
+                                                        type="text" value="Downtown Metro Parking" />
+                                                </label>
+                                                <label class="flex flex-col flex-1">
+                                                    <p class="text-text-main dark:text-white text-sm font-medium pb-2">
+                                                       Địa chỉ <span class="text-red-500">*</span></p>
+                                                    <input
+                                                        class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-12 px-4 text-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all dark:text-white placeholder:text-text-secondary"
+                                                        type="text" value="1200 Main St." />
+                                                </label>
+                                                <div class="flex gap-4">
+                                                    <!-- <label class="flex flex-col w-2/3">
+                                                        <p
+                                                            class="text-text-main dark:text-white text-sm font-medium pb-2">
+                                                            City</p>
+                                                        <input
+                                                            class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-12 px-4 text-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all dark:text-white placeholder:text-text-secondary"
+                                                            type="text" value="Seattle" />
+                                                    </label> -->
+                                                    <!-- <label class="flex flex-col w-1/3">
+                                                        <p
+                                                            class="text-text-main dark:text-white text-sm font-medium pb-2">
+                                                            State</p>
+                                                        <input
+                                                            class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-12 px-4 text-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all dark:text-white placeholder:text-text-secondary"
+                                                            type="text" value="WA" />
+                                                    </label> -->
+                                                </div>
+                                                <!-- <label class="flex flex-col flex-1">
+                                                    <p class="text-text-main dark:text-white text-sm font-medium pb-2">
+                                                        Zip Code</p>
+                                                    <input
+                                                        class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-12 px-4 text-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all dark:text-white placeholder:text-text-secondary"
+                                                        type="text" value="98101" />
+                                                </label> -->
+                                                <!-- <label class="flex flex-col md:col-span-2">
+                                                    <p class="text-text-main dark:text-white text-sm font-medium pb-2">
+                                                        Description</p>
+                                                    <textarea
+                                                        class="form-textarea w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark p-4 text-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all dark:text-white min-h-[100px] resize-y placeholder:text-text-secondary">Secure, covered parking in the heart of downtown. 24/7 access with security patrol.</textarea>
+                                                </label> -->
+                                            </div>
+                                        </div>
+                                        <!-- Section: Amenities -->
+                                        <!-- <div
+                                            class="bg-surface-light dark:bg-surface-dark rounded-xl p-6 shadow-sm border border-border-light dark:border-border-dark"> -->
+                                            <!-- <h3 class="text-text-main dark:text-white text-xl font-bold mb-6">Amenities
+                                                &amp; Features</h3> -->
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                                                <!-- <label
+                                                    class="flex items-center gap-3 p-3 rounded-lg border border-border-light dark:border-border-dark cursor-pointer hover:bg-background-light dark:hover:bg-background-dark transition-colors">
+                                                    <input checked=""
+                                                        class="w-5 h-5 text-primary bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded focus:ring-primary"
+                                                        type="checkbox" />
+                                                    <span
+                                                        class="text-text-main dark:text-white font-medium text-sm">Covered
+                                                        Parking</span>
+                                                </label>
+                                                <label
+                                                    class="flex items-center gap-3 p-3 rounded-lg border border-border-light dark:border-border-dark cursor-pointer hover:bg-background-light dark:hover:bg-background-dark transition-colors">
+                                                    <input checked=""
+                                                        class="w-5 h-5 text-primary bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded focus:ring-primary"
+                                                        type="checkbox" />
+                                                    <span
+                                                        class="text-text-main dark:text-white font-medium text-sm">Security
+                                                        Cameras</span>
+                                                </label>
+                                                <label
+                                                    class="flex items-center gap-3 p-3 rounded-lg border border-border-light dark:border-border-dark cursor-pointer hover:bg-background-light dark:hover:bg-background-dark transition-colors">
+                                                    <input
+                                                        class="w-5 h-5 text-primary bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded focus:ring-primary"
+                                                        type="checkbox" />
+                                                    <span class="text-text-main dark:text-white font-medium text-sm">EV
+                                                        Charging</span>
+                                                </label>
+                                                <label
+                                                    class="flex items-center gap-3 p-3 rounded-lg border border-border-light dark:border-border-dark cursor-pointer hover:bg-background-light dark:hover:bg-background-dark transition-colors">
+                                                    <input checked=""
+                                                        class="w-5 h-5 text-primary bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded focus:ring-primary"
+                                                        type="checkbox" />
+                                                    <span
+                                                        class="text-text-main dark:text-white font-medium text-sm">24/7
+                                                        Access</span>
+                                                </label>
+                                                <label
+                                                    class="flex items-center gap-3 p-3 rounded-lg border border-border-light dark:border-border-dark cursor-pointer hover:bg-background-light dark:hover:bg-background-dark transition-colors">
+                                                    <input
+                                                        class="w-5 h-5 text-primary bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded focus:ring-primary"
+                                                        type="checkbox" />
+                                                    <span
+                                                        class="text-text-main dark:text-white font-medium text-sm">Valet
+                                                        Service</span>
+                                                </label>
+                                                <label
+                                                    class="flex items-center gap-3 p-3 rounded-lg border border-border-light dark:border-border-dark cursor-pointer hover:bg-background-light dark:hover:bg-background-dark transition-colors">
+                                                    <input
+                                                        class="w-5 h-5 text-primary bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded focus:ring-primary"
+                                                        type="checkbox" />
+                                                    <span
+                                                        class="text-text-main dark:text-white font-medium text-sm">Handicap
+                                                        Access</span>
+                                                </label> -->
+                                            </div>
+                                        <!-- </div> -->
+                                    </div>
+                                    <!-- Right Column (Operations & Map) -->
+                                    <div class="flex flex-col gap-8">
+                                        <!-- Section: Pricing & Capacity -->
+                                        <div
+                                            class="bg-surface-light dark:bg-surface-dark rounded-xl p-6 shadow-sm border border-border-light dark:border-border-dark">
+                                            <h3 class="text-text-main dark:text-white text-xl font-bold mb-6">Operations
+                                                &amp; Pricing</h3>
+                                            <div class="flex flex-col gap-6">
+                                                <label class="flex flex-col">
+                                                    <div class="flex justify-between items-center pb-2">
+                                                        <p class="text-text-main dark:text-white text-sm font-medium">
+                                                            Súc Chứa</p>
+                                                        <span class="text-xs text-text-secondary">Slots</span>
+                                                    </div>
+                                                    <input
+                                                        class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-12 px-4 text-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all dark:text-white"
+                                                        type="number" value="150" />
+                                                </label>
+                                                <div class="h-px bg-border-light dark:bg-border-dark w-full"></div>
+                                                <div class="grid grid-cols-2 gap-4">
+                                                    <label class="flex flex-col">
+                                                        <p
+                                                            class="text-text-main dark:text-white text-sm font-medium pb-2">
+                                                            Giá 1 giờ ($)</p>
+                                                        <input
+                                                            class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-12 px-4 text-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all dark:text-white"
+                                                            step="0.50" type="number" value="8.00" />
+                                                    </label>
+                                                    <label class="flex flex-col">
+                                                        <p
+                                                            class="text-text-main dark:text-white text-sm font-medium pb-2">
+                                                            Giá qua đêm ($)</p>
+                                                        <input
+                                                            class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-12 px-4 text-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all dark:text-white"
+                                                            step="1.00" type="number" value="35.00" />
+                                                    </label>
+                                                </div>
+                                                <div class="h-px bg-border-light dark:bg-border-dark w-full"></div>
+                                                <div class="flex flex-col gap-3">
+                                                    <p class="text-text-main dark:text-white text-sm font-medium">
+                                                        mở cửa vào</p>
+                                                    <div class="flex items-center gap-2">
+                                                        <input
+                                                            class="form-input flex-1 rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-10 px-3 text-sm focus:ring-2 focus:ring-primary dark:text-white"
+                                                            type="time" value="06:00" />
+                                                        <span class="text-text-secondary text-sm">to</span>
+                                                        <input
+                                                            class="form-input flex-1 rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-10 px-3 text-sm focus:ring-2 focus:ring-primary dark:text-white"
+                                                            type="time" value="23:00" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Section: Map Preview -->
+                                        <div
+                                            class="bg-surface-light dark:bg-surface-dark rounded-xl p-6 shadow-sm border border-border-light dark:border-border-dark flex flex-col gap-4">
+                                            <div class="flex justify-between items-center">
+                                                <h3 class="text-text-main dark:text-white text-base font-bold">Xem trước vị trí
+                                                    Preview</h3>
+                                                <button class="text-primary text-sm font-medium hover:underline">Edit
+                                                    </button>
+                                            </div>
+                                            <div class="w-full h-48 rounded-lg bg-cover bg-center"
+                                                data-alt="Map showing street view of Seattle" data-Xem trước vị trí="Seattle"
+                                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAjy-nJuFN0rUwO3UP2JG5zhGzcEDGYxKirAiQcS9Dy5DH-PuA0WIGE_-fU9pHvS61HYXRj3VmU9kQC392oiwBYkcp24MSxHpNOGzWs_HfwqdxTke9g0Vn6ySezMJJa0wRRkTqZ0yL8u4G5PN8cUXqySKuuxIU0btlszzR9BvwT-vZO_vryTLhKjSeg5_JZOIIIySHk8hw1k3p8_zoun4DzDn1o85Bcisq6M-4sEo6i_KxUigiJb16n2-PRMk4AKmQxb0u8b1v8nQ");'>
+                                                <div class="w-full h-full bg-black/10 flex items-center justify-center">
+                                                    <span
+                                                        class="material-symbols-outlined text-red-500 text-4xl drop-shadow-lg"></span>
+                                                </div>
+                                            </div>
+                                            <p class="text-xs text-text-secondary dark:text-text-dark-secondary">Drag
+                                                the pin on the full map view to adjust the precise entrance 
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Sticky Action Bar -->
+                        <div
+                            class="absolute bottom-0 w-full bg-surface-light dark:bg-surface-dark border-t border-border-light dark:border-border-dark p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-20">
+                            <div class="max-w-[1200px] mx-auto flex items-center justify-between">
+                                <div class="hidden md:flex flex-col">
+                                    <span class="text-text-main dark:text-white font-medium text-sm">Unsaved
+                                        Changes</span>
+                                    <span class="text-text-secondary dark:text-text-dark-secondary text-xs">Careful,
+                                        changes are not saved automatically.</span>
+                                </div>
+                                <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+                                    <button
+                                        class="px-6 py-2.5 rounded-lg border border-border-light dark:border-border-dark text-text-main dark:text-white font-bold text-sm bg-transparent hover:bg-background-light dark:hover:bg-background-dark transition-colors">
+                                        Cancel
+                                    </button>
+                                    <button
+                                        class="px-6 py-2.5 rounded-lg bg-primary hover:bg-blue-600 text-white font-bold text-sm shadow-md transition-colors flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-[18px]">save</span>
+                                        Save Changes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+</body>
+
+</html>

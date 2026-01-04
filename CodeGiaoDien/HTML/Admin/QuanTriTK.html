@@ -39,7 +39,7 @@
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-text-dark dark:text-text-light overflow-hidden">
 <div class="flex h-screen w-full">
-<aside class="w-72 flex-shrink-0 border-r border-[#e7f3ec] dark:border-[#2a4034] bg-surface-light dark:bg-surface-dark flex flex-col transition-all duration-300 z-20">
+ <aside class="w-72 flex-shrink-0 border-r border-[#e7f3ec] dark:border-[#2a4034] bg-surface-light dark:bg-surface-dark flex flex-col transition-all duration-300 z-20">
 <div class="p-6 border-b border-[#e7f3ec] dark:border-[#2a4034]">
 <div class="flex items-center gap-3">
 <div class="h-10 w-10 rounded-full bg-cover bg-center ring-2 ring-primary/20" data-alt="Administrator profile avatar with a neutral background" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD3qV4Rw312qyjrzCBkZKToGACNnC5C7Qdt6XRfYGC1kulIROf4u4GK9sdZZIwKxCySRsVST_pyIGR1bM5T5neR7KIGExqPjA8EO0kS0KR5OUN0jijDHyR_3vGeBGNIk-2BwRnqMM7gGCshHj1aKsXOAWBmVQCjXCYLlFIJxsDZLsPPGo8dR1lalYLS5UYv1pS0CHy-W-cJckBP-2cq0oN3p6uuNbGUshOfAWWze3F-U9zCzV3lAA3cgA8yk2lOIdcjfbKnLHDaBFZB');"></div>
@@ -50,13 +50,13 @@
 </div>
 </div>
 <nav class="flex-1 overflow-y-auto px-4 py-6 space-y-1.5">
-<a class="flex items-center gap-3 px-3 py-3 rounded-lg bg-[#e7f3ec] dark:bg-primary/10 text-text-dark dark:text-white" href="#">
+<a  href="QuanTriTK.html" class="flex items-center gap-3 px-3 py-3 rounded-lg bg-[#e7f3ec] dark:bg-primary/10 text-text-dark dark:text-white" href="#">
 <span class="material-symbols-outlined fill-1 text-emerald-700 dark:text-primary">group</span>
-<span class="font-bold text-sm">Quản lý tài khoản</span>
+<span class="font-medium text-sm">Quản lý tài khoản</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-dark dark:text-gray-300 hover:bg-[#e7f3ec] dark:hover:bg-[#2a4034] transition-colors group" href="#">
+<a href="QuanLyBaiXe.html"class="  items-center gap-3 px-3 py-3 rounded-lg text-text-dark dark:text-gray-300 hover:bg-[#e7f3ec] dark:hover:bg-[#2a4034] transition-colors group">
 <span class="material-symbols-outlined text-gray-500 group-hover:text-[#0d1b13] dark:text-gray-400 dark:group-hover:text-white transition-colors">local_parking</span>
-<span class="font-medium text-sm">Bãi đỗ xe</span>
+<span class="font-bold text-sm">Bãi đỗ xe</span>
 </a>
 <a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-dark dark:text-gray-300 hover:bg-[#e7f3ec] dark:hover:bg-[#2a4034] transition-colors group" href="#">
 <span class="material-symbols-outlined text-gray-500 group-hover:text-[#0d1b13] dark:text-gray-400 dark:group-hover:text-white transition-colors">payments</span>
@@ -125,7 +125,7 @@
 <th class="px-6 py-4 border-b border-[#e7f3ec] dark:border-[#2a4034]">Vai trò</th>
 <th class="px-6 py-4 border-b border-[#e7f3ec] dark:border-[#2a4034]">Thông tin cá nhân</th>
 <th class="px-6 py-4 border-b border-[#e7f3ec] dark:border-[#2a4034]">Trạng thái</th>
-<!-- <th class="px-6 py-4 border-b border-[#e7f3ec] dark:border-[#2a4034]">Ngày tạo</th> -->
+<th class="px-6 py-4 border-b border-[#e7f3ec] dark:border-[#2a4034]">Ngày tạo</th>
 <th class="px-6 py-4 text-right border-b border-[#e7f3ec] dark:border-[#2a4034]">Hành động</th>
 </tr>
 </thead>
@@ -159,7 +159,7 @@
                                                  Hoạt động
                                              </span>
 </td>
-<!-- <td class="px-6 py-4 text-gray-500 font-medium">12/10/2023</td> -->
+<td class="px-6 py-4 text-gray-500 font-medium">12/10/2023</td>
 <td class="px-6 py-4 text-right">
 <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
 <button onclick="viewDetails('USR-8291')" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors" title="Xem chi tiết">
@@ -200,7 +200,7 @@
                                                  Chờ duyệt
                                              </span>
 </td>
-<!-- <td class="px-6 py-4 text-gray-500 font-medium">24/10/2023</td> -->
+<td class="px-6 py-4 text-gray-500 font-medium">24/10/2023</td>
 <td class="px-6 py-4 text-right">
 <div class="flex items-center justify-end gap-2">
 <button onclick="approveAccount('USR-9921')" class="w-8 h-8 flex items-center justify-center text-green-600 bg-green-100 hover:bg-green-200 dark:bg-green-900/30 dark:hover:bg-green-900/50 rounded-lg transition-colors shadow-sm" title="Duyệt">
@@ -244,7 +244,7 @@
                                                  Đã khóa
                                              </span>
 </td>
-<!-- <td class="px-6 py-4 text-gray-500 font-medium">10/09/2023</td> -->
+<td class="px-6 py-4 text-gray-500 font-medium">10/09/2023</td>
 <td class="px-6 py-4 text-right">
 <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
 <button onclick="viewDetails('USR-1123')" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors" title="Chỉnh sửa">
@@ -285,7 +285,7 @@
                                                  Hoạt động
                                              </span>
 </td>
-<!-- <td class="px-6 py-4 text-gray-500 font-medium">01/11/2023</td> -->
+<td class="px-6 py-4 text-gray-500 font-medium">01/11/2023</td>
 <td class="px-6 py-4 text-right">
 <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
 <button onclick="viewDetails('USR-5512')" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors" title="Xem chi tiết">
@@ -326,7 +326,7 @@
                                                  Hoạt động
                                              </span>
 </td>
-<!-- <td class="px-6 py-4 text-gray-500 font-medium">05/11/2023</td> -->
+<td class="px-6 py-4 text-gray-500 font-medium">05/11/2023</td>
 <td class="px-6 py-4 text-right">
 <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
 <button onclick="viewDetails('USR-7732')" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors" title="Xem chi tiết">
@@ -365,37 +365,142 @@
 </div>
 </div>
 </div>
-</main>
+        <div id="account-modal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50 backdrop-blur-sm">
+            <div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto border border-[#e7f3ec] dark:border-[#2a4034]">
+                <div class="p-6 border-b border-[#e7f3ec] dark:border-[#2a4034] flex items-center justify-between">
+                    <h3 class="text-xl font-bold text-text-dark dark:text-text-light">Chi tiết tài khoản</h3>
+                    <button id="close-modal-btn" class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-[#e7f3ec] dark:hover:bg-[#2a4034] transition-colors">
+                        <span class="material-symbols-outlined text-2xl text-gray-500">close</span>
+                    </button>
+                </div>
+                <div class="p-8 space-y-8">
+                    <div class="flex items-center gap-6">
+                        <div id="modal-avatar" class="h-24 w-24 rounded-full flex items-center justify-center text-3xl font-bold text-white shadow-lg"></div>
+                        <div>
+                            <h4 id="modal-fullname" class="text-2xl font-bold text-text-dark dark:text-text-light"></h4>
+                            <p id="modal-username" class="text-lg text-gray-600 dark:text-gray-300 mt-1"></p>
+                            <p id="modal-id" class="text-sm text-gray-500 dark:text-gray-400"></p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">Vai trò</p>
+                            <p id="modal-role" class="text-lg font-bold text-text-dark dark:text-text-light"></p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">Trạng thái</p>
+                            <div id="modal-status" class="text-lg font-bold"></div>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">Số điện thoại</p>
+                            <p id="modal-phone" class="text-lg font-bold text-text-dark dark:text-text-light flex items-center gap-3">
+                                <span class="material-symbols-outlined text-xl text-gray-500">call</span>
+                                <span id="modal-phone-text"></span>
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">Email</p>
+                            <p id="modal-email" class="text-lg font-bold text-text-dark dark:text-text-light flex items-center gap-3">
+                                <span class="material-symbols-outlined text-xl text-gray-500">mail</span>
+                                <span id="modal-email-text"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 </div>
+
 <script>
-    function filterAccounts() {
-        const searchText = document.getElementById('search-input').value.toLowerCase();
-        const role = document.getElementById('role-filter').value;
-        const status = document.getElementById('status-filter').value;
-        const rows = document.getElementById('account-table-body').getElementsByTagName('tr');
+    // Đảm bảo chạy sau khi DOM load xong
+    document.addEventListener('DOMContentLoaded', function () {
 
-        for (let i = 0; i < rows.length; i++) {
-            const row = rows[i];
-            const rowRole = row.getAttribute('data-role');
-            const rowStatus = row.getAttribute('data-status');
-            
-            // Lấy toàn bộ nội dung trong hàng để so sánh với searchText
-            const rowContent = row.textContent.toLowerCase();
+        // Hàm lọc tài khoản (giữ nguyên)
+        window.filterAccounts = function () {
+            const searchText = document.getElementById('search-input').value.toLowerCase();
+            const role = document.getElementById('role-filter').value;
+            const status = document.getElementById('status-filter').value;
+            const rows = document.getElementById('account-table-body').getElementsByTagName('tr');
 
-            let matchesSearch = rowContent.includes(searchText);
-            let matchesRole = role === "" || rowRole === role;
-            let matchesStatus = status === "" || rowStatus === status;
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                const rowRole = row.getAttribute('data-role');
+                const rowStatus = row.getAttribute('data-status');
+                const rowContent = row.textContent.toLowerCase();
 
-            if (matchesSearch && matchesRole && matchesStatus) {
-                row.style.display = ""; // Hiển thị hàng
-            } else {
-                row.style.display = "none"; // Ẩn hàng
+                let matchesSearch = rowContent.includes(searchText);
+                let matchesRole = role === "" || rowRole === role;
+                let matchesStatus = status === "" || rowStatus === status;
+
+                row.style.display = (matchesSearch && matchesRole && matchesStatus) ? "" : "none";
             }
-        }
-        console.log(`Lọc: Tìm kiếm='${searchText}', Vai trò='${role}', Trạng thái='${status}'`);
-    }
-    function viewDetails(accountId) {
-        alert(`Chuyển đến trang chi tiết tài khoản: /accounts/details/${accountId}`);
-    }
+        };
+
+        // Hàm hiển thị chi tiết tài khoản
+        window.viewDetails = function (accountId) {
+            const row = document.querySelector(`tr[data-id="${accountId}"]`);
+            if (!row) {
+                alert("Không tìm thấy tài khoản!");
+                return;
+            }
+
+            // Lấy dữ liệu từ hàng bảng
+            const avatarDiv = row.querySelector('td:nth-child(2) .rounded-full');
+            const avatarInitial = avatarDiv.textContent.trim();
+            const avatarBgClass = avatarDiv.classList[1]; // bg-blue-100, bg-purple-100, v.v.
+
+            const username = row.querySelector('td:nth-child(2) p.font-bold').textContent.trim();
+            const userId = row.querySelector('td:nth-child(2) p.text-xs').textContent.trim();
+            const fullname = row.querySelector('td:nth-child(4) span.font-bold').textContent.trim();
+            const phone = row.querySelector('td:nth-child(4) span:nth-of-type(2)').textContent.trim();
+            const email = row.querySelector('td:nth-child(4) span:nth-of-type(3)').textContent.trim();
+            const role = row.getAttribute('data-role');
+            const status = row.getAttribute('data-status');
+
+            // Điền dữ liệu vào modal
+            document.getElementById('modal-avatar').textContent = avatarInitial;
+            document.getElementById('modal-avatar').className = `h-24 w-24 rounded-full flex items-center justify-center text-3xl font-bold text-white shadow-lg ${avatarBgClass}`;
+
+            document.getElementById('modal-fullname').textContent = fullname;
+            document.getElementById('modal-username').textContent = username;
+            document.getElementById('modal-id').textContent = userId;
+            document.getElementById('modal-role').textContent = role;
+            document.getElementById('modal-phone-text').textContent = phone;
+            document.getElementById('modal-email-text').textContent = email;
+
+            // Xử lý màu trạng thái
+            const statusDiv = document.getElementById('modal-status');
+            statusDiv.textContent = status;
+            statusDiv.className = 'text-lg font-bold inline-flex items-center gap-2';
+            if (status === 'Hoạt động') {
+                statusDiv.innerHTML = '<span class="w-3 h-3 rounded-full bg-primary"></span> Hoạt động';
+                statusDiv.classList.add('text-[#4c9a6c]', 'dark:text-green-400');
+            } else if (status === 'Chờ duyệt') {
+                statusDiv.innerHTML = '<span class="w-3 h-3 rounded-full bg-yellow-500 animate-pulse"></span> Chờ duyệt';
+                statusDiv.classList.add('text-yellow-800', 'dark:text-yellow-300');
+            } else if (status === 'Đã khóa') {
+                statusDiv.innerHTML = '<span class="material-symbols-outlined text-xl">lock</span> Đã khóa';
+                statusDiv.classList.add('text-red-700', 'dark:text-red-300');
+            }
+
+            // Hiển thị modal
+            document.getElementById('account-modal').classList.remove('hidden');
+        };
+
+        // Đóng modal
+        document.getElementById('close-modal-btn').addEventListener('click', function () {
+            document.getElementById('account-modal').classList.add('hidden');
+        });
+
+        // Đóng khi click ngoài modal
+        document.getElementById('account-modal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                this.classList.add('hidden');
+            }
+        });
+    });
 </script>
-</body></html>
+</body>
+</html>

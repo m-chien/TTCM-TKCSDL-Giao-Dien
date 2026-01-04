@@ -1,208 +1,309 @@
 <!DOCTYPE html>
-
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Lịch sử gửi xe &amp; Đánh giá</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings:
-            'FILL' 0,
-            'wght' 400,
-            'GRAD' 0,
-            'opsz' 24
-        }
-    </style>
-<script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              "primary": "#13ec6d",
-              "background-light": "#f6f8f7",
-              "background-dark": "#102218",
+<html lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Lịch sử & Đánh giá - Parking Management</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#00E274",
+                        "primary-dark": "#00C966",
+                        "background-light": "#F9FAFB",
+                        "background-dark": "#111827",
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#1F2937",
+                        "text-light": "#1F2937",
+                        "text-dark": "#F3F4F6",
+                        "subtext-light": "#6B7280",
+                        "subtext-dark": "#9CA3AF",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "system-ui", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
             },
-            fontFamily: {
-              "display": ["Manrope", "sans-serif"]
-            },
-            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-          },
-        },
-      }
+        };
     </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .modal { display: none; }
+        .modal.active { display: flex; }
+        /* Star rating hover effect */
+        .star-rating .material-icons-outlined { cursor: pointer; transition: color 0.2s; }
+        .star-rating .material-icons-outlined.active { color: #FBBF24; font-family: 'Material Icons'; } /* Fill star */
+    </style>
 </head>
-<body class="font-display bg-background-light dark:bg-background-dark">
-<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
-<div class="layout-container flex h-full grow flex-col">
-<header class="sticky top-0 z-50 w-full bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
-<div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex items-center justify-between whitespace-nowrap h-16">
-<div class="flex items-center gap-4 text-gray-800 dark:text-gray-200">
-<span class="material-symbols-outlined text-primary text-3xl">local_parking</span>
-<h2 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Parking Management</h2>
-</div>
-<div class="hidden md:flex items-center gap-9">
-<a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal " href="ChonBai.html">Dashboard</a>
-<a class=" text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="DangKiTheThang.html">Đăng Kí thẻ tháng</a>
-<a class="text-primary dark:text-primary text-sm font-bold leading-normal" href="LichSuGuiXe.html">Lịch sử đặt chỗ</a>
-<!-- <a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Thanh toán</a> -->
-</div>
-<div class="flex items-center gap-3">
-<button class="flex cursor-pointer items-center justify-center rounded-full h-10 w-10 bg-gray-200/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
-<span class="material-symbols-outlined">notifications</span>
-</button>
-<button class="flex cursor-pointer items-center justify-center rounded-full h-10 w-10 bg-gray-200/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
-<span class="material-symbols-outlined">help_outline</span>
-</button>
-<a href="ThemPhuongTien.html"  class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDwjWTl2KRPAMOFhB9iTQ5SxyUbYBDjw6JId-QGkWKklxZiSO1DCrm2e8e9UHxL6hc-eKjvUj6uPXqU2EmA6ej944qRr_pMF-SCTsmj7dxqL0V3JsVbPrxby0wnNIrnhUx9VsvtH7cW1AHKEJ8mUszADbiVjw66TFpnWVhdcJzYROPA0Gp_1UBvba021j1q8L1haAjDdHeDF_i8_NYHnx8KkZC2LUDiWD4JMz4guGspDyO3V8FvcC9JsEPtsZLZ_RuyMNZFhz--sjF6");'>
-  
-</a>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-display min-h-screen flex flex-col transition-colors duration-200">
+    <header class="bg-card-light dark:bg-card-dark border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
+        <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-primary font-bold text-3xl">P</span>
+                <span class="font-bold text-lg text-text-light dark:text-text-dark">Parking Management</span>
+            </div>
+            <nav class="hidden md:flex items-center gap-8">
+                <a class="text-sm font-medium text-subtext-light dark:text-subtext-dark hover:text-primary dark:hover:text-primary transition-colors" href="#">Dashboard</a>
+                <a class="text-sm font-medium text-subtext-light dark:text-subtext-dark hover:text-primary dark:hover:text-primary transition-colors" href="DangKiTheThang.html">Đăng Kí thẻ tháng</a>
+                    <a class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="DanhGia.html">Đánh Giá</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <button class="p-2 rounded-full text-subtext-light dark:text-subtext-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <span class="material-icons-outlined text-[20px]">notifications</span>
+                </button>
+                <div class="h-8 w-8 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden border border-gray-300 dark:border-gray-600">
+                    <img alt="User Avatar" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDMHC3QHQc720M5Cx8gS2PbFPiYxDMLiQ6pYw0Q5AO2dDkpDEqi8_16t1O7tKLTDn7Bn_vJQtLq0CzpiT2gbouNBHe_jsuPbr2KbuOp8tbe-IaeggzBD_LVvtLSSnYPCcOulvgdd93Mz2A2GzFjqngXiQ8SiS4bpreVErIoK4WYP4kldjZxF9BaFDJ1u9rxqvHrIL_TPVt8JaOZlkJC7oT0ck0DTcENOKnoH2dK5tNl-funJ3ztEh0QGMm6xgHQKgYH6aIU3mQnuLM"/>
+                </div>
+            </div>
+        </div>
+    </header>
 
-</div>
-</div>
-</div>
-</header>
-<main class="flex-1 px-4 sm:px-8 lg:px-16 xl:px-24 py-5">
-<div class="layout-content-container flex flex-col max-w-7xl mx-auto flex-1">
-<div class="flex flex-wrap justify-between items-center gap-3 p-4">
-<h1 class="text-gray-900 dark:text-gray-100 text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">Lịch sử Gửi xe &amp; Đánh giá</h1>
-</div>
-<div class="flex flex-col md:flex-row justify-between gap-4 px-4 py-3">
-<div class="relative flex-grow">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">search</span>
-<input class="w-full h-12 pl-10 pr-4 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-primary/50 focus:border-primary dark:text-gray-200" placeholder="Tìm kiếm theo ID, biển số, bãi đỗ xe..." type="text"/>
-</div>
-<div class="flex items-center gap-2">
-<button class="flex items-center justify-center gap-2 h-12 px-4 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-<span class="material-symbols-outlined text-lg">calendar_month</span>
-<span>Khoảng thời gian</span>
-</button>
-<button class="flex items-center justify-center gap-2 h-12 px-4 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-<span class="material-symbols-outlined text-lg">filter_list</span>
-<span>Trạng thái</span>
-</button>
-</div>
-</div>
-<div class="px-4 py-3">
-<div class="overflow-x-auto rounded-xl border border-primary/20 dark:border-primary/30 bg-background-light dark:bg-background-dark shadow-sm">
-<table class="w-full text-sm text-left text-gray-600 dark:text-gray-400">
-<thead class="text-xs text-gray-700 dark:text-gray-300 uppercase bg-primary/10 dark:bg-primary/20">
-<tr>
-<th class="px-6 py-4 font-bold" scope="col">ID Đặt chỗ</th>
-<th class="px-6 py-4 font-bold" scope="col">Biển số xe</th>
-<th class="px-6 py-4 font-bold" scope="col">Bãi đỗ xe</th>
-<th class="px-6 py-4 font-bold" scope="col">Thời gian vào</th>
-<th class="px-6 py-4 font-bold" scope="col">Thời gian ra</th>
-<th class="px-6 py-4 font-bold" scope="col">Chi phí</th>
-<th class="px-6 py-4 font-bold" scope="col">Trạng thái</th>
-<th class="px-6 py-4 font-bold text-center" scope="col">Hành động</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-primary/20 dark:divide-primary/30">
-<tr class="hover:bg-primary/5 dark:hover:bg-primary/10">
-<td class="px-6 py-4 font-medium text-gray-900 dark:text-white">BK-12345</td>
-<td class="px-6 py-4">51F-123.45</td>
-<td class="px-6 py-4">Bãi xe Vincom Center</td>
-<td class="px-6 py-4">08:00 01/01/2024</td>
-<td class="px-6 py-4">17:30 01/01/2024</td>
-<td class="px-6 py-4 font-medium">50.000đ</td>
-<td class="px-6 py-4">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Hoàn thành</span>
-</td>
-<td class="px-6 py-4 text-center">
-<a class="font-bold text-primary hover:underline" href="#">Đánh giá</a>
-</td>
-</tr>
-<tr class="bg-primary/10 dark:bg-primary/20">
-<td class="p-0" colspan="8">
-<div class="p-6 bg-white dark:bg-gray-800">
-<h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Bạn đánh giá trải nghiệm này thế nào?</h3>
-<div class="flex items-center my-3 text-yellow-400">
-<span class="material-symbols-outlined cursor-pointer text-3xl">star</span>
-<span class="material-symbols-outlined cursor-pointer text-3xl">star</span>
-<span class="material-symbols-outlined cursor-pointer text-3xl">star</span>
-<span class="material-symbols-outlined cursor-pointer text-3xl">star</span>
-<span class="material-symbols-outlined cursor-pointer text-3xl text-gray-300 dark:text-gray-600">star</span>
-</div>
-<textarea class="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark focus:ring-primary/50 focus:border-primary dark:text-gray-200" placeholder="Chia sẻ cảm nhận của bạn về dịch vụ..." rows="4"></textarea>
-<div class="mt-4 flex justify-end">
-<button class="bg-primary text-gray-900 font-bold py-2 px-6 rounded-lg hover:opacity-90 transition-opacity">Gửi đánh giá</button>
-</div>
-</div>
-</td>
-</tr>
-<tr class="hover:bg-primary/5 dark:hover:bg-primary/10">
-<td class="px-6 py-4 font-medium text-gray-900 dark:text-white">BK-12344</td>
-<td class="px-6 py-4">29A-678.90</td>
-<td class="px-6 py-4">Bãi xe Sân bay Tân Sơn Nhất</td>
-<td class="px-6 py-4">10:15 28/12/2023</td>
-<td class="px-6 py-4">11:00 28/12/2023</td>
-<td class="px-6 py-4 font-medium">25.000đ</td>
-<td class="px-6 py-4">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">Đã hủy</span>
-</td>
-<td class="px-6 py-4 text-center">
-<a class="font-bold text-primary hover:underline" href="#">Chi tiết</a>
-</td>
-</tr>
-<tr class="hover:bg-primary/5 dark:hover:bg-primary/10">
-<td class="px-6 py-4 font-medium text-gray-900 dark:text-white">BK-12343</td>
-<td class="px-6 py-4">51F-123.45</td>
-<td class="px-6 py-4">Bãi xe Giga Mall</td>
-<td class="px-6 py-4">19:00 25/12/2023</td>
-<td class="px-6 py-4">22:30 25/12/2023</td>
-<td class="px-6 py-4 font-medium">40.000đ</td>
-<td class="px-6 py-4">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Hoàn thành</span>
-</td>
-<td class="px-6 py-4 text-center">
-<a class="font-bold text-primary hover:underline" href="#">Xem đánh giá</a>
-</td>
-</tr>
-<tr class="hover:bg-primary/5 dark:hover:bg-primary/10">
-<td class="px-6 py-4 font-medium text-gray-900 dark:text-white">BK-12342</td>
-<td class="px-6 py-4">30E-456.78</td>
-<td class="px-6 py-4">Bãi xe Vincom Center</td>
-<td class="px-6 py-4">14:00 24/12/2023</td>
-<td class="px-6 py-4">16:00 24/12/2023</td>
-<td class="px-6 py-4 font-medium">30.000đ</td>
-<td class="px-6 py-4">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Hoàn thành</span>
-</td>
-<td class="px-6 py-4 text-center">
-<a class="font-bold text-primary hover:underline" href="#">Đánh giá</a>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<nav aria-label="Table navigation" class="flex items-center justify-between pt-4">
-<span class="text-sm font-normal text-gray-500 dark:text-gray-400">Hiển thị <span class="font-semibold text-gray-900 dark:text-white">1-5</span> của <span class="font-semibold text-gray-900 dark:text-white">100</span></span>
-<ul class="inline-flex -space-x-px text-sm h-8">
-<li>
-<a class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" href="#">Trước</a>
-</li>
-<li>
-<a class="flex items-center justify-center px-3 h-8 text-primary border border-gray-300 bg-primary/20 hover:bg-primary/30 dark:border-gray-700 dark:bg-gray-700 dark:text-white" href="#">1</a>
-</li>
-<li>
-<a class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" href="#">2</a>
-</li>
-<li>
-<a class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" href="#">3</a>
-</li>
-<li>
-<a class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" href="#">Sau</a>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-</main>
-</div>
-</div>
-</body></html>
+    <div class="flex flex-1 max-w-screen-2xl mx-auto w-full">
+        <aside class="w-64 bg-card-light dark:bg-card-dark border-r border-gray-200 dark:border-gray-700 hidden lg:flex flex-col py-6 px-4">
+            <div class="mb-8 flex items-center gap-3 px-2">
+                <div class="h-10 w-10 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                    <img alt="Profile" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoqtHHlniXPfGVhZpCLTVsh13Yaq-FTDe4wfBWQrBwIbwWAv1IGMK7cS8DPeL6lpeNUqEGx5-uC3RdaoGbyb1yarV36Ib2zkzmruXAxIqNhBlPKCtiBQY-jdxzZ67R9dSZ1NF1IJnMEF3KXJxSdxfPzAWqYE4880ETWufS5uPuiZdGPXX_WTuZ_ktnJfHR31xPPxf3PBFXgA_4QGl5KzHsQqPZzHxQYU7t9nNIB6QckAwlE3gJgm1m8UZQd1phcxW-1n4jnJjmFYM9"/>
+                </div>
+                <div>
+                    <p class="text-sm font-semibold text-text-light dark:text-text-dark">Nguyễn Văn A</p>
+                    <p class="text-xs text-subtext-light dark:text-subtext-dark truncate w-32">khachhang@email.com</p>
+                </div>
+            </div>
+
+            <nav class="flex-1 space-y-1">
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-subtext-light dark:text-subtext-dark hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors group" href="TrangChu.html">
+                    <span class="material-icons-outlined text-[20px] group-hover:text-primary transition-colors">home</span>
+                    Trang chủ
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-subtext-light dark:text-subtext-dark hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors group" href="ChonBai.html">
+                    <span class="material-icons-outlined text-[20px] group-hover:text-primary transition-colors">confirmation_number</span>
+                    Đặt chỗ
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary rounded-lg transition-colors" href="LichSuGuiXe.html">
+                    <span class="material-icons-outlined text-[20px]">history</span>
+                    Lịch sử
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-subtext-light dark:text-subtext-dark hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors group" href="ThemPhuongTien.html">
+                    <span class="material-icons-outlined text-[20px] group-hover:text-primary transition-colors">directions_car</span>
+                    Phương tiện
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 rounded-lg transition-colors group" href="XemTheThang.html">
+                    <span class="material-icons-outlined text-[20px]">credit_card</span>
+                    Thẻ tháng của tôi
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-subtext-light dark:text-subtext-dark hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors group" href="#">
+                    <span class="material-icons-outlined text-[20px] group-hover:text-primary transition-colors">account_circle</span>
+                    Tài khoản
+                </a>
+            </nav>
+
+            <div class="mt-auto pt-6 border-t border-gray-200 dark:border-gray-700 space-y-1">
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-subtext-light dark:text-subtext-dark hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors group" href="#">
+                    <span class="material-icons-outlined text-[20px] group-hover:text-primary transition-colors">settings</span>
+                    Cài đặt
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-subtext-light dark:text-subtext-dark hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors group" href="#">
+                    <span class="material-icons-outlined text-[20px] group-hover:text-red-500 transition-colors">logout</span>
+                    Đăng xuất
+                </a>
+            </div>
+        </aside>
+
+        <main class="flex-1 p-6 lg:p-10 bg-background-light dark:bg-background-dark overflow-y-auto">
+            <nav class="flex items-center text-sm text-subtext-light dark:text-subtext-dark mb-6">
+                <a class="hover:text-primary dark:hover:text-primary" href="#">Trang chủ</a>
+                <span class="mx-2">/</span>
+                <a class="hover:text-primary dark:hover:text-primary" href="#">Tài khoản</a>
+                <span class="mx-2">/</span>
+                <span class="text-text-light dark:text-text-dark font-medium">Lịch sử & Đánh giá</span>
+            </nav>
+
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+                <div>
+                    <h1 class="text-2xl font-bold text-text-light dark:text-text-dark mb-2">Lịch sử Gửi xe & Đánh giá</h1>
+                    <p class="text-sm text-subtext-light dark:text-subtext-dark">Xem lại lịch sử đặt chỗ và gửi phản hồi về chất lượng dịch vụ.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mb-6">
+                <div class="md:col-span-6 relative">
+                    <span class="material-icons-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+                    <input class="w-full h-11 pl-10 pr-4 rounded-lg bg-card-light dark:bg-card-dark border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-primary focus:border-transparent dark:text-text-dark shadow-sm" placeholder="Tìm kiếm theo ID, biển số, bãi đỗ..." type="text"/>
+                </div>
+                <div class="md:col-span-3">
+                    <button class="w-full h-11 flex items-center justify-center gap-2 px-4 rounded-lg bg-card-light dark:bg-card-dark border border-gray-200 dark:border-gray-700 text-subtext-light dark:text-subtext-dark hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors shadow-sm">
+                        <span class="material-icons-outlined text-lg">calendar_month</span>
+                        <span>Khoảng thời gian</span>
+                    </button>
+                </div>
+                <div class="md:col-span-3">
+                    <button class="w-full h-11 flex items-center justify-center gap-2 px-4 rounded-lg bg-card-light dark:bg-card-dark border border-gray-200 dark:border-gray-700 text-subtext-light dark:text-subtext-dark hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors shadow-sm">
+                        <span class="material-icons-outlined text-lg">filter_list</span>
+                        <span>Trạng thái</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-card-light dark:bg-card-dark rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-text-light dark:text-text-dark uppercase tracking-wider">ID Đặt chỗ</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-text-light dark:text-text-dark uppercase tracking-wider">Biển số</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-text-light dark:text-text-dark uppercase tracking-wider">Bãi đỗ xe</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-text-light dark:text-text-dark uppercase tracking-wider">Thời gian</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-text-light dark:text-text-dark uppercase tracking-wider">Chi phí</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-text-light dark:text-text-dark uppercase tracking-wider">Trạng thái</th>
+                                <th class="px-6 py-4 text-right text-xs font-semibold text-text-light dark:text-text-dark uppercase tracking-wider">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-medium text-text-light dark:text-text-dark">BK-12345</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-subtext-light dark:text-subtext-dark">51F-123.45</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">Vincom Center</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-subtext-light dark:text-subtext-dark">
+                                    <div class="flex flex-col">
+                                        <span>08:00 01/01/2024</span>
+                                        <span class="text-xs">đến 17:30 01/01/2024</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap font-medium text-text-light dark:text-text-dark">50.000đ</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                                        Hoàn thành
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right">
+                                    <a href="ChiTietPhieuGiuXe.html" class="text-sm font-medium text-subtext-light hover:text-primary transition-colors">
+                                        Chi tiết
+                                    </a>
+                                </td>
+                            </tr>
+                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-medium text-text-light dark:text-text-dark">BK-12344</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-subtext-light dark:text-subtext-dark">29A-678.90</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">Sân bay TSN</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-subtext-light dark:text-subtext-dark">
+                                    <div class="flex flex-col">
+                                        <span>10:15 28/12/2023</span>
+                                        <span class="text-xs">đến 11:00 28/12/2023</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap font-medium text-text-light dark:text-text-dark">25.000đ</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
+                                        Đã hủy
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right">
+                                    <a href="ChiTietPhieuGiuXe.html" class="text-sm font-medium text-subtext-light hover:text-primary transition-colors">
+                                        Chi tiết
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-medium text-text-light dark:text-text-dark">BK-12343</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-subtext-light dark:text-subtext-dark">51F-123.45</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-light dark:text-text-dark">Giga Mall</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-subtext-light dark:text-subtext-dark">
+                                    <div class="flex flex-col">
+                                        <span>19:00 25/12/2023</span>
+                                        <span class="text-xs">đến 22:30 25/12/2023</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap font-medium text-text-light dark:text-text-dark">40.000đ</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                                        Hoàn thành
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right">
+                                    <a href="ChiTietPhieuGiuXe.html" class="text-sm font-medium text-subtext-light hover:text-primary transition-colors">
+                                        Chi tiết
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                    <span class="text-sm text-subtext-light dark:text-subtext-dark">
+                        Hiển thị <span class="font-semibold text-text-light dark:text-text-dark">1-5</span> của 100
+                    </span>
+                    <div class="flex gap-2">
+                        <button class="px-3 py-1 text-sm border border-gray-200 dark:border-gray-700 rounded bg-white dark:bg-card-dark text-subtext-light dark:text-subtext-dark hover:bg-gray-50 dark:hover:bg-gray-700">Trước</button>
+                        <button class="px-3 py-1 text-sm border border-primary bg-primary/10 text-primary rounded">1</button>
+                        <button class="px-3 py-1 text-sm border border-gray-200 dark:border-gray-700 rounded bg-white dark:bg-card-dark text-subtext-light dark:text-subtext-dark hover:bg-gray-50 dark:hover:bg-gray-700">2</button>
+                        <button class="px-3 py-1 text-sm border border-gray-200 dark:border-gray-700 rounded bg-white dark:bg-card-dark text-subtext-light dark:text-subtext-dark hover:bg-gray-50 dark:hover:bg-gray-700">3</button>
+                        <button class="px-3 py-1 text-sm border border-gray-200 dark:border-gray-700 rounded bg-white dark:bg-card-dark text-subtext-light dark:text-subtext-dark hover:bg-gray-50 dark:hover:bg-gray-700">Sau</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    
+
+    <script>
+        // Modal Logic
+        function openReviewModal(id, lotName) {
+            document.getElementById('modalBookingID').innerText = id;
+            document.getElementById('modalLotName').innerText = lotName;
+            document.getElementById('reviewModal').classList.add('active');
+            rate(0); // Reset stars
+        }
+
+        function closeReviewModal() {
+            document.getElementById('reviewModal').classList.remove('active');
+            document.getElementById('reviewForm').reset();
+        }
+
+        // Star Rating Logic
+        function rate(stars) {
+            document.getElementById('ratingValue').value = stars;
+            const starElements = document.querySelectorAll('.star-rating span');
+            starElements.forEach((star, index) => {
+                if (index < stars) {
+                    star.classList.add('active', 'text-yellow-400');
+                    star.classList.remove('text-gray-300');
+                    star.innerText = 'star'; // Filled star icon name
+                } else {
+                    star.classList.remove('active', 'text-yellow-400');
+                    star.classList.add('text-gray-300');
+                    star.innerText = 'star_rate'; // Outline star icon name
+                }
+            });
+        }
+
+        document.getElementById('reviewForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const rating = document.getElementById('ratingValue').value;
+            alert(`Cảm ơn bạn đã đánh giá ${rating} sao!`);
+            closeReviewModal();
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('reviewModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeReviewModal();
+            }
+        });
+    </script>
+</body>
+</html>
