@@ -851,7 +851,6 @@ END;
 GO
 
 
-
 --Thêm Tài khoản Khách hàng 
 IF OBJECT_ID('sp_ThemTaiKhoanKhachHang') IS NOT NULL DROP PROCEDURE sp_ThemTaiKhoanKhachHang;
 GO
@@ -920,7 +919,6 @@ GO
 GO
 
 
-
 -- Nhân viên duyệt
 IF OBJECT_ID('sp_NhanVienDuyetDatCho') IS NOT NULL DROP PROCEDURE sp_NhanVienDuyetDatCho;
 GO
@@ -984,7 +982,8 @@ EXEC sp_DanhSachChoDuyet;
 EXEC sp_NhanVienDuyetDatCho 2, 1, N'Hoàn thành';
 -- Bước 4: Nhân viên (ID = 1) xem danh sách và duyệt
 -- Kiểm tra lại: Sau khi duyệt 'Hoàn thành', chỗ đậu sẽ tự động trả về 'Trống' 
-SELECT TenChoDau, TrangThai FROM ChoDauXe WHERE ID = 1;
+SELECT TenChoDau, TrangThai 
+FROM ChoDauXe WHERE ID = 1;
 
 
 -- Thủ tục Xe vào bãi
