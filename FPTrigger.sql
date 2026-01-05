@@ -220,7 +220,7 @@ BEGIN
      PRINT N'Xe đã vào bãi thành công.';
 END;
 
-
+GO
 -- Thủ tục Xe ra bãi
 IF OBJECT_ID('sp_XeRaBai') IS NOT NULL DROP PROCEDURE sp_XeRaBai;
 GO
@@ -267,7 +267,6 @@ BEGIN
     END CATCH
 END;
 
-
 GO
 -- Thống kê Doanh thu theo ngày
 IF OBJECT_ID('sp_ThongKeDoanhThuTheoNgay') IS NOT NULL DROP PROCEDURE sp_ThongKeDoanhThuTheoNgay;
@@ -292,8 +291,9 @@ GO
 CREATE TRIGGER trg_DatCho_CapNhatTrangThai
 ON DatCho AFTER INSERT AS
 BEGIN
-    UPDATE ChoDauXe SET TrangThai = N'Đã đặt' 
-    FROM ChoDauXe c 
+    UPDATE c
+    SET c.TrangThai = N'Đã đặt'
+    FROM ChoDauXe c
     JOIN inserted i ON c.ID = i.IDChoDau;
 END;
 GO
@@ -304,135 +304,11 @@ GO
 CREATE TRIGGER trg_DatCho_GiaiPhongCho
 ON DatCho AFTER UPDATE AS
 BEGIN
-    UPDATE ChoDauXe SET TrangThai = N'Trống'
-    FROM ChoDauXe c JOIN inserted i ON c.ID = i.IDChoDau
+	UPDATE c
+	SET c.TrangThai = N'Trống'
+	FROM ChoDauXe c
+	JOIN inserted i ON c.ID = i.IDChoDau
     WHERE i.TrangThai IN (N'Đã hủy', N'Hoàn thành', N'Quá hạn') AND c.TrangThai = N'Đã đặt';
-END;
-GO
-
--- 7. TRIGGER: Tính tổng tiền hóa đơn
-IF OBJECT_ID('trg_ChiTietHD_TinhTongTien') IS NOT NULL DROP TRIGGER trg_ChiTietHD_TinhTongTien;
-GO
-CREATE TRIGGER trg_ChiTietHD_TinhTongTien
-ON ChiTietHoaDon AFTER INSERT, UPDATE, DELETE AS
-BEGIN
-    DECLARE @AffectedIDs TABLE (IDHoaDon INT);
-    INSERT INTO @AffectedIDs SELECT IDHoaDon FROM Inserted UNION SELECT IDHoaDon FROM Deleted;
-
-    UPDATE HoaDon SET ThanhTien = (SELECT ISNULL(SUM(TongTien), 0) FROM ChiTietHoaDon WHERE IDHoaDon = HoaDon.ID)
-    WHERE ID IN (SELECT IDHoaDon FROM @AffectedIDs);
-END;
-GO
-
--- 8. TRIGGER: Check trùng lịch đặt
-IF OBJECT_ID('trg_DatCho_CheckTrungLich') IS NOT NULL DROP TRIGGER trg_DatCho_CheckTrungLich;
-GO
-CREATE TRIGGER trg_DatCho_CheckTrungLich
-ON DatCho AFTER INSERT, UPDATE AS
-BEGIN
-    IF EXISTS (
-        SELECT 1 FROM DatCho d JOIN Inserted i ON d.IDChoDau = i.IDChoDau
-        WHERE d.ID <> i.ID AND d.TrangThai NOT IN (N'Đã hủy')
-          AND (d.TgianBatDau < i.TgianKetThuc AND d.TgianKetThuc > i.TgianBatDau)
-    )
-    BEGIN
-        ROLLBACK TRANSACTION; RAISERROR (N'Lỗi: Chỗ đã có người đặt khung giờ này!', 16, 1);
-    END
-END;
-GO
-
--- 9. TRIGGER: Xử lý Voucher
-IF OBJECT_ID('trg_HoaDon_XuLyVoucher') IS NOT NULL DROP TRIGGER trg_HoaDon_XuLyVoucher;
-GO
-CREATE TRIGGER trg_HoaDon_XuLyVoucher
-ON HoaDon AFTER INSERT AS
-BEGIN
-    IF EXISTS (SELECT 1 FROM inserted WHERE IDVoucher IS NOT NULL)
-    BEGIN
-        IF EXISTS (SELECT 1 FROM Voucher v JOIN inserted i ON v.ID = i.IDVoucher WHERE v.SoLuong <= 0 OR v.HanSuDung < GETDATE())
-        BEGIN
-            ROLLBACK TRANSACTION; RAISERROR (N'Lỗi: Voucher hết hạn/số lượng!', 16, 1); RETURN;
-        END
-        UPDATE Voucher SET SoLuong = SoLuong - 1 FROM Voucher v JOIN inserted i ON v.ID = i.IDVoucher;
-    END
-END;
-GO
-
--- 10. TRIGGER: Validate Thẻ tháng
-IF OBJECT_ID('trg_TheXeThang_Validate') IS NOT NULL DROP TRIGGER trg_TheXeThang_Validate;
-GO
-CREATE TRIGGER trg_TheXeThang_Validate
-ON TheXeThang AFTER INSERT, UPDATE AS
-BEGIN
-    IF EXISTS (SELECT 1 FROM inserted WHERE NgayHetHan <= NgayDangKy)
-    BEGIN
-        RAISERROR(N'Lỗi: Ngày hết hạn phải sau ngày đăng ký.', 16, 1); ROLLBACK TRANSACTION; RETURN;
-    END
-    IF UPDATE(NgayHetHan)
-    BEGIN
-        UPDATE TheXeThang SET TrangThai = 1 FROM TheXeThang t JOIN inserted i ON t.ID = i.ID WHERE i.NgayHetHan > GETDATE() AND i.TrangThai = 0;
-    END
-END;
-GO
-
--- 11. TRIGGER (QUAN TRỌNG NHẤT): Cập nhật trạng thái chỗ khi Xe Vào/Ra
-IF OBJECT_ID('trg_PhieuGiuXe_CapNhatTrangThai') IS NOT NULL DROP TRIGGER trg_PhieuGiuXe_CapNhatTrangThai;
-GO
-CREATE TRIGGER trg_PhieuGiuXe_CapNhatTrangThai
-ON PhieuGiuXe AFTER INSERT, UPDATE AS
-BEGIN
-    -- Xe vào: Chuyển sang Đang đỗ
-    IF EXISTS (SELECT * FROM inserted) AND NOT EXISTS (SELECT * FROM deleted)
-        UPDATE ChoDauXe 
-        SET TrangThai = N'Đang đỗ' 
-        FROM ChoDauXe c JOIN inserted i ON c.ID = i.IDChoDau;
-     -- Xe ra: Chuyển sang Trống
-    IF UPDATE(TgianRa)
-        UPDATE ChoDauXe 
-        SET TrangThai = N'Trống' 
-        FROM ChoDauXe c JOIN inserted i ON c.ID = i.IDChoDau 
-        WHERE i.TgianRa IS NOT NULL;
-     -- Đổi chỗ
-    IF UPDATE(IDChoDau) BEGIN
-        UPDATE ChoDauXe 
-        SET TrangThai = N'Trống' 
-        FROM ChoDauXe c JOIN deleted d ON c.ID = d.IDChoDau;
-
-        UPDATE ChoDauXe 
-        SET TrangThai = N'Đang đỗ' 
-        FROM ChoDauXe c JOIN inserted i ON c.ID = i.IDChoDau;
-    END
-END;
-
-
-IF OBJECT_ID('trg_DatCho_CapNhatTrangThai') IS NOT NULL DROP TRIGGER trg_DatCho_CapNhatTrangThai;
-GO
-CREATE TRIGGER trg_DatCho_CapNhatTrangThai
-ON DatCho
-AFTER INSERT
-AS
-BEGIN
-    UPDATE ChoDauXe
-    SET TrangThai = N'Đã đặt'
-    FROM ChoDauXe c
-    JOIN inserted i ON c.ID = i.IDChoDau;
-END;
-GO
-
--- T2: Giải phóng chỗ khi Hủy/Hoàn thành Đặt vé (DatCho -> Update)
-IF OBJECT_ID('trg_DatCho_GiaiPhongCho') IS NOT NULL DROP TRIGGER trg_DatCho_GiaiPhongCho;
-GO
-CREATE TRIGGER trg_DatCho_GiaiPhongCho
-ON DatCho
-AFTER UPDATE
-AS
-BEGIN
-    UPDATE ChoDauXe
-    SET TrangThai = N'Trống'
-    FROM ChoDauXe c 
-    JOIN inserted i ON c.ID = i.IDChoDau
-    WHERE i.TrangThai IN (N'Đã hủy', N'Hoàn thành', N'Quá hạn')
-      AND c.TrangThai = N'Đã đặt';
 END;
 GO
 
