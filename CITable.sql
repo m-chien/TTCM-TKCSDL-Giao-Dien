@@ -224,7 +224,7 @@ CREATE TABLE DatCho (
     TgianBatDau DATETIME,
     TgianKetThuc DATETIME,
     TrangThai NVARCHAR(50) CONSTRAINT CK_DatCho_TrangThai 
-        CHECK (TrangThai IN (N'Đã đặt', N'Đã hủy', N'Hoàn thành', N'Quá hạn')),
+        CHECK (TrangThai IN (N'Đã đặt', N'Đã hủy', N'Đang chờ duyệt', N'Quá hạn')),
 
     -- Ràng buộc tham chiếu cặp Khách-Xe
     CONSTRAINT FK_DatCho_KHXe FOREIGN KEY (IDKhachHang, IDXe) 
@@ -430,7 +430,7 @@ INSERT INTO TheXeThang (IDKhachHang, IDXe, TenTheXe, NgayDangKy, NgayHetHan, Tra
 VALUES (1, '30A-123.45', N'Thẻ tháng Vios', '2026-01-01', '2026-01-31', 1);
 
 INSERT INTO DatCho (IDKhachHang, IDXe, IDChoDau, IDNhanVien, TgianBatDau, TgianKetThuc, TrangThai) 
-VALUES (2, '43A-567.89', 2, NULL, '2026-01-05 08:00', '2026-01-05 17:00', N'Đã đặt');
+VALUES (2, '43A-567.89', 2, NULL, '2026-01-05 08:00', '2026-01-05 17:00', N'Đang chờ duyệt');
 
 INSERT INTO HoaDon (ThanhTien, LoaiHoaDon, IDVoucher) VALUES (30000, N'Vé lượt', NULL);
 INSERT INTO ThanhToan (IDHoaDon, PhuongThuc, TrangThai) VALUES (1, N'Tiền mặt', 1);

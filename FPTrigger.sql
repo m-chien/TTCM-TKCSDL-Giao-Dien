@@ -100,7 +100,7 @@ BEGIN
             INSERT INTO TaiKhoan (IDVaiTro, TenDangNhap, MatKhau) VALUES (3, @TenDangNhap, @MatKhau);
             DECLARE @IDTK INT = SCOPE_IDENTITY();
             INSERT INTO KhachHang (IDTaiKhoan, HoTen, SDT, CCCD, DiaChi, LoaiKH)
-            VALUES (@IDTK, @HoTen, @SDT, @CCCD, @DiaChi, N'Vãng lai');
+            VALUES (@IDTK, @HoTen, @SDT, @CCCD, @DiaChi, N'Thường xuyên');
             SELECT @IDTK AS IDTaiKhoan, SCOPE_IDENTITY() AS IDKhachHang;
         COMMIT TRANSACTION;
     END TRY
@@ -139,17 +139,72 @@ CREATE PROCEDURE sp_KhachHangDatCho
 AS
 BEGIN
     SET NOCOUNT ON;
-    -- Kiểm tra xem xe này có thuộc quyền sở hữu của khách hàng không
+
+    -- 1. KIỂM TRA TÍNH HỢP LỆ CỦA THỜI GIAN
+    IF @TgianBatDau >= @TgianKetThuc
+    BEGIN
+        RAISERROR(N'Lỗi: Thời gian kết thúc phải sau thời gian bắt đầu!', 16, 1);
+        RETURN;
+    END
+
+    IF @TgianBatDau < GETDATE()
+    BEGIN
+        RAISERROR(N'Lỗi: Không thể đặt chỗ cho thời gian trong quá khứ!', 16, 1);
+        RETURN;
+    END
+
+    -- 2. KIỂM TRA QUYỀN SỞ HỮU XE (Khách hàng - Xe)
     IF NOT EXISTS (SELECT 1 FROM KhachHang_Xe WHERE IDKhachHang = @IDKhachHang AND IDXe = @BienSoXe)
     BEGIN
         RAISERROR(N'Lỗi: Xe này chưa được đăng ký dưới tên khách hàng này!', 16, 1);
         RETURN;
     END
 
-    INSERT INTO DatCho (IDKhachHang, IDXe, IDChoDau, TgianBatDau, TgianKetThuc, TrangThai)
-    VALUES (@IDKhachHang, @BienSoXe, @IDChoDau, @TgianBatDau, @TgianKetThuc, N'Đã đặt');
-    
-    PRINT N'Đặt chỗ thành công cho xe ' + @BienSoXe;
+    -- 3. KIỂM TRA TRẠNG THÁI CẤU HÌNH CỦA CHỖ ĐỖ
+    -- Nếu chỗ đang bảo trì hoặc tạm dừng thì không cho đặt
+    IF EXISTS (SELECT 1 FROM ChoDauXe WHERE ID = @IDChoDau AND TrangThai IN (N'Bảo trì', N'Tạm dừng', N'Đóng cửa'))
+    BEGIN
+        RAISERROR(N'Lỗi: Vị trí đỗ xe này đang bảo trì hoặc tạm dừng hoạt động!', 16, 1);
+        RETURN;
+    END
+
+    -- 4. KIỂM TRA TRÙNG LỊCH ĐẶT (Booking Overlap)
+    IF EXISTS (
+        SELECT 1 
+        FROM DatCho 
+        WHERE IDChoDau = @IDChoDau 
+          AND TrangThai IN (N'Đã đặt', N'Đang chờ duyệt') -- Chỉ kiểm tra các lịch đang active
+          AND (@TgianBatDau < TgianKetThuc AND @TgianKetThuc > TgianBatDau)
+    )
+    BEGIN
+        RAISERROR(N'Lỗi: Khung giờ này đã có người khác đặt chỗ!', 16, 1);
+        RETURN;
+    END
+
+    -- 5. KIỂM TRA XE ĐANG ĐỖ THỰC TẾ 
+    IF EXISTS (
+        SELECT 1 
+        FROM PhieuGiuXe 
+        WHERE IDChoDau = @IDChoDau 
+          AND TgianRa IS NULL -- Xe chưa ra
+          AND @TgianBatDau <= GETDATE() -- Khách muốn đặt ngay lúc này
+    )
+    BEGIN
+        RAISERROR(N'Lỗi: Vị trí này hiện đang có xe đỗ, vui lòng chọn chỗ khác hoặc khung giờ khác!', 16, 1);
+        RETURN;
+    END
+
+    -- 6. THỰC HIỆN ĐẶT CHỖ
+    BEGIN TRY
+        INSERT INTO DatCho (IDKhachHang, IDXe, IDChoDau, TgianBatDau, TgianKetThuc, TrangThai)
+        VALUES (@IDKhachHang, @BienSoXe, @IDChoDau, @TgianBatDau, @TgianKetThuc, N'Đang chờ duyệt');
+        
+        PRINT N'Đặt chỗ thành công cho xe ' + @BienSoXe + N' tại vị trí ID ' + CAST(@IDChoDau AS NVARCHAR(10));
+    END TRY
+    BEGIN CATCH
+        DECLARE @ErrMsg NVARCHAR(4000) = ERROR_MESSAGE();
+        RAISERROR(@ErrMsg, 16, 1);
+    END CATCH
 END;
 GO
 
@@ -169,7 +224,7 @@ BEGIN
         FROM DatCho
         WHERE ID = @IDDatCho
           AND IDKhachHang = @IDKhachHang
-          AND TrangThai = N'Đã đặt'
+          AND TrangThai IN (N'Đã đặt',N'Đang chờ duyệt')
           AND TgianBatDau > GETDATE()
     )
     BEGIN
@@ -195,33 +250,73 @@ GO
 CREATE PROCEDURE sp_NhanVienDuyetDatCho
     @IDDatCho INT,
     @IDNhanVien INT,
-    @TrangThaiMoi NVARCHAR(50) -- 'Hoàn thành' hoặc 'Đã hủy'
+    @TrangThaiMoi NVARCHAR(50) -- N'Đã đặt' (Duyệt) hoặc N'Đã hủy' (Từ chối)
 AS
 BEGIN
     SET NOCOUNT ON;
+    
+    DECLARE @IDChoDau INT;
+    DECLARE @TrangThaiHienTai NVARCHAR(50);
 
-    -- 1. Chỉ cho phép duyệt khi đang ở trạng thái "Đã đặt"
-    IF NOT EXISTS (
-        SELECT 1
-        FROM DatCho
-        WHERE ID = @IDDatCho
-          AND TrangThai = N'Đã đặt'
-    )
+    -- Lấy thông tin chỗ đậu từ đơn đặt hàng
+    SELECT @IDChoDau = IDChoDau, @TrangThaiHienTai = TrangThai
+    FROM DatCho 
+    WHERE ID = @IDDatCho;
+
+    -- 1. Kiểm tra đơn này có tồn tại không
+    IF @IDChoDau IS NULL
     BEGIN
-        RAISERROR(
-            N'Không thể duyệt: Đặt chỗ đã bị hủy hoặc đã hoàn thành trước đó.',
-            16, 1
-        );
+        RAISERROR(N'Lỗi: Đơn đặt chỗ không tồn tại.', 16, 1);
         RETURN;
     END
 
-    -- 2. Cập nhật trạng thái
-    UPDATE DatCho
-    SET TrangThai = @TrangThaiMoi,
-        IDNhanVien = @IDNhanVien
-    WHERE ID = @IDDatCho;
+    -- 2. Kiểm tra trạng thái đơn (Chỉ được duyệt đơn đang chờ)
+    -- Giả sử quy trình của bạn là: Khách đặt -> "Đang chờ duyệt" -> NV Duyệt -> "Đã đặt"
+    IF @TrangThaiHienTai <> N'Đang chờ duyệt'
+    BEGIN
+        RAISERROR(N'Lỗi: Đơn này đã được xử lý hoặc không ở trạng thái chờ duyệt.', 16, 1);
+        RETURN;
+    END
 
-    PRINT N'Duyệt đặt chỗ thành công.';
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+            -- TRƯỜNG HỢP 1: DUYỆT ĐƠN (Chấp nhận)
+            IF @TrangThaiMoi = N'Đã đặt'
+            BEGIN
+                -- Kiểm tra lại xem chỗ đó có còn TRỐNG không?
+                -- (Tránh trường hợp trong lúc chờ duyệt, xe khác đã vào đỗ hoặc bảo trì)
+                IF EXISTS (SELECT 1 FROM ChoDauXe WHERE ID = @IDChoDau AND TrangThai <> N'Trống')
+                BEGIN
+                    RAISERROR(N'Lỗi: Không thể duyệt. Chỗ đậu xe này hiện không còn trống (Đang đỗ/Bảo trì).', 16, 1);
+                    ROLLBACK TRANSACTION;
+                    RETURN;
+                END
+                -- Cập nhật trạng thái Chỗ đậu -> "Đã đặt"
+                UPDATE ChoDauXe SET TrangThai = N'Đã đặt' WHERE ID = @IDChoDau;
+            END
+
+            -- TRƯỜNG HỢP 2: TỪ CHỐI/HỦY ĐƠN
+            ELSE IF @TrangThaiMoi = N'Đã hủy'
+            BEGIN
+                UPDATE ChoDauXe SET TrangThai = N'Trống' WHERE ID = @IDChoDau AND TrangThai = N'Đã đặt';
+            END
+
+            -- 3. Cập nhật trạng thái Đơn đặt chỗ
+            UPDATE DatCho
+            SET TrangThai = @TrangThaiMoi,
+                IDNhanVien = @IDNhanVien
+            WHERE ID = @IDDatCho;
+
+            PRINT N'Cập nhật trạng thái đặt chỗ thành công: ' + @TrangThaiMoi;
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrMsg NVARCHAR(4000) = ERROR_MESSAGE();
+        RAISERROR(@ErrMsg, 16, 1);
+    END CATCH
 END;
 GO
 
@@ -242,7 +337,7 @@ BEGIN
 END;
 GO
 
--- Thống kê danh sách đặt chỗ đang chờ duyệt (Trạng thái 'Đã đặt')
+-- Thống kê danh sách đặt chỗ đang chờ duyệt (Trạng thái 'Đang chờ duyệt')
 IF OBJECT_ID('sp_DanhSachChoDuyet') IS NOT NULL DROP PROCEDURE sp_DanhSachChoDuyet;
 GO
 CREATE PROCEDURE sp_DanhSachChoDuyet
@@ -252,7 +347,7 @@ BEGIN
     FROM DatCho dc
     JOIN KhachHang kh ON dc.IDKhachHang = kh.ID
     JOIN ChoDauXe cd ON dc.IDChoDau = cd.ID
-    WHERE dc.TrangThai = N'Đã đặt'
+    WHERE dc.TrangThai = N'Đang chờ duyệt'
     ORDER BY dc.TgianBatDau ASC;
 END;
 GO
@@ -466,13 +561,18 @@ GO
 -- 5. TRIGGER: Cập nhật chỗ khi Đặt vé
 IF OBJECT_ID('trg_DatCho_CapNhatTrangThai') IS NOT NULL DROP TRIGGER trg_DatCho_CapNhatTrangThai;
 GO
+
 CREATE TRIGGER trg_DatCho_CapNhatTrangThai
-ON DatCho AFTER INSERT AS
+ON DatCho AFTER INSERT 
+AS
 BEGIN
+    SET NOCOUNT ON;
+
     UPDATE c
     SET c.TrangThai = N'Đã đặt'
     FROM ChoDauXe c
-    JOIN inserted i ON c.ID = i.IDChoDau;
+    JOIN inserted i ON c.ID = i.IDChoDau
+    WHERE i.TrangThai = N'Đã đặt';
 END;
 GO
 
@@ -482,11 +582,13 @@ GO
 CREATE TRIGGER trg_DatCho_GiaiPhongCho
 ON DatCho AFTER UPDATE AS
 BEGIN
-	UPDATE c
-	SET c.TrangThai = N'Trống'
-	FROM ChoDauXe c
-	JOIN inserted i ON c.ID = i.IDChoDau
-    WHERE i.TrangThai IN (N'Đã hủy', N'Hoàn thành', N'Quá hạn') AND c.TrangThai = N'Đã đặt';
+    SET NOCOUNT ON;
+
+    UPDATE c
+    SET c.TrangThai = N'Trống'
+    FROM ChoDauXe c
+    JOIN inserted i ON c.ID = i.IDChoDau
+    WHERE i.TrangThai IN (N'Đã hủy', N'Hoàn thành', N'Quá hạn');
 END;
 GO
 

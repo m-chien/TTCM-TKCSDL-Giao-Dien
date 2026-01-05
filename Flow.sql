@@ -15,48 +15,43 @@ select * from TaiKhoan
 EXEC sp_ThemXeKhachHang 3, '30A-888.88', 2, 'Civic', 'Honda', N'Trắng';
 select * from Xe, KhachHang_Xe where xe.BienSoXe = KhachHang_Xe.IDXe and KhachHang_Xe.IDKhachHang = 3
 
--- Bước 3: Khách hàng đặt chỗ A-01 (ID = 1)
-EXEC sp_KhachHangDatCho 3, '30A-888.88', 1, '2026-06-01 08:00', '2026-06-01 17:00';
-select * from DatCho where IDKhachHang = 3
+-- Bước 3: Khách hàng đặt chỗ A-03 (ID = 3)
+EXEC sp_KhachHangDatCho 3, '30A-888.88', 3, '2026-06-01 08:00', '2026-06-01 17:00';
 
--- Kiểm tra trạng thái chỗ đậu (Sẽ tự động chuyển sang 'Đã đặt' nhờ Trigger)
-SELECT TenChoDau, TrangThai FROM ChoDauXe WHERE ID = 1;
+-- Kiểm tra: Chỗ đậu vẫn phải là 'Trống' (chưa bị khóa vì chưa duyệt)
+SELECT TenChoDau, TrangThai FROM ChoDauXe 
 
--- Xem danh sách các yêu cầu đang chờ duyệt
+-- Bước 4: Nhân viên duyệt
 EXEC sp_DanhSachChoDuyet;
-EXEC sp_NhanVienDuyetDatCho 2, 1, N'Hoàn thành';
 
--- Bước 4: Nhân viên (ID = 1) xem danh sách và duyệt
--- Kiểm tra lại: Sau khi duyệt 'Hoàn thành', chỗ đậu sẽ tự động trả về 'Trống' 
-SELECT TenChoDau, TrangThai 
-FROM ChoDauXe WHERE ID = 1;
+-- Duyệt đơn (Chuyển sang 'Đã đặt' -> Khóa chỗ)
+DECLARE @IDDonDat INT = (SELECT MAX(ID) FROM DatCho WHERE IDKhachHang = 3);
+EXEC sp_NhanVienDuyetDatCho @IDDonDat, 1, N'Đã đặt';
+
+-- Kiểm tra lại: Bây giờ chỗ đậu phải chuyển sang 'Đã đặt'
+SELECT TenChoDau, TrangThai FROM ChoDauXe WHERE ID = 3;
 
 
 
 -- 1. Cho xe vào bãi
-EXEC sp_XeVaoBai 1, '30A-123.45', 1, 1;
-
--- Kiểm tra trạng thái chỗ đậu (Sẽ tự động chuyển sang 'Đang đỗ')
-SELECT TenChoDau, TrangThai FROM ChoDauXe WHERE ID = 1;
-
--- Kiểm tra phiếu giữ xe vừa tạo
+EXEC sp_XeVaoBai 3, '30A-888.88', 2, 1;
+--Kiểm tra phiếu giữ xe vừa tạo
 SELECT * FROM PhieuGiuXe WHERE IDXe = '30A-123.45' AND TgianRa IS NULL;
--- 2. Giả lập xe đã đỗ được 3 tiếng
+-- 2. Giả lập gửi 3 tiếng
 UPDATE PhieuGiuXe 
 SET TgianVao = DATEADD(HOUR, -3, GETDATE()) 
-WHERE IDXe = '30A-123.45' AND TgianRa IS NULL;
+WHERE IDXe = '30A-888.88' AND TgianRa IS NULL;
 
--- 3. Cho xe ra bãi (Lấy ID phiếu mới nhất của xe này)
-EXEC sp_XeRaBai 1, 1;
+-- 3. Cho xe ra bãi
+-- Lấy ID phiếu mới nhất
+DECLARE @IDPhieu INT = (SELECT MAX(ID) FROM PhieuGiuXe WHERE IDXe = '30A-888.88');
+EXEC sp_XeRaBai @IDPhieu, 1;
 
--- 4. Kiểm tra kết quả
-SELECT h.*, pgx.IDXe, pgx.TgianVao, pgx.TgianRa 
-FROM HoaDon h
-JOIN PhieuGiuXe pgx ON h.ID = pgx.IDHoaDon
-WHERE pgx.IDXe = '30A-123.45';
+-- 4. Xem kết quả (Chắc chắn sẽ có tiền)
+SELECT * FROM HoaDon WHERE ID = (SELECT IDHoaDon FROM PhieuGiuXe WHERE ID = @IDPhieu);
 
 -- 5. Kiểm tra trạng thái chỗ đậu (Phải trở về 'Trống')
-SELECT TenChoDau, TrangThai FROM ChoDauXe WHERE ID = 1;
+SELECT TenChoDau, TrangThai FROM ChoDauXe WHERE ID = 2;
 
 --gia hạn thẻ xe tháng
 EXEC sp_GiaHanTheXeThang
@@ -80,4 +75,3 @@ select * from DatCho where IDChoDau = 1
 EXEC sp_KhachHangHuyDatCho 
     @IDDatCho = 2,
     @IDKhachHang = 3;
-
