@@ -57,3 +57,27 @@ WHERE pgx.IDXe = '30A-123.45';
 
 -- 5. Kiểm tra trạng thái chỗ đậu (Phải trở về 'Trống')
 SELECT TenChoDau, TrangThai FROM ChoDauXe WHERE ID = 1;
+
+--gia hạn thẻ xe tháng
+EXEC sp_GiaHanTheXeThang
+    @IDTheXeThang = 1,
+    @SoThang = 2,
+    @GiaThang = 300000;
+
+-- đăng ký thẻ xe tháng
+EXEC sp_DangKyTheXeThang
+    @IDKhachHang = 1,
+    @IDXe = '30A-123.45',
+	@TenTheXe = N'Thẻ xe tháng',
+    @SoThang = 1;
+
+select * from TheXeThang
+select * from HoaDon
+select * from ChiTietHoaDon
+select * from ThanhToan
+select * from DatCho where IDChoDau = 1
+
+EXEC sp_KhachHangHuyDatCho 
+    @IDDatCho = 2,
+    @IDKhachHang = 3;
+

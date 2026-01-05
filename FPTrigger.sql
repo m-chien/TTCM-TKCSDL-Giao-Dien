@@ -152,6 +152,40 @@ BEGIN
     PRINT N'Đặt chỗ thành công cho xe ' + @BienSoXe;
 END;
 GO
+
+--khách hàng hủy đặt chỗ
+IF OBJECT_ID('sp_KhachHangHuyDatCho') IS NOT NULL DROP PROCEDURE sp_KhachHangHuyDatCho;
+GO
+CREATE PROCEDURE sp_KhachHangHuyDatCho
+    @IDDatCho INT,
+    @IDKhachHang INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Chỉ cho hủy khi là chủ đơn và chưa bắt đầu gửi xe
+    IF NOT EXISTS (
+        SELECT 1
+        FROM DatCho
+        WHERE ID = @IDDatCho
+          AND IDKhachHang = @IDKhachHang
+          AND TrangThai = N'Đã đặt'
+          AND TgianBatDau > GETDATE()
+    )
+    BEGIN
+        RAISERROR(
+            N'Không thể hủy đặt chỗ (không tồn tại, đã xử lý hoặc quá giờ).',
+            16, 1
+        );
+        RETURN;
+    END
+
+    UPDATE DatCho
+    SET TrangThai = N'Đã hủy'
+    WHERE ID = @IDDatCho;
+
+    PRINT N'Khách hàng đã hủy đặt chỗ thành công.';
+END;
 GO
 
 
@@ -164,14 +198,33 @@ CREATE PROCEDURE sp_NhanVienDuyetDatCho
     @TrangThaiMoi NVARCHAR(50) -- 'Hoàn thành' hoặc 'Đã hủy'
 AS
 BEGIN
+    SET NOCOUNT ON;
+
+    -- 1. Chỉ cho phép duyệt khi đang ở trạng thái "Đã đặt"
+    IF NOT EXISTS (
+        SELECT 1
+        FROM DatCho
+        WHERE ID = @IDDatCho
+          AND TrangThai = N'Đã đặt'
+    )
+    BEGIN
+        RAISERROR(
+            N'Không thể duyệt: Đặt chỗ đã bị hủy hoặc đã hoàn thành trước đó.',
+            16, 1
+        );
+        RETURN;
+    END
+
+    -- 2. Cập nhật trạng thái
     UPDATE DatCho
     SET TrangThai = @TrangThaiMoi,
         IDNhanVien = @IDNhanVien
     WHERE ID = @IDDatCho;
-    -- Lưu ý: Trigger trg_DatCho_GiaiPhongCho sẽ tự động trả chỗ về 'Trống' nếu trạng thái là Hoàn thành/Hủy
-    PRINT N'Đã duyệt trạng thái đặt chỗ.';
+
+    PRINT N'Duyệt đặt chỗ thành công.';
 END;
 GO
+
 
 
 -- Xem tất cả xe của một khách hàng cụ thể
@@ -283,6 +336,131 @@ BEGIN
     WHERE CAST(NgayTao AS DATE) = @Ngay;
 END;
 GO
+
+--đăng ký thẻ xe tháng
+IF OBJECT_ID('sp_DangKyTheXeThang') IS NOT NULL DROP PROCEDURE sp_DangKyTheXeThang;
+GO
+Create PROCEDURE sp_DangKyTheXeThang
+    @IDKhachHang INT,
+    @IDXe VARCHAR(20),
+    @TenTheXe NVARCHAR(255),
+    @SoThang INT,
+    @GiaThang MONEY = 300000
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        BEGIN TRAN;
+
+        -- 1. Kiểm tra trùng thẻ còn hiệu lực
+        IF EXISTS (
+            SELECT 1
+            FROM TheXeThang
+            WHERE IDKhachHang = @IDKhachHang
+              AND IDXe = @IDXe
+              AND TrangThai = 1
+              AND NgayHetHan >= CAST(GETDATE() AS DATE)
+        )
+        BEGIN
+            RAISERROR(
+                N'Xe này đã có thẻ tháng còn hiệu lực. Vui lòng gia hạn.',
+                16, 1
+            );
+            ROLLBACK;
+            RETURN;
+        END
+
+        DECLARE 
+            @NgayDangKy DATE = CAST(GETDATE() AS DATE),
+            @NgayHetHan DATE,
+            @TongTien MONEY,
+            @IDHoaDon INT,
+            @IDTheXeThang INT;
+
+        SET @NgayHetHan = DATEADD(MONTH, @SoThang, @NgayDangKy);
+        SET @TongTien = @SoThang * @GiaThang;
+
+        -- 2. Tạo thẻ xe tháng
+        INSERT INTO TheXeThang
+        (IDKhachHang, IDXe, TenTheXe, NgayDangKy, NgayHetHan, TrangThai)
+        VALUES
+        (@IDKhachHang, @IDXe, @TenTheXe, @NgayDangKy, @NgayHetHan, 1);
+
+        SET @IDTheXeThang = SCOPE_IDENTITY();
+
+        -- 3. Tạo hóa đơn
+        INSERT INTO HoaDon (ThanhTien, NgayTao, LoaiHoaDon)
+        VALUES (@TongTien, GETDATE(), N'Đăng ký thẻ xe tháng');
+
+        SET @IDHoaDon = SCOPE_IDENTITY();
+
+        -- 4. Chi tiết hóa đơn
+        INSERT INTO ChiTietHoaDon (IDHoaDon, IDTheXeThang, TongTien)
+        VALUES (@IDHoaDon, @IDTheXeThang, @TongTien);
+
+        -- 5. Thanh toán
+        INSERT INTO ThanhToan
+        (IDHoaDon, PhuongThuc, TrangThai, NgayThanhToan)
+        VALUES
+        (@IDHoaDon, N'Tiền mặt', 1, GETDATE());
+
+        COMMIT;
+        PRINT N'Đăng ký thẻ xe tháng thành công';
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0 ROLLBACK;
+        THROW;
+    END CATCH
+END;
+GO
+
+--gia hạn thẻ xe tháng
+IF OBJECT_ID('sp_GiaHanTheXeThang') IS NOT NULL DROP PROCEDURE sp_GiaHanTheXeThang;
+GO
+CREATE PROCEDURE sp_GiaHanTheXeThang
+    @IDTheXeThang INT,
+    @SoThang INT,
+    @GiaThang MONEY = 300000
+AS
+BEGIN
+    SET NOCOUNT ON;
+    BEGIN TRAN;
+
+    BEGIN TRY
+        DECLARE @TongTien MONEY = @SoThang * @GiaThang;
+        DECLARE @IDHoaDon INT;
+
+        -- 1. Gia hạn thẻ
+        UPDATE TheXeThang
+        SET NgayHetHan = DATEADD(MONTH, @SoThang, NgayHetHan),
+            TrangThai = 1
+        WHERE ID = @IDTheXeThang;
+
+        -- 2. Tạo hóa đơn
+        INSERT INTO HoaDon (ThanhTien, NgayTao, LoaiHoaDon)
+        VALUES (@TongTien, GETDATE(), N'Gia hạn thẻ tháng');
+
+        SET @IDHoaDon = SCOPE_IDENTITY();
+
+        -- 3. Chi tiết hóa đơn
+        INSERT INTO ChiTietHoaDon (IDHoaDon, IDTheXeThang, TongTien)
+        VALUES (@IDHoaDon, @IDTheXeThang, @TongTien);
+
+        -- 4. Thanh toán
+        INSERT INTO ThanhToan (IDHoaDon, PhuongThuc, TrangThai, NgayThanhToan)
+        VALUES (@IDHoaDon, N'Tiền mặt', 1, GETDATE());
+
+        COMMIT;
+        PRINT N'Gia hạn thẻ xe tháng thành công';
+    END TRY
+    BEGIN CATCH
+        ROLLBACK;
+        THROW;
+    END CATCH
+END;
+GO
+
 -- ====================Trigger========================
 
 -- 5. TRIGGER: Cập nhật chỗ khi Đặt vé
