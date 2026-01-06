@@ -10,13 +10,14 @@ EXEC sp_BaoCaoThongKeTongHop @NgayBatDau = '2024-01-01', @NgayKetThuc = '2026-01
 -- Bước 1: Thêm tài khoản
 EXEC sp_ThemTaiKhoanKhachHang 'tung_nguyen_2', '123', N'Nguyễn Thanh Tùng', '0911222444', '123123555', N'Hà Nội';
 select * from TaiKhoan
+select * from KhachHang
 
 -- Bước 2: Thêm xe cho khách hàng vừa tạo (Giả sử ID khách hàng là 3)
 EXEC sp_ThemXeKhachHang 3, '30A-888.88', 2, 'Civic', 'Honda', N'Trắng';
 select * from Xe, KhachHang_Xe where xe.BienSoXe = KhachHang_Xe.IDXe and KhachHang_Xe.IDKhachHang = 3
 
 -- Bước 3: Khách hàng đặt chỗ A-03 (ID = 3)
-EXEC sp_KhachHangDatCho 3, '30A-888.88', 3, '2026-06-01 08:00', '2026-06-01 17:00';
+EXEC sp_KhachHangDatCho 3, '30A-888.88', 3, '2026-10-01 08:00', '2026-10-01 17:00';
 
 -- Kiểm tra: Chỗ đậu vẫn phải là 'Trống' (chưa bị khóa vì chưa duyệt)
 SELECT TenChoDau, TrangThai FROM ChoDauXe 
@@ -34,9 +35,9 @@ SELECT TenChoDau, TrangThai FROM ChoDauXe WHERE ID = 3;
 
 
 -- 1. Cho xe vào bãi
-EXEC sp_XeVaoBai 3, '30A-888.88', 2, 1;
+EXEC sp_XeVaoBai 3, '30A-888.88', 3, 1;
 --Kiểm tra phiếu giữ xe vừa tạo
-SELECT * FROM PhieuGiuXe WHERE IDXe = '30A-123.45' AND TgianRa IS NULL;
+SELECT * FROM PhieuGiuXe WHERE IDXe = '30A-888.88' AND TgianRa IS NULL;
 -- 2. Giả lập gửi 3 tiếng
 UPDATE PhieuGiuXe 
 SET TgianVao = DATEADD(HOUR, -3, GETDATE()) 
@@ -51,7 +52,7 @@ EXEC sp_XeRaBai @IDPhieu, 1;
 SELECT * FROM HoaDon WHERE ID = (SELECT IDHoaDon FROM PhieuGiuXe WHERE ID = @IDPhieu);
 
 -- 5. Kiểm tra trạng thái chỗ đậu (Phải trở về 'Trống')
-SELECT TenChoDau, TrangThai FROM ChoDauXe WHERE ID = 2;
+SELECT TenChoDau, TrangThai FROM ChoDauXe WHERE ID = 3;
 
 --gia hạn thẻ xe tháng
 EXEC sp_GiaHanTheXeThang
@@ -61,7 +62,7 @@ EXEC sp_GiaHanTheXeThang
 
 -- đăng ký thẻ xe tháng
 EXEC sp_DangKyTheXeThang
-    @IDKhachHang = 1,
+    @IDKhachHang = 3,
     @IDXe = '30A-123.45',
 	@TenTheXe = N'Thẻ xe tháng',
     @SoThang = 1;
@@ -70,8 +71,9 @@ select * from TheXeThang
 select * from HoaDon
 select * from ChiTietHoaDon
 select * from ThanhToan
-select * from DatCho where IDChoDau = 1
+select * from DatCho where IDChoDau = 3
+select * from PhieuGiuXe
 
 EXEC sp_KhachHangHuyDatCho 
-    @IDDatCho = 2,
+    @IDDatCho = 3,
     @IDKhachHang = 3;
