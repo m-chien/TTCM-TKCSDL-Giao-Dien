@@ -781,16 +781,21 @@ BEGIN
 
         -- 1. KIỂM TRA THẺ XE THÁNG (Ưu tiên số 1)
         -- Nếu cặp Khách - Xe này có thẻ tháng còn hạn, tổng tiền sẽ là 0
-        IF EXISTS (
-            SELECT 1 FROM TheXeThang 
-            WHERE IDKhachHang = @IDKH 
-              AND IDXe = @BienSo 
-              AND TrangThai = 1 
-              AND NgayHetHan >= CAST(@Ra AS DATE)
-        )
-        BEGIN
-            SET @TongTien = 0;
-        END
+		DECLARE @IDTheXeThang INT;
+
+		SELECT TOP 1 
+			@IDTheXeThang = ID
+		FROM TheXeThang
+		WHERE IDKhachHang = @IDKH
+		  AND IDXe = @BienSo
+		  AND TrangThai = 1
+		  AND NgayHetHan >= CAST(@Ra AS DATE)
+		ORDER BY NgayHetHan DESC;
+
+		IF @IDTheXeThang IS NOT NULL
+		BEGIN
+			SET @TongTien = 0;
+		END
         ELSE
         BEGIN
             -- 2. TÍNH TIỀN THEO GIỜ (Dành cho khách vãng lai hoặc hết hạn thẻ)
@@ -840,11 +845,19 @@ BEGIN
 		  AND dc.IDXe = @BienSo
 		ORDER BY dc.TgianBatDau DESC;
 
-		IF @IDDatCho IS NOT NULL
+		-- Có thẻ tháng
+		IF @IDTheXeThang IS NOT NULL
+		BEGIN
+			INSERT INTO ChiTietHoaDon (IDHoaDon, IDTheXeThang, TongTien)
+			VALUES (@NewHoaDonID, @IDTheXeThang, @TongTien);
+		END
+		-- Có đặt chỗ
+		ELSE IF @IDDatCho IS NOT NULL
 		BEGIN
 			INSERT INTO ChiTietHoaDon (IDHoaDon, IDDatCho, TongTien)
 			VALUES (@NewHoaDonID, @IDDatCho, @TongTien);
 		END
+		-- Khách vãng lai
 		ELSE
 		BEGIN
 			INSERT INTO ChiTietHoaDon (IDHoaDon, TongTien)
