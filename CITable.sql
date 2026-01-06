@@ -224,7 +224,7 @@ CREATE TABLE DatCho (
     TgianBatDau DATETIME,
     TgianKetThuc DATETIME,
     TrangThai NVARCHAR(50) CONSTRAINT CK_DatCho_TrangThai 
-        CHECK (TrangThai IN (N'Đã đặt', N'Đã hủy', N'Đang chờ duyệt', N'Quá hạn')),
+        CHECK (TrangThai IN (N'Đã đặt', N'Đã hủy', N'Đang chờ duyệt', N'Quá hạn', N'Hoàn thành')),
 
     -- Ràng buộc tham chiếu cặp Khách-Xe
     CONSTRAINT FK_DatCho_KHXe FOREIGN KEY (IDKhachHang, IDXe) 
@@ -251,7 +251,7 @@ CREATE TABLE HoaDon (
 
 CREATE TABLE PhieuGiuXe (
     ID INT PRIMARY KEY IDENTITY(1,1),
-    IDKhachHang INT NOT NULL,
+    IDKhachHang INT,
     IDXe VARCHAR(20) NOT NULL,
     IDChoDau INT NOT NULL,
     IDNhanVienVao INT,
@@ -300,7 +300,7 @@ CREATE TABLE ThanhToan (
             ON UPDATE NO ACTION 
             ON DELETE NO ACTION,
     PhuongThuc NVARCHAR(50) CONSTRAINT CK_ThanhToan_PhuongThuc CHECK (PhuongThuc IN (N'Tiền mặt', N'Thẻ', N'QR Code', N'Chuyển khoản')),
-    TrangThai BIT,
+    TrangThai BIT default 0,
     NgayThanhToan DATETIME DEFAULT GETDATE()
 );
 
@@ -428,7 +428,7 @@ VALUES (1, 1, 1, '2026-01-01', '2026-01-31', 1, 4);
 -- 7. NGHIỆP VỤ THỰC TẾ 
 INSERT INTO TheXeThang (IDKhachHang, IDXe, TenTheXe, NgayDangKy, NgayHetHan, TrangThai) 
 VALUES (1, '30A-123.45', N'Thẻ tháng Vios', '2026-01-01', '2026-01-31', 1);
-
+/*
 INSERT INTO DatCho (IDKhachHang, IDXe, IDChoDau, IDNhanVien, TgianBatDau, TgianKetThuc, TrangThai) 
 VALUES (2, '43A-567.89', 2, NULL, '2026-01-05 08:00', '2026-01-05 17:00', N'Đang chờ duyệt');
 
@@ -447,7 +447,7 @@ INSERT INTO ChiTietHoaDon (IDHoaDon, TongTien) VALUES (1, 30000);
 
 INSERT INTO DanhGia (IDKhachHang, IDHoaDon, NoiDung, DiemDanhGia) 
 VALUES (1, 1, N'Dịch vụ tốt', 5);
-
+*/
 INSERT INTO SuCo (IDNhanVien, IDThietBi, MoTa, MucDo, TrangThaiXuLy) 
 VALUES (1, 1, N'Màn hình hiển thị bị mờ', N'Nhẹ', N'Chưa xử lý');
 GO

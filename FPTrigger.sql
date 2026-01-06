@@ -772,7 +772,7 @@ BEGIN
             @IDLoaiXe = x.IDLoaiXe,
             @IDBaiDo = kv.IDBaiDo
         FROM inserted i
-        JOIN Xe x ON i.IDXe = x.BienSoXe
+        LEFT JOIN Xe x ON i.IDXe = x.BienSoXe
         JOIN ChoDauXe cd ON i.IDChoDau = cd.ID
         JOIN KhuVuc kv ON cd.IDKhuVuc = kv.ID
         WHERE i.TgianRa IS NOT NULL;
@@ -825,10 +825,31 @@ BEGIN
         UPDATE PhieuGiuXe 
         SET IDHoaDon = @NewHoaDonID 
         WHERE ID = @IDPhieu;
-
+		--tạo bảng thanh toán
+		insert into ThanhToan (IDHoaDon,PhuongThuc) Values
+		(@NewHoaDonID, N'Chuyển khoản')
         -- 5. TẠO CHI TIẾT HÓA ĐƠN
-        INSERT INTO ChiTietHoaDon (IDHoaDon, TongTien) 
-        VALUES (@NewHoaDonID, @TongTien);
+		DECLARE @IDDatCho INT;
+
+		SELECT @IDDatCho = dc.ID
+		FROM DatCho dc
+		WHERE dc.IDChoDau = (
+				SELECT IDChoDau FROM PhieuGiuXe WHERE ID = @IDPhieu
+			  )
+		  AND dc.IDKhachHang = @IDKH
+		  AND dc.IDXe = @BienSo
+		ORDER BY dc.TgianBatDau DESC;
+
+		IF @IDDatCho IS NOT NULL
+		BEGIN
+			INSERT INTO ChiTietHoaDon (IDHoaDon, IDDatCho, TongTien)
+			VALUES (@NewHoaDonID, @IDDatCho, @TongTien);
+		END
+		ELSE
+		BEGIN
+			INSERT INTO ChiTietHoaDon (IDHoaDon, TongTien)
+			VALUES (@NewHoaDonID, @TongTien);
+		END
     END
 END;
 GO
