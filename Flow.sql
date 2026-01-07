@@ -18,7 +18,7 @@ EXEC sp_ThemXeKhachHang 3, '30A-888.88', 2, 'Civic', 'Honda', N'Trắng';
 select * from Xe, KhachHang_Xe where xe.BienSoXe = KhachHang_Xe.IDXe and KhachHang_Xe.IDKhachHang = 3
 
 -- Bước 3: Khách hàng đặt chỗ A-03 (ID = 3)
-EXEC sp_KhachHangDatCho 3, '30A-888.88', 3, '2026-10-01 08:00', '2026-10-01 17:00';
+EXEC sp_KhachHangDatCho 3, '30A-888.88', 3, '2026-11-01 08:00', '2026-11-01 17:00';
 
 -- Kiểm tra: Chỗ đậu vẫn phải là 'Trống' (chưa bị khóa vì chưa duyệt)
 SELECT TenChoDau, TrangThai FROM ChoDauXe 
@@ -53,6 +53,8 @@ EXEC sp_XeRaBai @IDPhieu, 1;
 -- 4. Xem kết quả (Chắc chắn sẽ có tiền)
 SELECT * FROM HoaDon WHERE ID = (SELECT IDHoaDon FROM PhieuGiuXe WHERE ID = @IDPhieu);
 
+Select * 
+from ChiTietHoaDon
 -- 5. Kiểm tra trạng thái chỗ đậu (Phải trở về 'Trống')
 SELECT TenChoDau, TrangThai FROM ChoDauXe WHERE ID = 3;
 
@@ -65,7 +67,7 @@ EXEC sp_GiaHanTheXeThang
 -- đăng ký thẻ xe tháng
 EXEC sp_DangKyTheXeThang
     @IDKhachHang = 3,
-    @IDXe = '30A-123.45',
+    @IDXe = '30A-888.88',
 	@TenTheXe = N'Thẻ xe tháng',
     @SoThang = 1;
 
