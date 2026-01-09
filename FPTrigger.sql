@@ -833,8 +833,7 @@ BEGIN
 		--tạo bảng thanh toán
 		insert into ThanhToan (IDHoaDon,PhuongThuc) Values
 		(@NewHoaDonID, N'Chuyển khoản')
-        -- 5. TẠO CHI TIẾT HÓA ĐƠN
-		DECLARE @IDDatCho INT;
+DECLARE @IDDatCho INT;
 
 		SELECT @IDDatCho = dc.ID
 		FROM DatCho dc
@@ -865,6 +864,3 @@ BEGIN
 		END
     END
 END;
-GO
-
-
