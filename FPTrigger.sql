@@ -1,3 +1,40 @@
+IF OBJECT_ID('fn_NextID_KhachHang') IS NOT NULL
+    DROP FUNCTION fn_NextID_KhachHang;
+GO
+
+CREATE FUNCTION fn_NextID_KhachHang
+(
+    @LoaiKH NVARCHAR(50) -- VIP | Bình thường | Thường xuyên | Vãng lai
+)
+RETURNS VARCHAR(12)
+AS
+BEGIN
+    DECLARE @Next INT;
+    DECLARE @Suffix VARCHAR(2);
+
+    -- Map LoaiKH -> suffix
+    SET @Suffix = CASE @LoaiKH
+        WHEN N'VIP' THEN 'VI'
+        WHEN N'Thường xuyên' THEN 'TT'
+        WHEN N'Vãng lai' THEN 'VL'
+        ELSE 'BT'
+    END;
+
+    -- Lấy số tăng toàn bảng
+    SELECT @Next =
+        ISNULL(MAX(CAST(SUBSTRING(IDKhachHang, 3, 5) AS INT)), 0) + 1
+    FROM KhachHang;
+
+    RETURN
+        'KH'
+        + RIGHT('00000' + CAST(@Next AS VARCHAR), 5)
+        + '_' + @Suffix;
+END;
+GO
+
+
+
+
 -- ====================Function========================
 IF OBJECT_ID('f_TimKiemChoTrong') IS NOT NULL DROP FUNCTION f_TimKiemChoTrong;
 GO
