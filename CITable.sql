@@ -295,7 +295,7 @@ CREATE TABLE ChiTietHoaDon (
 );
 
 CREATE TABLE ThanhToan (
-    IDThanhToan VARCHAR(12) PRIMARY KEY ,--TT00001_CK(Thanh toán 00001,Chuyển khoản)
+    IDThanhToan VARCHAR(30) PRIMARY KEY ,--TT00001_CK(Thanh toán 00001,Chuyển khoản)
     IDHoaDonNo VARCHAR(20) CONSTRAINT FK_ThanhToan_HoaDon FOREIGN KEY REFERENCES HoaDon(IDHoaDon) 
             ON UPDATE NO ACTION 
             ON DELETE NO ACTION,
@@ -316,10 +316,12 @@ CREATE TABLE LichLamViec (
     IDBaiDoNo VARCHAR(8) CONSTRAINT FK_Lich_BaiDo FOREIGN KEY REFERENCES BaiDo(IDBaiDo) 
             ON UPDATE NO ACTION 
             ON DELETE NO ACTION,
-    NgayBatDau DATE,
-    NgayKetThuc DATE,
+    NgayBatDau DATE not null,
+    NgayKetThuc DATE not null,
     TrangThai BIT DEFAULT 0,
-    SoNgayDaLam INT
+    SoNgayDaLam INT,
+	CONSTRAINT CK_LichLamViec_Ngay
+        CHECK (NgayKetThuc >= NgayBatDau)
 );
 
 CREATE TABLE SuCo (
@@ -460,7 +462,10 @@ INSERT INTO LoaiHinhTinhPhi VALUES
 ('LH005_NGAY_O7', 'BG003_O7', N'Tính theo ngày', N'Ngày', 200000),
 
 ('LH006_GIO_O4', 'BG004_O4', N'Tính theo giờ', N'Giờ', 40000),
-('LH007_NGAY_O4', 'BG004_O4', N'Tính theo ngày', N'Ngày', 300000);
+('LH007_NGAY_O4', 'BG004_O4', N'Tính theo ngày', N'Ngày', 300000),
+('LH008_THG_XM', 'BG002_XM', N'Tính theo tháng', N'Tháng', 150000),
+('LH009_THG_O4', 'BG001_O4', N'Tính theo tháng', N'Tháng', 1200000),
+('LH010_THG_O7', 'BG003_O7', N'Tính theo tháng', N'Tháng', 1500000);
 
 -- Khung giờ
 INSERT INTO KhungGio VALUES
@@ -481,7 +486,7 @@ INSERT INTO TheXeThang VALUES
 
 -- Voucher
 INSERT INTO Voucher VALUES
-('VC00001_BD001', 'BD001', N'Giảm 20K', 20000,
+('VC00001_BD001', 'BD001', N'Giảm 20K', 0,
  '2026-12-31', 100, 1, 'VC20K'),
  ('VC00002_BD001', 'BD001', N'Giảm 10%', 10000, '2026-06-30', 200, 1, 'G10P'),
 ('VC00001_BD002', 'BD002', N'Giảm 50K sân bay', 50000, '2026-12-31', 100, 1, 'SB50K'),

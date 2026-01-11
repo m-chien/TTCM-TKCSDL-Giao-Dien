@@ -117,10 +117,9 @@ PRINT N'✔ Khách hàng: ' + @KhachHangID;
 -- =====================================
 -- 2. DỮ LIỆU TEST (KHỚP SP)
 -- =====================================
-DECLARE @DanhSachXe  NVARCHAR(MAX) = '30A-999.99,51K-123.45';
+DECLARE @DanhSachXe  NVARCHAR(MAX) = '30A-888.88,51K-123.45';
 DECLARE @DanhSachCho NVARCHAR(MAX) = 'CD0001_B,CD0002_B';
-
-DECLARE @BatDau  DATETIME = DATEADD(DAY, 1, GETDATE());
+DECLARE @BatDau  DATETIME = DATEADD(DAY, 1, '2026-01-16 17:33:05');
 DECLARE @KetThuc DATETIME = DATEADD(HOUR, 9, @BatDau);
 
 DECLARE @PhuongThuc NVARCHAR(50) = N'Chuyển khoản';
@@ -146,47 +145,6 @@ IF @MaVoucher IS NOT NULL
     PRINT N'✔ Sử dụng voucher: ' + @MaVoucher;
 ELSE
     PRINT N'⚠ Không có voucher hợp lệ, sẽ chạy không dùng voucher.';
-
--- =====================================
--- 4. RESET DATA CŨ (ĐÚNG THEO SP)
--- =====================================
-PRINT N'→ Reset dữ liệu cũ';
-
-BEGIN TRY
-    BEGIN TRANSACTION;
-
-    -- Xóa đặt chỗ theo các chỗ test
-    DELETE FROM DatCho
-    WHERE IDChoDauNo IN (
-        SELECT TRIM(value)
-        FROM STRING_SPLIT(@DanhSachCho, ',')
-    );
-
-    -- Xóa thanh toán
-    DELETE TT
-    FROM ThanhToan TT
-    JOIN HoaDon HD ON TT.IDHoaDonNo = HD.IDHoaDon
-    WHERE HD.LoaiHoaDon = N'Đặt chỗ';
-
-    -- Xóa chi tiết hóa đơn
-    DELETE CTHD
-    FROM ChiTietHoaDon CTHD
-    JOIN HoaDon HD ON CTHD.IDHoaDonNo = HD.IDHoaDon
-    WHERE HD.LoaiHoaDon = N'Đặt chỗ';
-
-    -- Xóa hóa đơn
-    DELETE FROM HoaDon
-    WHERE LoaiHoaDon = N'Đặt chỗ';
-
-    COMMIT;
-END TRY
-BEGIN CATCH
-    IF @@TRANCOUNT > 0 ROLLBACK;
-    PRINT N'❌ RESET LỖI: ' + ERROR_MESSAGE();
-    RETURN;
-END CATCH
-
-PRINT N'✔ Reset xong';
 
 -- =====================================
 -- 5. GỌI PROCEDURE
@@ -245,10 +203,7 @@ ORDER BY IDChiTietHoaDon;
 
 PRINT N'✔ TEST HOÀN TẤT';
 GO
-
-
-
-
+select * from DatCho
 
 
 
@@ -264,80 +219,26 @@ EXEC sp_XemGiaDatCho 'CD0002_B', '51K-123.45', '2026-11-01 08:00', '2026-11-01 1
 -- =============================================
 PRINT N'--- 4. Nhân viên Duyệt ---';
 BEGIN
-    -- Xem danh sách đơn đã thanh toán chờ nhân viên duyệt
-    EXEC sp_DanhSachChoDuyet;
+    EXEC sp_DanhSachChoDuyet; -- Xem danh sách chờ
 
     DECLARE @NewKHID_4 VARCHAR(12);
-    SELECT TOP 1 
-        @NewKHID_4 = IDKhachHang
-    FROM KhachHang
-    WHERE HoTen = N'Nguyễn Auto Tùng'
-    ORDER BY IDKhachHang DESC;
+    SELECT TOP 1 @NewKHID_4 = IDKhachHang FROM KhachHang WHERE HoTen = N'Nguyễn Auto Tùng' ORDER BY IDKhachHang DESC;
 
-    -- Tìm đơn đặt chỗ đã thanh toán của khách này
-    DECLARE @IDDonDat VARCHAR(20);
-
-    SELECT TOP 1 
-        @IDDonDat = IDDatCho
-    FROM DatCho
-    WHERE IDKhachHangNo = @NewKHID_4
-      AND TrangThai = N'Đã thanh toán'   -- <-- chỉ duyệt những đơn đã thanh toán
-    ORDER BY IDDatCho DESC;
+    -- Tự động tìm đơn đặt chỗ đang chờ duyệt của ông Tùng này
+    DECLARE @IDDonDat VARCHAR(20) = (SELECT MAX(IDDatCho) FROM DatCho WHERE IDKhachHangNo = @NewKHID_4 AND TrangThai = N'Đang chờ duyệt');
 
     IF @IDDonDat IS NOT NULL
     BEGIN
-        EXEC sp_NhanVienDuyetDatCho 
-            @IDDatCho   = @IDDonDat,
-            @IDNhanVien = 'NV001_BV',
-            @TrangThaiMoi = N'Đã đặt';       -- Nhân viên duyệt: Đã đặt
-
-        PRINT N'✔ Đã duyệt đơn: ' + @IDDonDat;
+        EXEC sp_NhanVienDuyetDatCho @IDDonDat, 'NV001_BV', N'Đã đặt';
+        PRINT N'-> Đã duyệt đơn: ' + @IDDonDat;
     END
     ELSE
-        PRINT N'❌ Không tìm thấy đơn đã thanh toán nào.';
+        PRINT N'-> Không tìm thấy đơn chờ duyệt nào.';
 
-    -- =====================================
-    -- Kiểm tra kết quả sau duyệt
-    -- =====================================
-    PRINT N'--- Trạng thái Đơn Đặt ---';
-    SELECT 
-        IDDatCho,
-        TrangThai,
-        IDNhanVienNo
-    FROM DatCho
-    WHERE IDDatCho = @IDDonDat;
-
-    PRINT N'--- Trạng thái Chỗ Đậu ---';
-    SELECT 
-        cd.IDChoDauXe,
-        cd.TenChoDau,
-        cd.TrangThai
-    FROM ChoDauXe cd
-    JOIN DatCho dc ON dc.IDChoDauNo = cd.IDChoDauXe
-    WHERE dc.IDDatCho = @IDDonDat;
-
+    -- Kiểm tra kết quả: Chỗ phải chuyển sang 'Đã đặt'
+    SELECT TenChoDau, TrangThai FROM ChoDauXe WHERE IDChoDauXe = 'DC0002_11012026';
 END
-GO
-
-
-
----NHÂN VIÊN DUYỆT CHO 2 ĐƠN ĐẶT CHỔ 
-PRINT N'--- NHÂN VIÊN DUYỆT ĐƠN 1 ---';
-EXEC sp_NhanVienDuyetDatCho 
-    @IDDatCho   = 'DC0001_11012026', 
-    @IDNhanVien = 'NV001_BV', 
-    @TrangThaiMoi = N'Đã đặt';
-PRINT N'✔ Đã duyệt đơn DC0001_11012026';
-
-PRINT N'--- NHÂN VIÊN DUYỆT ĐƠN 2 ---';
-EXEC sp_NhanVienDuyetDatCho 
-    @IDDatCho   = 'DC0002_11012026', 
-    @IDNhanVien = 'NV001_BV', 
-    @TrangThaiMoi = N'Đã đặt';
-PRINT N'✔ Đã duyệt đơn DC0002_11012026';
-
-
-
+go
 
 -- =============================================
 -- Bước 5: Xe Vào bãi (Check-in)
@@ -406,7 +307,41 @@ BEGIN
     -- Xem kết quả
     SELECT * FROM TheXeThang WHERE IDKhachHangNo = @NewKHID_7;
 END
-
-
+select * from HoaDon
+select * from ChiTietHoaDon
 
 --- Đặt chổ nhiều xe 
+SELECT dbo.fn_LayGiaTheThang('59A-12345', 'BD001') AS GiaThang;
+select * from TheXeThang
+select * from KhachHang_Xe
+select * from khachhang
+select * from HoaDon
+select * from ChiTietHoaDon
+DECLARE @IDKH VARCHAR(12) = 'KH00002_TX';
+DECLARE @IDXE VARCHAR(20) = '30A-888.88';
+DECLARE @IDBaiDo VARCHAR(8) = 'BD001';
+EXEC sp_DangKyTheXeThang
+    @IDKhachHang = @IDKH,
+    @IDXe = @IDXE,
+    @IDBaiDo = @IDBaiDo,
+    @TenTheXe = N'Thẻ xe tháng Toyota',
+    @SoThang = 3;
+exec sp_GiaHanTheXeThang
+	@IDTheThang = 'TXT002_3T',
+	@SoThang = 2,
+	@IDBaiDo = 'BD001'
+exec sp_HuyTheXeThang
+		@IDTheThang = 'TXT002_3T'
+select * from LichLamViec
+exec sp_PhanLichLamViec
+    @IDNhanVien = 'NV001_BV',
+    @IDCaLam    = 'CL01_S',
+    @IDBaiDo    = 'BD001',
+    @NgayBatDau   = '2026-02-11',
+    @NgayKetThuc  = '2026-02-15';
+exec sp_TraCuuLichSuXe @BienSo = '59A-12345'
+exec sp_ThongKeChiTietKhachHang @TuKhoa = N'tỉnh'
+print dbo.f_TongDoanhThuThang(1,2026)
+exec sp_BaoCaoThongKeTongHop 
+    @NgayBatDau = '2025-01-11', 
+    @NgayKetThuc = '2026-01-12'

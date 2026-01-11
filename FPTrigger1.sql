@@ -1,4 +1,5 @@
-﻿	CREATE VIEW vw_BangGiaChiTiet
+﻿
+	CREATE VIEW vw_BangGiaChiTiet
 	AS
 	SELECT
 		bg.IDBangGia,
@@ -105,8 +106,8 @@ BEGIN
     /* ===============================
        1. TÁCH XE + CHỖ (THEO THỨ TỰ)
     =============================== */
-    DECLARE @Xe TABLE (STT INT, BienSoXe VARCHAR(20));
-    DECLARE @Cho TABLE (STT INT, IDChoDau VARCHAR(12));
+    DECLARE @Xe TABLE (STT varchar(255), BienSoXe VARCHAR(20));
+    DECLARE @Cho TABLE (STT varchar(255), IDChoDau VARCHAR(12));
 
     INSERT INTO @Xe
     SELECT ROW_NUMBER() OVER (ORDER BY (SELECT 1)), TRIM(value)
@@ -171,37 +172,97 @@ BEGIN
         )
             THROW 50004, N'Có chỗ đậu bị trùng lịch', 1;
 
-        /* ===============================
-           5. TÍNH TIỀN THEO BẢNG GIÁ
-        =============================== */
-        DECLARE @TienXe TABLE (TongTien DECIMAL(18,2));
+		/* ===============================
+		   5. TÍNH TIỀN THEO BẢNG GIÁ (KIỂM TRA OVERLAP, HỖ TRỢ QUA NỬA ĐÊM)
+		=============================== */
+		DECLARE @GioBat TIME = CAST(@TgianBatDau AS TIME);
+		DECLARE @GioKet TIME = CAST(@TgianKetThuc AS TIME);
+		declare @IDThanhToan varchar(100)
 
-        INSERT INTO @TienXe (TongTien)
-        SELECT
-            CASE 
-                WHEN bg.DonViThoiGian = N'Giờ'
-                    THEN bg.GiaTien *
-                         CEILING(DATEDIFF(MINUTE, @TgianBatDau, @TgianKetThuc) / 60.0)
-                WHEN bg.DonViThoiGian = N'Ngày'
-                    THEN bg.GiaTien *
-                         CEILING(DATEDIFF(MINUTE, @TgianBatDau, @TgianKetThuc) / 1440.0)
-                WHEN bg.DonViThoiGian = N'Tháng'
-                    THEN bg.GiaTien
-                ELSE bg.GiaTien
-            END
-        FROM @Xe x
-        JOIN @Cho c ON x.STT = c.STT
-        JOIN Xe xe ON xe.BienSoXe = x.BienSoXe
-        JOIN ChoDauXe cd ON cd.IDChoDauXe = c.IDChoDau
-        JOIN KhuVuc kv ON cd.IDKhuVucNo = kv.IDKhuVuc
-        JOIN BaiDo bd ON kv.IDBaiDoNo = bd.IDBaiDo
-        JOIN vw_BangGiaChiTiet bg
-            ON bg.IDBaiDoNo  = bd.IDBaiDo
-           AND bg.IDLoaiXeNo = xe.IDLoaiXeNo
-        WHERE CAST(@TgianBatDau AS TIME)
-              BETWEEN bg.ThoiGianBatDau AND bg.ThoiGianKetThuc;
 
-        SELECT @TongTien = SUM(TongTien) FROM @TienXe;
+		DECLARE @TienXe TABLE (
+            IDKhachHang    VARCHAR(12),
+            BienSoXe       VARCHAR(20),
+            IDChoDau       VARCHAR(12),
+			TongTien       DECIMAL(18,2)
+		);
+
+
+		INSERT INTO @TienXe (IDKhachHang, BienSoXe, IDChoDau, TongTien)
+		SELECT
+            @IDKhachHang,
+            x.BienSoXe,
+            c.IDChoDau,
+			CASE 
+				WHEN bg.DonViThoiGian = N'Giờ'
+					THEN bg.GiaTien *
+						 CEILING(DATEDIFF(MINUTE, @TgianBatDau, @TgianKetThuc) / 60.0)
+				WHEN bg.DonViThoiGian = N'Ngày'
+					THEN bg.GiaTien *
+						 CEILING(DATEDIFF(MINUTE, @TgianBatDau, @TgianKetThuc) / 1440.0)
+				WHEN bg.DonViThoiGian = N'Tháng'
+					THEN bg.GiaTien
+				ELSE bg.GiaTien
+			END
+		FROM @Xe x
+		JOIN @Cho c ON x.STT = c.STT
+		JOIN Xe xe ON xe.BienSoXe = x.BienSoXe
+		JOIN ChoDauXe cd ON cd.IDChoDauXe = c.IDChoDau
+		JOIN KhuVuc kv ON cd.IDKhuVucNo = kv.IDKhuVuc
+		JOIN BaiDo bd ON kv.IDBaiDoNo = bd.IDBaiDo
+		JOIN vw_BangGiaChiTiet bg
+			ON bg.IDBaiDoNo  = bd.IDBaiDo
+		   AND bg.IDLoaiXeNo = xe.IDLoaiXeNo
+		WHERE
+		(
+			/* TH1: khung bình thường (start <= end) -> check nếu khoảng đặt chỗ có 1 điểm trong khung */
+			(bg.ThoiGianBatDau <= bg.ThoiGianKetThuc
+			 AND (
+				   -- start rơi trong khung
+				   @GioBat BETWEEN bg.ThoiGianBatDau AND bg.ThoiGianKetThuc
+				   -- hoặc end rơi trong khung
+				   OR @GioKet BETWEEN bg.ThoiGianBatDau AND bg.ThoiGianKetThuc
+				   -- hoặc khung nằm hoàn toàn trong khoảng đặt chỗ (ví dụ đặt dài)
+				   OR (bg.ThoiGianBatDau BETWEEN @GioBat AND @GioKet)
+				 )
+			)
+			OR
+			/* TH2: khung quấn qua nửa đêm (start > end) */
+			(bg.ThoiGianBatDau > bg.ThoiGianKetThuc
+			 AND (
+				   -- start nằm sau thời điểm bắt đầu khung (vd 22:00 → 06:00, start >= 22:00)
+				   (@GioBat >= bg.ThoiGianBatDau)
+				   -- hoặc end nằm trước thời điểm kết thúc khung (vd end <= 06:00)
+				   OR (@GioKet <= bg.ThoiGianKetThuc)
+				   -- hoặc khung nằm trong khoảng đặt chỗ (các trường hợp khác)
+				   OR (bg.ThoiGianBatDau BETWEEN @GioBat AND @GioKet)
+				 )
+			)
+		);
+		
+        -- Cập nhật giá về 0 nếu có Thẻ Xe Tháng hợp lệ
+        -- Logic: Tìm thẻ tháng khớp KH, Xe, còn hạn, trạng thái Active
+        UPDATE tx
+        SET TongTien = 0
+        FROM @TienXe tx
+        WHERE EXISTS (
+            SELECT 1 
+            FROM TheXeThang txt
+            WHERE txt.IDKhachHangNo = tx.IDKhachHang
+              AND txt.IDXeNo = tx.BienSoXe
+              AND txt.TrangThai = 1
+              AND CAST(GETDATE() AS DATE) <= txt.NgayHetHan
+        );
+
+		-- lấy tổng
+		SELECT @TongTien = ISNULL(SUM(TongTien), 0) FROM @TienXe;
+
+		IF @TongTien = 0 AND NOT EXISTS (SELECT 1 FROM @TienXe)
+		BEGIN
+            -- Chỉ warning nếu không tìm được dòng nào tính tiền (chứ không phải do thẻ tháng = 0)
+			PRINT N'WARNING: Tổng tiền tính được là 0 và không có dữ liệu tính phí. Kiểm tra lại vw_BangGiaChiTiet cho (BaiDo,LoaiXe) hoặc thêm khung giá phù hợp (ví dụ khung đêm).';
+		END
+
 
         /* ===============================
            5b. KIỂM TRA VOUCHER
@@ -232,37 +293,121 @@ BEGIN
         /* ===============================
            6. TẠO HÓA ĐƠN (TRIGGER TỰ SINH ID)
         =============================== */
-        INSERT INTO HoaDon (ThanhTien, LoaiHoaDon,IDVoucher)
-        VALUES (@TongTien, N'Đặt chỗ', @IDVoucher);
+		DECLARE @IDHoaDon VARCHAR(20);
 
-        DECLARE @IDHoaDon VARCHAR(20) = (SELECT MAX(IDHoaDon) FROM HoaDon);
+		-- Tạo hóa đơn
+		EXEC sp_ThemHoaDon
+			@ThanhTien = @TongTien,
+			@LoaiHoaDon = N'Đặt chỗ',
+			@IDVoucher = @IDVoucher;
 
-        /* ===============================
-           7. CHI TIẾT HÓA ĐƠN
-        =============================== */
-        INSERT INTO ChiTietHoaDon (IDHoaDonNo, TongTien)
-        VALUES (@IDHoaDon, @TongTien);
+		-- Lấy ID hóa đơn vừa tạo (an toàn trong transaction)
+		SELECT TOP 1 @IDHoaDon = IDHoaDon
+		FROM HoaDon
+		ORDER BY NgayTao DESC;
 
-        /* ===============================
-           8. THANH TOÁN
-        =============================== */
-        INSERT INTO ThanhToan (IDHoaDonNo, PhuongThuc, TrangThai)
-        VALUES (@IDHoaDon, @PhuongThuc, 1);
-
-        DECLARE @IDThanhToan VARCHAR(12) = (SELECT MAX(IDThanhToan) FROM ThanhToan);
+        -- (Removed direct sp_ThemChiTietHoaDon here, moved to loop)
 
         /* ===============================
-           9. ĐẶT CHỖ
+           8. THANH TOÁN (Tạo thanh toán cho cả hóa đơn)
         =============================== */
-        INSERT INTO DatCho (IDKhachHangNo, IDXeNo, IDChoDauNo, TgianBatDau, TgianKetThuc, TrangThai)
-        SELECT @IDKhachHang, x.BienSoXe, c.IDChoDau, @TgianBatDau, @TgianKetThuc, N'Đã thanh toán'
+		-- Thay thế INSERT trực tiếp bằng Procedure
+		EXEC sp_ThemThanhToan
+			@IDHoaDonNo = @IDHoaDon,
+			@PhuongThuc = @PhuongThuc;
+		
+		-- Lấy ID Thanh toán vừa tạo và Cập nhật trạng thái thành 1 (Đã thanh toán) vì proc mặc định là 0
+		SELECT TOP 1 @IDThanhToan = IDThanhToan 
+		FROM ThanhToan 
+		WHERE IDHoaDonNo = @IDHoaDon 
+		ORDER BY NgayThanhToan DESC;
+
+		UPDATE ThanhToan 
+		SET TrangThai = 1 
+		WHERE IDThanhToan = @IDThanhToan;
+
+        /* ===============================
+           9. ĐẶT CHỖ & CHI TIẾT HÓA ĐƠN
+        =============================== */
+		-- Thay thế Bulk Insert bằng Cursor để gọi sp_ThemDatCho cho từng dòng
+        DECLARE @Cur_BienSoXe VARCHAR(20);
+        DECLARE @Cur_IDChoDau VARCHAR(12);
+        
+        DECLARE cur_DatCho CURSOR FOR 
+        SELECT x.BienSoXe, c.IDChoDau
         FROM @Xe x
         JOIN @Cho c ON x.STT = c.STT;
 
-        UPDATE cd
-        SET TrangThai = N'chờ xác nhận'
-        FROM ChoDauXe cd
-        JOIN @Cho c ON cd.IDChoDauXe = c.IDChoDau;
+        OPEN cur_DatCho;
+        FETCH NEXT FROM cur_DatCho INTO @Cur_BienSoXe, @Cur_IDChoDau;
+
+        WHILE @@FETCH_STATUS = 0
+        BEGIN
+            -- 9a. Gọi SP thêm đặt chỗ (Trạng thái mặc định: 'Đang chờ duyệt')
+            EXEC sp_ThemDatCho
+                @IDKhachHangNo = @IDKhachHang,
+                @IDXeNo = @Cur_BienSoXe,
+                @IDChoDauNo = @Cur_IDChoDau,
+                @IDNhanVienNo = NULL, -- Đặt online không có nhân viên
+                @TgianBatDau = @TgianBatDau,
+                @TgianKetThuc = @TgianKetThuc;
+
+            -- 9b. Lấy IDDatCho vừa tạo để dùng cho update & CTHD
+            -- Tìm record vừa tạo để update (dựa vào key unique logic: KH, Xe, Cho, Time)
+            DECLARE @NewIDDatCho VARCHAR(20);
+            
+            SELECT @NewIDDatCho = IDDatCho
+            FROM DatCho
+            WHERE IDKhachHangNo = @IDKhachHang
+              AND IDXeNo = @Cur_BienSoXe
+              AND IDChoDauNo = @Cur_IDChoDau
+              AND TgianBatDau = @TgianBatDau
+              AND TrangThai = N'Đang chờ duyệt';
+
+            -- Cập nhật trạng thái thành 'Đã thanh toán'
+            UPDATE DatCho
+            SET TrangThai = N'Đang chờ duyệt'
+            WHERE IDDatCho = @NewIDDatCho;
+
+            -- 9c. Xử lý Chi Tiết Hóa Đơn (Kiểm tra Thẻ Tháng)
+            DECLARE @IDTheXeThang VARCHAR(12) = NULL;
+            DECLARE @ItemPrice DECIMAL(18,2) = 0;
+            DECLARE @FinalIDDatCho VARCHAR(20) = @NewIDDatCho; -- Mặc định link tới Đặt Chỗ
+
+            -- Kiểm tra có thẻ tháng không
+            SELECT TOP 1 @IDTheXeThang = IDTheThang
+            FROM TheXeThang
+            WHERE IDKhachHangNo = @IDKhachHang
+              AND IDXeNo = @Cur_BienSoXe
+              AND TrangThai = 1
+              AND CAST(GETDATE() AS DATE) <= NgayHetHan;
+
+            -- Lấy giá tiền cho item này từ bảng @TienXe
+            SELECT @ItemPrice = ISNULL(TongTien, 0)
+            FROM @TienXe
+            WHERE BienSoXe = @Cur_BienSoXe AND IDChoDau = @Cur_IDChoDau;
+
+            -- Logic User: "nếu user có thexethang thì dùng id đó"
+            -- Nếu có thẻ tháng: IDTheXeThangNo = ID, IDDatChoNo = NULL (hoặc giữ IDDatCho nếu muốn tracking, nhưng user yêu cầu dùng ID thẻ)
+            IF @IDTheXeThang IS NOT NULL
+            BEGIN
+                SET @FinalIDDatCho = NULL; -- User yêu cầu dùng ID thẻ thay thế
+                SET @ItemPrice = 0;        -- Miễn phí nếu có thẻ tháng (đã update trong @TienXe rồi nhưng set lại cho chắc)
+            END
+
+            -- Insert ChiTietHoaDon
+		    EXEC sp_ThemChiTietHoaDon
+			    @IDTheXeThangNo = @IDTheXeThang,
+			    @IDDatChoNo = @FinalIDDatCho,
+			    @IDHoaDonNo = @IDHoaDon,
+			    @TongTien = @ItemPrice;
+
+            FETCH NEXT FROM cur_DatCho INTO @Cur_BienSoXe, @Cur_IDChoDau;
+        END;
+
+        CLOSE cur_DatCho;
+        DEALLOCATE cur_DatCho;
+
 
         COMMIT;
 

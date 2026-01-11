@@ -216,23 +216,48 @@ GO
 
 
 -- Thêm Xe và Liên kết với Khách hàng
-IF OBJECT_ID('sp_ThemXeKhachHang') IS NOT NULL DROP PROCEDURE sp_ThemXeKhachHang;
+IF OBJECT_ID('sp_ThemXeKhachHang') IS NOT NULL 
+    DROP PROCEDURE sp_ThemXeKhachHang;
 GO
+
 CREATE PROCEDURE sp_ThemXeKhachHang
-    @IDKhachHang VARCHAR(12), @BienSoXe VARCHAR(20), @IDLoaiXe VARCHAR(10), @TenXe NVARCHAR(100), 
-    @Hang NVARCHAR(50), @MauSac NVARCHAR(50)
+    @IDKhachHang VARCHAR(12), 
+    @BienSoXe    VARCHAR(20), 
+    @IDLoaiXe    VARCHAR(10), 
+    @TenXe       NVARCHAR(100), 
+    @Hang        NVARCHAR(50), 
+    @MauSac      NVARCHAR(50)
 AS
 BEGIN
     SET NOCOUNT ON;
-    IF NOT EXISTS (SELECT 1 FROM Xe WHERE BienSoXe = @BienSoXe)
-        INSERT INTO Xe (BienSoXe, IDLoaiXeNo, TenXe, Hang, MauSac) VALUES (@BienSoXe, @IDLoaiXe, @TenXe, @Hang, @MauSac);
-    
-    IF NOT EXISTS (SELECT 1 FROM KhachHang_Xe WHERE IDKhachHangNo = @IDKhachHang AND IDXeNo = @BienSoXe)
-        INSERT INTO KhachHang_Xe (IDKhachHangNo, IDXeNo, LoaiSoHuu) VALUES (@IDKhachHang, @BienSoXe, N'Chính chủ');
+
+    -- Thêm xe nếu chưa tồn tại
+    IF NOT EXISTS (
+        SELECT 1 
+        FROM dbo.Xe 
+        WHERE BienSoXe = @BienSoXe
+    )
+    BEGIN
+        INSERT INTO dbo.Xe (BienSoXe, IDLoaiXeNo, TenXe, Hang, MauSac)
+        VALUES (@BienSoXe, @IDLoaiXe, @TenXe, @Hang, @MauSac);
+    END
+
+    -- Gán xe cho khách hàng
+    IF NOT EXISTS (
+        SELECT 1 
+        FROM dbo.KhachHang_Xe 
+        WHERE IDKhachHangNo = @IDKhachHang 
+          AND IDXeNo = @BienSoXe
+    )
+    BEGIN
+        INSERT INTO dbo.KhachHang_Xe (IDKhachHangNo, IDXeNo, LoaiSoHuu)
+        VALUES (@IDKhachHang, @BienSoXe, N'Chính chủ');
+    END
 END;
 GO
 
-/**
+
+
 -- Khách hàng đặt chỗ
 IF OBJECT_ID('sp_KhachHangDatCho') IS NOT NULL DROP PROCEDURE sp_KhachHangDatCho;
 GO
@@ -318,7 +343,7 @@ BEGIN
         RAISERROR(@ErrMsg, 16, 1);
     END CATCH
 END;
-GO*/
+GO
 
 --khách hàng hủy đặt chỗ
 IF OBJECT_ID('sp_KhachHangHuyDatCho') IS NOT NULL DROP PROCEDURE sp_KhachHangHuyDatCho;
@@ -357,7 +382,6 @@ GO
 
 
 -- Nhân viên duyệt
--- Nhân viên duyệt
 IF OBJECT_ID('sp_NhanVienDuyetDatCho') IS NOT NULL DROP PROCEDURE sp_NhanVienDuyetDatCho;
 GO
 CREATE PROCEDURE sp_NhanVienDuyetDatCho
@@ -383,8 +407,8 @@ BEGIN
         RETURN;
     END
 
-    -- 2. Kiểm tra trạng thái đơn (Chỉ được duyệt đơn đang chờ xác nhận hoặc vừa thanh toán)
-    IF @TrangThaiHienTai NOT IN (N'chờ xác nhận', N'Đã thanh toán')
+    -- 2. Kiểm tra trạng thái đơn (Chỉ được duyệt đơn đang chờ)
+    IF @TrangThaiHienTai <> N'Đang chờ duyệt'
     BEGIN
         RAISERROR(N'Lỗi: Đơn này đã được xử lý hoặc không ở trạng thái chờ duyệt.', 16, 1);
         RETURN;
@@ -396,32 +420,25 @@ BEGIN
             -- TRƯỜNG HỢP 1: DUYỆT ĐƠN (Chấp nhận)
             IF @TrangThaiMoi = N'Đã đặt'
             BEGIN
-                -- Kiểm tra lại xem chỗ đó có còn TRỐNG hoặc đang chờ xác nhận không?
-                IF EXISTS (SELECT 1 FROM ChoDauXe 
-                           WHERE IDChoDauXe = @IDChoDau 
-                             AND TrangThai NOT IN (N'Trống', N'chờ xác nhận'))
+                -- Kiểm tra lại xem chỗ đó có còn TRỐNG không?
+                -- (Tránh trường hợp trong lúc chờ duyệt, xe khác đã vào đỗ hoặc bảo trì)
+                IF EXISTS (SELECT 1 FROM ChoDauXe WHERE IDChoDauXe = @IDChoDau AND TrangThai <> N'Trống')
                 BEGIN
                     RAISERROR(N'Lỗi: Không thể duyệt. Chỗ đậu xe này hiện không còn trống (Đang đỗ/Bảo trì).', 16, 1);
                     ROLLBACK TRANSACTION;
                     RETURN;
                 END
-
-                -- Cập nhật trạng thái chỗ đậu -> "Đã đặt"
-                UPDATE ChoDauXe 
-                SET TrangThai = N'Đã đặt' 
-                WHERE IDChoDauXe = @IDChoDau;
+                -- Cập nhật trạng thái Chỗ đậu -> "Đã đặt"
+                UPDATE ChoDauXe SET TrangThai = N'Đã đặt' WHERE IDChoDauXe = @IDChoDau;
             END
 
             -- TRƯỜNG HỢP 2: TỪ CHỐI/HỦY ĐƠN
             ELSE IF @TrangThaiMoi = N'Đã hủy'
             BEGIN
-                UPDATE ChoDauXe 
-                SET TrangThai = N'Trống' 
-                WHERE IDChoDauXe = @IDChoDau 
-                  AND TrangThai = N'Đã đặt';
+                UPDATE ChoDauXe SET TrangThai = N'Trống' WHERE IDChoDauXe = @IDChoDau AND TrangThai = N'Đã đặt';
             END
 
-            -- 3. Cập nhật trạng thái Đơn đặt chỗ và nhân viên duyệt
+            -- 3. Cập nhật trạng thái Đơn đặt chỗ
             UPDATE DatCho
             SET TrangThai = @TrangThaiMoi,
                 IDNhanVienNo = @IDNhanVien
@@ -438,7 +455,6 @@ BEGIN
     END CATCH
 END;
 GO
-
 
 
 IF OBJECT_ID('sp_XemXeCuaKhachHang') IS NOT NULL DROP PROCEDURE sp_XemXeCuaKhachHang;
@@ -563,167 +579,354 @@ BEGIN
 END;
 GO
 
---đăng ký thẻ xe tháng
-IF OBJECT_ID('sp_DangKyTheXeThang') IS NOT NULL DROP PROCEDURE sp_DangKyTheXeThang;
+--Xem giá thẻ tháng
+IF OBJECT_ID('fn_LayGiaTheThang') IS NOT NULL DROP FUNCTION fn_LayGiaTheThang;
 GO
-Create PROCEDURE sp_DangKyTheXeThang
+CREATE FUNCTION fn_LayGiaTheThang (@BienSo VARCHAR(20), @IDBaiDo VARCHAR(8))
+RETURNS DECIMAL(18,2)
+AS
+BEGIN
+    DECLARE @Gia DECIMAL(18,2);
+    SELECT TOP 1 @Gia = lhtp.GiaTien
+    FROM BangGia bg
+    JOIN LoaiHinhTinhPhi lhtp ON bg.IDBangGia = lhtp.IDBangGiaNo
+    JOIN Xe x ON bg.IDLoaiXeNo = x.IDLoaiXeNo
+    WHERE x.BienSoXe = @BienSo AND bg.IDBaiDoNo = @IDBaiDo AND lhtp.DonViThoiGian = N'Tháng';
+    RETURN ISNULL(@Gia, 0);
+END;
+GO
+--đăng ký thẻ xe tháng
+IF OBJECT_ID('sp_DangKyTheXeThang', 'P') IS NOT NULL
+    DROP PROCEDURE sp_DangKyTheXeThang;
+GO
+
+CREATE PROCEDURE sp_DangKyTheXeThang
     @IDKhachHang VARCHAR(12),
     @IDXe VARCHAR(20),
+    @IDBaiDo VARCHAR(8),
     @TenTheXe NVARCHAR(255),
-    @SoThang INT,
-    @GiaThang MONEY = 300000
+    @SoThang INT
 AS
 BEGIN
     SET NOCOUNT ON;
 
+    DECLARE @GiaThang DECIMAL(18,2) = dbo.fn_LayGiaTheThang(@IDXe, @IDBaiDo);
+    IF @GiaThang = 0
+    BEGIN
+        RAISERROR(N'Lỗi: Bãi đỗ này chưa cấu hình giá vé tháng!', 16, 1);
+        RETURN;
+    END
+
+    DECLARE @NgayDangKy DATETIME = GETDATE();
+    DECLARE @NgayHetHan DATETIME = DATEADD(MONTH, @SoThang, @NgayDangKy);
+    DECLARE @TongTien DECIMAL(18,2) = @GiaThang * @SoThang;
+
     BEGIN TRY
-        BEGIN TRAN;
+        BEGIN TRANSACTION;
 
-        -- 1. Kiểm tra trùng thẻ còn hiệu lực
-        IF EXISTS (
-            SELECT 1
-            FROM TheXeThang
-            WHERE IDKhachHangNo = @IDKhachHang
-              AND IDXeNo = @IDXe
-              AND TrangThai = 1
-              AND NgayHetHan >= CAST(GETDATE() AS DATE)
-        )
-        BEGIN
-            RAISERROR(
-                N'Xe này đã có thẻ tháng còn hiệu lực. Vui lòng gia hạn.',
-                16, 1
-            );
-            ROLLBACK;
-            RETURN;
-        END
+        -- 1) Sinh ID cho TheXeThang
+        DECLARE @SoThe INT;
+        EXEC sp_SinhMa 'TheXeThang', @SoThe OUTPUT;
+        DECLARE @IDThe VARCHAR(20) = 'TXT' + RIGHT('000' + CAST(@SoThe AS VARCHAR), 3) + '_' + CAST(@SoThang AS VARCHAR) + 'T';
 
-        DECLARE 
-            @NgayDangKy DATE = CAST(GETDATE() AS DATE),
-            @NgayHetHan DATE,
-            @TongTien MONEY,
-            @IDHoaDon VARCHAR(20),
-            @IDTheXeThang VARCHAR(12);
+        INSERT INTO TheXeThang (
+            IDTheThang, IDKhachHangNo, IDXeNo, TenTheXe, NgayDangKy, NgayHetHan, TrangThai
+        ) VALUES (
+            @IDThe, @IDKhachHang, @IDXe, @TenTheXe, @NgayDangKy, @NgayHetHan, 1
+        );
 
-        SET @NgayHetHan = DATEADD(MONTH, @SoThang, @NgayDangKy);
-        SET @TongTien = @SoThang * @GiaThang;
-
-        -- 2. Tạo thẻ xe tháng
-        DECLARE @SoTXT INT;
-        EXEC sp_SinhMa 'TheXeThang', @SoTXT OUTPUT;
-        
-        DECLARE @Months INT = DATEDIFF(MONTH, @NgayDangKy, @NgayHetHan);
-        IF @Months < 1 SET @Months = 1;
-
-        SET @IDTheXeThang = 'TXT' + RIGHT('000' + CAST(@SoTXT AS VARCHAR), 3) + '_' + CAST(@Months AS VARCHAR) + 'T';
-
-        INSERT INTO TheXeThang
-        (IDTheThang, IDKhachHangNo, IDXeNo, TenTheXe, NgayDangKy, NgayHetHan, TrangThai)
-        VALUES
-        (@IDTheXeThang, @IDKhachHang, @IDXe, @TenTheXe, @NgayDangKy, @NgayHetHan, 1);
-
-        -- 3. Tạo hóa đơn
+        -- 2) Sinh ID cho HoaDon
         DECLARE @SoHD INT;
         EXEC sp_SinhMa 'HoaDon', @SoHD OUTPUT;
         DECLARE @DateStr VARCHAR(10) = REPLACE(CONVERT(VARCHAR, GETDATE(), 103), '/', '');
-        SET @IDHoaDon = 'HD' + RIGHT('0000' + CAST(@SoHD AS VARCHAR), 4) + '_' + @DateStr;
+        DECLARE @IDHD VARCHAR(20) = 'HD' + RIGHT('0000' + CAST(@SoHD AS VARCHAR), 4) + '_' + @DateStr;
 
         INSERT INTO HoaDon (IDHoaDon, ThanhTien, NgayTao, LoaiHoaDon)
-        VALUES (@IDHoaDon, @TongTien, GETDATE(), N'Đăng ký thẻ xe tháng');
+        VALUES (@IDHD, @TongTien, GETDATE(), N'Đăng ký thẻ xe tháng');
 
-        -- 4. Chi tiết hóa đơn
-        DECLARE @SoCTHD INT, @IDCTHD VARCHAR(20);
-        EXEC sp_SinhMa 'ChiTietHoaDon', @SoCTHD OUTPUT;
-        
-        DECLARE @HDSuffix VARCHAR(20) = @IDHoaDon;
-        IF CHARINDEX('_', @IDHoaDon) > 0 
-           SET @HDSuffix = SUBSTRING(@IDHoaDon, 1, CHARINDEX('_', @IDHoaDon)-1);
-        
-        SET @IDCTHD = 'CTHD' + RIGHT('0000' + CAST(@SoCTHD AS VARCHAR), 4) + '_' + @HDSuffix;
-        
+        -- 3) Sinh ID ChiTietHoaDon
+        DECLARE @SoCT INT;
+        EXEC sp_SinhMa 'ChiTietHoaDon', @SoCT OUTPUT;
+        DECLARE @IDCT VARCHAR(30) = 'CTHD' + RIGHT('0000' + CAST(@SoCT AS VARCHAR), 4) + '_' + LEFT(@IDHD, CHARINDEX('_', @IDHD + '_') - 1);
+
         INSERT INTO ChiTietHoaDon (IDChiTietHoaDon, IDHoaDonNo, IDTheXeThangNo, TongTien)
-        VALUES (@IDCTHD, @IDHoaDon, @IDTheXeThang, @TongTien);
+        VALUES (@IDCT, @IDHD, @IDThe, @TongTien);
 
-        -- 5. Thanh toán
-        DECLARE @SoTT INT, @IDTT VARCHAR(12);
+        -- 4) Sinh ID ThanhToan
+        DECLARE @SoTT INT;
         EXEC sp_SinhMa 'ThanhToan', @SoTT OUTPUT;
-        SET @IDTT = 'TT' + RIGHT('00000' + CAST(@SoTT AS VARCHAR), 5) + '_TM';
+        DECLARE @IDTT VARCHAR(20) = 'TT' + RIGHT('00000' + CAST(@SoTT AS VARCHAR), 5) + '_TM';
 
-        INSERT INTO ThanhToan
-        (IDThanhToan, IDHoaDonNo, PhuongThuc, TrangThai, NgayThanhToan)
-        VALUES
-        (@IDTT, @IDHoaDon, N'Tiền mặt', 1, GETDATE());
+        INSERT INTO ThanhToan (IDThanhToan, IDHoaDonNo, PhuongThuc, TrangThai, NgayThanhToan)
+        VALUES (@IDTT, @IDHD, N'Tiền mặt', 1, GETDATE());
 
-        COMMIT;
-        PRINT N'Đăng ký thẻ xe tháng thành công';
+        COMMIT TRANSACTION;
+
+        -- Trả kết quả dễ nhìn
+        SELECT
+            @IDThe   AS IDTheThang,
+            @IDHD    AS IDHoaDon,
+            @IDCT    AS IDChiTietHoaDon,
+            @IDTT    AS IDThanhToan,
+            @TongTien AS TongTien,
+            @NgayHetHan AS NgayHetHan,
+            N'Đăng ký thẻ thành công' AS GhiChu;
     END TRY
     BEGIN CATCH
-        IF @@TRANCOUNT > 0 ROLLBACK;
-        THROW;
+        IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION;
+        DECLARE @Err NVARCHAR(4000) = ERROR_MESSAGE();
+        RAISERROR(@Err, 16, 1);
     END CATCH
 END;
 GO
-
 --gia hạn thẻ xe tháng
-IF OBJECT_ID('sp_GiaHanTheXeThang') IS NOT NULL DROP PROCEDURE sp_GiaHanTheXeThang;
+IF OBJECT_ID('sp_GiaHanTheXeThang', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GiaHanTheXeThang;
 GO
+
 CREATE PROCEDURE sp_GiaHanTheXeThang
-    @IDTheXeThang VARCHAR(12),
+    @IDTheThang VARCHAR(20),
     @SoThang INT,
-    @GiaThang MONEY = 300000
+    @IDBaiDo VARCHAR(8)
 AS
 BEGIN
     SET NOCOUNT ON;
-    BEGIN TRAN;
+
+    DECLARE @IDXe VARCHAR(20) = (SELECT TOP 1 IDXeNo FROM TheXeThang WHERE IDTheThang = @IDTheThang);
+    IF @IDXe IS NULL
+    BEGIN
+        RAISERROR(N'Không tìm thấy thẻ: %s', 16, 1, @IDTheThang);
+        RETURN;
+    END
+
+    DECLARE @GiaThang DECIMAL(18,2) = dbo.fn_LayGiaTheThang(@IDXe, @IDBaiDo);
+    IF @GiaThang = 0
+    BEGIN
+        RAISERROR(N'Lỗi: Bãi đỗ này chưa cấu hình giá vé tháng!', 16, 1);
+        RETURN;
+    END
+
+    DECLARE @TongTien DECIMAL(18,2) = @GiaThang * @SoThang;
 
     BEGIN TRY
-        DECLARE @TongTien MONEY = @SoThang * @GiaThang;
-        DECLARE @IDHoaDon VARCHAR(20);
+        BEGIN TRANSACTION;
 
-        -- 1. Gia hạn thẻ
+        -- 1) Cập nhật ngày hết hạn
         UPDATE TheXeThang
         SET NgayHetHan = DATEADD(MONTH, @SoThang, NgayHetHan),
             TrangThai = 1
-        WHERE IDTheThang = @IDTheXeThang;
+        WHERE IDTheThang = @IDTheThang;
 
-        -- 2. Tạo hóa đơn
+        -- 2) Sinh ID HoaDon
         DECLARE @SoHD INT;
         EXEC sp_SinhMa 'HoaDon', @SoHD OUTPUT;
         DECLARE @DateStr VARCHAR(10) = REPLACE(CONVERT(VARCHAR, GETDATE(), 103), '/', '');
-        SET @IDHoaDon = 'HD' + RIGHT('0000' + CAST(@SoHD AS VARCHAR), 4) + '_' + @DateStr;
+        DECLARE @IDHD VARCHAR(20) = 'HD' + RIGHT('0000' + CAST(@SoHD AS VARCHAR), 4) + '_' + @DateStr;
 
         INSERT INTO HoaDon (IDHoaDon, ThanhTien, NgayTao, LoaiHoaDon)
-        VALUES (@IDHoaDon, @TongTien, GETDATE(), N'Gia hạn thẻ tháng');
+        VALUES (@IDHD, @TongTien, GETDATE(), N'Gia hạn thẻ tháng');
 
-        -- 3. Chi tiết hóa đơn
-        DECLARE @SoCTHD INT, @IDCTHD VARCHAR(20);
-        EXEC sp_SinhMa 'ChiTietHoaDon', @SoCTHD OUTPUT;
-        
-        DECLARE @HDSuffix VARCHAR(20) = @IDHoaDon;
-        IF CHARINDEX('_', @IDHoaDon) > 0 
-           SET @HDSuffix = SUBSTRING(@IDHoaDon, 1, CHARINDEX('_', @IDHoaDon)-1);
-        
-        SET @IDCTHD = 'CTHD' + RIGHT('0000' + CAST(@SoCTHD AS VARCHAR), 4) + '_' + @HDSuffix;
-        
+        -- 3) Sinh ID ChiTietHoaDon
+        DECLARE @SoCT INT;
+        EXEC sp_SinhMa 'ChiTietHoaDon', @SoCT OUTPUT;
+        DECLARE @IDCT VARCHAR(30) = 'CTHD' + RIGHT('0000' + CAST(@SoCT AS VARCHAR), 4);
+
         INSERT INTO ChiTietHoaDon (IDChiTietHoaDon, IDHoaDonNo, IDTheXeThangNo, TongTien)
-        VALUES (@IDCTHD, @IDHoaDon, @IDTheXeThang, @TongTien);
+        VALUES (@IDCT, @IDHD, @IDTheThang, @TongTien);
 
-        -- 4. Thanh toán
-        DECLARE @SoTT INT, @IDTT VARCHAR(12);
+        -- 4) Sinh ID ThanhToan
+        DECLARE @SoTT INT;
         EXEC sp_SinhMa 'ThanhToan', @SoTT OUTPUT;
-        SET @IDTT = 'TT' + RIGHT('00000' + CAST(@SoTT AS VARCHAR), 5) + '_TM';
+        DECLARE @IDTT VARCHAR(20) = 'TT' + RIGHT('00000' + CAST(@SoTT AS VARCHAR), 5) + '_CK';
 
         INSERT INTO ThanhToan (IDThanhToan, IDHoaDonNo, PhuongThuc, TrangThai, NgayThanhToan)
-        VALUES (@IDTT, @IDHoaDon, N'Tiền mặt', 1, GETDATE());
+        VALUES (@IDTT, @IDHD, N'Chuyển khoản', 1, GETDATE());
 
-        COMMIT;
-        PRINT N'Gia hạn thẻ xe tháng thành công';
+        COMMIT TRANSACTION;
+
+        -- Trả kết quả
+        SELECT
+            @IDHD AS IDHoaDon,
+            @IDCT AS IDChiTietHoaDon,
+            @IDTT AS IDThanhToan,
+            @TongTien AS SoTienGiaHan,
+            (SELECT NgayHetHan FROM TheXeThang WHERE IDTheThang = @IDTheThang) AS HanMoi,
+            N'Gia hạn thành công' AS GhiChu;
     END TRY
     BEGIN CATCH
-        ROLLBACK;
+        IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION;
         THROW;
     END CATCH
 END;
 GO
+
+--Hủy thẻ xe tháng
+IF OBJECT_ID('sp_HuyTheXeThang') IS NOT NULL DROP PROCEDURE sp_HuyTheXeThang;
+GO
+CREATE PROCEDURE sp_HuyTheXeThang
+    @IDTheThang VARCHAR(12)
+AS
+BEGIN
+    UPDATE TheXeThang SET TrangThai = 0 WHERE IDTheThang = @IDTheThang;
+    PRINT N'Đã hủy trạng thái hoạt động của thẻ ' + @IDTheThang;
+END;
+GO
+-------------------Tìm kiếm VÀ Thống kê tổng hợp theo Khách hàng--------------------
+IF OBJECT_ID('sp_ThongKeChiTietKhachHang') IS NOT NULL DROP PROCEDURE sp_ThongKeChiTietKhachHang;
+GO
+CREATE PROCEDURE sp_ThongKeChiTietKhachHang
+    @TuKhoa NVARCHAR(100) -- Có thể nhập Tên hoặc ID Khách hàng
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Lấy ID khách hàng chính xác từ từ khóa
+    DECLARE @TargetID VARCHAR(12);
+    SELECT TOP 1 @TargetID = IDKhachHang FROM KhachHang 
+    WHERE HoTen LIKE N'%' + @TuKhoa + '%' OR IDKhachHang = @TuKhoa;
+
+    IF @TargetID IS NULL
+    BEGIN
+        PRINT N'Không tìm thấy khách hàng: ' + @TuKhoa;
+        RETURN;
+    END
+
+    -- BẢNG 1: TỔNG QUAN TÀI KHOẢN
+    SELECT 
+        kh.IDKhachHang,
+        kh.HoTen,
+        kh.LoaiKH,
+        (SELECT COUNT(*) FROM KhachHang_Xe WHERE IDKhachHangNo = kh.IDKhachHang) AS SoLuongXeDangKy,
+        COUNT(pgx.IDPhieuGiuXe) AS TongSoLuotGui,
+        SUM(ISNULL(hd.ThanhTien, 0)) AS TongTienDaChiTra
+    FROM KhachHang kh
+    LEFT JOIN PhieuGiuXe pgx ON kh.IDKhachHang = pgx.IDKhachHangNo
+    LEFT JOIN HoaDon hd ON pgx.IDHoaDonNo = hd.IDHoaDon
+    WHERE kh.IDKhachHang = @TargetID
+    GROUP BY kh.IDKhachHang, kh.HoTen, kh.LoaiKH;
+
+    -- BẢNG 2: LỊCH SỬ GỬI XE CHI TIẾT VÀ PHƯƠNG THỨC THANH TOÁN
+    SELECT 
+        pgx.IDPhieuGiuXe AS MaPhieu,
+        pgx.IDXeNo AS BienSo,
+        x.TenXe,
+        pgx.TgianVao,
+        pgx.TgianRa,
+        DATEDIFF(MINUTE, pgx.TgianVao, pgx.TgianRa) AS SoPhutGui,
+        hd.ThanhTien,
+        tt.PhuongThuc AS PhuongThucThanhToan,
+        tt.NgayThanhToan,
+        CASE WHEN tt.TrangThai = 1 THEN N'Thành công' ELSE N'Chưa thanh toán' END AS TìnhTrạng
+    FROM PhieuGiuXe pgx
+    JOIN Xe x ON pgx.IDXeNo = x.BienSoXe
+    JOIN HoaDon hd ON pgx.IDHoaDonNo = hd.IDHoaDon
+    JOIN ThanhToan tt ON hd.IDHoaDon = tt.IDHoaDonNo
+    WHERE pgx.IDKhachHangNo = @TargetID
+    ORDER BY pgx.TgianVao DESC;
+END;
+GO
+
+---------Thống kê chi tiết theo Biển số xe-----------------------
+IF OBJECT_ID('sp_TraCuuLichSuXe') IS NOT NULL DROP PROCEDURE sp_TraCuuLichSuXe;
+GO
+CREATE PROCEDURE sp_TraCuuLichSuXe
+    @BienSo VARCHAR(20)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        pgx.IDXeNo AS BienSo,
+        kh.HoTen AS NguoiGui,
+        bd.TenBai AS TaiBaiDo,
+        cd.TenChoDau AS ViTri,
+        pgx.TgianVao,
+        pgx.TgianRa,
+        hd.ThanhTien,
+        tt.PhuongThuc
+    FROM PhieuGiuXe pgx
+    JOIN KhachHang kh ON pgx.IDKhachHangNo = kh.IDKhachHang
+    JOIN ChoDauXe cd ON pgx.IDChoDauNo = cd.IDChoDauXe
+    JOIN KhuVuc kv ON cd.IDKhuVucNo = kv.IDKhuVuc
+    JOIN BaiDo bd ON kv.IDBaiDoNo = bd.IDBaiDo
+    JOIN HoaDon hd ON pgx.IDHoaDonNo = hd.IDHoaDon
+    JOIN ThanhToan tt ON hd.IDHoaDon = tt.IDHoaDonNo
+    WHERE pgx.IDXeNo = @BienSo
+    ORDER BY pgx.TgianVao DESC;
+END;
+GO
+
+-----------------------PHANA LỊCH LÀM VIỆC NHÂN VIÊN----------------------------
+IF OBJECT_ID('sp_PhanLichLamViec') IS NOT NULL DROP PROCEDURE sp_PhanLichLamViec;
+GO
+CREATE PROCEDURE sp_PhanLichLamViec
+    @IDNhanVien VARCHAR(10),
+    @IDCaLam VARCHAR(8),
+    @IDBaiDo VARCHAR(8),
+    @NgayBatDau DATE,
+    @NgayKetThuc DATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- 1. Kiểm tra nhân viên có tồn tại không
+    IF NOT EXISTS (SELECT 1 FROM NhanVien WHERE IDNhanVien = @IDNhanVien)
+    BEGIN
+        RAISERROR(N'Lỗi: Nhân viên không tồn tại trong hệ thống!', 16, 1);
+        RETURN;
+    END
+
+    -- 2. Kiểm tra trùng lịch (Nếu nhân viên đã có lịch ca đó tại ngày đó)
+    IF EXISTS (
+        SELECT 1 FROM LichLamViec 
+        WHERE IDNhanVienNo = @IDNhanVien 
+        AND IDCaLamNo = @IDCaLam
+        AND (@NgayBatDau <= NgayKetThuc AND @NgayKetThuc >= NgayBatDau)
+    )
+    BEGIN
+        RAISERROR(N'Lỗi: Nhân viên đã có lịch làm ca này trong khoảng thời gian trên!', 16, 1);
+        RETURN;
+    END
+
+    -- 3. Thực hiện thêm lịch làm việc
+	exec sp_ThemLichLamViec @IDNhanVien, @IDCaLam, @IDBaiDo, @NgayBatDau, @NgayKetThuc;
+
+
+    PRINT N'Đã phân lịch thành công cho nhân viên ' + @IDNhanVien;
+END;
+GO
+
+--------------------------XEM LỊCH LÀM VIỆC-------------------------------
+IF OBJECT_ID('sp_XemLichTrucChiTiet') IS NOT NULL DROP PROCEDURE sp_XemLichTrucChiTiet;
+GO
+CREATE PROCEDURE sp_XemLichTrucChiTiet
+    @NgayKiemTra DATE = NULL, -- Nếu NULL sẽ lấy ngày hiện tại
+    @IDBaiDo VARCHAR(8) = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
+    IF @NgayKiemTra IS NULL SET @NgayKiemTra = CAST(GETDATE() AS DATE);
+
+    SELECT 
+        bd.TenBai AS TenBaiDo,
+        cl.TenCa,
+        cl.TgianBatDau,
+        cl.TgianKetThuc,
+        nv.TenNhanVien,
+        nv.ChucVu,
+        nv.SDT,
+        llv.NgayBatDau,
+        llv.NgayKetThuc
+    FROM LichLamViec llv
+    JOIN NhanVien nv ON llv.IDNhanVienNo = nv.IDNhanVien
+    JOIN CaLam cl ON llv.IDCaLamNo = cl.IDCaLam
+    JOIN BaiDo bd ON llv.IDBaiDoNo = bd.IDBaiDo
+    WHERE @NgayKiemTra BETWEEN llv.NgayBatDau AND llv.NgayKetThuc
+      AND (@IDBaiDo IS NULL OR llv.IDBaiDoNo = @IDBaiDo)
+    ORDER BY bd.TenBai, cl.TgianBatDau;
+END;
+GO
+
 
 -- ====================Trigger========================
 
