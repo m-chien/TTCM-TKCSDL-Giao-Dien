@@ -6,6 +6,7 @@ PRINT N'--- 1. Thêm Tài khoản & Khách hàng ---';
 EXEC sp_ThemTaiKhoanKhachHang 'tung_test_auto', '123', N'Nguyễn Auto Tùng', '0911222999', '123199999', N'Hà Nội';
 
 -- Kiểm tra kết quả
+select * from TaiKhoan
 SELECT TOP 1 * FROM KhachHang WHERE HoTen = N'Nguyễn Auto Tùng' ORDER BY IDKhachHang DESC;
 
 
@@ -26,6 +27,8 @@ BEGIN
     SELECT * FROM KhachHang_Xe WHERE IDXeNo = '30A-888.88' AND IDKhachHangNo = @NewKHID_2;
 END
 
+SELECT *
+FROM dbo.f_TimKiemChoTrong('BD001','LX02_O4', GETDATE());
 
 -- =============================================
 -- Bước 3: Khách hàng Đặt chỗ
@@ -145,3 +148,9 @@ BEGIN
     -- Xem kết quả
     SELECT * FROM TheXeThang WHERE IDKhachHangNo = @NewKHID_7;
 END
+
+select * from HoaDon
+select * from ChiTietHoaDon
+select * from ThanhToan
+select * from DatCho
+select * from PhieuGiuXe

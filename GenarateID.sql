@@ -2,489 +2,580 @@ USE ParkingLot;
 GO
 
 -- =============================================================
--- TRIGGER TỰ ĐỘNG SINH ID CHO CÁC BẢNG (AUTO GENERATE ID)
--- Lưu ý: Sử dụng INSTEAD OF INSERT vì ID là Primary Key không được phép NULL
--- Logoc: Tìm Max ID hiện tại -> Tách số -> +1 -> Format lại string
+-- 1. BẢNG SINH MÃ TỰ ĐỘNG (BangSinhMa)
+-- =============================================================
+IF OBJECT_ID('BangSinhMa') IS NOT NULL DROP TABLE BangSinhMa;
+GO
+CREATE TABLE BangSinhMa (
+    TenBang     VARCHAR(50) PRIMARY KEY,
+    TienTo      VARCHAR(10),
+    SoHienTai   INT NOT NULL
+);
+GO
+
+-- Init Data
+-- NOTE: Initial values set based on existing CITable.sql data to avoid conflicts
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('VaiTro', 'VT', 3);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('LoaiXe', 'LX', 3);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('CaLam', 'CL', 5);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('TaiKhoan', 'TK', 3);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('NhanVien', 'NV', 1);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('KhachHang', 'KH', 1);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('ChuBaiXe', 'CB', 1);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('BaiDo', 'BD', 3);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('KhuVuc', 'KV', 5);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('ChoDauXe', 'CD', 1);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('ThietBi', 'TB', 4);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('BangGia', 'BG', 5);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('LoaiHinhTinhPhi', 'LH', 7);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('KhungGio', 'KG', 7);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('TheXeThang', 'TXT', 1);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('Voucher', 'VC', 2);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('DatCho', 'DC', 1);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('HoaDon', 'HD', 1);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('PhieuGiuXe', 'PX', 1);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('ChiTietHoaDon', 'CTHD', 1);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('ThanhToan', 'TT', 1);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('LichLamViec', 'LLV', 1);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('SuCo', 'SC', 1);
+INSERT INTO BangSinhMa (TenBang, TienTo, SoHienTai) VALUES ('DanhGia', 'DG', 1);
+GO
+
+-- =============================================================
+-- 2. PROCEDURE SINH MÃ (sp_SinhMa) - Returns INT only
+-- =============================================================
+IF OBJECT_ID('sp_SinhMa') IS NOT NULL DROP PROCEDURE sp_SinhMa;
+GO
+CREATE PROCEDURE sp_SinhMa
+    @TenBang VARCHAR(50),
+    @SoMoi   INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    DECLARE @OutputTbl TABLE (So INT);
+
+    UPDATE BangSinhMa WITH (UPDLOCK, HOLDLOCK)
+    SET SoHienTai = SoHienTai + 1
+    OUTPUT inserted.SoHienTai INTO @OutputTbl
+    WHERE TenBang = @TenBang;
+
+    SELECT @SoMoi = So FROM @OutputTbl;
+
+    IF @SoMoi IS NULL
+    BEGIN
+        SET @SoMoi = 1;
+        -- Insert default if not exists
+        INSERT INTO BangSinhMa(TenBang, TienTo, SoHienTai) VALUES (@TenBang, '', 1);
+    END
+END;
+GO
+
+-- =============================================================
+-- 3. CÁC PROCEDURE THÊM DỮ LIỆU (sp_Them...)
 -- =============================================================
 
--- 1. Bảng TaiKhoan (TKxxxxx_XX)
-IF OBJECT_ID('trg_AutoID_TaiKhoan') IS NOT NULL DROP TRIGGER trg_AutoID_TaiKhoan;
+-- 1. VaiTro (VTxx_XX)
+IF OBJECT_ID('sp_ThemVaiTro') IS NOT NULL DROP PROCEDURE sp_ThemVaiTro;
 GO
-CREATE TRIGGER trg_AutoID_TaiKhoan ON TaiKhoan INSTEAD OF INSERT AS 
+CREATE PROCEDURE sp_ThemVaiTro
+    @TenVaiTro NVARCHAR(50)
+AS
 BEGIN
-    SET NOCOUNT ON;
+    DECLARE @So INT, @NewID VARCHAR(10);
+    EXEC sp_SinhMa 'VaiTro', @So OUTPUT;
     
-    DECLARE @RowID INT, @IDVaiTro VARCHAR(10), @TenDangNhap VARCHAR(50), @MatKhau VARCHAR(255), @Anh VARCHAR(255), @TT BIT;
+    DECLARE @Suffix VARCHAR(3) = '_XX';
+    IF @TenVaiTro LIKE N'%Nhân viên%' SET @Suffix = '_NV';
+    ELSE IF @TenVaiTro LIKE N'%Khách hàng%' SET @Suffix = '_KH';
+    ELSE IF @TenVaiTro LIKE N'%Chủ bãi%' SET @Suffix = '_CB';
+
+    SET @NewID = 'VT' + RIGHT('00' + CAST(@So AS VARCHAR), 2) + @Suffix;
     
-    -- Xử lý từng dòng (Cursor hoặc Loop nếu insert nhiều, ở đây demo cho single/batch nhỏ)
-    -- Để đơn giản và an toàn, dùng Cursor cho Inserted
-    DECLARE cur CURSOR FOR SELECT IDVaiTroNo, TenDangNhap, MatKhau, AnhDaiDien, TrangThai FROM inserted;
-    OPEN cur;
-    FETCH NEXT FROM cur INTO @IDVaiTro, @TenDangNhap, @MatKhau, @Anh, @TT;
-    
-    WHILE @@FETCH_STATUS = 0
-    BEGIN
-        -- Sinh ID
-        DECLARE @Suffix VARCHAR(5) = '_KH'; -- Default
-        IF @IDVaiTro = 'VT01_NV' SET @Suffix = '_NV';
-        ELSE IF @IDVaiTro = 'VT03_CB' SET @Suffix = '_CB';
-        
-        DECLARE @MaxID VARCHAR(15);
-        DECLARE @NextNum INT;
-        SELECT @MaxID = MAX(IDTaiKhoan) FROM TaiKhoan WHERE IDTaiKhoan LIKE 'TK%' + @Suffix;
-        
-        IF @MaxID IS NULL SET @NextNum = 1;
-        ELSE 
-            -- TK00001_KH -> Substring(3, 5)
-            SET @NextNum = CAST(SUBSTRING(@MaxID, 3, 5) AS INT) + 1;
-            
-        DECLARE @NewID VARCHAR(15) = 'TK' + RIGHT('00000' + CAST(@NextNum AS VARCHAR), 5) + @Suffix;
-        
-        -- Insert Thật
-        INSERT INTO TaiKhoan (IDTaiKhoan, IDVaiTroNo, TenDangNhap, MatKhau, AnhDaiDien, TrangThai)
-        VALUES (@NewID, @IDVaiTro, @TenDangNhap, @MatKhau, @Anh, ISNULL(@TT, 1));
-        
-        FETCH NEXT FROM cur INTO @IDVaiTro, @TenDangNhap, @MatKhau, @Anh, @TT;
-    END
-    CLOSE cur; DEALLOCATE cur;
+    INSERT INTO VaiTro(IDVaiTro, TenVaiTro) VALUES (@NewID, @TenVaiTro);
 END;
 GO
 
--- 2. Bảng NhanVien (NVxxx_XX)
-IF OBJECT_ID('trg_AutoID_NhanVien') IS NOT NULL DROP TRIGGER trg_AutoID_NhanVien;
+-- 2. LoaiXe (LXxx_XX)
+IF OBJECT_ID('sp_ThemLoaiXe') IS NOT NULL DROP PROCEDURE sp_ThemLoaiXe;
 GO
-CREATE TRIGGER trg_AutoID_NhanVien ON NhanVien INSTEAD OF INSERT AS 
+CREATE PROCEDURE sp_ThemLoaiXe
+    @TenLoaiXe NVARCHAR(50)
+AS
 BEGIN
-    SET NOCOUNT ON;
-    DECLARE cur CURSOR FOR SELECT IDTaiKhoanNo, TenNhanVien, SDT, Email, ChucVu, LuongCB FROM inserted;
-    
-    DECLARE @IDTK VARCHAR(15), @Ten NVARCHAR(100), @SDT VARCHAR(11), @Email VARCHAR(100), @CV NVARCHAR(50), @Luong DECIMAL(18,2);
-    OPEN cur;
-    FETCH NEXT FROM cur INTO @IDTK, @Ten, @SDT, @Email, @CV, @Luong;
-    
-    WHILE @@FETCH_STATUS = 0
-    BEGIN
-        -- Format NV001_BV. Suffix based on ChucVu? Let's take first letter words.
-        -- Simple: NV + 3 digits + _BV (Default)
-        DECLARE @Suffix VARCHAR(5) = '_NV';
-        IF @CV LIKE N'%Bảo vệ%' SET @Suffix = '_BV';
-        
-        DECLARE @MaxID VARCHAR(15);
-        DECLARE @NextNum INT;
-        SELECT @MaxID = MAX(IDNhanVien) FROM NhanVien WHERE IDNhanVien LIKE 'NV%' + @Suffix;
-        
-        IF @MaxID IS NULL SET @NextNum = 1;
-        ELSE SET @NextNum = CAST(SUBSTRING(@MaxID, 3, 3) AS INT) + 1;
-            
-        DECLARE @NewID VARCHAR(15) = 'NV' + RIGHT('000' + CAST(@NextNum AS VARCHAR), 3) + @Suffix;
-        
-        INSERT INTO NhanVien (IDNhanVien, IDTaiKhoanNo, TenNhanVien, SDT, Email, ChucVu, LuongCB)
-        VALUES (@NewID, @IDTK, @Ten, @SDT, @Email, @CV, @Luong);
-        
-        FETCH NEXT FROM cur INTO @IDTK, @Ten, @SDT, @Email, @CV, @Luong;
-    END
-    CLOSE cur; DEALLOCATE cur;
+    DECLARE @So INT, @NewID VARCHAR(10);
+    EXEC sp_SinhMa 'LoaiXe', @So OUTPUT;
+
+    DECLARE @Suffix VARCHAR(3) = '_XX';
+    IF @TenLoaiXe LIKE N'%4 chỗ%' SET @Suffix = '_O4';
+    ELSE IF @TenLoaiXe LIKE N'%7 chỗ%' SET @Suffix = '_O7';
+
+    SET @NewID = 'LX' + RIGHT('00' + CAST(@So AS VARCHAR), 2) + @Suffix;
+    INSERT INTO LoaiXe(IDLoaiXe, TenLoaiXe) VALUES (@NewID, @TenLoaiXe);
 END;
 GO
 
--- 3. Bảng KhachHang (KHxxxxx_XX)
-IF OBJECT_ID('trg_AutoID_KhachHang') IS NOT NULL DROP TRIGGER trg_AutoID_KhachHang;
+-- 3. CaLam (CLxx_X)
+IF OBJECT_ID('sp_ThemCaLam') IS NOT NULL DROP PROCEDURE sp_ThemCaLam;
 GO
-CREATE TRIGGER trg_AutoID_KhachHang ON KhachHang INSTEAD OF INSERT AS
+CREATE PROCEDURE sp_ThemCaLam
+    @TenCa NVARCHAR(50), @TgianBatDau TIME, @TgianKetThuc TIME, @HeSoLuong FLOAT
+AS
 BEGIN
-    SET NOCOUNT ON;
-    -- Note: Trigger này thay thế logic Insert thủ công trong SP
-    
-    INSERT INTO KhachHang (IDKhachHang, IDTaiKhoanNo, HoTen, SDT, CCCD, BangLaiXe, DiaChi, LoaiKH, SoTK, TenNganHang)
-    SELECT 
-        'KH' + RIGHT('00000' + CAST(
-            ISNULL((SELECT MAX(CAST(SUBSTRING(IDKhachHang, 3, 5) AS INT)) FROM KhachHang WHERE IDKhachHang LIKE 'KH%_TX'), 0) 
-            + ROW_NUMBER() OVER(ORDER BY (SELECT 1)) 
-        AS VARCHAR), 5) + '_TX', -- Mặc định suffix TX cho auto
-        IDTaiKhoanNo, HoTen, SDT, CCCD, BangLaiXe, DiaChi, LoaiKH, SoTK, TenNganHang
-    FROM inserted;
+    DECLARE @So INT, @NewID VARCHAR(8);
+    EXEC sp_SinhMa 'CaLam', @So OUTPUT;
+
+    DECLARE @Suffix VARCHAR(3) = '_X';
+    IF @TenCa LIKE N'%Sáng%' SET @Suffix = '_S';
+    ELSE IF @TenCa LIKE N'%Chiều%' SET @Suffix = '_C';
+    ELSE IF @TenCa LIKE N'%Đêm%' SET @Suffix = '_D';
+    ELSE IF @TenCa LIKE N'%Hành chính%' SET @Suffix = '_HC';
+    ELSE IF @TenCa LIKE N'%Tăng cường%' SET @Suffix = '_TC';
+
+    SET @NewID = 'CL' + RIGHT('00' + CAST(@So AS VARCHAR), 2) + @Suffix;
+    INSERT INTO CaLam(IDCaLam, TenCa, TgianBatDau, TgianKetThuc, HeSoLuong) 
+    VALUES (@NewID, @TenCa, @TgianBatDau, @TgianKetThuc, @HeSoLuong);
 END;
 GO
 
--- 4. Bảng BaiDo (BDxxx)
-IF OBJECT_ID('trg_AutoID_BaiDo') IS NOT NULL DROP TRIGGER trg_AutoID_BaiDo;
+-- 4. TaiKhoan (TKxxxxx_XX)
+IF OBJECT_ID('sp_ThemTaiKhoan') IS NOT NULL DROP PROCEDURE sp_ThemTaiKhoan;
 GO
-CREATE TRIGGER trg_AutoID_BaiDo ON BaiDo INSTEAD OF INSERT AS
+CREATE PROCEDURE sp_ThemTaiKhoan
+    @IDVaiTroNo VARCHAR(10), @TenDangNhap VARCHAR(50), @MatKhau VARCHAR(255), @AnhDaiDien VARCHAR(255)
+AS
 BEGIN
-    SET NOCOUNT ON;
-    INSERT INTO BaiDo (IDBaiDo, IDChuBaiNo, TenBai, ViTri, SucChua, TrangThai, HinhAnh)
-    SELECT 
-        'BD' + RIGHT('000' + CAST(
-            ISNULL((SELECT MAX(CAST(SUBSTRING(IDBaiDo, 3, 3) AS INT)) FROM BaiDo), 0) 
-            + ROW_NUMBER() OVER(ORDER BY (SELECT 1)) 
-        AS VARCHAR), 3),
-        IDChuBaiNo, TenBai, ViTri, SucChua, TrangThai, HinhAnh
-    FROM inserted;
-END;
-GO
-    
--- 5. Bảng ChoDauXe (CDxxxx_X) - Suffix khó đoán, mặc định _A
-IF OBJECT_ID('trg_AutoID_ChoDauXe') IS NOT NULL DROP TRIGGER trg_AutoID_ChoDauXe;
-GO
-CREATE TRIGGER trg_AutoID_ChoDauXe ON ChoDauXe INSTEAD OF INSERT AS
-BEGIN
-    SET NOCOUNT ON;
-    -- CD0001_A
-    INSERT INTO ChoDauXe (IDChoDauXe, IDKhuVucNo, TenChoDau, KichThuoc, TrangThai)
-    SELECT 
-        'CD' + RIGHT('0000' + CAST(
-            ISNULL((SELECT MAX(CAST(SUBSTRING(IDChoDauXe, 3, 4) AS INT)) FROM ChoDauXe), 0) 
-            + ROW_NUMBER() OVER(ORDER BY (SELECT 1)) 
-        AS VARCHAR), 4) + '_A', 
-        IDKhuVucNo, TenChoDau, KichThuoc, TrangThai
-    FROM inserted;
+    DECLARE @So INT, @NewID VARCHAR(15);
+    EXEC sp_SinhMa 'TaiKhoan', @So OUTPUT;
+
+    DECLARE @Suffix VARCHAR(3) = '_KH';
+    IF @IDVaiTroNo LIKE '%_NV' SET @Suffix = '_NV';
+    ELSE IF @IDVaiTroNo LIKE '%_CB' SET @Suffix = '_CB';
+
+    SET @NewID = 'TK' + RIGHT('00000' + CAST(@So AS VARCHAR), 5) + @Suffix;
+    INSERT INTO TaiKhoan(IDTaiKhoan, IDVaiTroNo, TenDangNhap, MatKhau, AnhDaiDien, TrangThai) 
+    VALUES (@NewID, @IDVaiTroNo, @TenDangNhap, @MatKhau, @AnhDaiDien, 1);
 END;
 GO
 
--- 6. Bảng DatCho (DCxxxx_Date)
-IF OBJECT_ID('trg_AutoID_DatCho') IS NOT NULL DROP TRIGGER trg_AutoID_DatCho;
+-- 5. NhanVien (NVxxx_XX)
+IF OBJECT_ID('sp_ThemNhanVien') IS NOT NULL DROP PROCEDURE sp_ThemNhanVien;
 GO
-CREATE TRIGGER trg_AutoID_DatCho ON DatCho INSTEAD OF INSERT AS
+CREATE PROCEDURE sp_ThemNhanVien
+    @IDTaiKhoanNo VARCHAR(15), @TenNhanVien NVARCHAR(100), @SDT VARCHAR(11), @Email VARCHAR(100), @ChucVu NVARCHAR(50), @LuongCB DECIMAL(18,2)
+AS
 BEGIN
-    SET NOCOUNT ON;
+    DECLARE @So INT, @NewID VARCHAR(10);
+    EXEC sp_SinhMa 'NhanVien', @So OUTPUT;
+
+    DECLARE @Suffix VARCHAR(3) = '_NV';
+    IF @ChucVu LIKE N'%Bảo vệ%' SET @Suffix = '_BV';
+    
+    SET @NewID = 'NV' + RIGHT('000' + CAST(@So AS VARCHAR), 3) + @Suffix;
+    INSERT INTO NhanVien(IDNhanVien, IDTaiKhoanNo, TenNhanVien, SDT, Email, ChucVu, LuongCB) 
+    VALUES (@NewID, @IDTaiKhoanNo, @TenNhanVien, @SDT, @Email, @ChucVu, @LuongCB);
+END;
+GO
+
+-- 6. KhachHang (KHxxxxx_XX)
+IF OBJECT_ID('sp_ThemKhachHang') IS NOT NULL DROP PROCEDURE sp_ThemKhachHang;
+GO
+CREATE PROCEDURE sp_ThemKhachHang
+    @IDTaiKhoanNo VARCHAR(15), @HoTen NVARCHAR(100), @SDT VARCHAR(11), @CCCD VARCHAR(20), @BangLaiXe VARCHAR(20), @DiaChi NVARCHAR(255), @LoaiKH NVARCHAR(50), @SoTK VARCHAR(20), @TenNganHang NVARCHAR(50)
+AS
+BEGIN
+    DECLARE @So INT, @NewID VARCHAR(12);
+    EXEC sp_SinhMa 'KhachHang', @So OUTPUT;
+    
+    DECLARE @Suffix VARCHAR(3);
+    SET @Suffix = CASE @LoaiKH
+            WHEN N'VIP' THEN '_VI'
+            WHEN N'Thường xuyên' THEN '_TX'
+            WHEN N'Vãng lai' THEN '_VL'
+            ELSE '_KH'
+          END;
+
+    SET @NewID = 'KH' + RIGHT('00000' + CAST(@So AS VARCHAR), 5) + @Suffix;
+    
+    INSERT INTO KhachHang(IDKhachHang, IDTaiKhoanNo, HoTen, SDT, CCCD, BangLaiXe, DiaChi, LoaiKH, SoTK, TenNganHang) 
+    VALUES (@NewID, @IDTaiKhoanNo, @HoTen, @SDT, @CCCD, @BangLaiXe, @DiaChi, @LoaiKH, @SoTK, @TenNganHang);
+END;
+GO
+
+-- 7. ChuBaiXe (CBxxx)
+IF OBJECT_ID('sp_ThemChuBaiXe') IS NOT NULL DROP PROCEDURE sp_ThemChuBaiXe;
+GO
+CREATE PROCEDURE sp_ThemChuBaiXe
+    @IDTaiKhoanNo VARCHAR(15), @TenChuBai NVARCHAR(100), @SDT VARCHAR(11), @Email VARCHAR(100), @CCCD VARCHAR(20), @DiaChi NVARCHAR(255)
+AS
+BEGIN
+    DECLARE @So INT, @NewID VARCHAR(8);
+    EXEC sp_SinhMa 'ChuBaiXe', @So OUTPUT;
+    
+    SET @NewID = 'CB' + RIGHT('000' + CAST(@So AS VARCHAR), 3);
+    INSERT INTO ChuBaiXe(IDChuBaiXe, IDTaiKhoanNo, TenChuBai, SDT, Email, CCCD, DiaChi) 
+    VALUES (@NewID, @IDTaiKhoanNo, @TenChuBai, @SDT, @Email, @CCCD, @DiaChi);
+END;
+GO
+
+-- 8. BaiDo (BDxxx)
+IF OBJECT_ID('sp_ThemBaiDo') IS NOT NULL DROP PROCEDURE sp_ThemBaiDo;
+GO
+CREATE PROCEDURE sp_ThemBaiDo
+    @IDChuBaiNo VARCHAR(8), @TenBai NVARCHAR(100), @ViTri NVARCHAR(255), @SucChua INT, @TrangThai NVARCHAR(50), @HinhAnh NVARCHAR(255)
+AS
+BEGIN
+    DECLARE @So INT, @NewID VARCHAR(8);
+    EXEC sp_SinhMa 'BaiDo', @So OUTPUT;
+    
+    SET @NewID = 'BD' + RIGHT('000' + CAST(@So AS VARCHAR), 3);
+    INSERT INTO BaiDo(IDBaiDo, IDChuBaiNo, TenBai, ViTri, SucChua, TrangThai, HinhAnh) 
+    VALUES (@NewID, @IDChuBaiNo, @TenBai, @ViTri, @SucChua, @TrangThai, @HinhAnh);
+END;
+GO
+
+-- 9. KhuVuc (KVxxx_X)
+IF OBJECT_ID('sp_ThemKhuVuc') IS NOT NULL DROP PROCEDURE sp_ThemKhuVuc;
+GO
+CREATE PROCEDURE sp_ThemKhuVuc
+    @IDBaiDoNo VARCHAR(8), @TenKhuVuc NVARCHAR(50), @SucChua INT, @HinhAnh VARCHAR(255)
+AS
+BEGIN
+    DECLARE @So INT, @NewID VARCHAR(10);
+    EXEC sp_SinhMa 'KhuVuc', @So OUTPUT;
+
+    -- Infer suffix from TenKhuVuc (e.g., 'Khu A' -> '_A')
+    DECLARE @Suffix VARCHAR(5) = '_X';
+    IF @TenKhuVuc LIKE N'Khu %' 
+        SET @Suffix = '_' + SUBSTRING(@TenKhuVuc, CHARINDEX(' ', @TenKhuVuc) + 1, 1);
+    
+    SET @NewID = 'KV' + RIGHT('000' + CAST(@So AS VARCHAR), 3) + @Suffix;
+    INSERT INTO KhuVuc(IDKhuVuc, IDBaiDoNo, TenKhuVuc, SucChua, HinhAnh) 
+    VALUES (@NewID, @IDBaiDoNo, @TenKhuVuc, @SucChua, @HinhAnh);
+END;
+GO
+
+-- 10. ChoDauXe (CDxxxx_X)
+IF OBJECT_ID('sp_ThemChoDauXe') IS NOT NULL DROP PROCEDURE sp_ThemChoDauXe;
+GO
+CREATE PROCEDURE sp_ThemChoDauXe
+    @IDKhuVucNo VARCHAR(10), @TenChoDau NVARCHAR(20), @KichThuoc VARCHAR(50), @TrangThai NVARCHAR(50)
+AS
+BEGIN
+    DECLARE @So INT, @NewID VARCHAR(12);
+    EXEC sp_SinhMa 'ChoDauXe', @So OUTPUT;
+
+    -- Suffix from KhuVuc? KV001_A -> _A
+    DECLARE @Suffix VARCHAR(5) = '_X';
+    IF CHARINDEX('_', @IDKhuVucNo) > 0
+        SET @Suffix = SUBSTRING(@IDKhuVucNo, CHARINDEX('_', @IDKhuVucNo), LEN(@IDKhuVucNo));
+    
+    SET @NewID = 'CD' + RIGHT('0000' + CAST(@So AS VARCHAR), 4) + @Suffix;
+    INSERT INTO ChoDauXe(IDChoDauXe, IDKhuVucNo, TenChoDau, KichThuoc, TrangThai) 
+    VALUES (@NewID, @IDKhuVucNo, @TenChoDau, @KichThuoc, @TrangThai);
+END;
+GO
+
+-- 11. ThietBi (TBxxx_XX)
+IF OBJECT_ID('sp_ThemThietBi') IS NOT NULL DROP PROCEDURE sp_ThemThietBi;
+GO
+CREATE PROCEDURE sp_ThemThietBi
+    @IDKhuVucNo VARCHAR(10), @TenThietBi NVARCHAR(100), @LoaiThietBi NVARCHAR(50), @TrangThai NVARCHAR(50), @NgayCaiDat DATE, @GiaLapDat DECIMAL(18,2)
+AS
+BEGIN
+    DECLARE @So INT, @NewID VARCHAR(10);
+    EXEC sp_SinhMa 'ThietBi', @So OUTPUT;
+
+    DECLARE @Suffix VARCHAR(3) = '_XX';
+    IF @TenThietBi LIKE N'%Camera%' OR @LoaiThietBi LIKE N'%Camera%' SET @Suffix = '_CA';
+    ELSE IF @TenThietBi LIKE N'%Barrier%' OR @LoaiThietBi LIKE N'%Cổng%' SET @Suffix = '_CB';
+    ELSE IF @TenThietBi LIKE N'%Phần mềm%' SET @Suffix = '_PM';
+
+    SET @NewID = 'TB' + RIGHT('000' + CAST(@So AS VARCHAR), 3) + @Suffix;
+    INSERT INTO ThietBi(IDThietBi, IDKhuVucNo, TenThietBi, LoaiThietBi, TrangThai, NgayCaiDat, GiaLapDat) 
+    VALUES (@NewID, @IDKhuVucNo, @TenThietBi, @LoaiThietBi, @TrangThai, @NgayCaiDat, @GiaLapDat);
+END;
+GO
+
+-- 12. BangGia (BGxxx_XX)
+IF OBJECT_ID('sp_ThemBangGia') IS NOT NULL DROP PROCEDURE sp_ThemBangGia;
+GO
+CREATE PROCEDURE sp_ThemBangGia
+    @IDBaiDoNo VARCHAR(8), @IDLoaiXeNo VARCHAR(10), @TenBangGia NVARCHAR(100), @HieuLuc BIT
+AS
+BEGIN
+    DECLARE @So INT, @NewID VARCHAR(10);
+    EXEC sp_SinhMa 'BangGia', @So OUTPUT;
+
+    -- Suffix from LoaiXe: LX01_XM -> _XM
+    DECLARE @Suffix VARCHAR(5) = '_XX';
+    IF CHARINDEX('_', @IDLoaiXeNo) > 0
+        SET @Suffix = SUBSTRING(@IDLoaiXeNo, CHARINDEX('_', @IDLoaiXeNo), LEN(@IDLoaiXeNo));
+
+    SET @NewID = 'BG' + RIGHT('000' + CAST(@So AS VARCHAR), 3) + @Suffix;
+    INSERT INTO BangGia(IDBangGia, IDBaiDoNo, IDLoaiXeNo, TenBangGia, HieuLuc) 
+    VALUES (@NewID, @IDBaiDoNo, @IDLoaiXeNo, @TenBangGia, @HieuLuc);
+END;
+GO
+
+-- 13. LoaiHinhTinhPhi (LHxxx_XXXX_XX)
+IF OBJECT_ID('sp_ThemLoaiHinhTinhPhi') IS NOT NULL DROP PROCEDURE sp_ThemLoaiHinhTinhPhi;
+GO
+CREATE PROCEDURE sp_ThemLoaiHinhTinhPhi
+    @IDBangGiaNo VARCHAR(10), @TenLoaiHinh NVARCHAR(100), @DonViThoiGian NVARCHAR(50), @GiaTien DECIMAL(18,2)
+AS
+BEGIN
+    DECLARE @So INT, @NewID VARCHAR(15);
+    EXEC sp_SinhMa 'LoaiHinhTinhPhi', @So OUTPUT;
+    
+    -- Suffix: _GIO_O4 etc.
+    -- Derive from TenLoaiHinh and BangGia?
+    DECLARE @S1 VARCHAR(5) = 'XXX';
+    IF @DonViThoiGian = N'Giờ' SET @S1 = 'GIO';
+    ELSE IF @DonViThoiGian = N'Ngày' SET @S1 = 'NGAY';
+    ELSE IF @DonViThoiGian = N'Tháng' SET @S1 = 'THANG';
+    
+    DECLARE @S2 VARCHAR(5) = 'XX';
+    -- Extract from IDBangGia? BG001_O4 -> O4
+    IF CHARINDEX('_', @IDBangGiaNo) > 0
+        SET @S2 = SUBSTRING(@IDBangGiaNo, CHARINDEX('_', @IDBangGiaNo)+1, LEN(@IDBangGiaNo));
+        
+    SET @NewID = 'LH' + RIGHT('000' + CAST(@So AS VARCHAR), 3) + '_' + @S1 + '_' + @S2;
+    INSERT INTO LoaiHinhTinhPhi(IDLoaiHinhTinhPhi, IDBangGiaNo, TenLoaiHinh, DonViThoiGian, GiaTien) 
+    VALUES (@NewID, @IDBangGiaNo, @TenLoaiHinh, @DonViThoiGian, @GiaTien);
+END;
+GO
+
+-- 14. KhungGio (KGxx_XX)
+IF OBJECT_ID('sp_ThemKhungGio') IS NOT NULL DROP PROCEDURE sp_ThemKhungGio;
+GO
+CREATE PROCEDURE sp_ThemKhungGio
+    @IDLoaiHinhTinhPhiNo VARCHAR(15), @TenKhungGio NVARCHAR(50), @ThoiGianBatDau TIME, @ThoiGianKetThuc TIME
+AS
+BEGIN
+    DECLARE @So INT, @NewID VARCHAR(10);
+    EXEC sp_SinhMa 'KhungGio', @So OUTPUT;
+
+    DECLARE @Suffix VARCHAR(3) = '_XX';
+    IF @TenKhungGio LIKE N'%Hành chính%' SET @Suffix = '_HC';
+    ELSE IF @TenKhungGio LIKE N'%Ban ngày%' SET @Suffix = '_GN';
+    ELSE IF @TenKhungGio LIKE N'%Ban đêm%' SET @Suffix = '_GD';
+    ELSE IF @TenKhungGio LIKE N'%ấp điểm%' SET @Suffix = '_TC'; -- Thap diem/Tang cuong
+
+    SET @NewID = 'KG' + RIGHT('00' + CAST(@So AS VARCHAR), 2) + @Suffix;
+    INSERT INTO KhungGio(IDKhungGio, IDLoaiHinhTinhPhiNo, TenKhungGio, ThoiGianBatDau, ThoiGianKetThuc) 
+    VALUES (@NewID, @IDLoaiHinhTinhPhiNo, @TenKhungGio, @ThoiGianBatDau, @ThoiGianKetThuc);
+END;
+GO
+
+-- 15. TheXeThang (TXTxxx_xxT)
+IF OBJECT_ID('sp_ThemTheXeThang') IS NOT NULL DROP PROCEDURE sp_ThemTheXeThang;
+GO
+CREATE PROCEDURE sp_ThemTheXeThang
+    @IDKhachHangNo VARCHAR(12), @IDXeNo VARCHAR(12), @TenTheXe NVARCHAR(100), @NgayDangKy DATE, @NgayHetHan DATE
+AS
+BEGIN
+    DECLARE @So INT, @NewID VARCHAR(12);
+    EXEC sp_SinhMa 'TheXeThang', @So OUTPUT;
+
+    -- Infer months?? Or just hardcode suffix like samples?
+    -- Sample TXT001_12T. Derived from NgayHetHan - NgayDangKy?
+    DECLARE @Months INT = DATEDIFF(MONTH, @NgayDangKy, @NgayHetHan);
+    IF @Months < 1 SET @Months = 1;
+    
+    SET @NewID = 'TXT' + RIGHT('000' + CAST(@So AS VARCHAR), 3) + '_' + CAST(@Months AS VARCHAR) + 'T';
+    INSERT INTO TheXeThang(IDTheThang, IDKhachHangNo, IDXeNo, TenTheXe, NgayDangKy, NgayHetHan, TrangThai) 
+    VALUES (@NewID, @IDKhachHangNo, @IDXeNo, @TenTheXe, @NgayDangKy, @NgayHetHan, 1);
+END;
+GO
+
+-- 16. Voucher (VCxxxxx_BDxxx)
+IF OBJECT_ID('sp_ThemVoucher') IS NOT NULL DROP PROCEDURE sp_ThemVoucher;
+GO
+CREATE PROCEDURE sp_ThemVoucher
+    @IDBaiDoNo VARCHAR(8), @TenVoucher NVARCHAR(100), @GiaTri DECIMAL(18,2), @HanSuDung DATE, @SoLuong INT, @MaCode VARCHAR(20)
+AS
+BEGIN
+    DECLARE @So INT, @NewID VARCHAR(15);
+    EXEC sp_SinhMa 'Voucher', @So OUTPUT;
+    
+    SET @NewID = 'VC' + RIGHT('00000' + CAST(@So AS VARCHAR), 5) + '_' + @IDBaiDoNo;
+    INSERT INTO Voucher(IDVoucher, IDBaiDoNo, TenVoucher, GiaTri, HanSuDung, SoLuong, TrangThai, MaCode) 
+    VALUES (@NewID, @IDBaiDoNo, @TenVoucher, @GiaTri, @HanSuDung, @SoLuong, 1, @MaCode);
+END;
+GO
+
+-- 17. DatCho (DCxxxx_ddMMyyyy)
+IF OBJECT_ID('sp_ThemDatCho') IS NOT NULL DROP PROCEDURE sp_ThemDatCho;
+GO
+CREATE PROCEDURE sp_ThemDatCho
+    @IDKhachHangNo VARCHAR(12), @IDXeNo VARCHAR(12), @IDChoDauNo VARCHAR(12), @IDNhanVienNo VARCHAR(10), @TgianBatDau DATETIME, @TgianKetThuc DATETIME
+AS
+BEGIN
+    DECLARE @So INT, @NewID VARCHAR(20);
+    EXEC sp_SinhMa 'DatCho', @So OUTPUT;
+
     DECLARE @DateStr VARCHAR(10) = REPLACE(CONVERT(VARCHAR, GETDATE(), 103), '/', '');
+    SET @NewID = 'DC' + RIGHT('0000' + CAST(@So AS VARCHAR), 4) + '_' + @DateStr;
     
-    INSERT INTO DatCho (IDDatCho, IDKhachHangNo, IDXeNo, IDChoDauNo, IDNhanVienNo, TgianBatDau, TgianKetThuc, TrangThai)
-    SELECT 
-        'DC' + RIGHT('0000' + CAST(
-            ISNULL((SELECT MAX(CAST(SUBSTRING(IDDatCho, 3, 4) AS INT)) FROM DatCho WHERE IDDatCho LIKE '%_' + @DateStr), 0) 
-            + ROW_NUMBER() OVER(ORDER BY (SELECT 1)) 
-        AS VARCHAR), 4) + '_' + @DateStr,
-        IDKhachHangNo, IDXeNo, IDChoDauNo, IDNhanVienNo, TgianBatDau, TgianKetThuc, TrangThai
-    FROM inserted;
+    INSERT INTO DatCho(IDDatCho, IDKhachHangNo, IDXeNo, IDChoDauNo, IDNhanVienNo, TgianBatDau, TgianKetThuc, TrangThai) 
+    VALUES (@NewID, @IDKhachHangNo, @IDXeNo, @IDChoDauNo, @IDNhanVienNo, @TgianBatDau, @TgianKetThuc, N'Đang chờ duyệt');
 END;
 GO
 
--- 7. Bảng HoaDon (HDxxxx_Date)
-IF OBJECT_ID('trg_AutoID_HoaDon') IS NOT NULL DROP TRIGGER trg_AutoID_HoaDon;
+-- 18. HoaDon (HDxxxx_ddMMyyyy)
+IF OBJECT_ID('sp_ThemHoaDon') IS NOT NULL DROP PROCEDURE sp_ThemHoaDon;
 GO
-CREATE TRIGGER trg_AutoID_HoaDon ON HoaDon INSTEAD OF INSERT AS
+CREATE PROCEDURE sp_ThemHoaDon
+    @ThanhTien DECIMAL(18,2), @LoaiHoaDon NVARCHAR(50), @IDVoucher VARCHAR(15)
+AS
 BEGIN
-    SET NOCOUNT ON;
+    DECLARE @So INT, @NewID VARCHAR(20);
+    EXEC sp_SinhMa 'HoaDon', @So OUTPUT;
+    
     DECLARE @DateStr VARCHAR(10) = REPLACE(CONVERT(VARCHAR, GETDATE(), 103), '/', '');
-    
-    INSERT INTO HoaDon (IDHoaDon, ThanhTien, NgayTao, LoaiHoaDon, IDVoucher)
-    SELECT 
-        'HD' + RIGHT('0000' + CAST(
-            ISNULL((SELECT MAX(CAST(SUBSTRING(IDHoaDon, 3, 4) AS INT)) FROM HoaDon WHERE IDHoaDon LIKE '%_' + @DateStr), 0) 
-            + ROW_NUMBER() OVER(ORDER BY (SELECT 1)) 
-        AS VARCHAR), 4) + '_' + @DateStr,
-        ThanhTien, ISNULL(NgayTao, GETDATE()), LoaiHoaDon, IDVoucher
-    FROM inserted;
+    SET @NewID = 'HD' + RIGHT('0000' + CAST(@So AS VARCHAR), 4) + '_' + @DateStr;
+
+    INSERT INTO HoaDon(IDHoaDon, ThanhTien, NgayTao, LoaiHoaDon, IDVoucher) 
+    VALUES (@NewID, @ThanhTien, GETDATE(), @LoaiHoaDon, @IDVoucher);
 END;
 GO
 
--- 8. Bảng PhieuGiuXe (PXxxxx_Time)
-IF OBJECT_ID('trg_AutoID_PhieuGiuXe') IS NOT NULL DROP TRIGGER trg_AutoID_PhieuGiuXe;
+-- 19. PhieuGiuXe (PXxxxx_Axxxx)
+IF OBJECT_ID('sp_ThemPhieuGiuXe') IS NOT NULL DROP PROCEDURE sp_ThemPhieuGiuXe;
 GO
-CREATE TRIGGER trg_AutoID_PhieuGiuXe ON PhieuGiuXe INSTEAD OF INSERT AS
+CREATE PROCEDURE sp_ThemPhieuGiuXe
+    @IDKhachHangNo VARCHAR(12), @IDXeNo VARCHAR(12), @IDChoDauNo VARCHAR(12), @IDNhanVienVao VARCHAR(10)
+AS
 BEGIN
-    SET NOCOUNT ON;
-    -- Tạo ID ngẫu nhiên hoặc theo time để tránh trùng lặp
-    DECLARE @TimeStamp VARCHAR(12) = RIGHT(REPLACE(REPLACE(REPLACE(CONVERT(VARCHAR, GETDATE(), 120), '-', ''), ':', ''), ' ', ''), 12);
+    DECLARE @So INT, @NewID VARCHAR(15);
+    EXEC sp_SinhMa 'PhieuGiuXe', @So OUTPUT;
     
-    INSERT INTO PhieuGiuXe (IDPhieuGiuXe, IDKhachHangNo, IDXeNo, IDChoDauNo, IDNhanVienVao, IDNhanVienRa, IDHoaDonNo, TgianVao, TgianRa, TrangThai)
-    SELECT 
-        'PX' + @TimeStamp + CAST(ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS VARCHAR),
-        IDKhachHangNo, IDXeNo, IDChoDauNo, IDNhanVienVao, IDNhanVienRa, IDHoaDonNo, ISNULL(TgianVao, GETDATE()), TgianRa, TrangThai
-    FROM inserted;
-END;
-GO
-
--- 9. Bảng ChiTietHoaDon (CTHD_ + IDHoaDon)
-IF OBJECT_ID('trg_AutoID_ChiTietHoaDon') IS NOT NULL DROP TRIGGER trg_AutoID_ChiTietHoaDon;
-GO
-CREATE TRIGGER trg_AutoID_ChiTietHoaDon ON ChiTietHoaDon INSTEAD OF INSERT AS
-BEGIN
-    SET NOCOUNT ON;
-    INSERT INTO ChiTietHoaDon (IDChiTietHoaDon, IDTheXeThangNo, IDDatChoNo, IDHoaDonNo, TongTien)
-    SELECT 
-        'CTHD_' + IDHoaDonNo + CAST(ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS VARCHAR), -- Simple suffix
-        IDTheXeThangNo, IDDatChoNo, IDHoaDonNo, TongTien
-    FROM inserted;
-END;
-GO
-
--- 10. Bảng ThanhToan (TTxxxxx_PhuongThuc)
-IF OBJECT_ID('trg_AutoID_ThanhToan') IS NOT NULL DROP TRIGGER trg_AutoID_ThanhToan;
-GO
-CREATE TRIGGER trg_AutoID_ThanhToan ON ThanhToan INSTEAD OF INSERT AS
-BEGIN
-    SET NOCOUNT ON;
-    DECLARE cur CURSOR FOR SELECT IDHoaDonNo, PhuongThuc, TrangThai, NgayThanhToan FROM inserted;
-    DECLARE @HD VARCHAR(20), @PT NVARCHAR(50), @STT BIT, @Ngay DATETIME;
+    -- Suffix: CD0001_A -> _A0001?
+    -- Sample: PX0001_A0001. 
+    -- Logic: PX + count + _ + SuffixFromChoDao(A) + NumberFromChoDau(0001)?
+    -- Let's extract 'A' and '0001' from CD0001_A
+    DECLARE @ChoSuffix VARCHAR(10) = '';
+    DECLARE @ChoNum VARCHAR(10) = '';
     
-    OPEN cur; FETCH NEXT FROM cur INTO @HD, @PT, @STT, @Ngay;
-    WHILE @@FETCH_STATUS = 0
+    IF CHARINDEX('_', @IDChoDauNo) > 0
     BEGIN
-        DECLARE @Suffix VARCHAR(5) = '_TM';
-        IF @PT LIKE N'%Chuyển khoản%' SET @Suffix = '_CK';
-        ELSE IF @PT LIKE N'%Thẻ%' SET @Suffix = '_TH';
-        
-        DECLARE @MaxID VARCHAR(15);
-        DECLARE @NextNum INT;
-        SELECT @MaxID = MAX(IDThanhToan) FROM ThanhToan WHERE IDThanhToan LIKE 'TT%' + @Suffix;
-        
-        IF @MaxID IS NULL SET @NextNum = 1;
-        ELSE SET @NextNum = CAST(SUBSTRING(@MaxID, 3, 5) AS INT) + 1;
-            
-        DECLARE @NewID VARCHAR(15) = 'TT' + RIGHT('00000' + CAST(@NextNum AS VARCHAR), 5) + @Suffix;
-        
-        INSERT INTO ThanhToan (IDThanhToan, IDHoaDonNo, PhuongThuc, TrangThai, NgayThanhToan)
-        VALUES (@NewID, @HD, @PT, @STT, ISNULL(@Ngay, GETDATE()));
-        
-        FETCH NEXT FROM cur INTO @HD, @PT, @STT, @Ngay;
+        SET @ChoSuffix = SUBSTRING(@IDChoDauNo, CHARINDEX('_', @IDChoDauNo)+1, LEN(@IDChoDauNo)); -- 'A'
+        -- CD0001_A. Number is chars 3 to len-2?
+        SET @ChoNum = SUBSTRING(@IDChoDauNo, 3, CHARINDEX('_', @IDChoDauNo)-3); -- '0001'
     END
-    CLOSE cur; DEALLOCATE cur;
+
+    SET @NewID = 'PX' + RIGHT('0000' + CAST(@So AS VARCHAR), 4) + '_' + @ChoSuffix + @ChoNum;
+    
+    INSERT INTO PhieuGiuXe(IDPhieuGiuXe, IDKhachHangNo, IDXeNo, IDChoDauNo, IDNhanVienVao, TgianVao, TrangThai) 
+    VALUES (@NewID, @IDKhachHangNo, @IDXeNo, @IDChoDauNo, @IDNhanVienVao, GETDATE(), N'Đang gửi');
 END;
 GO
 
--- 11. Bảng TheXeThang (TXTxxx_xxT)
-IF OBJECT_ID('trg_AutoID_TheXeThang') IS NOT NULL DROP TRIGGER trg_AutoID_TheXeThang;
+-- 20. ChiTietHoaDon (CTHDxxxx_HDxxxx)
+IF OBJECT_ID('sp_ThemChiTietHoaDon') IS NOT NULL DROP PROCEDURE sp_ThemChiTietHoaDon;
 GO
-CREATE TRIGGER trg_AutoID_TheXeThang ON TheXeThang INSTEAD OF INSERT AS
+CREATE PROCEDURE sp_ThemChiTietHoaDon
+    @IDTheXeThangNo VARCHAR(12), @IDDatChoNo VARCHAR(20), @IDHoaDonNo VARCHAR(20), @TongTien DECIMAL(18,2)
+AS
 BEGIN
-    SET NOCOUNT ON;
-    -- TXT001_12T
-    INSERT INTO TheXeThang (IDTheThang, IDKhachHangNo, IDXeNo, TenTheXe, NgayDangKy, NgayHetHan, TrangThai)
-    SELECT 
-        'TXT' + RIGHT('000' + CAST(
-             ISNULL((SELECT MAX(CAST(SUBSTRING(IDTheThang, 4, 3) AS INT)) FROM TheXeThang), 0) 
-            + ROW_NUMBER() OVER(ORDER BY (SELECT 1)) 
-        AS VARCHAR), 3) + '_1M', -- Default 1M suffix for auto
-        IDKhachHangNo, IDXeNo, TenTheXe, ISNULL(NgayDangKy, GETDATE()), NgayHetHan, TrangThai
-    FROM inserted;
+    DECLARE @So INT, @NewID VARCHAR(20);
+    EXEC sp_SinhMa 'ChiTietHoaDon', @So OUTPUT;
+    
+    -- Suffix _HDxxxx_Date
+    -- IDHoaDon: HD0001_05012026. Keep it simple or use just the HD prefix?
+    -- Sample: CTHD0001_HD0001. So just the first part of IDHoaDon?
+    DECLARE @HDSuffix VARCHAR(20) = @IDHoaDonNo;
+    IF CHARINDEX('_', @IDHoaDonNo) > 0 
+       SET @HDSuffix = SUBSTRING(@IDHoaDonNo, 1, CHARINDEX('_', @IDHoaDonNo)-1);
+
+    SET @NewID = 'CTHD' + RIGHT('0000' + CAST(@So AS VARCHAR), 4) + '_' + @HDSuffix;
+    
+    INSERT INTO ChiTietHoaDon(IDChiTietHoaDon, IDTheXeThangNo, IDDatChoNo, IDHoaDonNo, TongTien) 
+    VALUES (@NewID, @IDTheXeThangNo, @IDDatChoNo, @IDHoaDonNo, @TongTien);
 END;
 GO
 
-
--- =======================================================
--- BỔ SUNG CÁC BẢNG CÒN LẠI
--- =======================================================
-
--- 12. Bảng VaiTro (VTxx_XX)
-IF OBJECT_ID('trg_AutoID_VaiTro') IS NOT NULL DROP TRIGGER trg_AutoID_VaiTro;
+-- 21. ThanhToan (TTxxxxx_XX)
+IF OBJECT_ID('sp_ThemThanhToan') IS NOT NULL DROP PROCEDURE sp_ThemThanhToan;
 GO
-CREATE TRIGGER trg_AutoID_VaiTro ON VaiTro INSTEAD OF INSERT AS
+CREATE PROCEDURE sp_ThemThanhToan
+    @IDHoaDonNo VARCHAR(20), @PhuongThuc NVARCHAR(50)
+AS
 BEGIN
-    SET NOCOUNT ON;
-    -- Format: VT01_NV. Cố định prefix VT
-    INSERT INTO VaiTro (IDVaiTro, TenVaiTro)
-    SELECT 
-        'VT' + RIGHT('00' + CAST(
-            ISNULL((SELECT MAX(CAST(SUBSTRING(IDVaiTro, 3, 2) AS INT)) FROM VaiTro), 0) 
-            + ROW_NUMBER() OVER(ORDER BY (SELECT 1)) 
-        AS VARCHAR), 2) + '_XX', 
-        TenVaiTro
-    FROM inserted;
+    DECLARE @So INT, @NewID VARCHAR(12);
+    EXEC sp_SinhMa 'ThanhToan', @So OUTPUT;
+    
+    DECLARE @Suffix VARCHAR(3) = '_TM';
+    IF @PhuongThuc LIKE N'%Chuyển khoản%' SET @Suffix = '_CK';
+    ELSE IF @PhuongThuc LIKE N'%Thẻ%' SET @Suffix = '_TH';
+    ELSE IF @PhuongThuc LIKE N'%QR%' SET @Suffix = '_QR';
+
+    SET @NewID = 'TT' + RIGHT('00000' + CAST(@So AS VARCHAR), 5) + @Suffix;
+    INSERT INTO ThanhToan(IDThanhToan, IDHoaDonNo, PhuongThuc, TrangThai, NgayThanhToan) 
+    VALUES (@NewID, @IDHoaDonNo, @PhuongThuc, 0, GETDATE());
 END;
 GO
 
--- 13. Bảng LoaiXe (LXxx_XX)
-IF OBJECT_ID('trg_AutoID_LoaiXe') IS NOT NULL DROP TRIGGER trg_AutoID_LoaiXe;
+-- 22. LichLamViec (LLVxxxxx_NVxxx)
+IF OBJECT_ID('sp_ThemLichLamViec') IS NOT NULL DROP PROCEDURE sp_ThemLichLamViec;
 GO
-CREATE TRIGGER trg_AutoID_LoaiXe ON LoaiXe INSTEAD OF INSERT AS
+CREATE PROCEDURE sp_ThemLichLamViec
+    @IDNhanVienNo VARCHAR(10), @IDCaLamNo VARCHAR(8), @IDBaiDoNo VARCHAR(8), @NgayBatDau DATE, @NgayKetThuc DATE
+AS
 BEGIN
-    SET NOCOUNT ON;
-    INSERT INTO LoaiXe (IDLoaiXe, TenLoaiXe)
-    SELECT 
-        'LX' + RIGHT('00' + CAST(
-            ISNULL((SELECT MAX(CAST(SUBSTRING(IDLoaiXe, 3, 2) AS INT)) FROM LoaiXe), 0) 
-            + ROW_NUMBER() OVER(ORDER BY (SELECT 1)) 
-        AS VARCHAR), 2) + '_XX', 
-        TenLoaiXe
-    FROM inserted;
+    DECLARE @So INT, @NewID VARCHAR(15);
+    EXEC sp_SinhMa 'LichLamViec', @So OUTPUT;
+    
+    -- Suffix: NV001_BV -> _001?
+    DECLARE @NVSuffix VARCHAR(5) = '001';
+    IF LEN(@IDNhanVienNo) >= 5
+        SET @NVSuffix = SUBSTRING(@IDNhanVienNo, 3, 3);
+        
+    SET @NewID = 'LLV' + RIGHT('00000' + CAST(@So AS VARCHAR), 5) + '_' + @NVSuffix;
+    INSERT INTO LichLamViec(IDLichLamViec, IDNhanVienNo, IDCaLamNo, IDBaiDoNo, NgayBatDau, NgayKetThuc, TrangThai, SoNgayDaLam) 
+    VALUES (@NewID, @IDNhanVienNo, @IDCaLamNo, @IDBaiDoNo, @NgayBatDau, @NgayKetThuc, 0, 0);
 END;
 GO
 
--- 14. Bảng CaLam (CLxx_X)
-IF OBJECT_ID('trg_AutoID_CaLam') IS NOT NULL DROP TRIGGER trg_AutoID_CaLam;
+-- 23. SuCo (SCxxx_XX)
+IF OBJECT_ID('sp_ThemSuCo') IS NOT NULL DROP PROCEDURE sp_ThemSuCo;
 GO
-CREATE TRIGGER trg_AutoID_CaLam ON CaLam INSTEAD OF INSERT AS
+CREATE PROCEDURE sp_ThemSuCo
+    @IDNhanVienNo VARCHAR(10), @IDThietBiNo VARCHAR(10), @MoTa NVARCHAR(MAX), @MucDo NVARCHAR(50)
+AS
 BEGIN
-    SET NOCOUNT ON;
-    INSERT INTO CaLam (IDCaLam, TenCa, TgianBatDau, TgianKetThuc, HeSoLuong)
-    SELECT 
-        'CL' + RIGHT('00' + CAST(
-            ISNULL((SELECT MAX(CAST(SUBSTRING(IDCaLam, 3, 2) AS INT)) FROM CaLam), 0) 
-            + ROW_NUMBER() OVER(ORDER BY (SELECT 1)) 
-        AS VARCHAR), 2) + '_X', 
-        TenCa, TgianBatDau, TgianKetThuc, HeSoLuong
-    FROM inserted;
+    DECLARE @So INT, @NewID VARCHAR(10);
+    EXEC sp_SinhMa 'SuCo', @So OUTPUT;
+
+    -- Suffix from ThietBi type? TB001_CA -> _CA
+    DECLARE @Suffix VARCHAR(5) = '_XX';
+    IF CHARINDEX('_', @IDThietBiNo) > 0
+        SET @Suffix = SUBSTRING(@IDThietBiNo, CHARINDEX('_', @IDThietBiNo), LEN(@IDThietBiNo));
+        
+    SET @NewID = 'SC' + RIGHT('000' + CAST(@So AS VARCHAR), 3) + @Suffix;
+    INSERT INTO SuCo(IDSuCo, IDNhanVienNo, IDThietBiNo, MoTa, MucDo, TrangThaiXuLy) 
+    VALUES (@NewID, @IDNhanVienNo, @IDThietBiNo, @MoTa, @MucDo, N'Chưa xử lý');
 END;
 GO
 
--- 15. Bảng ChuBaiXe (CBxxx)
-IF OBJECT_ID('trg_AutoID_ChuBaiXe') IS NOT NULL DROP TRIGGER trg_AutoID_ChuBaiXe;
+-- 24. DanhGia (DGxxx_KHxxxx)
+IF OBJECT_ID('sp_ThemDanhGia') IS NOT NULL DROP PROCEDURE sp_ThemDanhGia;
 GO
-CREATE TRIGGER trg_AutoID_ChuBaiXe ON ChuBaiXe INSTEAD OF INSERT AS
+CREATE PROCEDURE sp_ThemDanhGia
+    @IDKhachHangNo VARCHAR(12), @IDHoaDonNo VARCHAR(20), @NoiDung NVARCHAR(MAX), @DiemDanhGia INT
+AS
 BEGIN
-    SET NOCOUNT ON;
-    INSERT INTO ChuBaiXe (IDChuBaiXe, IDTaiKhoanNo, TenChuBai, SDT, Email, CCCD, DiaChi)
-    SELECT 
-        'CB' + RIGHT('000' + CAST(
-            ISNULL((SELECT MAX(CAST(SUBSTRING(IDChuBaiXe, 3, 3) AS INT)) FROM ChuBaiXe), 0) 
-            + ROW_NUMBER() OVER(ORDER BY (SELECT 1)) 
-        AS VARCHAR), 3),
-        IDTaiKhoanNo, TenChuBai, SDT, Email, CCCD, DiaChi
-    FROM inserted;
-END;
-GO
+    DECLARE @So INT, @NewID VARCHAR(12);
+    EXEC sp_SinhMa 'DanhGia', @So OUTPUT;
+    
+    -- Suffix: KH00001_VI -> _0001
+    DECLARE @KHSuffix VARCHAR(5) = '0000';
+    IF LEN(@IDKhachHangNo) >= 7
+        SET @KHSuffix = SUBSTRING(@IDKhachHangNo, 3, 4);
 
--- 16. Bảng KhuVuc (KVxxx_X)
-IF OBJECT_ID('trg_AutoID_KhuVuc') IS NOT NULL DROP TRIGGER trg_AutoID_KhuVuc;
-GO
-CREATE TRIGGER trg_AutoID_KhuVuc ON KhuVuc INSTEAD OF INSERT AS
-BEGIN
-    SET NOCOUNT ON;
-    INSERT INTO KhuVuc (IDKhuVuc, IDBaiDoNo, TenKhuVuc, SucChua, HinhAnh)
-    SELECT 
-        'KV' + RIGHT('000' + CAST(
-            ISNULL((SELECT MAX(CAST(SUBSTRING(IDKhuVuc, 3, 3) AS INT)) FROM KhuVuc), 0) 
-            + ROW_NUMBER() OVER(ORDER BY (SELECT 1)) 
-        AS VARCHAR), 3) + '_X', 
-        IDBaiDoNo, TenKhuVuc, SucChua, HinhAnh
-    FROM inserted;
-END;
-GO
-
--- 17. Bảng ThietBi (TBxxx_XX)
-IF OBJECT_ID('trg_AutoID_ThietBi') IS NOT NULL DROP TRIGGER trg_AutoID_ThietBi;
-GO
-CREATE TRIGGER trg_AutoID_ThietBi ON ThietBi INSTEAD OF INSERT AS
-BEGIN
-    SET NOCOUNT ON;
-    INSERT INTO ThietBi (IDThietBi, IDKhuVucNo, TenThietBi, LoaiThietBi, TrangThai, NgayCaiDat, GiaLapDat)
-    SELECT 
-        'TB' + RIGHT('000' + CAST(
-            ISNULL((SELECT MAX(CAST(SUBSTRING(IDThietBi, 3, 3) AS INT)) FROM ThietBi), 0) 
-            + ROW_NUMBER() OVER(ORDER BY (SELECT 1)) 
-        AS VARCHAR), 3) + '_XX', 
-        IDKhuVucNo, TenThietBi, LoaiThietBi, TrangThai, NgayCaiDat, GiaLapDat
-    FROM inserted;
-END;
-GO
-
--- 18. Bảng Voucher (VCxxxxx)
-IF OBJECT_ID('trg_AutoID_Voucher') IS NOT NULL DROP TRIGGER trg_AutoID_Voucher;
-GO
-CREATE TRIGGER trg_AutoID_Voucher ON Voucher INSTEAD OF INSERT AS
-BEGIN
-    SET NOCOUNT ON;
-    INSERT INTO Voucher (IDVoucher, IDBaiDoNo, TenVoucher, GiaTri, HanSuDung, SoLuong, TrangThai, MaCode)
-    SELECT 
-        'VC' + RIGHT('00000' + CAST(
-            ISNULL((SELECT MAX(CAST(SUBSTRING(IDVoucher, 3, 5) AS INT)) FROM Voucher), 0) 
-            + ROW_NUMBER() OVER(ORDER BY (SELECT 1)) 
-        AS VARCHAR), 5), 
-        IDBaiDoNo, TenVoucher, GiaTri, HanSuDung, SoLuong, TrangThai, MaCode
-    FROM inserted;
-END;
-GO
-
--- 19. Bảng BangGia (BGxxx_XX)
-IF OBJECT_ID('trg_AutoID_BangGia') IS NOT NULL DROP TRIGGER trg_AutoID_BangGia;
-GO
-CREATE TRIGGER trg_AutoID_BangGia ON BangGia INSTEAD OF INSERT AS
-BEGIN
-    SET NOCOUNT ON;
-    INSERT INTO BangGia (IDBangGia, IDBaiDoNo, IDLoaiXeNo, TenBangGia, HieuLuc)
-    SELECT 
-        'BG' + RIGHT('000' + CAST(
-            ISNULL((SELECT MAX(CAST(SUBSTRING(IDBangGia, 3, 3) AS INT)) FROM BangGia), 0) 
-            + ROW_NUMBER() OVER(ORDER BY (SELECT 1)) 
-        AS VARCHAR), 3) + '_XX', 
-        IDBaiDoNo, IDLoaiXeNo, TenBangGia, HieuLuc
-    FROM inserted;
-END;
-GO
-
--- 20. Bảng LoaiHinhTinhPhi (LHxxx_XXXX_XX)
-IF OBJECT_ID('trg_AutoID_LoaiHinhTinhPhi') IS NOT NULL DROP TRIGGER trg_AutoID_LoaiHinhTinhPhi;
-GO
-CREATE TRIGGER trg_AutoID_LoaiHinhTinhPhi ON LoaiHinhTinhPhi INSTEAD OF INSERT AS
-BEGIN
-    SET NOCOUNT ON;
-    INSERT INTO LoaiHinhTinhPhi (IDLoaiHinhTinhPhi, IDBangGiaNo, TenLoaiHinh, DonViThoiGian, GiaTien)
-    SELECT 
-        'LH' + RIGHT('000' + CAST(
-            ISNULL((SELECT MAX(CAST(SUBSTRING(IDLoaiHinhTinhPhi, 3, 3) AS INT)) FROM LoaiHinhTinhPhi), 0) 
-            + ROW_NUMBER() OVER(ORDER BY (SELECT 1)) 
-        AS VARCHAR), 3) + '_XXX', 
-        IDBangGiaNo, TenLoaiHinh, DonViThoiGian, GiaTien
-    FROM inserted;
-END;
-GO
-
--- 21. Bảng KhungGio (KGxx_XX)
-IF OBJECT_ID('trg_AutoID_KhungGio') IS NOT NULL DROP TRIGGER trg_AutoID_KhungGio;
-GO
-CREATE TRIGGER trg_AutoID_KhungGio ON KhungGio INSTEAD OF INSERT AS
-BEGIN
-    SET NOCOUNT ON;
-    INSERT INTO KhungGio (IDKhungGio, IDLoaiHinhTinhPhiNo, TenKhungGio, ThoiGianBatDau, ThoiGianKetThuc)
-    SELECT 
-        'KG' + RIGHT('00' + CAST(
-            ISNULL((SELECT MAX(CAST(SUBSTRING(IDKhungGio, 3, 2) AS INT)) FROM KhungGio), 0) 
-            + ROW_NUMBER() OVER(ORDER BY (SELECT 1)) 
-        AS VARCHAR), 2) + '_XX', 
-        IDLoaiHinhTinhPhiNo, TenKhungGio, ThoiGianBatDau, ThoiGianKetThuc
-    FROM inserted;
-END;
-GO
-
--- 22. Bảng LichLamViec (LLVxxxxx_XXX)
-IF OBJECT_ID('trg_AutoID_LichLamViec') IS NOT NULL DROP TRIGGER trg_AutoID_LichLamViec;
-GO
-CREATE TRIGGER trg_AutoID_LichLamViec ON LichLamViec INSTEAD OF INSERT AS
-BEGIN
-    SET NOCOUNT ON;
-    INSERT INTO LichLamViec (IDLichLamViec, IDNhanVienNo, IDCaLamNo, IDBaiDoNo, NgayBatDau, NgayKetThuc, TrangThai, SoNgayDaLam)
-    SELECT 
-        'LLV' + RIGHT('00000' + CAST(
-            ISNULL((SELECT MAX(CAST(SUBSTRING(IDLichLamViec, 4, 5) AS INT)) FROM LichLamViec), 0) 
-            + ROW_NUMBER() OVER(ORDER BY (SELECT 1)) 
-        AS VARCHAR), 5) + '_001', 
-        IDNhanVienNo, IDCaLamNo, IDBaiDoNo, NgayBatDau, NgayKetThuc, TrangThai, SoNgayDaLam
-    FROM inserted;
-END;
-GO
-
--- 23. Bảng SuCo (SCxxx_XX)
-IF OBJECT_ID('trg_AutoID_SuCo') IS NOT NULL DROP TRIGGER trg_AutoID_SuCo;
-GO
-CREATE TRIGGER trg_AutoID_SuCo ON SuCo INSTEAD OF INSERT AS
-BEGIN
-    SET NOCOUNT ON;
-    INSERT INTO SuCo (IDSuCo, IDNhanVienNo, IDThietBiNo, MoTa, MucDo, TrangThaiXuLy)
-    SELECT 
-        'SC' + RIGHT('000' + CAST(
-            ISNULL((SELECT MAX(CAST(SUBSTRING(IDSuCo, 3, 3) AS INT)) FROM SuCo), 0) 
-            + ROW_NUMBER() OVER(ORDER BY (SELECT 1)) 
-        AS VARCHAR), 3) + '_XX', 
-        IDNhanVienNo, IDThietBiNo, MoTa, MucDo, TrangThaiXuLy
-    FROM inserted;
-END;
-GO
-
--- 24. Bảng DanhGia (DGxxx_XXXX)
-IF OBJECT_ID('trg_AutoID_DanhGia') IS NOT NULL DROP TRIGGER trg_AutoID_DanhGia;
-GO
-CREATE TRIGGER trg_AutoID_DanhGia ON DanhGia INSTEAD OF INSERT AS
-BEGIN
-    SET NOCOUNT ON;
-    INSERT INTO DanhGia (IDDanhGia, IDKhachHangNo, IDHoaDonNo, NoiDung, DiemDanhGia, NgayDanhGia)
-    SELECT 
-        'DG' + RIGHT('000' + CAST(
-            ISNULL((SELECT MAX(CAST(SUBSTRING(IDDanhGia, 3, 3) AS INT)) FROM DanhGia), 0) 
-            + ROW_NUMBER() OVER(ORDER BY (SELECT 1)) 
-        AS VARCHAR), 3) + '_XXXX', 
-        IDKhachHangNo, IDHoaDonNo, NoiDung, DiemDanhGia, ISNULL(NgayDanhGia, GETDATE())
-    FROM inserted;
+    SET @NewID = 'DG' + RIGHT('000' + CAST(@So AS VARCHAR), 3) + '_' + @KHSuffix;
+    INSERT INTO DanhGia(IDDanhGia, IDKhachHangNo, IDHoaDonNo, NoiDung, DiemDanhGia, NgayDanhGia) 
+    VALUES (@NewID, @IDKhachHangNo, @IDHoaDonNo, @NoiDung, @DiemDanhGia, GETDATE());
 END;
 GO

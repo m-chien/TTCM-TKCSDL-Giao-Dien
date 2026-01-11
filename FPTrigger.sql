@@ -36,19 +36,66 @@ GO
 
 
 -- ====================Function========================
-IF OBJECT_ID('f_TimKiemChoTrong') IS NOT NULL DROP FUNCTION f_TimKiemChoTrong;
+IF OBJECT_ID('f_TimKiemChoTrong') IS NOT NULL 
+    DROP FUNCTION f_TimKiemChoTrong;
 GO
-CREATE FUNCTION f_TimKiemChoTrong (@IDBaiDo VARCHAR(8))
+
+CREATE FUNCTION f_TimKiemChoTrong
+(
+    @IDBaiDo   VARCHAR(8),
+    @IDLoaiXe  VARCHAR(10),
+    @ThoiDiem  DATETIME
+)
 RETURNS TABLE
 AS
 RETURN
 (
-    SELECT bd.TenBai, kv.TenKhuVuc, cd.TenChoDau, cd.KichThuoc, cd.TrangThai
+    SELECT 
+        bd.TenBai,
+        kv.TenKhuVuc,
+        cd.TenChoDau,
+        cd.KichThuoc,
+        cd.TrangThai,
+		lx.TenLoaiXe,
+
+        -- CỘT GIÁ
+        lhtp.GiaTien AS GiaApDung
+
     FROM ChoDauXe cd
-    JOIN KhuVuc kv ON cd.IDKhuVucNo = kv.IDKhuVuc
-    JOIN BaiDo bd ON kv.IDBaiDoNo = bd.IDBaiDo
-    WHERE cd.TrangThai = N'Trống' 
-    AND (@IDBaiDo IS NULL OR bd.IDBaiDo = @IDBaiDo)
+    JOIN KhuVuc kv 
+        ON cd.IDKhuVucNo = kv.IDKhuVuc
+    JOIN BaiDo bd 
+        ON kv.IDBaiDoNo = bd.IDBaiDo
+
+    -- Bảng giá
+    JOIN BangGia bg 
+        ON bg.IDBaiDoNo = bd.IDBaiDo
+       AND bg.IDLoaiXeNo = @IDLoaiXe
+       AND bg.HieuLuc = 1
+
+    JOIN LoaiHinhTinhPhi lhtp 
+        ON lhtp.IDBangGiaNo = bg.IDBangGia
+
+    JOIN KhungGio kg 
+        ON kg.IDLoaiHinhTinhPhiNo = lhtp.IDLoaiHinhTinhPhi
+
+	join LoaiXe lx 
+		on lx.IDLoaiXe = @IDLoaiXe
+
+    WHERE cd.TrangThai = N'Trống'
+      AND (@IDBaiDo IS NULL OR bd.IDBaiDo = @IDBaiDo)
+
+      -- XÁC ĐỊNH KHUNG GIỜ THEO THỜI ĐIỂM
+      AND (
+            (kg.ThoiGianBatDau < kg.ThoiGianKetThuc
+             AND CAST(@ThoiDiem AS TIME)
+                 BETWEEN kg.ThoiGianBatDau AND kg.ThoiGianKetThuc)
+         OR (kg.ThoiGianBatDau > kg.ThoiGianKetThuc
+             AND (
+                 CAST(@ThoiDiem AS TIME) >= kg.ThoiGianBatDau
+                 OR CAST(@ThoiDiem AS TIME) <= kg.ThoiGianKetThuc
+             ))
+      )
 );
 GO
 
@@ -134,36 +181,24 @@ BEGIN
     SET NOCOUNT ON;
     BEGIN TRY
         BEGIN TRANSACTION;
-            -- Generate ID for TaiKhoan (Format: TK00001_KH)
-            DECLARE @MaxIDTK VARCHAR(15);
-            DECLARE @NextNumTK INT;
-            SELECT @MaxIDTK = MAX(IDTaiKhoan) FROM TaiKhoan WHERE IDTaiKhoan LIKE 'TK%_KH';
+            -- 1. Generate ID for TaiKhoan
+            DECLARE @SoTK INT, @IDTK VARCHAR(15);
+            EXEC sp_SinhMa 'TaiKhoan', @SoTK OUTPUT;
             
-            IF @MaxIDTK IS NULL SET @NextNumTK = 1;
-            ELSE 
-            BEGIN
-                -- Extract number from TKxxxxx_KH (starts at index 3, length 5)
-                SET @NextNumTK = CAST(SUBSTRING(@MaxIDTK, 3, 5) AS INT) + 1;
-            END
-
-            DECLARE @IDTK VARCHAR(15) = 'TK' + RIGHT('00000' + CAST(@NextNumTK AS VARCHAR), 5) + '_KH';
+            -- Suffix logic for TaiKhoan (KhachHang defers to _KH usually, but let's match sp_ThemTaiKhoan logic)
+            -- In sp_ThemTaiKhoan: IF @IDVaiTroNo LIKE '%_NV' ...
+            -- Here hardcoded 'VT02_KH', so suffix is '_KH'
+            SET @IDTK = 'TK' + RIGHT('00000' + CAST(@SoTK AS VARCHAR), 5) + '_KH';
 
             INSERT INTO TaiKhoan (IDTaiKhoan, IDVaiTroNo, TenDangNhap, MatKhau) 
             VALUES (@IDTK, 'VT02_KH', @TenDangNhap, @MatKhau);
             
-            -- Generate ID for KhachHang (Format: KH00001_TX - TX for Thường Xuyên)
-            DECLARE @MaxIDKH VARCHAR(12);
-            DECLARE @NextNumKH INT;
-            SELECT @MaxIDKH = MAX(IDKhachHang) FROM KhachHang WHERE IDKhachHang LIKE 'KH%_TX';
+            -- 2. Generate ID for KhachHang
+            DECLARE @SoKH INT, @IDKH VARCHAR(12);
+            EXEC sp_SinhMa 'KhachHang', @SoKH OUTPUT;
             
-            IF @MaxIDKH IS NULL SET @NextNumKH = 1;
-            ELSE 
-            BEGIN
-                 -- Extract number from KHxxxxx_TX (starts at index 3, length 5)
-                SET @NextNumKH = CAST(SUBSTRING(@MaxIDKH, 3, 5) AS INT) + 1;
-            END
-            
-            DECLARE @IDKH VARCHAR(12) = 'KH' + RIGHT('00000' + CAST(@NextNumKH AS VARCHAR), 5) + '_TX';
+            -- Default LoaiKH is 'Thường xuyên' -> Suffix '_TX'
+            SET @IDKH = 'KH' + RIGHT('00000' + CAST(@SoKH AS VARCHAR), 5) + '_TX';
 
             INSERT INTO KhachHang (IDKhachHang, IDTaiKhoanNo, HoTen, SDT, CCCD, DiaChi, LoaiKH)
             VALUES (@IDKH, @IDTK, @HoTen, @SDT, @CCCD, @DiaChi, N'Thường xuyên');
@@ -244,8 +279,8 @@ BEGIN
         SELECT 1 
         FROM DatCho 
         WHERE IDChoDauNo = @IDChoDau 
-          AND TrangThai IN (N'Đã đặt', N'Đang chờ duyệt') -- Chỉ kiểm tra các lịch đang active
-          AND (@TgianBatDau < TgianKetThuc AND @TgianKetThuc > TgianBatDau)
+        AND TrangThai IN (N'Đã đặt', N'Đang chờ duyệt') -- Chỉ kiểm tra các lịch đang active
+        AND (@TgianBatDau < TgianKetThuc AND @TgianKetThuc > TgianBatDau)
     )
     BEGIN
         RAISERROR(N'Lỗi: Khung giờ này đã có người khác đặt chỗ!', 16, 1);
@@ -257,8 +292,8 @@ BEGIN
         SELECT 1 
         FROM PhieuGiuXe 
         WHERE IDChoDauNo = @IDChoDau 
-          AND TgianRa IS NULL -- Xe chưa ra
-          AND @TgianBatDau <= GETDATE() -- Khách muốn đặt ngay lúc này
+        AND TgianRa IS NULL -- Xe chưa ra
+        AND @TgianBatDau <= GETDATE() -- Khách muốn đặt ngay lúc này
     )
     BEGIN
         RAISERROR(N'Lỗi: Vị trí này hiện đang có xe đỗ, vui lòng chọn chỗ khác hoặc khung giờ khác!', 16, 1);
@@ -267,24 +302,11 @@ BEGIN
 
     -- 6. THỰC HIỆN ĐẶT CHỖ
     BEGIN TRY
-        -- Generate ID for DatCho (Format: DCxxxx_ddMMyyyy)
+        DECLARE @So INT, @IDDC VARCHAR(20);
+        EXEC sp_SinhMa 'DatCho', @So OUTPUT;
+
         DECLARE @DateStr VARCHAR(10) = REPLACE(CONVERT(VARCHAR, GETDATE(), 103), '/', '');
-        DECLARE @PrefixLike VARCHAR(20) = 'DC%_' + @DateStr;
-        
-        DECLARE @MaxIDDC VARCHAR(20);
-        DECLARE @NextNumDC INT;
-        
-        SELECT @MaxIDDC = MAX(IDDatCho) FROM DatCho WHERE IDDatCho LIKE @PrefixLike;
-        
-        IF @MaxIDDC IS NULL SET @NextNumDC = 1;
-        ELSE 
-        BEGIN
-            -- Format DCxxxx_Date. Split by '_'. First part DCxxxx. substring from 3 length 4.
-            -- Assuming max 4 digits for daily booking sequences
-            SET @NextNumDC = CAST(SUBSTRING(@MaxIDDC, 3, 4) AS INT) + 1;
-        END
-        
-        DECLARE @IDDC VARCHAR(20) = 'DC' + RIGHT('0000' + CAST(@NextNumDC AS VARCHAR), 4) + '_' + @DateStr;
+        SET @IDDC = 'DC' + RIGHT('0000' + CAST(@So AS VARCHAR), 4) + '_' + @DateStr;
 
         INSERT INTO DatCho (IDDatCho, IDKhachHangNo, IDXeNo, IDChoDauNo, TgianBatDau, TgianKetThuc, TrangThai)
         VALUES (@IDDC, @IDKhachHang, @BienSoXe, @IDChoDau, @TgianBatDau, @TgianKetThuc, N'Đang chờ duyệt');
@@ -453,32 +475,21 @@ AS
 BEGIN
     SET NOCOUNT ON;
     
-    -- Generate ID for PhieuGiuXe (Format: PXxxxx_yyyy) simplified to PX+Number for uniqueness
-    -- Or use existing format from insert script: PX0001_A0001 (PX + 4 digits + _ + ChoDau suffix maybe?)
-    -- Let's use simpler format: PXyyyyyy (PX + 6 digits)
-    DECLARE @MaxIDPX VARCHAR(15);
-    DECLARE @NextNumPX INT;
+    -- Generate ID for PhieuGiuXe (Format: PXxxxx_Axxxx)
+    -- Must extract suffix from ChoDau
+    DECLARE @So INT, @IDPX VARCHAR(15);
+    EXEC sp_SinhMa 'PhieuGiuXe', @So OUTPUT;
+
+    DECLARE @ChoSuffix VARCHAR(10) = '';
+    DECLARE @ChoNum VARCHAR(10) = '';
     
-    SELECT @MaxIDPX = MAX(IDPhieuGiuXe) FROM PhieuGiuXe WHERE IDPhieuGiuXe LIKE 'PX%';
-    
-    IF @MaxIDPX IS NULL SET @NextNumPX = 1;
-    ELSE 
+    IF CHARINDEX('_', @IDChoDau) > 0
     BEGIN
-        -- Try to extract purely numeric part. Assuming PX + 6 digits.
-        -- If format is complex like PX0001_A0001, simple extraction fails.
-        -- Strategy: Use 'PX' + incrementing number. 
-        -- If existing IDs have complex suffix, we might break consistency if we don't follow.
-        -- Let's try to parse index 3 length 6. 
-        -- NOTE: If existing data is PX0001_A0001, max would be lexico max.
-        -- Let's just use PX + random unique or PX + timestamp?
-        -- Timestamp is safer for concurrency without identity.
-        -- But length is limited to 15. 'PX' + yymmddhhmmss (12 chars) = 14 chars. Perfect.
-        SET @NextNumPX = 0; -- Unused
+        SET @ChoSuffix = SUBSTRING(@IDChoDau, CHARINDEX('_', @IDChoDau)+1, LEN(@IDChoDau));
+        SET @ChoNum = SUBSTRING(@IDChoDau, 3, CHARINDEX('_', @IDChoDau)-3);
     END
-    
-    DECLARE @TimeStamp VARCHAR(12) = RIGHT(REPLACE(REPLACE(REPLACE(CONVERT(VARCHAR, GETDATE(), 120), '-', ''), ':', ''), ' ', ''), 12);
-    -- Add a random digit to avoid collision in same second? Or check existence.
-    DECLARE @IDPX VARCHAR(15) = 'PX' + @TimeStamp + CHAR(65 + CAST(RAND()*25 AS INT)); -- Add 1 random char
+
+    SET @IDPX = 'PX' + RIGHT('0000' + CAST(@So AS VARCHAR), 4) + '_' + @ChoSuffix + @ChoNum;
     
     -- Insert
     INSERT INTO PhieuGiuXe (IDPhieuGiuXe, IDKhachHangNo, IDXeNo, IDChoDauNo, IDNhanVienVao, TgianVao, TrangThai)
@@ -590,16 +601,13 @@ BEGIN
         SET @TongTien = @SoThang * @GiaThang;
 
         -- 2. Tạo thẻ xe tháng
-        -- ID Gen: TXT + 3 digits + _ + 12T (Assuming suffix based on month?)
-        -- Simplification: TXT + auto_increment
-        DECLARE @MaxIDTXT VARCHAR(12);
-        DECLARE @NextNumTXT INT;
-        SELECT @MaxIDTXT = MAX(IDTheThang) FROM TheXeThang WHERE IDTheThang LIKE 'TXT%';
+        DECLARE @SoTXT INT;
+        EXEC sp_SinhMa 'TheXeThang', @SoTXT OUTPUT;
         
-        IF @MaxIDTXT IS NULL SET @NextNumTXT = 1;
-        ELSE SET @NextNumTXT = CAST(SUBSTRING(@MaxIDTXT, 4, 3) AS INT) + 1; -- TXT001...
-        
-        SET @IDTheXeThang = 'TXT' + RIGHT('000' + CAST(@NextNumTXT AS VARCHAR), 3) + '_' + CAST(@SoThang AS VARCHAR) + 'T';
+        DECLARE @Months INT = DATEDIFF(MONTH, @NgayDangKy, @NgayHetHan);
+        IF @Months < 1 SET @Months = 1;
+
+        SET @IDTheXeThang = 'TXT' + RIGHT('000' + CAST(@SoTXT AS VARCHAR), 3) + '_' + CAST(@Months AS VARCHAR) + 'T';
 
         INSERT INTO TheXeThang
         (IDTheThang, IDKhachHangNo, IDXeNo, TenTheXe, NgayDangKy, NgayHetHan, TrangThai)
@@ -607,40 +615,31 @@ BEGIN
         (@IDTheXeThang, @IDKhachHang, @IDXe, @TenTheXe, @NgayDangKy, @NgayHetHan, 1);
 
         -- 3. Tạo hóa đơn
-        -- ID Gen: HD + 4 digits + _ + Date
+        DECLARE @SoHD INT;
+        EXEC sp_SinhMa 'HoaDon', @SoHD OUTPUT;
         DECLARE @DateStr VARCHAR(10) = REPLACE(CONVERT(VARCHAR, GETDATE(), 103), '/', '');
-        DECLARE @PrefixLike VARCHAR(20) = 'HD%_' + @DateStr;
-        DECLARE @MaxIDHD VARCHAR(20);
-        DECLARE @NextNumHD INT;
-        
-        SELECT @MaxIDHD = MAX(IDHoaDon) FROM HoaDon WHERE IDHoaDon LIKE @PrefixLike;
-        IF @MaxIDHD IS NULL SET @NextNumHD = 1;
-        ELSE SET @NextNumHD = CAST(SUBSTRING(@MaxIDHD, 3, 4) AS INT) + 1;
-        
-        SET @IDHoaDon = 'HD' + RIGHT('0000' + CAST(@NextNumHD AS VARCHAR), 4) + '_' + @DateStr;
+        SET @IDHoaDon = 'HD' + RIGHT('0000' + CAST(@SoHD AS VARCHAR), 4) + '_' + @DateStr;
 
         INSERT INTO HoaDon (IDHoaDon, ThanhTien, NgayTao, LoaiHoaDon)
         VALUES (@IDHoaDon, @TongTien, GETDATE(), N'Đăng ký thẻ xe tháng');
 
         -- 4. Chi tiết hóa đơn
-        -- Gen IDCTHD ? CTHD0001_HD0001
-        -- Simplification: CTHD + Random/Timestamp OR linked to HDID
-        -- Let's use CTHD_ + HDID (One detail per invoice for simplicity in this flow, or CTHD + Auto)
-        DECLARE @IDCTHD VARCHAR(20) = 'CTHD_' + @IDHoaDon;
+        DECLARE @SoCTHD INT, @IDCTHD VARCHAR(20);
+        EXEC sp_SinhMa 'ChiTietHoaDon', @SoCTHD OUTPUT;
+        
+        DECLARE @HDSuffix VARCHAR(20) = @IDHoaDon;
+        IF CHARINDEX('_', @IDHoaDon) > 0 
+           SET @HDSuffix = SUBSTRING(@IDHoaDon, 1, CHARINDEX('_', @IDHoaDon)-1);
+        
+        SET @IDCTHD = 'CTHD' + RIGHT('0000' + CAST(@SoCTHD AS VARCHAR), 4) + '_' + @HDSuffix;
         
         INSERT INTO ChiTietHoaDon (IDChiTietHoaDon, IDHoaDonNo, IDTheXeThangNo, TongTien)
         VALUES (@IDCTHD, @IDHoaDon, @IDTheXeThang, @TongTien);
 
         -- 5. Thanh toán
-        -- Gen IDTT
-        DECLARE @IDTT VARCHAR(12);
-        DECLARE @MaxIDTT VARCHAR(12);
-        DECLARE @NextNumTT INT;
-        SELECT @MaxIDTT = MAX(IDThanhToan) FROM ThanhToan WHERE IDThanhToan LIKE 'TT%';
-        IF @MaxIDTT IS NULL SET @NextNumTT = 1;
-        ELSE SET @NextNumTT = CAST(SUBSTRING(@MaxIDTT, 3, 5) AS INT) + 1;
-        
-        SET @IDTT = 'TT' + RIGHT('00000' + CAST(@NextNumTT AS VARCHAR), 5) + '_TM'; -- TM for TienMat
+        DECLARE @SoTT INT, @IDTT VARCHAR(12);
+        EXEC sp_SinhMa 'ThanhToan', @SoTT OUTPUT;
+        SET @IDTT = 'TT' + RIGHT('00000' + CAST(@SoTT AS VARCHAR), 5) + '_TM';
 
         INSERT INTO ThanhToan
         (IDThanhToan, IDHoaDonNo, PhuongThuc, TrangThai, NgayThanhToan)
@@ -680,35 +679,31 @@ BEGIN
         WHERE IDTheThang = @IDTheXeThang;
 
         -- 2. Tạo hóa đơn
-        -- ID Gen: HD + 4 digits + _ + Date
+        DECLARE @SoHD INT;
+        EXEC sp_SinhMa 'HoaDon', @SoHD OUTPUT;
         DECLARE @DateStr VARCHAR(10) = REPLACE(CONVERT(VARCHAR, GETDATE(), 103), '/', '');
-        DECLARE @PrefixLike VARCHAR(20) = 'HD%_' + @DateStr;
-        DECLARE @MaxIDHD VARCHAR(20);
-        DECLARE @NextNumHD INT;
-        
-        SELECT @MaxIDHD = MAX(IDHoaDon) FROM HoaDon WHERE IDHoaDon LIKE @PrefixLike;
-        IF @MaxIDHD IS NULL SET @NextNumHD = 1;
-        ELSE SET @NextNumHD = CAST(SUBSTRING(@MaxIDHD, 3, 4) AS INT) + 1;
-        
-        SET @IDHoaDon = 'HD' + RIGHT('0000' + CAST(@NextNumHD AS VARCHAR), 4) + '_' + @DateStr;
+        SET @IDHoaDon = 'HD' + RIGHT('0000' + CAST(@SoHD AS VARCHAR), 4) + '_' + @DateStr;
 
         INSERT INTO HoaDon (IDHoaDon, ThanhTien, NgayTao, LoaiHoaDon)
         VALUES (@IDHoaDon, @TongTien, GETDATE(), N'Gia hạn thẻ tháng');
 
         -- 3. Chi tiết hóa đơn
-        DECLARE @IDCTHD VARCHAR(20) = 'CTHD_' + @IDHoaDon;
+        DECLARE @SoCTHD INT, @IDCTHD VARCHAR(20);
+        EXEC sp_SinhMa 'ChiTietHoaDon', @SoCTHD OUTPUT;
+        
+        DECLARE @HDSuffix VARCHAR(20) = @IDHoaDon;
+        IF CHARINDEX('_', @IDHoaDon) > 0 
+           SET @HDSuffix = SUBSTRING(@IDHoaDon, 1, CHARINDEX('_', @IDHoaDon)-1);
+        
+        SET @IDCTHD = 'CTHD' + RIGHT('0000' + CAST(@SoCTHD AS VARCHAR), 4) + '_' + @HDSuffix;
+        
         INSERT INTO ChiTietHoaDon (IDChiTietHoaDon, IDHoaDonNo, IDTheXeThangNo, TongTien)
         VALUES (@IDCTHD, @IDHoaDon, @IDTheXeThang, @TongTien);
 
         -- 4. Thanh toán
-        DECLARE @IDTT VARCHAR(12);
-        DECLARE @MaxIDTT VARCHAR(12);
-        DECLARE @NextNumTT INT;
-        SELECT @MaxIDTT = MAX(IDThanhToan) FROM ThanhToan WHERE IDThanhToan LIKE 'TT%';
-        IF @MaxIDTT IS NULL SET @NextNumTT = 1;
-        ELSE SET @NextNumTT = CAST(SUBSTRING(@MaxIDTT, 3, 5) AS INT) + 1;
-        
-        SET @IDTT = 'TT' + RIGHT('00000' + CAST(@NextNumTT AS VARCHAR), 5) + '_TM';
+        DECLARE @SoTT INT, @IDTT VARCHAR(12);
+        EXEC sp_SinhMa 'ThanhToan', @SoTT OUTPUT;
+        SET @IDTT = 'TT' + RIGHT('00000' + CAST(@SoTT AS VARCHAR), 5) + '_TM';
 
         INSERT INTO ThanhToan (IDThanhToan, IDHoaDonNo, PhuongThuc, TrangThai, NgayThanhToan)
         VALUES (@IDTT, @IDHoaDon, N'Tiền mặt', 1, GETDATE());
@@ -988,17 +983,10 @@ BEGIN
         END
 
         -- 3. TẠO HÓA ĐƠN
-        -- Generate ID for Invoice
-         DECLARE @DateStr VARCHAR(10) = REPLACE(CONVERT(VARCHAR, GETDATE(), 103), '/', '');
-        DECLARE @PrefixLike VARCHAR(20) = 'HD%_' + @DateStr;
-        DECLARE @MaxIDHD VARCHAR(20);
-        DECLARE @NextNumHD INT;
-        
-        SELECT @MaxIDHD = MAX(IDHoaDon) FROM HoaDon WHERE IDHoaDon LIKE @PrefixLike;
-        IF @MaxIDHD IS NULL SET @NextNumHD = 1;
-        ELSE SET @NextNumHD = CAST(SUBSTRING(@MaxIDHD, 3, 4) AS INT) + 1;
-        
-        DECLARE @NewHoaDonID VARCHAR(20) = 'HD' + RIGHT('0000' + CAST(@NextNumHD AS VARCHAR), 4) + '_' + @DateStr;
+        DECLARE @SoHD INT;
+        EXEC sp_SinhMa 'HoaDon', @SoHD OUTPUT;
+        DECLARE @DateStr VARCHAR(10) = REPLACE(CONVERT(VARCHAR, GETDATE(), 103), '/', '');
+        DECLARE @NewHoaDonID VARCHAR(20) = 'HD' + RIGHT('0000' + CAST(@SoHD AS VARCHAR), 4) + '_' + @DateStr;
 
         INSERT INTO HoaDon (IDHoaDon, ThanhTien, NgayTao, LoaiHoaDon)
         VALUES (@NewHoaDonID, @TongTien, GETDATE(), N'Vé lượt');
@@ -1008,19 +996,13 @@ BEGIN
         SET IDHoaDonNo = @NewHoaDonID 
         WHERE IDPhieuGiuXe = @IDPhieu;
         
-		--tạo bảng thanh toán
-        -- Gen IDTT
-        DECLARE @IDTT VARCHAR(12);
-        DECLARE @MaxIDTT VARCHAR(12);
-        DECLARE @NextNumTT INT;
-        SELECT @MaxIDTT = MAX(IDThanhToan) FROM ThanhToan WHERE IDThanhToan LIKE 'TT%';
-        IF @MaxIDTT IS NULL SET @NextNumTT = 1;
-        ELSE SET @NextNumTT = CAST(SUBSTRING(@MaxIDTT, 3, 5) AS INT) + 1;
-        
-        SET @IDTT = 'TT' + RIGHT('00000' + CAST(@NextNumTT AS VARCHAR), 5) + '_CK';
+        --tạo bảng thanh toán
+        DECLARE @SoTT INT, @IDTT VARCHAR(12);
+        EXEC sp_SinhMa 'ThanhToan', @SoTT OUTPUT;
+        SET @IDTT = 'TT' + RIGHT('00000' + CAST(@SoTT AS VARCHAR), 5) + '_CK';
 
-		insert into ThanhToan (IDThanhToan, IDHoaDonNo, PhuongThuc) Values
-		(@IDTT, @NewHoaDonID, N'Chuyển khoản')
+        insert into ThanhToan (IDThanhToan, IDHoaDonNo, PhuongThuc) Values
+        (@IDTT, @NewHoaDonID, N'Chuyển khoản')
 
         DECLARE @IDDatCho VARCHAR(20);
 
@@ -1033,7 +1015,16 @@ BEGIN
 		  AND dc.IDXeNo = @BienSo
 		ORDER BY dc.TgianBatDau DESC;
 
-        DECLARE @IDCTHD VARCHAR(20) = 'CTHD_' + @NewHoaDonID;
+        -- Gen CTHD ID using sp_SinhMa
+        DECLARE @SoCTHD INT, @IDCTHD VARCHAR(20);
+        EXEC sp_SinhMa 'ChiTietHoaDon', @SoCTHD OUTPUT;
+        
+        -- Suffix like GenarateID.sql: CTHDxxxx_HDxxxx (extracted from HDxxxx_Date)
+        DECLARE @HDSuffix VARCHAR(20) = @NewHoaDonID;
+        IF CHARINDEX('_', @NewHoaDonID) > 0 
+           SET @HDSuffix = SUBSTRING(@NewHoaDonID, 1, CHARINDEX('_', @NewHoaDonID)-1);
+        
+        SET @IDCTHD = 'CTHD' + RIGHT('0000' + CAST(@SoCTHD AS VARCHAR), 4) + '_' + @HDSuffix;
 
 		-- Có thẻ tháng
 		IF @IDTheXeThang IS NOT NULL
