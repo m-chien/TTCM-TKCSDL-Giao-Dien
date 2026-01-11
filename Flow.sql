@@ -41,14 +41,8 @@ BEGIN
     DECLARE @ChoDauTest VARCHAR(12) = 'CD0001_A';
     DECLARE @BienSoXeTest VARCHAR(20) = '30A-888.88';
 
-    -- Reset trạng thái chỗ cũ để test (nếu cần)
-    UPDATE ChoDauXe SET TrangThai = N'Trống' WHERE IDChoDauXe = @ChoDauTest;
-    -- Xóa chi tiết hóa đơn & booking cũ của chỗ này để tránh lỗi khóa ngoại
-    DELETE FROM ChiTietHoaDon WHERE IDDatChoNo IN (SELECT IDDatCho FROM DatCho WHERE IDChoDauNo = @ChoDauTest);
-    DELETE FROM DatCho WHERE IDChoDauNo = @ChoDauTest;
-
     -- Thực hiện đặt chỗ
-    EXEC sp_KhachHangDatCho @NewKHID_3, @BienSoXeTest, @ChoDauTest, '2026-11-01 08:00', '2026-11-01 17:00';
+    EXEC sp_KhachHangDatCho @NewKHID_3, @BienSoXeTest, @ChoDauTest, '2026-12-01 08:00', '2026-12-01 17:00';
 
     -- Kiểm tra trạng thái (Vẫn là Trống vì mới chờ duyệt)
     SELECT TenChoDau, TrangThai FROM ChoDauXe WHERE IDChoDauXe = @ChoDauTest;
@@ -149,6 +143,7 @@ BEGIN
     SELECT * FROM TheXeThang WHERE IDKhachHangNo = @NewKHID_7;
 END
 
+select * from TheXeThang
 select * from HoaDon
 select * from ChiTietHoaDon
 select * from ThanhToan
