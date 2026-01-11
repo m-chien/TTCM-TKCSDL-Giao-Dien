@@ -16,17 +16,17 @@ GO
 
 -- 1. DANH MỤC & CẤU HÌNH
 CREATE TABLE VaiTro (
-    ID INT PRIMARY KEY IDENTITY(1,1),
+    IDVaiTro VARCHAR(10) PRIMARY KEY , --VT01_NV(Vai trò 01,Nhân viên)
     TenVaiTro NVARCHAR(50) NOT NULL
 );
 
 CREATE TABLE LoaiXe (
-    ID INT PRIMARY KEY IDENTITY(1,1),
+    IDLoaiXe VARCHAR(10) PRIMARY KEY , --LX01_O4(Loại xe 01,Ô tô 4 chỗ)
     TenLoaiXe NVARCHAR(50) NOT NULL
 );
 
 CREATE TABLE CaLam (
-    ID INT PRIMARY KEY IDENTITY(1,1),
+    IDCaLam VARCHAR(8) PRIMARY KEY ,-- CL01_S(Ca làm 01,Sáng)
     TenCa NVARCHAR(50),
     TgianBatDau TIME,
     TgianKetThuc TIME,
@@ -35,8 +35,8 @@ CREATE TABLE CaLam (
 
 -- 2. HỆ THỐNG TÀI KHOẢN
 CREATE TABLE TaiKhoan (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    IDVaiTro INT CONSTRAINT FK_TaiKhoan_VaiTro FOREIGN KEY REFERENCES VaiTro(ID) 
+    IDTaiKhoan VARCHAR(15) PRIMARY KEY ,--TK00001_KH(Tài khoản 00001,Khách hàng)
+    IDVaiTroNo VARCHAR(10) CONSTRAINT FK_TaiKhoan_VaiTro FOREIGN KEY REFERENCES VaiTro(IDVaiTro) 
             ON UPDATE CASCADE 
             ON DELETE CASCADE,
     TenDangNhap VARCHAR(50) UNIQUE NOT NULL,
@@ -46,8 +46,8 @@ CREATE TABLE TaiKhoan (
 );
 
 CREATE TABLE NhanVien (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    IDTaiKhoan INT CONSTRAINT FK_NhanVien_TaiKhoan FOREIGN KEY REFERENCES TaiKhoan(ID) 
+    IDNhanVien VARCHAR(10) PRIMARY KEY ,--NV001_BV(Nhân viên 001,Bảo vệ)
+    IDTaiKhoanNo VARCHAR(15) CONSTRAINT FK_NhanVien_TaiKhoan FOREIGN KEY REFERENCES TaiKhoan(IDTaiKhoan) 
             ON UPDATE CASCADE 
             ON DELETE CASCADE,
     TenNhanVien NVARCHAR(100),
@@ -58,8 +58,8 @@ CREATE TABLE NhanVien (
 );
 
 CREATE TABLE KhachHang (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    IDTaiKhoan INT CONSTRAINT FK_KhachHang_TaiKhoan FOREIGN KEY REFERENCES TaiKhoan(ID) 
+    IDKhachHang VARCHAR(12) PRIMARY KEY ,--KH00001_VI(Khách hàng 00001,VIP)
+    IDTaiKhoanNo VARCHAR(15) CONSTRAINT FK_KhachHang_TaiKhoan FOREIGN KEY REFERENCES TaiKhoan(IDTaiKhoan) 
                 ON UPDATE CASCADE 
                 ON DELETE CASCADE,
     HoTen NVARCHAR(100),
@@ -73,8 +73,8 @@ CREATE TABLE KhachHang (
 );
 
 CREATE TABLE ChuBaiXe (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    IDTaiKhoan INT CONSTRAINT FK_ChuBaiXe_TaiKhoan FOREIGN KEY REFERENCES TaiKhoan(ID) 
+    IDChuBaiXe VARCHAR(8) PRIMARY KEY ,--CB001(Chủ bãi xe 001)
+    IDTaiKhoanNo VARCHAR(15) CONSTRAINT FK_ChuBaiXe_TaiKhoan FOREIGN KEY REFERENCES TaiKhoan(IDTaiKhoan) 
             ON UPDATE CASCADE 
             ON DELETE CASCADE,
     TenChuBai NVARCHAR(100),
@@ -86,8 +86,8 @@ CREATE TABLE ChuBaiXe (
 
 -- 3. XE & TÀI SẢN
 CREATE TABLE Xe (
-    BienSoXe VARCHAR(20) PRIMARY KEY,
-    IDLoaiXe INT CONSTRAINT FK_Xe_LoaiXe FOREIGN KEY REFERENCES LoaiXe(ID)  
+    BienSoXe VARCHAR(12) PRIMARY KEY,
+    IDLoaiXeNo VARCHAR(10) CONSTRAINT FK_Xe_LoaiXe FOREIGN KEY REFERENCES LoaiXe(IDLoaiXe)  
             ON UPDATE CASCADE 
             ON DELETE CASCADE,
     TenXe NVARCHAR(100),
@@ -97,20 +97,20 @@ CREATE TABLE Xe (
 );
 
 CREATE TABLE KhachHang_Xe (
-    IDKhachHang INT CONSTRAINT FK_KHXe_KhachHang FOREIGN KEY REFERENCES KhachHang(ID) 
+    IDKhachHangNo VARCHAR(12) CONSTRAINT FK_KHXe_KhachHang FOREIGN KEY REFERENCES KhachHang(IDKhachHang) 
             ON UPDATE NO ACTION 
             ON DELETE NO ACTION, 
-    IDXe VARCHAR(20) CONSTRAINT FK_KHXe_Xe FOREIGN KEY REFERENCES Xe(BienSoXe) 
+    IDXeNo VARCHAR(12) CONSTRAINT FK_KHXe_Xe FOREIGN KEY REFERENCES Xe(BienSoXe) 
             ON UPDATE CASCADE 
             ON DELETE CASCADE,
-    CONSTRAINT PK_KhachHang_Xe PRIMARY KEY (IDKhachHang, IDXe),
+    CONSTRAINT PK_KhachHang_Xe PRIMARY KEY (IDKhachHangNo, IDXeNo),
     LoaiSoHuu NVARCHAR(50)
 );
 
 -- 4. CẤU TRÚC BÃI ĐỖ
 CREATE TABLE BaiDo (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    IDChuBai INT CONSTRAINT FK_BaiDo_ChuBai FOREIGN KEY REFERENCES ChuBaiXe(ID) 
+    IDBaiDo VARCHAR(8) PRIMARY KEY ,--BD001(Bãi đỗ 001)
+    IDChuBaiNo VARCHAR(8) CONSTRAINT FK_BaiDo_ChuBai FOREIGN KEY REFERENCES ChuBaiXe(IDChuBaiXe) 
             ON UPDATE CASCADE 
             ON DELETE CASCADE,
     TenBai NVARCHAR(100),
@@ -121,8 +121,8 @@ CREATE TABLE BaiDo (
 );
 
 CREATE TABLE KhuVuc (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    IDBaiDo INT CONSTRAINT FK_KhuVuc_BaiDo FOREIGN KEY REFERENCES BaiDo(ID) 
+    IDKhuVuc VARCHAR(10) PRIMARY KEY ,--KV001_A(Khu vực 001,A là tên khu(A,B,C,D) hoặc tầng hầm là TH)
+    IDBaiDoNo VARCHAR(8) CONSTRAINT FK_KhuVuc_BaiDo FOREIGN KEY REFERENCES BaiDo(IDBaiDo) 
             ON UPDATE CASCADE 
             ON DELETE CASCADE,
     TenKhuVuc NVARCHAR(50),
@@ -131,8 +131,8 @@ CREATE TABLE KhuVuc (
 );
 
 CREATE TABLE ChoDauXe (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    IDKhuVuc INT CONSTRAINT FK_ChoDau_KhuVuc FOREIGN KEY REFERENCES KhuVuc(ID) 
+    IDChoDauXe VARCHAR(12) PRIMARY KEY ,--CD0001_A(Chỗ đậu 0001,A là khu vực )
+    IDKhuVucNo VARCHAR(10) CONSTRAINT FK_ChoDau_KhuVuc FOREIGN KEY REFERENCES KhuVuc(IDKhuVuc) 
             ON UPDATE CASCADE 
             ON DELETE CASCADE,
     TenChoDau NVARCHAR(20),
@@ -141,8 +141,8 @@ CREATE TABLE ChoDauXe (
 );
 
 CREATE TABLE ThietBi (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    IDKhuVuc INT CONSTRAINT FK_ThietBi_KhuVuc FOREIGN KEY REFERENCES KhuVuc(ID) 
+    IDThietBi VARCHAR(10) PRIMARY KEY, --TB001_CA(Thiết bị 001,CA là Camera)
+    IDKhuVucNo VARCHAR(10) CONSTRAINT FK_ThietBi_KhuVuc FOREIGN KEY REFERENCES KhuVuc(IDKhuVuc) 
             ON UPDATE CASCADE 
             ON DELETE CASCADE,
     TenThietBi NVARCHAR(100),
@@ -154,11 +154,11 @@ CREATE TABLE ThietBi (
 
 -- 5. GIÁ & VOUCHER
 CREATE TABLE BangGia (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    IDBaiDo INT CONSTRAINT FK_BangGia_BaiDo FOREIGN KEY REFERENCES BaiDo(ID) 
+    IDBangGia VARCHAR(10) PRIMARY KEY ,--BG001_O4(Bảng giá 001,Ô tô 4 chỗ)
+    IDBaiDoNo VARCHAR(8) CONSTRAINT FK_BangGia_BaiDo FOREIGN KEY REFERENCES BaiDo(IDBaiDo) 
             ON UPDATE CASCADE 
             ON DELETE CASCADE,
-    IDLoaiXe INT CONSTRAINT FK_BangGia_LoaiXe FOREIGN KEY REFERENCES LoaiXe(ID) 
+    IDLoaiXeNo VARCHAR(10) CONSTRAINT FK_BangGia_LoaiXe FOREIGN KEY REFERENCES LoaiXe(IDLoaiXe) 
             ON UPDATE CASCADE 
             ON DELETE NO ACTION,
     TenBangGia NVARCHAR(100),
@@ -166,8 +166,8 @@ CREATE TABLE BangGia (
 );
 
 CREATE TABLE LoaiHinhTinhPhi (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    IDBangGia INT CONSTRAINT FK_LHTP_BangGia FOREIGN KEY REFERENCES BangGia(ID) 
+    IDLoaiHinhTinhPhi VARCHAR(15) PRIMARY KEY ,--LH001_GIO_O4(Loại hình 001,Theo giờ,Ô tô 4 chỗ)
+    IDBangGiaNo VARCHAR(10) CONSTRAINT FK_LHTP_BangGia FOREIGN KEY REFERENCES BangGia(IDBangGia) 
             ON UPDATE CASCADE 
             ON DELETE CASCADE,
     TenLoaiHinh NVARCHAR(100),
@@ -176,8 +176,8 @@ CREATE TABLE LoaiHinhTinhPhi (
 );
 
 CREATE TABLE KhungGio (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    IDLoaiHinhTinhPhi INT CONSTRAINT FK_KhungGio_LHTP FOREIGN KEY REFERENCES LoaiHinhTinhPhi(ID) 
+    IDKhungGio VARCHAR(10) PRIMARY KEY,--KG01_HC(Khung giờ 01,Hành chính)
+    IDLoaiHinhTinhPhiNo VARCHAR(15) CONSTRAINT FK_KhungGio_LHTP FOREIGN KEY REFERENCES LoaiHinhTinhPhi(IDLoaiHinhTinhPhi) 
             ON UPDATE CASCADE 
             ON DELETE CASCADE,
     TenKhungGio NVARCHAR(50),
@@ -186,24 +186,24 @@ CREATE TABLE KhungGio (
 );
 
 CREATE TABLE TheXeThang (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    IDKhachHang INT NOT NULL,
-    IDXe VARCHAR(20) NOT NULL,
+    IDTheThang VARCHAR(12) PRIMARY KEY ,--TXT001_12T(Thẻ xe tháng 001,12)
+    IDKhachHangNo VARCHAR(12) NOT NULL,
+    IDXeNo VARCHAR(12) NOT NULL,
     TenTheXe NVARCHAR(100),
     NgayDangKy DATE DEFAULT GETDATE(),
     NgayHetHan DATE NOT NULL,
     TrangThai BIT DEFAULT 1,
 
     -- Ràng buộc đồng bộ: Nếu IDXe thay đổi hoặc Khách hàng bị xóa, thẻ sẽ tự cập nhật/xóa theo
-    CONSTRAINT FK_TheXe_KHXe FOREIGN KEY (IDKhachHang, IDXe) 
-        REFERENCES KhachHang_Xe(IDKhachHang, IDXe) 
+    CONSTRAINT FK_TheXe_KHXe FOREIGN KEY (IDKhachHangNo, IDXeNo) 
+        REFERENCES KhachHang_Xe(IDKhachHangNo, IDXeNo) 
         ON UPDATE CASCADE 
         ON DELETE CASCADE
 );
 
 CREATE TABLE Voucher (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    IDBaiDo INT CONSTRAINT FK_Voucher_BaiDo FOREIGN KEY REFERENCES BaiDo(ID)
+    IDVoucher VARCHAR(15) PRIMARY KEY ,--VC00001_BD001(Voucher 00001,Bãi đỗ 001)
+    IDBaiDoNo VARCHAR(8) CONSTRAINT FK_Voucher_BaiDo FOREIGN KEY REFERENCES BaiDo(IDBaiDo)
             ON UPDATE CASCADE 
             ON DELETE CASCADE,
     TenVoucher NVARCHAR(100),
@@ -216,104 +216,104 @@ CREATE TABLE Voucher (
 
 -- 6. NGHIỆP VỤ (CORE)
 CREATE TABLE DatCho (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    IDKhachHang INT NOT NULL,
-    IDXe VARCHAR(20) NOT NULL,
-    IDChoDau INT NOT NULL,
-    IDNhanVien INT,
+    IDDatCho VARCHAR(20) PRIMARY KEY ,--DC0001_05012026(Dặt chỗ 00001,05/01/2026)
+    IDKhachHangNo VARCHAR(12) NOT NULL,
+    IDXeNo VARCHAR(12) NOT NULL,
+    IDChoDauNo VARCHAR(12) NOT NULL,
+    IDNhanVienNo VARCHAR(10),
     TgianBatDau DATETIME,
     TgianKetThuc DATETIME,
     TrangThai NVARCHAR(50) CONSTRAINT CK_DatCho_TrangThai 
-        CHECK (TrangThai IN (N'Đã đặt', N'Đã hủy', N'Hoàn thành', N'Quá hạn')),
+        CHECK (TrangThai IN (N'Đã đặt', N'Đã hủy', N'Đang chờ duyệt', N'Quá hạn', N'Hoàn thành')),
 
     -- Ràng buộc tham chiếu cặp Khách-Xe
-    CONSTRAINT FK_DatCho_KHXe FOREIGN KEY (IDKhachHang, IDXe) 
-        REFERENCES KhachHang_Xe(IDKhachHang, IDXe) 
+    CONSTRAINT FK_DatCho_KHXe FOREIGN KEY (IDKhachHangNo, IDXeNo) 
+        REFERENCES KhachHang_Xe(IDKhachHangNo, IDXeNo) 
         ON UPDATE CASCADE 
         ON DELETE CASCADE,
 
-    CONSTRAINT FK_DatCho_NhanVien FOREIGN KEY (IDNhanVien) REFERENCES NhanVien(ID) 
+    CONSTRAINT FK_DatCho_NhanVien FOREIGN KEY (IDNhanVienNo) REFERENCES NhanVien(IDNhanVien) 
         ON UPDATE NO ACTION ON DELETE NO ACTION,
         
-    CONSTRAINT FK_DatCho_ChoDau FOREIGN KEY (IDChoDau) REFERENCES ChoDauXe(ID) 
+    CONSTRAINT FK_DatCho_ChoDau FOREIGN KEY (IDChoDauNo) REFERENCES ChoDauXe(IDChoDauXe) 
         ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 CREATE TABLE HoaDon (
-    ID INT PRIMARY KEY IDENTITY(1,1),
+    IDHoaDon VARCHAR(20) PRIMARY KEY,--HD0001_05012026(Hoá đơn 0001,05/01/2026)
     ThanhTien DECIMAL(18,2),
     NgayTao DATETIME DEFAULT GETDATE(),
     LoaiHoaDon NVARCHAR(50),
-    IDVoucher INT CONSTRAINT FK_HoaDon_Voucher FOREIGN KEY REFERENCES Voucher(ID) 
+    IDVoucher VARCHAR(15) CONSTRAINT FK_HoaDon_Voucher FOREIGN KEY REFERENCES Voucher(IDVoucher) 
             ON UPDATE NO ACTION 
             ON DELETE SET NULL 
 );
 
 CREATE TABLE PhieuGiuXe (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    IDKhachHang INT NOT NULL,
-    IDXe VARCHAR(20) NOT NULL,
-    IDChoDau INT NOT NULL,
-    IDNhanVienVao INT,
-    IDNhanVienRa INT,
-    IDHoaDon INT,
+    IDPhieuGiuXe VARCHAR(15) PRIMARY KEY,--PX0001_A0001(Phiếu xe 0001,Vị trí A0001)
+    IDKhachHangNo VARCHAR(12),
+    IDXeNo VARCHAR(12) NOT NULL,
+    IDChoDauNo VARCHAR(12) NOT NULL,
+    IDNhanVienVao VARCHAR(10),
+    IDNhanVienRa VARCHAR(10),
+    IDHoaDonNo VARCHAR(20),
     TgianVao DATETIME DEFAULT GETDATE(),
     TgianRa DATETIME,
     TrangThai NVARCHAR(50) CONSTRAINT CK_PhieuGiuXe_TrangThai 
         CHECK (TrangThai IN (N'Đang gửi', N'Đã lấy', N'Quá hạn', N'Mất vé')),
 
-    CONSTRAINT FK_PGX_KHXe FOREIGN KEY (IDKhachHang, IDXe) 
-        REFERENCES KhachHang_Xe(IDKhachHang, IDXe) 
+    CONSTRAINT FK_PGX_KHXe FOREIGN KEY (IDKhachHangNo, IDXeNo) 
+        REFERENCES KhachHang_Xe(IDKhachHangNo, IDXeNo) 
         ON UPDATE CASCADE 
         ON DELETE CASCADE,
 
-    CONSTRAINT FK_PGX_ChoDau FOREIGN KEY (IDChoDau) REFERENCES ChoDauXe(ID) 
+    CONSTRAINT FK_PGX_ChoDau FOREIGN KEY (IDChoDauNo) REFERENCES ChoDauXe(IDChoDauXe) 
         ON UPDATE NO ACTION ON DELETE NO ACTION,
         
-    CONSTRAINT FK_PGX_NVVao FOREIGN KEY (IDNhanVienVao) REFERENCES NhanVien(ID) 
+    CONSTRAINT FK_PGX_NVVao FOREIGN KEY (IDNhanVienVao) REFERENCES NhanVien(IDNhanVien) 
         ON UPDATE NO ACTION ON DELETE NO ACTION,
         
-    CONSTRAINT FK_PGX_NVRa FOREIGN KEY (IDNhanVienRa) REFERENCES NhanVien(ID) 
+    CONSTRAINT FK_PGX_NVRa FOREIGN KEY (IDNhanVienRa) REFERENCES NhanVien(IDNhanVien) 
         ON UPDATE NO ACTION ON DELETE NO ACTION,
         
-    CONSTRAINT FK_PGX_HoaDon FOREIGN KEY (IDHoaDon) REFERENCES HoaDon(ID) 
+    CONSTRAINT FK_PGX_HoaDon FOREIGN KEY (IDHoaDonNo) REFERENCES HoaDon(IDHoaDon) 
         ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 CREATE TABLE ChiTietHoaDon (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    IDTheXeThang INT CONSTRAINT FK_CTHD_TheXe FOREIGN KEY REFERENCES TheXeThang(ID) 
+    IDChiTietHoaDon VARCHAR(30) PRIMARY KEY,--CTHD0001_HD0001(Chi tiết HD 0001,Hoá đon 0001)
+    IDTheXeThangNo VARCHAR(12) CONSTRAINT FK_CTHD_TheXe FOREIGN KEY REFERENCES TheXeThang(IDTheThang) 
             ON UPDATE NO ACTION 
             ON DELETE NO ACTION,
-    IDDatCho INT CONSTRAINT FK_CTHD_DatCho FOREIGN KEY REFERENCES DatCho(ID) 
+    IDDatChoNo VARCHAR(20) CONSTRAINT FK_CTHD_DatCho FOREIGN KEY REFERENCES DatCho(IDDatCho) 
             ON UPDATE NO ACTION 
             ON DELETE NO ACTION,
-    IDHoaDon INT CONSTRAINT FK_CTHD_HoaDon FOREIGN KEY REFERENCES HoaDon(ID) 
+    IDHoaDonNo VARCHAR(20) CONSTRAINT FK_CTHD_HoaDon FOREIGN KEY REFERENCES HoaDon(IDHoaDon) 
             ON UPDATE CASCADE 
             ON DELETE CASCADE,
     TongTien DECIMAL(18,2)
 );
 
 CREATE TABLE ThanhToan (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    IDHoaDon INT CONSTRAINT FK_ThanhToan_HoaDon FOREIGN KEY REFERENCES HoaDon(ID) 
+    IDThanhToan VARCHAR(20) PRIMARY KEY ,--TT00001_CK(Thanh toán 00001,Chuyển khoản)
+    IDHoaDonNo VARCHAR(20) CONSTRAINT FK_ThanhToan_HoaDon FOREIGN KEY REFERENCES HoaDon(IDHoaDon) 
             ON UPDATE NO ACTION 
             ON DELETE NO ACTION,
     PhuongThuc NVARCHAR(50) CONSTRAINT CK_ThanhToan_PhuongThuc CHECK (PhuongThuc IN (N'Tiền mặt', N'Thẻ', N'QR Code', N'Chuyển khoản')),
-    TrangThai BIT,
+    TrangThai BIT default 0,
     NgayThanhToan DATETIME DEFAULT GETDATE()
 );
 
 -- 7. BẢNG PHỤ TRỢ 
 CREATE TABLE LichLamViec (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    IDNhanVien INT CONSTRAINT FK_Lich_NhanVien FOREIGN KEY REFERENCES NhanVien(ID) 
+    IDLichLamViec VARCHAR(15) PRIMARY KEY,--LLV00001_NV001(Lịch làm việc 00001,Nhân viên 0001)
+    IDNhanVienNo VARCHAR(10) CONSTRAINT FK_Lich_NhanVien FOREIGN KEY REFERENCES NhanVien(IDNhanVien) 
             ON UPDATE CASCADE 
             ON DELETE CASCADE,
-    IDCaLam INT CONSTRAINT FK_Lich_CaLam FOREIGN KEY REFERENCES CaLam(ID) 
+    IDCaLamNo VARCHAR(8) CONSTRAINT FK_Lich_CaLam FOREIGN KEY REFERENCES CaLam(IDCaLam) 
             ON UPDATE CASCADE 
             ON DELETE CASCADE,
-    IDBaiDo INT CONSTRAINT FK_Lich_BaiDo FOREIGN KEY REFERENCES BaiDo(ID) 
+    IDBaiDoNo VARCHAR(8) CONSTRAINT FK_Lich_BaiDo FOREIGN KEY REFERENCES BaiDo(IDBaiDo) 
             ON UPDATE NO ACTION 
             ON DELETE NO ACTION,
     NgayBatDau DATE,
@@ -323,11 +323,11 @@ CREATE TABLE LichLamViec (
 );
 
 CREATE TABLE SuCo (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    IDNhanVien INT CONSTRAINT FK_SuCo_NhanVien FOREIGN KEY REFERENCES NhanVien(ID) 
+    IDSuCo VARCHAR(10) PRIMARY KEY ,--SC001_CA(Sự cố 001,Camera)
+    IDNhanVienNo VARCHAR(10) CONSTRAINT FK_SuCo_NhanVien FOREIGN KEY REFERENCES NhanVien(IDNhanVien) 
             ON UPDATE NO ACTION 
             ON DELETE SET NULL, 
-    IDThietBi INT CONSTRAINT FK_SuCo_ThietBi FOREIGN KEY REFERENCES ThietBi(ID) 
+    IDThietBiNo VARCHAR(10) CONSTRAINT FK_SuCo_ThietBi FOREIGN KEY REFERENCES ThietBi(IDThietBi) 
             ON UPDATE NO ACTION 
             ON DELETE NO ACTION,
     MoTa NVARCHAR(MAX),
@@ -336,11 +336,11 @@ CREATE TABLE SuCo (
 );
 
 CREATE TABLE DanhGia (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    IDKhachHang INT CONSTRAINT FK_DanhGia_KhachHang FOREIGN KEY REFERENCES KhachHang(ID) 
+    IDDanhGia VARCHAR(12) PRIMARY KEY ,--DG001_KH0001(Đánh giá 001,Khách hàng 0001)
+    IDKhachHangNo VARCHAR(12) CONSTRAINT FK_DanhGia_KhachHang FOREIGN KEY REFERENCES KhachHang(IDKhachHang) 
             ON UPDATE CASCADE 
             ON DELETE CASCADE,
-    IDHoaDon INT CONSTRAINT FK_DanhGia_HoaDon FOREIGN KEY REFERENCES HoaDon(ID) 
+    IDHoaDonNo VARCHAR(20) CONSTRAINT FK_DanhGia_HoaDon FOREIGN KEY REFERENCES HoaDon(IDHoaDon) 
             ON UPDATE NO ACTION 
             ON DELETE NO ACTION, 
     NoiDung NVARCHAR(MAX),
@@ -349,106 +349,180 @@ CREATE TABLE DanhGia (
 );
 GO
 
--- =====================Insert dữ liệu========================
 USE ParkingLot;
 GO
 
--- 1. DANH MỤC CƠ BẢN
-INSERT INTO VaiTro (TenVaiTro) VALUES (N'Admin'), (N'Nhân viên'), (N'Khách hàng'), (N'Chủ bãi xe');
-INSERT INTO LoaiXe (TenLoaiXe) VALUES (N'Xe Máy'), (N'Ô tô 4 chỗ'), (N'Ô tô 7 chỗ'), (N'Xe Tải nhỏ');
-INSERT INTO CaLam (TenCa, TgianBatDau, TgianKetThuc, HeSoLuong) VALUES 
-(N'Ca Sáng', '06:00', '14:00', 1.0), 
-(N'Ca Chiều', '14:00', '22:00', 1.0);
+-- VaiTro
+INSERT INTO VaiTro VALUES
+('VT01_NV', N'Nhân viên'),
+('VT02_KH', N'Khách hàng'),
+('VT03_CB', N'Chủ bãi');
 
--- 2. HỆ THỐNG TÀI KHOẢN
-INSERT INTO TaiKhoan (IDVaiTro, TenDangNhap, MatKhau) VALUES 
-(1, 'admin', '123456'), 
-(2, 'nv_bao', '123456'), 
-(3, 'kh_tung', '123456'), 
-(3, 'kh_hoa', '123456'), 
-(4, 'chu_hung', '123456');
+-- LoaiXe
+INSERT INTO LoaiXe VALUES
+('LX01_XM', N'Xe máy'),
+('LX02_O4', N'Ô tô 4 chỗ'),
+('LX03_O7', N'Ô tô 7 chỗ');
 
--- 3. THÔNG TIN CHI TIẾT NGƯỜI DÙNG
-INSERT INTO NhanVien (IDTaiKhoan, TenNhanVien, SDT, Email, ChucVu, LuongCB) 
-VALUES (2, N'Nguyễn Văn Bảo', '0901234567', 'bao@parking.com', N'Bảo vệ', 7000000);
+-- CaLam
+INSERT INTO CaLam VALUES
+('CL01_S', N'Ca sáng', '06:00', '14:00', 1.0),
+('CL02_C', N'Ca chiều', '14:00', '22:00', 1.1),
+('CL03_D', N'Ca đêm', '22:00', '06:00', 1.3),
+('CL04_HC', N'Ca hành chính', '08:00', '17:00', 1.0),
+('CL05_TC', N'Ca tăng cường', '17:00', '22:00', 1.2);
 
-INSERT INTO KhachHang (IDTaiKhoan, HoTen, SDT, CCCD, BangLaiXe, DiaChi, LoaiKH) VALUES 
-(3, N'Phạm Thanh Tùng', '0912345678', '001090000001', 'B1-123456', N'Hà Nội', N'Thường xuyên'),
-(4, N'Lê Thị Hoa', '0987654321', '001090000002', 'B2-987654', N'Đà Nẵng', N'Vãng lai');
+INSERT INTO TaiKhoan VALUES
+('TK00001_NV', 'VT01_NV', 'nvbao', '123456', NULL, 1),
+('TK00002_KH', 'VT02_KH', 'khtinh', '123456', NULL, 1),
+('TK00003_CB', 'VT03_CB', 'chubai1', '123456', NULL, 1);
 
-INSERT INTO ChuBaiXe (IDTaiKhoan, TenChuBai, SDT, Email, CCCD, DiaChi) 
-VALUES (5, N'Trần Văn Hùng', '0999888777', 'hung@owner.com', '001090999999', N'TP HCM');
+-- Nhân viên
+INSERT INTO NhanVien VALUES
+('NV001_BV', 'TK00001_NV', N'Nguyễn Văn Bảo', '0912345678',
+ 'bao@gmail.com', N'Bảo vệ', 7000000);
 
--- 4. XE & THIẾT LẬP SỞ HỮU 
-INSERT INTO Xe (BienSoXe, IDLoaiXe, TenXe, Hang, MauSac) VALUES 
-('30A-123.45', 2, 'Vios', 'Toyota', N'Trắng'),
-('29H-999.99', 1, 'SH 150i', 'Honda', N'Đen'),
-('43A-567.89', 3, 'CX-5', 'Mazda', N'Đỏ');
+-- Khách hàng
+INSERT INTO KhachHang VALUES
+('KH00001_VI', 'TK00002_KH', N'Lê Hoàng Quách Tỉnh', '0987654321',
+ '012345678901', 'BLX12345', N'TP.HCM',
+ N'VIP', '123456789', N'Vietcombank');
 
-INSERT INTO KhachHang_Xe (IDKhachHang, IDXe, LoaiSoHuu) VALUES 
-(1, '30A-123.45', N'Chính chủ'), -- Tùng sở hữu Vios
-(2, '43A-567.89', N'Thuê'),       -- Hoa sở hữu CX-5 (Thuê)
-(1, '29H-999.99', N'Chính chủ'); -- Tùng sở hữu thêm SH
+-- Chủ bãi
+INSERT INTO ChuBaiXe VALUES
+('CB001', 'TK00003_CB', N'Trần Minh Chủ', '0909123456',
+ 'chubai@gmail.com', '098765432109', N'TP.HCM');
 
--- 5. CẤU TRÚC BÃI ĐỖ & THIẾT BỊ
-INSERT INTO BaiDo (IDChuBai, TenBai, ViTri, SucChua, TrangThai) 
-VALUES (1, N'Bãi xe Royal City', N'72A Nguyễn Trãi', 500, N'Hoạt động');
+-- Xe
+INSERT INTO Xe VALUES
+('59A-12345', 'LX02_O4', N'Toyota Vios', N'Toyota', N'Trắng', NULL);
 
-INSERT INTO KhuVuc (IDBaiDo, TenKhuVuc, SucChua) VALUES 
-(1, N'Khu A - Ô tô', 200),
-(1, N'Khu B - Xe máy', 300);
+-- Khách hàng - Xe
+INSERT INTO KhachHang_Xe VALUES
+('KH00001_VI', '59A-12345', N'Sở hữu');
 
-INSERT INTO ChoDauXe (IDKhuVuc, TenChoDau, KichThuoc, TrangThai) VALUES 
-(1, 'A-01', N'5.0x2.5m', N'Đang đỗ'),
-(1, 'A-02', N'5.0x2.5m', N'Trống'),
-(1, 'A-03', N'5.0x2.5m', N'Trống'),
-(2, 'B-01', N'2.0x1.0m', N'Trống'),
-(2, 'B-02', N'2.0x1.0m', N'Đang đỗ');
+-- Bãi đỗ
+INSERT INTO BaiDo VALUES
+('BD001', 'CB001', N'Bãi xe Trung tâm', N'Quận 1', 100, N'Hoạt động', NULL),
+('BD002', 'CB001', N'Bãi xe Sân Bay', N'Tân Bình', 200, N'Hoạt động', NULL),
+('BD003', 'CB001', N'Bãi xe Chung cư A', N'Quận 7', 120, N'Bảo trì', NULL);
 
-INSERT INTO ThietBi (IDKhuVuc, TenThietBi, LoaiThietBi, TrangThai, NgayCaiDat, GiaLapDat) VALUES 
-(1, N'Cam Cổng A1', N'Camera', N'Hoạt động', '2023-01-01', 5000000),
-(1, N'Barrier A1', N'Barrier', N'Hoạt động', '2023-01-01', 15000000);
+-- Khu vực
+INSERT INTO KhuVuc VALUES
+('KV001_A', 'BD001', N'Khu A', 50, NULL),
+('KV002_B', 'BD001', N'Khu B', 50, NULL),
+('KV003_C', 'BD001', N'Khu C', 30, NULL),
+('KV004_A', 'BD002', N'Khu A', 100, NULL),
+('KV005_B', 'BD003', N'Khu B', 60, NULL);
 
--- 6. GIÁ, VOUCHER & PHỤ TRỢ
-INSERT INTO BangGia (IDBaiDo, IDLoaiXe, TenBangGia) VALUES 
-(1, 2, N'Bảng giá Ô tô 2024'),
-(1, 1, N'Bảng giá Xe máy 2024');
+-- Chỗ đậu
+INSERT INTO ChoDauXe VALUES
+('CD0001_A', 'KV001_A', N'A01', '2.5m x 5m', N'Trống');
 
-INSERT INTO LoaiHinhTinhPhi (IDBangGia, TenLoaiHinh, DonViThoiGian, GiaTien) VALUES 
-(1, N'Vé lượt', N'Giờ', 20000),
-(1, N'Vé tháng', N'Tháng', 1500000),
-(2, N'Vé lượt', N'Giờ', 5000);
+INSERT INTO ThietBi VALUES
+('TB001_CA', 'KV001_A', N'Camera A1', N'Camera',
+ N'Hoạt động', '2024-01-01', 5000000),
+ ('TB002_CB', 'KV001_A', N'Barrier tự động', N'Cổng chắn',
+ N'Hoạt động', '2024-06-01', 12000000),
 
-INSERT INTO Voucher (IDBaiDo, TenVoucher, GiaTri, HanSuDung, SoLuong, TrangThai, MaCode) VALUES 
-(1, N'Giảm giá Tết', 10000, '2026-12-31', 50, 1, 'TET2026');
+('TB003_CB', 'KV002_B', N'Barrier phụ', N'Cổng chắn',
+ N'Bảo trì', '2023-12-15', 9000000),
 
-INSERT INTO LichLamViec (IDNhanVien, IDCaLam, IDBaiDo, NgayBatDau, NgayKetThuc, TrangThai, SoNgayDaLam) 
-VALUES (1, 1, 1, '2026-01-01', '2026-01-31', 1, 4);
+('TB004_PM', 'KV004_A', N'Phần mềm nhận diện biển số', N'Phần mềm',
+ N'Hoạt động', '2024-08-20', 25000000);
 
--- 7. NGHIỆP VỤ THỰC TẾ 
-INSERT INTO TheXeThang (IDKhachHang, IDXe, TenTheXe, NgayDangKy, NgayHetHan, TrangThai) 
-VALUES (1, '30A-123.45', N'Thẻ tháng Vios', '2026-01-01', '2026-01-31', 1);
+-- Bảng giá
+INSERT INTO BangGia VALUES
+('BG001_O4', 'BD001', 'LX02_O4', N'Giá ô tô 4 chỗ', 1),
+('BG002_XM', 'BD001', 'LX01_XM', N'Giá xe máy', 1),
+('BG003_O7', 'BD001', 'LX03_O7', N'Giá ô tô 7 chỗ', 1),
 
-INSERT INTO DatCho (IDKhachHang, IDXe, IDChoDau, IDNhanVien, TgianBatDau, TgianKetThuc, TrangThai) 
-VALUES (2, '43A-567.89', 2, NULL, '2026-01-05 08:00', '2026-01-05 17:00', N'Đã đặt');
+('BG004_O4', 'BD002', 'LX02_O4', N'Giá ô tô 4 chỗ - Sân bay', 1),
+('BG005_XM', 'BD002', 'LX01_XM', N'Giá xe máy - Sân bay', 1);
 
-INSERT INTO HoaDon (ThanhTien, LoaiHoaDon, IDVoucher) VALUES (30000, N'Vé lượt', NULL);
-INSERT INTO ThanhToan (IDHoaDon, PhuongThuc, TrangThai) VALUES (1, N'Tiền mặt', 1);
+-- Loại hình tính phí
+INSERT INTO LoaiHinhTinhPhi VALUES
+('LH001_GIO_O4', 'BG001_O4', N'Tính theo giờ', N'Giờ', 20000),
+('LH002_GIO_XM', 'BG002_XM', N'Tính theo giờ', N'Giờ', 5000),
+('LH003_NGAY_XM', 'BG002_XM', N'Tính theo ngày', N'Ngày', 30000),
 
--- Phiếu giữ xe (Xe 1 đang gửi, xe 2 đã lấy)
-INSERT INTO PhieuGiuXe (IDKhachHang, IDXe, IDChoDau, IDNhanVienVao, IDHoaDon, TgianVao, TrangThai) 
-VALUES (1, '30A-123.45', 1, 1, NULL, GETDATE(), N'Đang gửi');
+('LH004_GIO_O7', 'BG003_O7', N'Tính theo giờ', N'Giờ', 30000),
+('LH005_NGAY_O7', 'BG003_O7', N'Tính theo ngày', N'Ngày', 200000),
 
-INSERT INTO PhieuGiuXe (IDKhachHang, IDXe, IDChoDau, IDNhanVienVao, IDNhanVienRa, IDHoaDon, TgianVao, TgianRa, TrangThai) 
-VALUES (1, '29H-999.99', 4, 1, 1, 1, DATEADD(HOUR, -2, GETDATE()), GETDATE(), N'Đã lấy');
+('LH006_GIO_O4', 'BG004_O4', N'Tính theo giờ', N'Giờ', 40000),
+('LH007_NGAY_O4', 'BG004_O4', N'Tính theo ngày', N'Ngày', 300000),
 
--- Chi tiết hóa đơn & Đánh giá
-INSERT INTO ChiTietHoaDon (IDHoaDon, TongTien) VALUES (1, 30000);
+('LH008_THG_XM', 'BG002_XM', N'Tính theo tháng', N'Tháng', 150000),
+('LH009_THG_O4', 'BG001_O4', N'Tính theo tháng', N'Tháng', 1200000),
+('LH010_THG_O7', 'BG003_O7', N'Tính theo tháng', N'Tháng', 1500000);
 
-INSERT INTO DanhGia (IDKhachHang, IDHoaDon, NoiDung, DiemDanhGia) 
-VALUES (1, 1, N'Dịch vụ tốt', 5);
+-- Khung giờ
+INSERT INTO KhungGio VALUES
+('KG01_HC', 'LH001_GIO_O4', N'Giờ hành chính', '06:00', '18:00'),
+('KG02_GN', 'LH002_GIO_XM', N'Giờ ban ngày', '06:00', '18:00'),
+('KG03_GD', 'LH002_GIO_XM', N'Giờ ban đêm', '18:00', '06:00'),
 
-INSERT INTO SuCo (IDNhanVien, IDThietBi, MoTa, MucDo, TrangThaiXuLy) 
-VALUES (1, 1, N'Màn hình hiển thị bị mờ', N'Nhẹ', N'Chưa xử lý');
-GO
-GO
+('KG04_GN', 'LH004_GIO_O7', N'Giờ ban ngày', '06:00', '18:00'),
+('KG05_GD', 'LH004_GIO_O7', N'Giờ ban đêm', '18:00', '06:00'),
+
+('KG06_HC', 'LH006_GIO_O4', N'Giờ cao điểm', '07:00', '19:00'),
+('KG07_TC', 'LH006_GIO_O4', N'Giờ thấp điểm', '19:00', '07:00');
+
+-- Thẻ xe tháng
+INSERT INTO TheXeThang VALUES
+('TXT001_12T', 'KH00001_VI', '59A-12345',
+ N'Thẻ xe tháng 12T', GETDATE(), '2026-01-01', 1);
+
+-- Voucher
+INSERT INTO Voucher VALUES
+('VC00001_BD001', 'BD001', N'Giảm 20K', 20000,
+ '2026-12-31', 100, 1, 'VC20K'),
+ ('VC00002_BD001', 'BD001', N'Giảm 10%', 10000, '2026-06-30', 200, 1, 'G10P'),
+('VC00001_BD002', 'BD002', N'Giảm 50K sân bay', 50000, '2026-12-31', 100, 1, 'SB50K'),
+('VC00001_BD003', 'BD003', N'Khuyến mãi bảo trì', 30000, '2025-12-31', 50, 0, 'KM30K');
+
+
+-- Đặt chỗ
+INSERT INTO DatCho VALUES
+('DC0001_05012026', 'KH00001_VI', '59A-12345',
+ 'CD0001_A', 'NV001_BV',
+ '2026-01-05 08:00', '2026-01-05 12:00',
+ N'Hoàn thành');
+
+-- Hóa đơn
+INSERT INTO HoaDon VALUES
+('HD0001_05012026', 80000, GETDATE(), N'Giữ xe', 'VC00001_BD001');
+
+-- Phiếu giữ xe
+INSERT INTO PhieuGiuXe VALUES
+('PX0001_A0001', 'KH00001_VI', '59A-12345',
+ 'CD0001_A', 'NV001_BV', 'NV001_BV',
+ 'HD0001_05012026',
+ GETDATE(), GETDATE(), N'Đã lấy');
+
+-- Chi tiết hóa đơn
+INSERT INTO ChiTietHoaDon VALUES
+('CTHD0001_HD0001', 'TXT001_12T', 'DC0001_05012026',
+ 'HD0001_05012026', 80000);
+
+-- Thanh toán
+INSERT INTO ThanhToan VALUES
+('TT00001_CK', 'HD0001_05012026',
+ N'Chuyển khoản', 1, GETDATE());
+
+-- Lịch làm việc
+INSERT INTO LichLamViec VALUES
+('LLV00001_001', 'NV001_BV', 'CL01_S',
+ 'BD001', '2026-01-01', '2026-01-31', 1, 20);
+
+-- Sự cố
+INSERT INTO SuCo VALUES
+('SC001_CA', 'NV001_BV', 'TB001_CA',
+ N'Camera mờ', N'Nhẹ', N'Đã xử lý');
+
+-- Đánh giá
+INSERT INTO DanhGia VALUES
+('DG001_0001', 'KH00001_VI',
+ 'HD0001_05012026', N'Dịch vụ tốt', 5, GETDATE());
+
+
