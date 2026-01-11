@@ -137,7 +137,7 @@ CREATE TABLE ChoDauXe (
             ON DELETE CASCADE,
     TenChoDau NVARCHAR(20),
     KichThuoc VARCHAR(50),
-    TrangThai NVARCHAR(50) CONSTRAINT CK_ChoDauXe_TrangThai CHECK (TrangThai IN (N'Trống', N'Đã đặt', N'Đang đỗ', N'Bảo trì'))
+    TrangThai NVARCHAR(50) CONSTRAINT CK_ChoDauXe_TrangThai CHECK (TrangThai IN (N'Trống', N'Đã đặt', N'Đang đỗ', N'Bảo trì', N'chờ xác nhận'))
 );
 
 CREATE TABLE ThietBi (
@@ -224,7 +224,7 @@ CREATE TABLE DatCho (
     TgianBatDau DATETIME,
     TgianKetThuc DATETIME,
     TrangThai NVARCHAR(50) CONSTRAINT CK_DatCho_TrangThai 
-        CHECK (TrangThai IN (N'Đã đặt', N'Đã hủy', N'Đang chờ duyệt', N'Quá hạn', N'Hoàn thành')),
+        CHECK (TrangThai IN (N'Chờ thanh toán',N'Đã thanh toán',N'Đã đặt', N'Đã hủy', N'Đang chờ duyệt', N'Quá hạn', N'Hoàn thành')),
 
     -- Ràng buộc tham chiếu cặp Khách-Xe
     CONSTRAINT FK_DatCho_KHXe FOREIGN KEY (IDKhachHangNo, IDXeNo) 
@@ -281,7 +281,7 @@ CREATE TABLE PhieuGiuXe (
 );
 
 CREATE TABLE ChiTietHoaDon (
-    IDChiTietHoaDon VARCHAR(20) PRIMARY KEY,--CTHD0001_HD0001(Chi tiết HD 0001,Hoá đon 0001)
+    IDChiTietHoaDon VARCHAR(50) PRIMARY KEY,--CTHD0001_HD0001(Chi tiết HD 0001,Hoá đon 0001)
     IDTheXeThangNo VARCHAR(12) CONSTRAINT FK_CTHD_TheXe FOREIGN KEY REFERENCES TheXeThang(IDTheThang) 
             ON UPDATE NO ACTION 
             ON DELETE NO ACTION,
@@ -417,7 +417,17 @@ INSERT INTO KhuVuc VALUES
 
 -- Chỗ đậu
 INSERT INTO ChoDauXe VALUES
-('CD0001_A', 'KV001_A', N'A01', '2.5m x 5m', N'Trống');
+('CD0001_A', 'KV001_A', N'A01', '2.5m x 5m', N'Trống'),
+('CD0002_A', 'KV001_A', N'A02', '2.5m x 5m', N'Trống'),
+('CD0003_A', 'KV001_A', N'A03', '2.5m x 5m', N'Trống'),
+('CD0004_A', 'KV001_A', N'A04', '2.5m x 5m', N'Trống'),
+('CD0005_A', 'KV001_A', N'A05', '2.5m x 5m', N'Trống'),
+('CD0001_B', 'KV002_B', N'B01', '2.5m x 5m', N'Trống'),
+('CD0002_B', 'KV002_B', N'B02', '2.5m x 5m', N'Trống'),
+('CD0003_B', 'KV002_B', N'B03', '2.5m x 5m', N'Trống'),
+('CD0004_B', 'KV002_B', N'B04', '2.5m x 5m', N'Trống'),
+('CD0005_B', 'KV002_B', N'B05', '2.5m x 5m', N'Trống');
+
 
 INSERT INTO ThietBi VALUES
 ('TB001_CA', 'KV001_A', N'Camera A1', N'Camera',
@@ -522,3 +532,6 @@ INSERT INTO DanhGia VALUES
  'HD0001_05012026', N'Dịch vụ tốt', 5, GETDATE());
 
 
+
+
+ 

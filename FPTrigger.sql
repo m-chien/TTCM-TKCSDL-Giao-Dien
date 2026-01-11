@@ -232,7 +232,7 @@ BEGIN
 END;
 GO
 
-
+/**
 -- Khách hàng đặt chỗ
 IF OBJECT_ID('sp_KhachHangDatCho') IS NOT NULL DROP PROCEDURE sp_KhachHangDatCho;
 GO
@@ -318,7 +318,7 @@ BEGIN
         RAISERROR(@ErrMsg, 16, 1);
     END CATCH
 END;
-GO
+GO*/
 
 --khách hàng hủy đặt chỗ
 IF OBJECT_ID('sp_KhachHangHuyDatCho') IS NOT NULL DROP PROCEDURE sp_KhachHangHuyDatCho;
@@ -357,6 +357,7 @@ GO
 
 
 -- Nhân viên duyệt
+-- Nhân viên duyệt
 IF OBJECT_ID('sp_NhanVienDuyetDatCho') IS NOT NULL DROP PROCEDURE sp_NhanVienDuyetDatCho;
 GO
 CREATE PROCEDURE sp_NhanVienDuyetDatCho
@@ -382,8 +383,8 @@ BEGIN
         RETURN;
     END
 
-    -- 2. Kiểm tra trạng thái đơn (Chỉ được duyệt đơn đang chờ)
-    IF @TrangThaiHienTai <> N'Đang chờ duyệt'
+    -- 2. Kiểm tra trạng thái đơn (Chỉ được duyệt đơn đang chờ xác nhận hoặc vừa thanh toán)
+    IF @TrangThaiHienTai NOT IN (N'chờ xác nhận', N'Đã thanh toán')
     BEGIN
         RAISERROR(N'Lỗi: Đơn này đã được xử lý hoặc không ở trạng thái chờ duyệt.', 16, 1);
         RETURN;
@@ -395,25 +396,32 @@ BEGIN
             -- TRƯỜNG HỢP 1: DUYỆT ĐƠN (Chấp nhận)
             IF @TrangThaiMoi = N'Đã đặt'
             BEGIN
-                -- Kiểm tra lại xem chỗ đó có còn TRỐNG không?
-                -- (Tránh trường hợp trong lúc chờ duyệt, xe khác đã vào đỗ hoặc bảo trì)
-                IF EXISTS (SELECT 1 FROM ChoDauXe WHERE IDChoDauXe = @IDChoDau AND TrangThai <> N'Trống')
+                -- Kiểm tra lại xem chỗ đó có còn TRỐNG hoặc đang chờ xác nhận không?
+                IF EXISTS (SELECT 1 FROM ChoDauXe 
+                           WHERE IDChoDauXe = @IDChoDau 
+                             AND TrangThai NOT IN (N'Trống', N'chờ xác nhận'))
                 BEGIN
                     RAISERROR(N'Lỗi: Không thể duyệt. Chỗ đậu xe này hiện không còn trống (Đang đỗ/Bảo trì).', 16, 1);
                     ROLLBACK TRANSACTION;
                     RETURN;
                 END
-                -- Cập nhật trạng thái Chỗ đậu -> "Đã đặt"
-                UPDATE ChoDauXe SET TrangThai = N'Đã đặt' WHERE IDChoDauXe = @IDChoDau;
+
+                -- Cập nhật trạng thái chỗ đậu -> "Đã đặt"
+                UPDATE ChoDauXe 
+                SET TrangThai = N'Đã đặt' 
+                WHERE IDChoDauXe = @IDChoDau;
             END
 
             -- TRƯỜNG HỢP 2: TỪ CHỐI/HỦY ĐƠN
             ELSE IF @TrangThaiMoi = N'Đã hủy'
             BEGIN
-                UPDATE ChoDauXe SET TrangThai = N'Trống' WHERE IDChoDauXe = @IDChoDau AND TrangThai = N'Đã đặt';
+                UPDATE ChoDauXe 
+                SET TrangThai = N'Trống' 
+                WHERE IDChoDauXe = @IDChoDau 
+                  AND TrangThai = N'Đã đặt';
             END
 
-            -- 3. Cập nhật trạng thái Đơn đặt chỗ
+            -- 3. Cập nhật trạng thái Đơn đặt chỗ và nhân viên duyệt
             UPDATE DatCho
             SET TrangThai = @TrangThaiMoi,
                 IDNhanVienNo = @IDNhanVien
@@ -433,7 +441,6 @@ GO
 
 
 
--- Xem tất cả xe của một khách hàng cụ thể
 IF OBJECT_ID('sp_XemXeCuaKhachHang') IS NOT NULL DROP PROCEDURE sp_XemXeCuaKhachHang;
 GO
 CREATE PROCEDURE sp_XemXeCuaKhachHang @IDKhachHang VARCHAR(12)
