@@ -295,7 +295,7 @@ CREATE TABLE ChiTietHoaDon (
 );
 
 CREATE TABLE ThanhToan (
-    IDThanhToan VARCHAR(30) PRIMARY KEY ,--TT00001_CK(Thanh toán 00001,Chuyển khoản)
+    IDThanhToan VARCHAR(15) PRIMARY KEY ,--TT00001_CK(Thanh toán 00001,Chuyển khoản)
     IDHoaDonNo VARCHAR(20) CONSTRAINT FK_ThanhToan_HoaDon FOREIGN KEY REFERENCES HoaDon(IDHoaDon) 
             ON UPDATE NO ACTION 
             ON DELETE NO ACTION,
